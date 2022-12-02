@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Editar Carga</h3>
+            <h3 class="card-title">Editar Cargas</h3>
           </div>
           <form action="{{url('/admin/paises/'.$pais->id)}}" method="post" id="formulario">
               {{method_field('PATCH')}}

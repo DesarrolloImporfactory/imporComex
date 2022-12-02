@@ -7,7 +7,12 @@ use App\Models\Idioma;
 
 class IdiomasController extends Controller
 {
-   
+   public function __construct(){
+    $this->middleware('can:admin.idiomas.index')->only('index');
+    $this->middleware('can:admin.idiomas.store')->only('store');
+    $this->middleware('can:admin.idiomas.update')->only('update');
+    $this->middleware('can:admin.idiomas.destroy')->only('destroy');
+   }
    
     public function index(){
         $datos['idiomas']=Idioma::get();
@@ -31,12 +36,6 @@ class IdiomasController extends Controller
 
         return $data;
     }
-
-    public function create()
-    {
-        
-    }
-
     
     public function store(Request $request)
     {
@@ -49,16 +48,7 @@ class IdiomasController extends Controller
         return redirect('idiomas')->with('mensaje','Idioma registrado');
     }
 
-    
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
+  
 
     
     public function update(Request $request, $id)
@@ -76,7 +66,6 @@ class IdiomasController extends Controller
    
     public function destroy($id)
     {
-
         //return response()->json($id);
         Idioma::destroy($id);
         return redirect('idiomas')->with('mensaje','Idioma Eliminado');

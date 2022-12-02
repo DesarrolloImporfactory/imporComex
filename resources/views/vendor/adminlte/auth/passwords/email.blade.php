@@ -8,7 +8,13 @@
     @php( $password_email_url = $password_email_url ? url($password_email_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.password_reset_message'))
+@section('auth_header')
+    
+    <div class="text-center">
+        <h5>Restablecer la contraseña</h5><br>
+        <img src="../../assets/imporcomexImage/icono.png" alt="" width="150">
+    </div>
+@stop
 
 @section('auth_body')
 
@@ -20,7 +26,7 @@
 
     <form action="{{ $password_email_url }}" method="post">
         @csrf
-
+        
         {{-- Email field --}}
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
@@ -34,7 +40,7 @@
 
             @error('email')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>El campo de correo electrónico es obligatorio.</strong>
                 </span>
             @enderror
         </div>
@@ -42,9 +48,14 @@
         {{-- Send reset link button --}}
         <button type="submit" class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
             <span class="fas fa-share-square"></span>
-            {{ __('adminlte::adminlte.send_password_reset_link') }}
+            Enviar enlace de restablecimiento de contraseña
         </button>
-
+        <style>
+   
+            body{
+                background-image: url('../../assets/imporcomexImage/fondo-2.png')!important;
+            }
+        </style>
     </form>
-
+    
 @stop

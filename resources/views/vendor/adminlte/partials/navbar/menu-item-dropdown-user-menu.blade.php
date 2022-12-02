@@ -22,10 +22,13 @@
                  class="user-image img-circle elevation-2"
                  alt="{{ Auth::user()->name }}">
         @endif
-        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
-            {{ Auth::user()->name }}
-        </span>
+            
+            <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
+                {{ Auth::user()->email }} - <b>{{ Auth::user()->name }}</b>&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        
     </a>
+   
 
     {{-- User menu dropdown --}}
     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -83,4 +86,11 @@
 
     </ul>
 
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+      
+      <span class="badge badge-success navbar-badge"><i class="far fa-bell"></i></span>
+    </a>
+    
 </li>

@@ -8,7 +8,13 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.password_reset_message'))
+@section('auth_header')
+<div class="text-center">
+    <h5>Restablecer la contraseña</h5><br>
+    <img src="../../../assets/imporcomexImage/icono.png" alt="" width="150">
+</div>
+
+@stop
 
 @section('auth_body')
     <form action="{{ $password_reset_url }}" method="post">
@@ -75,8 +81,14 @@
         {{-- Confirm password reset button --}}
         <button type="submit" class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
             <span class="fas fa-sync-alt"></span>
-            {{ __('adminlte::adminlte.reset_password') }}
+            Restablecer la contraseña
         </button>
-
+        <style>
+   
+            body{
+                background-image: url('../../../assets/imporcomexImage/fondo-2.png')!important;
+            }
+        </style>
     </form>
+    
 @stop

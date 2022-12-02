@@ -62,13 +62,13 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
-    'logo' => 'IMPORCOMEX',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
-    'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    //brand-image
+    'logo' =>'',
+    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img_class' => 'brand-image-xl ',
+    'logo_img_xl' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img_xl_class' =>'brand-image-xl ',
+    'logo_img_alt' =>null,
 
     /*
     |--------------------------------------------------------------------------
@@ -130,8 +130,8 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-danger',
+    'usermenu_header' => false,
+    'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
@@ -153,7 +153,7 @@ return [
     'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_dark_mode' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +167,7 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-danger',
+    'classes_auth_card' => 'card-outline card-danger ',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
@@ -188,15 +188,15 @@ return [
     */
 
     'classes_body' => '',
-    'classes_brand' => 'bg-white',
-    'classes_brand_text' => 'text-center',
+    'classes_brand' => '',
+    'classes_brand_text' => '',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-danger elevation-4',
+    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
-    'classes_topnav_nav' => 'navbar-expand',
+    'classes_topnav_nav' => 'navbar-expand-md',
     'classes_topnav_container' => 'container',
 
     /*
@@ -213,9 +213,9 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
-    'sidebar_collapse_remember_no_transition' => true,
+    'sidebar_collapse_auto_size' => true,
+    'sidebar_collapse_remember' => true,
+    'sidebar_collapse_remember_no_transition' => false,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
@@ -293,48 +293,75 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
+           
+            'text'         => 'Busqueda',
+            'search'=>true,
             'topnav_right' => true,
         ],
         [
-            
-            'text' => 'Usuarios',
-            'route'  => 'usuarios',
+            'type'         => 'navbar-notification',
+            'id'           => 'my-notification',
+            'icon'         => 'fas fa-bell',
+            'url'          => 'home',
             'topnav_right' => true,
+            
+        ],
+        [
+            
+            'text' => 'Home',
+            'route'  => 'home',
+            'topnav' => true,
+            'can' => '',
             
         ],
         
         [
             'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         
         // Sidebar items:
-       
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Buscar',
         ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
+       
+        // [
+        //     'text'        => 'pages',
+        //     'url'         => 'admin/pages',
+        //     'icon'        => 'far fa-fw fa-file',
+        //     'label'       => 4,
+        //     'label_color' => 'success',
+        // ],
+        ['header' => 'CONFIGURACION DE CUENTA'],
         [
             
-            'text' => 'DASHBOARD',
+            'text' => 'Usuarios',
+            'route'  => 'usuarios',
+            'icon'=>'fa fa-fw fa-users',
+            'can' => 'admin.usuarios.index',
+            'icon_color'=>'yellow',
+            
+        ],
+        [
+            
+            'text' => 'Dashboard',
             'route'  => 'home',
+            'icon'=>'nav-icon fas fa-tachometer-alt',
+            'icon_color'=>'yellow',
+            'classes'  => 'text-left'
             
         ],
+        
+        
+        [
+            
+            'text' => 'Calculadora',
+            'route'  => 'admin.calculadoras.index',
+            'icon'=>'fa fa-fw fa-calculator'
+            
+        ],
+        
         [
             
             'text' => 'Gestionar Idiomas',
@@ -344,35 +371,37 @@ return [
         ],
         [
             
-            'text' => 'Gestionar Cargas',
+            'text' => 'Listado de roles',
+            'route'  => 'admin.roles.index',
+            'icon' => 'fas fa-users-cog fa-fw',
+            
+        ],
+        
+        [
+            
+            'text' => 'Cargas/Tarifas',
             'route'  => 'cargas',
-            'icon' => 'fas fa-fw fa-language',
+            'icon' => 'fas fa-fw fa-truck',
+            'label'       => 'new',
+            'label_color' => 'success',
+            
             
         ],
         [
             
             'text' => 'Gestionar Paises',
             'route'  => 'paises',
-            'icon' => 'fas fa-fw fa-language',
+            'icon' => 'fas fa-fw fa-passport',
             
         ],
         [
             
             'text' => 'Gestionar Modalidades',
             'route'  => 'modalidades',
-            'icon' => 'fas fa-fw fa-language',
+            'icon' => 'fas fa-fw fa-inbox',
             
         ],
-        [
-            'text' => 'profiles',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
@@ -465,37 +494,44 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
         ],
+        
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/select2/js/select2.full.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'asset' => true,
+                    'location' => 'vendor/select2/css/select2.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
                 ],
             ],
         ],

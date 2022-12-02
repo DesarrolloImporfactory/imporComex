@@ -80,21 +80,25 @@
     @endif
 
 </head>
-
+{{-- estilos para login y register --}}
 <style>
-    .login-page{
-        background-image: url(../fondo-1.png);
-}
-</style>
-<style>
+    .login-logo {
+        display: none;
+    }
+    .register-logo {
+        display: none;
+    }
     .register-page{
-        background-image: url(../fondo-1.png);
-}
+        background-image: url(../assets/imporcomexImage/fondo-2.png);
+    }
+    .login-page{
+        background-image: url(../assets/imporcomexImage/fondo-2.png);
+    }
+    
 </style>
 
 <body class="@yield('classes_body')" @yield('body_data')  >
     
-
     {{-- Body Content --}}
     @yield('body')
 

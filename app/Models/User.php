@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    use HasRoles;
     
-   
+    public function cotizaciones(){
+        return $this->hasMany(Cotizaciones::class,'usuario_id','id');
+    }
 
     protected $fillable = [
         'name',
@@ -22,6 +25,9 @@ class User extends Authenticatable
         'date',
         'importacion',
         'idioma',
+        'estado',
+        'cedula',
+        'ruc',
         'password',
     ];
 

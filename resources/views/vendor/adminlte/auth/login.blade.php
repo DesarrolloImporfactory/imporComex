@@ -20,7 +20,13 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('LOGIN'))
+@section('auth_header')
+    <div class="text-center">
+        <h3><b>LOGIN IMPORCOMEX</b></h3><br>
+    <img src="../assets/imporcomexImage/icono.png" alt="" width="150">
+    </div>
+@stop
+
 
 @section('auth_body')
 
@@ -41,7 +47,7 @@
 
             @error('email')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>{{$message}}</strong>
                 </span>
             @enderror
         </div>
@@ -59,7 +65,7 @@
 
             @error('password')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>Ingrese el password</strong>
                 </span>
             @enderror
         </div>
@@ -77,9 +83,9 @@
             </div>
 
             <div class="col-5">
-                <button style="background-color:#DB2311" type=submit class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
+                <button style="" type=submit class="btn btn-danger">
                     <span class="fas fa-sign-in-alt"></span>
-                    {{ __('adminlte::adminlte.sign_in') }}
+                    ENTRAR
                 </button>
             </div>
         </div>
@@ -92,7 +98,7 @@
     @if($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
-                {{ __('adminlte::adminlte.i_forgot_my_password') }}
+                Olvidé mi contraseña
             </a>
         </p>
     @endif
@@ -101,7 +107,7 @@
     @if($register_url)
         <p class="my-0">
             <a href="{{ $register_url }}">
-                {{ __('adminlte::adminlte.register_a_new_membership') }}
+                Registrar una nueva membresía
             </a>
         </p>
     @endif

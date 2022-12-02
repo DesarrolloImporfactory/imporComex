@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class tipo_cargas extends Model
 {
     use HasFactory;
+
+    public function cotizaciones(){
+        return $this->hasMany(Cotizaciones::class,'cargas_id','id');
+    }
 }

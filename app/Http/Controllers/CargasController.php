@@ -4,22 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tipo_cargas;
+use App\Models\tarifaGruapl;
 
 class CargasController extends Controller
 {
     
     public function index()
     {
-        $datos['cargas']=tipo_cargas::get();
+        $carga=tipo_cargas::get();
+        $tarifa=tarifaGruapl::get();
+        $datos = array(
+            'cargas'=>$carga,
+            'tarifas'=>$tarifa
+        );
         return view('admin.cargas.index',$datos);
     }
-
-   
-    public function create()
-    {
-        //
-    }
-
     
     public function store(Request $request)
     {
@@ -28,17 +27,16 @@ class CargasController extends Controller
         $datosCarga->save();
         return redirect('cargas')->with('mensaje','Carga Registrada');
     }
-
    
-    public function show($id)
+    public function updateTarifa(Request $request, $id)
     {
-        //
-    }
-
-   
-    public function edit($id)
-    {
-        //
+        $datos=array(
+            "m3"=>$request->input('m3'),
+            "vxcbm"=>$request->input('vxcbm'),
+            "tcbm"=>$request->input('tcbm')
+        );
+        tarifaGruapl::whereid($id)->update($datos);
+        return redirect('cargas')->with('mensaje','Tarifa Actualizada');
     }
 
     

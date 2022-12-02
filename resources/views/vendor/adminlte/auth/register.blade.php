@@ -11,7 +11,25 @@
     @php( $register_url = $register_url ? url($register_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.register_message'))
+@section('auth_header')
+<br>
+<div class="">
+    <div class="row">
+        <div class="col-sm-2 ">
+
+        </div>
+        <div class="col-sm-4 text-center ">
+           <img src="../assets/imporcomexImage/logo-dany-travel.png" width="90" alt="">
+        </div>
+        <div class="col-sm-4  text-center">
+            <img src="../assets/imporcomexImage/logo_academia.png" width="115" alt="">
+        </div>
+        <div class="col-sm-2  ">
+
+        </div>
+    </div>
+</div>
+@stop
 
 
 @section('auth_body')
@@ -21,8 +39,8 @@
 
         {{-- Name field --}}
         <div class="input-group mb-3">
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                   value="{{ old('name') }}" placeholder="{{ __('adminlte::adminlte.full_name') }}" autofocus>
+            <input autocomplete="off" type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                   value="{{ old('name') }}" placeholder="Nombre Completo" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -32,82 +50,82 @@
 
             @error('name')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>El nombre es requerido</strong>
                 </span>
             @enderror
         </div>
 
         {{-- telefono --}}
         <div class="input-group mb-3">
-            <input type="number" name="telefono" class="form-control @error('telefono') is-invalid @enderror"
-                   value="{{ old('telefono') }}" placeholder="Telefono" autofocus>
+            <input autocomplete="off" type="number" name="telefono" class="form-control @error('telefono') is-invalid @enderror"
+                   value="{{ old('telefono') }}" placeholder="Teléfono" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-phone {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
 
             @error('telefono')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>El telefono es requerido</strong>
                 </span>
             @enderror
         </div>
 
         {{-- Fecha --}}
         <div class="input-group mb-3">
-            <input type="date" name="date" class="form-control @error('date') is-invalid @enderror"
-                   value="{{ old('date') }}" placeholder="date" autofocus>
+            <input autocomplete="off" type="date" name="date" class="form-control @error('date') is-invalid @enderror"
+                   value="{{ old('date') }}" placeholder="Fecha de Nacimiento" autofocus>
 
         
             @error('date')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>La fecha es requerida</strong>
                 </span>
             @enderror
         </div>
 
         {{-- Importacion --}}
         <div class="input-group mb-3">
-            <input type="number" name="importacion" class="form-control @error('importacion') is-invalid @enderror"
-                   value="{{ old('importacion') }}" placeholder="Importacion" autofocus>
+            <input autocomplete="off" type="text" name="importacion" class="form-control @error('importacion') is-invalid @enderror"
+                   value="{{ old('importacion') }}" placeholder="Importaciones realizas en 1 año" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-hashtag {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
         
-            @error('Importacion')
+            @error('importacion')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>La importación es requerida</strong>
                 </span>
             @enderror
         </div>
         
         {{-- Idioma--}}
         <div class="input-group mb-3">
-            <input type="text" name="idioma" id="autocomplete" class="form-control @error('idioma') is-invalid @enderror"
+            <input autocomplete="off" type="text" name="idioma" id="autocomplete" class="form-control @error('idioma') is-invalid @enderror"
                    value="{{ old('idioma') }}" placeholder="Idioma" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-language {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
         
             @error('idioma')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>El idioma es requerido</strong>
                 </span>
             @enderror
         </div>
 
         {{-- Email field --}}
         <div class="input-group mb-3">
-            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                   value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}">
+            <input autocomplete="off" type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                   value="{{ old('email') }}" placeholder="Correo electrónico">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -117,14 +135,14 @@
 
             @error('email')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>El email es requerido</strong>
                 </span>
             @enderror
         </div>
 
         {{-- Password field --}}
         <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+            <input autocomplete="off" type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                    placeholder="{{ __('adminlte::adminlte.password') }}">
 
             <div class="input-group-append">
@@ -135,16 +153,16 @@
 
             @error('password')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>La contraseña es requerida</strong>
                 </span>
             @enderror
         </div>
 
         {{-- Confirm password field --}}
         <div class="input-group mb-3">
-            <input type="password" name="password_confirmation"
+            <input autocomplete="off" type="password" name="password_confirmation"
                    class="form-control @error('password_confirmation') is-invalid @enderror"
-                   placeholder="{{ __('adminlte::adminlte.retype_password') }}">
+                   placeholder="Vuelva a escribir la contraseña">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -154,7 +172,7 @@
 
             @error('password_confirmation')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>La contraseña no coincide</strong>
                 </span>
             @enderror
         </div>
@@ -166,9 +184,6 @@
         </button>
 
     </form>
-
-    
-    
 
     <script>
        
@@ -191,11 +206,13 @@
 @stop
 
 @section('auth_footer')
-    <p class="my-0">
-        <a href="{{ $login_url }}">
-            ¿Ya tienes cuenta?
-        </a>
-    </p>
+    <div class="text-center">
+        <p class="my-0">
+            <a href="{{ $login_url }}">
+                ¿Ya tienes cuenta?
+            </a>
+        </p>            
+    </div>
 @stop
 
 
