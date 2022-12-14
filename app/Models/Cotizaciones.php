@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Validacion;
+
 
 class Cotizaciones extends Model
 {
@@ -30,6 +32,12 @@ class Cotizaciones extends Model
     }
     public function tarifa(){
         return $this->belongsTo(tarifaGruapl::class,'tarifa_id','id');
+    }
+    public function incoterms(){
+        return $this->belongsTo(Incoterms::class,'incoterms_id','id');
+    }
+    public function validacions(){
+        return $this->hasMany(Validacion::class,'cotizacion_id','id');
     }
 
 }

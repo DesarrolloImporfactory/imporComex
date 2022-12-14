@@ -19,38 +19,36 @@ class ColombiaController extends Controller
     public function index()
     {
         $cotizaciones = Cotizaciones::with('carga')->get(); 
-        return view('admin.calculadoras.colombia.grupal.index',compact('cotizaciones'));
+        //return view('admin.calculadoras.colombia.grupal.index',compact('cotizaciones'));
+        return $cotizaciones;
        
     }
 
     public function create(Request $request)
     {
-        $producto=$request->input('modalidad');
-        
-        $modalidad = Modalidades::all();
-        $pais = Paises::all();
-        $carga = tipo_cargas::all();
-        $incoterm = Incoterm::all();
-        $contenedor = Contenedores::all();
 
-        $data =[
-            'modalidades' => $modalidad,
+        $idModalidad=$request->input('modalidad');
+        $modalidad = Modalidades::findOrFail($idModalidad);
+        $idPais = $request->input('pais');
+        $pais=Paises::findOrFail($idPais);
+        
+        $mensajes =[
+            'modalidad' => $modalidad,
             'paises' => $pais,
-            'cargas' => $carga,
-            'incoterms'=>$incoterm,
-            'contenedores' =>$contenedor,
+          
         ];
-        if( $producto=="GRUPAL"){
-            return view('admin.calculadoras.colombia.grupal.create',$data);
-        }elseif ( $producto=="FCL") {
-            return view('admin.calculadoras.colombia.fcl',$data);
+        if( $modalidad->id=="3"){
+            return view('admin.calculadoras.colombia.grupal.create',$mensajes);
+        }elseif ( $modalidad->id=="1") {
+            return view('admin.calculadoras.colombia.fcl',$mensajes);
         }else{
-            return view('admin.calculadoras.colombia.lcl',$data);
+            return view('admin.calculadoras.colombia.lcl',$mensajes);
         }
     }
     
     public function store(Request $request)
     {
+
         $request->validate([
             'usuario_id'=>['required'],
             'producto' => ['required', 'string', 'max:25'],
@@ -116,6 +114,8 @@ class ColombiaController extends Controller
                 break;
         }
         $grupal->usuario_id=$request->input('usuario_id');
+        $grupal->pais_id=$request->input('pais');
+        $grupal->modalidad_id=$request->input('modalidad');
         $grupal->producto=$request->input('producto');
         $grupal->peso=$request->input('peso');
         $grupal->cargas_id=$request->input('cargas_id');
@@ -128,7 +128,7 @@ class ColombiaController extends Controller
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
-        
+      
         return redirect()->route('admin.colombia.edit',$data);
        
     }
@@ -143,7 +143,8 @@ class ColombiaController extends Controller
     public function edit($data)
     {
        
-        $cotizacion = Cotizaciones::whereid($data)->first();
+        $cotizacion = Cotizaciones::whereid($data)->with(['carga','pais','modalidad'])->first();
+        //return $cotizacion;
         return view('admin.calculadoras.colombia.grupal.formulario',compact('cotizacion'));
     }
 
@@ -157,6 +158,7 @@ class ColombiaController extends Controller
         Cotizaciones::whereid($id)->update($datos);
         //return response()->json($datos);
         return redirect('colombia')->with('mensaje','Cotizacion Actualizado');
+        //return $datos;
     }
 
    

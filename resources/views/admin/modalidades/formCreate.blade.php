@@ -11,6 +11,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Nombre de la Modalidad</label>
+                    <input type="hidden" name="tipo" id="" value="mo">
                     <input type="text" class="form-control" id="modalidad" name="modalidad" placeholder="Modalidad">
                   </div>
                 </div>

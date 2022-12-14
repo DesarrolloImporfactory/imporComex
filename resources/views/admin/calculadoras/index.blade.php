@@ -14,90 +14,100 @@
     <br><br>
 
 
-
     <div class="row">
-        <div class="col-md-6">
-            <div class="card text-center">
+        @foreach ($paises as $pais)
+            @if ($pais->nombre_pais == 'ECUADOR')
+                <div class="col-md-6">
 
+                    <div class="card text-center">
 
-                <div class="card-body">
-                    <h5 class="">Ecuador</h5>
-                    <img src="../assets/imporcomexImage/ecuador.jpg" width="150px" alt="">
+                        <div class="card-body">
+                            <h5>{{ $pais->nombre_pais }}</h5>
+                            <img src="../assets/imporcomexImage/ecuador.jpg" width="150px" alt="">
 
-                </div>
+                        </div>
 
-                <div>
-                    <form action="{{ route('ecuador.calculadoras') }}">
+                        <div>
+                            <form action="{{ route('admin.colombia.create') }}">
 
-                        @csrf
-                        <select class="form-control select2 text-center" style="width: 50%;" name="modalidad" required>
-                           
-                            <option value="FCL">FCL</option>
-                            <option value="GRUPAL">GRUPAL</option>
-                            <option value="LCL">LCL</option>
-                        </select><br>
-                        <button type="submit" class="btn btn-warning"><b>INGRESAR</b></button>
-                    </form>
-                </div><br>
+                                @csrf
+                                <input type="hidden" name="pais" id="" value="{{ $pais->id }}">
+                                <select class="form-control select2 text-center" style="width: 50%;" name="modalidad"
+                                    required>
 
+                                    <option value="1">FCL</option>
+                                    <option value="3">GRUPAL</option>
+                                    <option value="2">LCL</option>
+                                </select><br>
+                                <button type="submit" class="btn btn-warning"><b>INGRESAR</b></button>
+                            </form>
+                        </div><br>
 
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card text-center ">
-                <div class="card-body">
-                    <h5 class="">Colombia</h5>
-                    <img src="../assets/imporcomexImage/colombia.jpg" width="155px" alt="">
+                    </div>
 
                 </div>
-                <div>
-                    <form action="{{ route('admin.colombia.create') }}">
+            @endif
+            @if ($pais->nombre_pais == 'COLOMBIA')
+           
+            <div class="col-md-6">
+                <div class="card text-center ">
+                    <div class="card-body">
+                        <h5 class="">{{ $pais->nombre_pais }}</h5>
+                        <img src="../assets/imporcomexImage/colombia.jpg" width="155px" alt="">
 
-                        @csrf
-                        <select class="form-control select2 " style="width: 50%;" name="modalidad" required>
-                            
-                            <option value="FCL">FCL</option>
-                            <option value="GRUPAL">GRUPAL</option>
-                            <option value="LCL">LCL</option>
-                        </select><br>
-                        <button type="submit" class="btn btn-warning"><b>INGRESAR</b></button>
-                    </form>
-                </div><br>
+                    </div>
+                    <div>
+                        <form action="{{ route('admin.colombia.create') }}">
 
+                            @csrf
+                            <input type="hidden" name="pais" id="" value="{{ $pais->id }}">
+                            <select class="form-control select2 text-center" style="width: 50%;" name="modalidad"
+                                required>
+
+                                <option value="1">FCL</option>
+                                <option value="3">GRUPAL</option>
+                                <option value="2">LCL</option>
+                            </select><br>
+                            <button type="submit" class="btn btn-warning"><b>INGRESAR</b></button>
+                        </form>
+                    </div><br>
+
+                </div>
             </div>
-        </div>
-
+                 
+            @endif
+        @endforeach
 
     </div>
-    
+
 @stop
 
 @section('css')
-<style>
-    .card {
-        background: #8A9695!important;
-        position: relative!important;
+    <style>
+        .card {
+            background: #8A9695 !important;
+            position: relative !important;
 
-    }
+        }
 
-    .select2 {
+        .select2 {
 
-        width: 100px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-    }
+            width: 100px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
 
-    .content-wrapper {
-        background-image: url('../assets/imporcomexImage/fondo-3.png') !important;
-        height: 10px;
-    }
-</style>
+        .content-wrapper {
+            background-image: url('../assets/imporcomexImage/fondo-3.png') !important;
+            height: 10px;
+        }
+    </style>
 @stop
 
 @section('js')
-   
+
 
 @stop

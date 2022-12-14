@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Paises;
 
 class CalculadorasController extends Controller
 {
     
     public function index()
     {
-        return view('admin.calculadoras.index');
+        $paises = Paises::get();
+        return view('admin.calculadoras.index',compact('paises'));
+        
     }
     
 

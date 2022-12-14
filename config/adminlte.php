@@ -383,7 +383,7 @@ return [
             'route'  => 'cargas',
             'icon' => 'fas fa-fw fa-truck',
             'label'       => 'new',
-            'label_color' => 'success',
+            'label_color' => 'info',
             
             
         ],
@@ -396,9 +396,11 @@ return [
         ],
         [
             
-            'text' => 'Gestionar Modalidades',
+            'text' => 'Gestion General',
             'route'  => 'modalidades',
             'icon' => 'fas fa-fw fa-inbox',
+            'label'       => 'new',
+            'label_color' => 'success',
             
         ],
 
@@ -493,6 +495,16 @@ return [
     */
 
     'plugins' => [
+        'BsCustomFileInput' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
+                ],
+            ],
+        ],
         'Datatables' => [
             'active' => true,
             'files' => [

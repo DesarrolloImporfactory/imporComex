@@ -11,44 +11,46 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CalculadorasController;
 use App\Http\Controllers\EcuadorController;
 use App\Http\Controllers\ColombiaController;
+use App\Http\Controllers\ValidacionesController;
+use App\Http\Controllers\ReportesController;
 use Illuminate\Routing\RouteGroup;
 use App\Http\Controllers\Admin\HomeController;
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('admin',[HomeController::class, 'index']);
-//Routes IDIOMAS
-Route::get('idiomas',[IdiomasController::class, 'index'])->name('idiomas');
-Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
-//ROUTES CARGAS
-Route::get('cargas',[CargasController::class, 'index'])->name('cargas');
-Route::patch('tarifa/{id}',[CargasController::class,'updateTarifa'])->name('tarifa.updateTarifa');
-Route::resource('admin/cargas', CargasController::class)->names('admin.cargas');
-//ROUTES paises
-Route::get('paises',[PaisesController::class, 'index'])->name('paises');
-Route::resource('admin/paises', PaisesController::class)->names('admin.paises');
+//Route::get('admin',[HomeController::class, 'index']);
+Route::middleware('auth')->group(function () {
 
-//ROUTES Modalidades
-Route::get('modalidades',[ModalidadesController::class, 'index'])->name('modalidades');
-Route::resource('admin/modalidades', ModalidadesController::class)->names('admin.modalidades');
-//ROUTES Usuarios
-Route::get('usuarios',[UsuariosController::class, 'index'])->name('usuarios');
+    Route::get('idiomas',[IdiomasController::class, 'index'])->name('idiomas');
+    Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
+    
+    Route::get('cargas',[CargasController::class, 'index'])->name('cargas');
+    Route::patch('tarifa/{id}',[CargasController::class,'updateTarifa'])->name('tarifa.updateTarifa');
+    Route::resource('admin/cargas', CargasController::class)->names('admin.cargas');
+    
+    Route::get('paises',[PaisesController::class, 'index'])->name('paises');
+    Route::resource('admin/paises', PaisesController::class)->names('admin.paises');
+    
+    Route::get('modalidades',[ModalidadesController::class, 'index'])->name('modalidades');
+    Route::resource('admin/modalidades', ModalidadesController::class)->names('admin.modalidades');
+    
+    Route::get('usuarios',[UsuariosController::class, 'index'])->name('usuarios');
 
-Route::patch('admin/show/{user}',[UsuariosController::class, 'show'])->name('usuarios.show');
-Route::resource('admin/usuarios', UsuariosController::class)->names('admin.usuarios');
-//rutas de roles
-Route::resource('roles', RolesController::class)->names('admin.roles');
-//rutas de calculadora
-//Route::get('calculadoras/ecuador',[CalculadorasController::class, 'indexEcuador'])->name('admin.calculadoras.indexEcuador');
-Route::resource('calculadoras', CalculadorasController::class)->names('admin.calculadoras');
-//ruta controlador ecuador
+    Route::patch('admin/show/{user}',[UsuariosController::class, 'show'])->name('usuarios.show');
+    Route::resource('admin/usuarios', UsuariosController::class)->names('admin.usuarios');
+ 
+    Route::resource('roles', RolesController::class)->names('admin.roles');
 
-//ruta controlador colombia
-//Route::get('colombia', [ColombiaController::class, 'index'])->name('colombia');
-//Route::get('colombia/calculadoras', [ColombiaController::class, 'index'])->name('colombia.calculadoras');
-Route::resource('colombia', ColombiaController::class)->names('admin.colombia');
-Route::get('ecuador/calculadoras', [EcuadorController::class, 'index'])->name('ecuador.calculadoras');
+    Route::resource('calculadoras', CalculadorasController::class)->names('admin.calculadoras');
+    
+    Route::resource('colombia', ColombiaController::class)->names('admin.colombia');
 
-Route::resource('ecuador', EcuadorController::class)->names('admin.ecuador');
+    Route::resource('validacion', ValidacionesController::class)->names('validacion');
+    Route::get('validacion/{id}/print', [ValidacionesController::class, 'print'])->name('validacion.print');
+
+    Route::get('ticket/{id}/pdf', [ReportesController::class, 'pdfTicket'])->name('ticket.pdf');
+    Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
+
+});
 

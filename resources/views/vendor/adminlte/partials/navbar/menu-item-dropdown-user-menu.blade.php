@@ -87,10 +87,4 @@
     </ul>
 
 </li>
-<li class="nav-item dropdown">
-    <a class="nav-link" data-toggle="dropdown" href="#">
-      
-      <span class="badge badge-success navbar-badge"><i class="far fa-bell"></i></span>
-    </a>
-    
-</li>
+

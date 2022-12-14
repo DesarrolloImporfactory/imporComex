@@ -66,8 +66,6 @@
         </div>
 
     </div>
-
-    <!-- ---------------MODAL-------------------- -->
     @include('admin.usuarios.formCreate')
     <!-- ---------------FIN MODAL----------------- -->
 @stop
