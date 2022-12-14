@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Validacion;
-
+use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
 use Illuminate\Support\Facades\DB;
 
@@ -15,10 +15,14 @@ class ValidacionesController extends Controller
     
     public function print($id)
     {
+
+        
         $cotizacion = Cotizaciones::whereid($id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
         $carbon = new \Carbon\Carbon();
-        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon']));
-        //return $cotizacion;
+        $id= $cotizacion->id;
+        
+        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','id']));
+        //return $code;
     }
 
     

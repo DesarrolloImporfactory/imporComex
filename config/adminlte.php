@@ -147,13 +147,13 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Layout-and-Styling-Configuration
     |
     */
-
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => true,
-    'layout_fixed_navbar' => true,
+    'layout_fixed_sidebar' => null,
+    'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => false,
+    'layout_dark_mode' => null,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -186,18 +186,15 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Layout-and-Styling-Configuration
     |
     */
-
-    'classes_body' => '',
-    'classes_brand' => '',
-    'classes_brand_text' => '',
-    'classes_content_wrapper' => '',
-    'classes_content_header' => '',
-    'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
-    'classes_topnav_nav' => 'navbar-expand-md',
-    'classes_topnav_container' => 'container',
+    'sidebar_mini' => 'lg',
+    'sidebar_collapse' => false,
+    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_remember_no_transition' => true,
+    'sidebar_scrollbar_theme' => 'os-theme-light',
+    'sidebar_scrollbar_auto_hide' => 'l',
+    'sidebar_nav_accordion' => true,
+    'sidebar_nav_animation_speed' => 300,
 
     /*
     |--------------------------------------------------------------------------
@@ -213,14 +210,13 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => true,
-    'sidebar_collapse_remember' => true,
-    'sidebar_collapse_remember_no_transition' => false,
+    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
     'sidebar_nav_animation_speed' => 300,
-
     /*
     |--------------------------------------------------------------------------
     | Control Sidebar (Right Sidebar)
@@ -293,7 +289,7 @@ return [
     'menu' => [
         // Navbar items:
         [
-           
+            'type'         => 'navbar-search',
             'text'         => 'Busqueda',
             'search'=>true,
             'topnav_right' => true,

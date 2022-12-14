@@ -34,8 +34,11 @@
         <div class="col-md-4 "><b>SHIPPING MARK IMPORTCOMEXSAS-ECGLY : </b></div>
         <div class="col-md-8 "><b>Partida arancelaria:</b></div>
     </div><br>
-    <div class="form-row div1">
+    <div class="form-row div3">
         <div class="col-md-12 text-center"><b>CARTON No.: 1-8</b></div>
-
+        
+    </div><br>
+    <div class="code">
+        {!! DNS1D::getBarcodeHTML("$id", 'C128A')!!}
     </div><br>
 </div>

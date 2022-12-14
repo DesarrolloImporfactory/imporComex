@@ -181,7 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Milon\Barcode\BarcodeServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -211,6 +211,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ])->toArray(),
 
 ];
