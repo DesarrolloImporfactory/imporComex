@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Idioma;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades;
 
 class UsuariosController extends Controller
 {
@@ -31,12 +32,36 @@ class UsuariosController extends Controller
    
     public function create()
     {
-         
+        $roles=Role::get();
+        $usuario=User::get();
+        $idioma=Idioma::get();
+        $datos=[
+            'roles'=>$roles,
+            'usuarios'=>$usuario,
+            'idiomas'=>$idioma
+        ];
+         return view('admin.usuarios.formCreate',$datos);
     }
 
   
     public function store(Request $request)
     {
+
+        $request->validate([
+            'name'=>['required'],
+            'idioma' => ['required'],
+            'telefono' => ['required'],
+            'date'=>['required'],
+            'importacion' => ['required'],
+            'estado' => ['required'],
+            'ruc'=>['required'],
+            'cedula' => ['required'],
+            'email' => ['required'],
+            'password' => ['required'],
+            'roles'=>['required'],
+               
+         ]);
+
         $estado = $request->input('estado');
         $password1=$request->input('password');
         User::create([
@@ -50,8 +75,9 @@ class UsuariosController extends Controller
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
             'password'=>Hash::make($password1),
-        ])->assignRole('Admin'); 
-        return redirect('usuarios')->with('mensaje','Usuario registrado');
+        ])->assignRole($request->input('roles')); 
+        
+        return redirect('admin/usuarios')->with('mensaje','Usuario registrado');
     }
    
     public function edit($id)

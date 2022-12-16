@@ -2,19 +2,22 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#crearUsuario">
-        Agregar Usuario
-    </button>
-
+<x-adminlte-info-box title="Recuerde asignar un sol y el estado al usuario" text="Gestión de Usuarios"
+        icon="fa-solid fa-list text-primary" theme="gradient-primary" icon-theme="white" />
+<div class="row">
+    <div class="col-md-12 ">
+        <a href="{{route('admin.usuarios.create')}}" class="float-right"><x-adminlte-button label="Agregar Usuario" theme="dark" icon="fas fa-lg fa-user-plus"/></a>
+    </div>
+</div>
 
 @stop
 
 @section('content')
     @php
-        $heads = ['ID', 'Nombre', 'Telefono', 'Fecha', 'Importacion', 'Idioma', 'Estado', 'Cedula', 'Ruc', 'Email', 'Acciones'];
+        $heads = ['ID', 'Nombre', 'Telefono', 'Fecha', 'Importacion', 'Idioma', 'Estado', 'Cedula', 'Ruc', 'Email', 'Rol' ,'Acciones'];
         
     @endphp
-    <br><br>
+    <br>
 
     <div class="card">
 
@@ -29,14 +32,22 @@
                         <td>{!!$usuario->date !!}</td>
                         <td>{!! $usuario->importacion !!}</td>
                         <td>{!! $usuario->idioma !!}</td>
-                        @if ($usuario->estado = '1')
-                            <td>Activo</td>
+                        @if ($usuario->estado == '1')
+                        <td><i class="fa-solid fa-check"></i></td>
                         @else
-                            <td>Inactivo</td>
+                        <td><i class="fa-solid fa-xmark"></i></td>
                         @endif
+                        
                         <td>{!! $usuario->cedula!!}</td>
                         <td>{!! $usuario->ruc !!}</td>
                         <td>{!! $usuario->email !!}</td>
+                        <td>
+                            @if (!empty($usuario->getRoleNames()))
+                                @foreach ($usuario->getRoleNames() as $item)
+                                    <h5><span class="badge badge-info">{{$item}}</span></h5>
+                                @endforeach
+                            @endif
+                        </td>
                         <td>
                             <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-bars"></i>
@@ -66,6 +77,5 @@
         </div>
 
     </div>
-    @include('admin.usuarios.formCreate')
-    <!-- ---------------FIN MODAL----------------- -->
+    
 @stop

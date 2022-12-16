@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('modalidades',[ModalidadesController::class, 'index'])->name('modalidades');
     Route::resource('admin/modalidades', ModalidadesController::class)->names('admin.modalidades');
     
-    Route::get('usuarios',[UsuariosController::class, 'index'])->name('usuarios');
+    //Route::get('usuarios',[UsuariosController::class, 'index'])->name('usuarios');
 
     Route::patch('admin/show/{user}',[UsuariosController::class, 'show'])->name('usuarios.show');
     Route::resource('admin/usuarios', UsuariosController::class)->names('admin.usuarios');

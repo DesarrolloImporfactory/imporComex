@@ -15,11 +15,11 @@ class ValidacionesController extends Controller
     
     public function print($id)
     {
-
+        
         
         $cotizacion = Cotizaciones::whereid($id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
         $carbon = new \Carbon\Carbon();
-        $id= $cotizacion->id;
+        $id= $cotizacion->barcode;
         
         return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','id']));
         //return $code;
@@ -50,6 +50,7 @@ class ValidacionesController extends Controller
         $inflamable=$request->input('inflamable');
         $proveedores=$request->input('proveedores');
         $enlace=$request->input('enlace');
+        //$nombre_pro=$request->input('nombre_pro');
         $cotizacion_id=$request->input('idCotizacion');
     
         
@@ -65,6 +66,13 @@ class ValidacionesController extends Controller
             }else{
                 $foto='null';
             }
+
+            if ($request->input('nombre_pro'.$i)) {
+                $nombre_pro=$request->input('nombre_pro'.$i);   
+            }else{
+                $nombre_pro='null';
+            }
+            
           
              DB::table('validacions')->insert([
                 'bateria'=>$bateria,
@@ -73,6 +81,7 @@ class ValidacionesController extends Controller
                 'proveedores'=>$proveedores,
                 'factura'=>$archivo,
                 'foto'=>$foto,
+                'nombre_pro'=>$nombre_pro,
                 'enlace'=>$enlace,
                 'cotizacion_id'=>$cotizacion_id,
                 'created_at'=>now()

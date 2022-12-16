@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('validacions', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_pro');
             $table->string('bateria');
             $table->string('liquidos');
             $table->string('inflamable');

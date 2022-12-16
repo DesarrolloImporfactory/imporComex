@@ -6,37 +6,45 @@
                 <div class="form-group">
 
                     <label for="">¿Tiene bateria?</label>
-                    <x-adminlte-select2 name="bateria" value="{{ old('bateria') }}">
+                    <x-adminlte-select2 name="bateria">
                         <option value="">Selecciona una opción....</option>
+                        <option value="{{ old('bateria') }}">{{ old('bateria') }}</option>
+                        
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </x-adminlte-select2>
                 </div>
                 <div class="form-group">
                     <label for="">¿Es inflamable?</label>
-                    <x-adminlte-select2 name="inflamable" value="{{ old('inflamable') }}">
+                    <x-adminlte-select2 name="inflamable">
                         <option value="">Selecciona una opción....</option>
+                        <option value="{{ old('inflamable') }}">{{ old('inflamable') }}</option>
+                        
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </x-adminlte-select2>
-                    
-                </div> 
+
+                </div>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="">¿Tiene liquidos?</label>
-                    <x-adminlte-select2 name="liquidos" value="{{ old('liquidos') }}">
+                    <x-adminlte-select2 name="liquidos">
                         <option value="">Selecciona una opción....</option>
+                        <option value="{{ old('liquidos') }}">{{ old('liquidos') }}</option>
+                        
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </x-adminlte-select2>
-                   
+
                 </div>
                 <div class="form-group">
                     <label for="">¿Cuantos proveedores tiene?</label>
-                    <x-adminlte-select2 name="proveedores" id="numero" onchange="ejecutar()" class="form-control" value="{{ old('proveedores') }}">
+                    <x-adminlte-select2 name="proveedores" id="numero" onchange="ejecutar()" class="form-control">
                         <option value="">Selecciona una opción....</option>
+                        <option value="{{ old('proveedores') }}">{{ old('proveedores') }}</option>
+                        
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -45,9 +53,9 @@
                     </x-adminlte-select2>
                     {{-- <input type="number" class="form-control add-btn " id="numero" onkeyup="ejecutar()" name="proveedores"
                         placeholder="Cantidad" value="{{ old('proveedores') }}"> --}}
-                    
+
                 </div>
-                
+
             </div>
             <div class="form-group">
                 <label for="">Enlace</label>
@@ -57,6 +65,7 @@
                     <small style="color:red">{{ $message }}</small>
                 @enderror
             </div>
+
             {{-- div para los inputs dinamicos --}}
             <div class="newData"></div>
 
@@ -67,25 +76,36 @@
 
 <script type="text/javascript">
     function ejecutar(valor) {
-        
+        //codigo para vaciar el div antes de ejecutar
+        $(".newData").empty();
+        //codigo para vaciar el div antes de ejecutar
         var i = 1;
         valor = $("#numero").val();
-        var stop=valor;
+        var stop = valor;
+
         for (let step = 0; step < stop; step++) {
-            
-            $('.newData').append('<div id="newRow'+i+'" class="form-row">'
-            +'<div class="col-md-6">'
-              +'<label style="color:red">Foto del producto '+i+'</label>'
-              +'<input type="file" name="foto'+i+'"  class="form-control">'
-            +'</div>'
-            +'<div class="col-md-6">'
-              +'<label style="color:red">Subir factura '+i+'</label>'
-              +'<input type="file" name="factura'+i+'" class="form-control">'
-              +'<input type="hidden" name="estado[]" value="'+i+'" class="form-control">'
-            +'</div>'
-            +'</div>'
-          ); 
-          i++; 
+
+            $('.newData').append(
+                '<div id="newRow' + i + '" class="form-row">' +
+                '<div class="col-md-12">' +
+                '<label style="color:red">Nombre del Proveedor ' + i + ':</label>' +
+                '<input  type="text" name="nombre_pro' + i +'"  class="form-control"  placeholder="Ingrese el nombre del proveedor">' +
+                '</div>' +
+                '</div>' +
+                '<div id="newRow' + i + '" class="form-row">' +
+                '<div class="col-md-6">' +
+                '<label style="color:red">Foto del producto ' + i + '</label>' +
+                '<input type="file" name="foto' + i + '"  class="form-control">' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<label style="color:red">Subir factura ' + i + '</label>' +
+                '<input type="file" name="factura' + i + '" class="form-control">' +
+                '<input type="hidden" name="estado[]" value="' + i + '" class="form-control">' +
+                '</div>' +
+                '</div><br>'
+            );
+            i++;
         }
+
     }
 </script>

@@ -12,6 +12,7 @@ use App\Models\Contenedores;
 use App\Models\Cotizaciones;
 use Illuminate\Support\Facades\Validator;
 use App\Models\tarifaGruapl;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ColombiaController extends Controller
 {
@@ -52,8 +53,10 @@ class ColombiaController extends Controller
         $request->validate([
             'usuario_id'=>['required'],
             'producto' => ['required', 'string', 'max:25'],
-            'peso' => ['required', 'ends_with:kg,KG'],
+            'peso' => ['required',],
             'cargas_id'=>['required'],
+            'total_productos'=>['required','numeric:0'],
+            'precio_china'=>['required','numeric:0'],
             'direccion'=>['required','string', 'min:5'],
             'total_cartones'=>['required','numeric:0'],
             'volumen'=>['required','min:0','max:8','numeric:0'],
@@ -113,11 +116,21 @@ class ColombiaController extends Controller
                 
                 break;
         }
+        
+        
+
+            $barcode = IdGenerator::generate(['table' => 'cotizaciones', 'field'=>'barcode', 'length' => 6, 'prefix' => date('y')]);
+        
+            $grupal->barcode=$barcode;
+            $peso=$request->input('peso').'kg';
         $grupal->usuario_id=$request->input('usuario_id');
         $grupal->pais_id=$request->input('pais');
         $grupal->modalidad_id=$request->input('modalidad');
         $grupal->producto=$request->input('producto');
-        $grupal->peso=$request->input('peso');
+        $grupal->peso=$peso;
+        $grupal->origen=$request->input('origen');
+        $grupal->total_productos=$request->input('total_productos');
+        $grupal->precio_china=$request->input('precio_china');
         $grupal->cargas_id=$request->input('cargas_id');
         $grupal->direccion=$request->input('direccion');
         $grupal->total_cartones=$request->input('total_cartones');

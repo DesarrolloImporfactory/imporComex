@@ -333,7 +333,7 @@ return [
         [
             
             'text' => 'Usuarios',
-            'route'  => 'usuarios',
+            'route'  => 'admin.usuarios.index',
             'icon'=>'fa fa-fw fa-users',
             'can' => 'admin.usuarios.index',
             'icon_color'=>'yellow',

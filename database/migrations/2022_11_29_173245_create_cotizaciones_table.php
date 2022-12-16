@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
-            
+            $table->string('barcode');
             $table->bigInteger('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
 
@@ -27,8 +27,11 @@ return new class extends Migration
 
             $table->bigInteger('cargas_id')->unsigned()->nullable();
             $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade');
+
             $table->string('producto')->nullable();
-            $table->float('total_cartones',8,2)->nullable();
+            $table->integer('total_cartones')->nullable();
+            $table->integer('total_productos')->nullable();
+            $table->string('precio_china')->nullable();
 
             $table->bigInteger('contenedor_id')->unsigned()->nullable();
             $table->foreign('contenedor_id')->references('id')->on('contenedores')->onUpdate('cascade');

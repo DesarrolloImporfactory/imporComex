@@ -1,132 +1,146 @@
-<div>
-<div class="modal fade " id="crearUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog ">
-    <div class="modal-content">
-        <!-- Input addon -->
-        <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Registrar Usuario</h3>
-                
-              </div>
-              
-              <form action="{{route('admin.usuarios.store')}}" method="post" id="formulario">
-              @csrf
-              <div class="card-body">
-                <label for="">Nombre: </label>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Adrian Torres" name="name">
-                  
-                </div>
-                <div class="row">
-                  <div class="col-lg-6">
-                    <label for="">Telefono: </label>
-                <div class="input-group mb-3">
-                  <input type="number" class="form-control" placeholder="02-2956862" name="telefono">
-                  
-                </div>
-                  </div>
-                  <!-- /.col-lg-6 -->
-                  <div class="col-lg-6">
-                    <label>Idioma:</label>
-                    <div class="input-group mb-3" >
-                      <select class="form-control select2"  style="width: 100%;" name="idioma" required>
-                        <option value="">---seleccione---</option>
-                        @foreach ($idiomas as $idioma)
-                            <option value="{{$idioma->nombre}}">{{$idioma->nombre}}</option>
-                        @endforeach
-                    </select>
-                        
-                    </div>
-                  </div>
-                  <!-- /.col-lg-6 -->
-                </div>
-                <div class="row">
-                  <div class="col-lg-4 ">
-                  <label>Date:</label>
-                   <input type="date" name="date" id="" class="form-control">
-                  </div>
-                  <!-- /.col-lg-6 -->
-                  <div class="col-lg-4">
-                  <label for="">Importacion: </label>
-                    <div class="input-group mb-3">
-                      <input type="number" class="form-control" name="importacion">
-                      
-                    </div>
-                    <!-- /input-group -->
-                  </div>
-                  <div class="col-lg-4">
-                    <label>Estado:</label>
-                    <div class="input-group mb-3" >
-                      <select class="form-control select2"  style="width: 100%;" name="estado">
-                        <option value="">---seleccione---</option>
-                        <option value="1">Activo</option>
-                        <option value="0">Inactivo</option>
-                      
-                    </select>
-                        
-                    </div>
-                    </div>
-                  <!-- /.col-lg-6 -->
-                </div>
+@extends('adminlte::page')
+@section('title', 'Registrar Usuarios')
 
-                <div class="row">                
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                  <div class="col-lg-6">
-                    <label for="">Ruc: </label>
-                    <div class="input-group mb-3">
-                      <input type="number" class="form-control" name="ruc" placeholder="1727569840001">
-                      
-                    </div>
-                  </div>
-                  <!-- /.col-lg-6 -->
-                  <div class="col-lg-6">
-                  <label for="">Cedula: </label>
-                    <div class="input-group"> 
-                      <input type="numer" class="form-control" name="cedula" placeholder="1727569840">
-                     
-                    </div>
-                    <!-- /input-group -->
-                  </div>
-                  <!-- /.col-lg-6 -->
-                </div>
+@section('content_header')
+    <x-adminlte-info-box title="528" text="Registro de Usuarios" icon="fas fa-lg fa-user-plus text-primary"
+        theme="gradient-primary" icon-theme="white" />
 
-                <label for="">Email: </label>
-                <div class="input-group mb-3">
-                  <input type="mail" class="form-control" name="email" placeholder="usuario@gmail.com">
-                  
-                </div>
-
-                <label for="">Password: </label>
-                <div class="input-group mb-3">
-                  <input type="password" class="form-control" name="password" placeholder="">
-                  
-                </div>
-                
-              </div>
-              <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Guardar</button>
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-              </form>
-            </div>
-            <!-- /.card -->
+    <div class="row">
+        <div class="col-md-12">
+            <x-adminlte-button label="Guardar Usuario" theme="dark" icon="fas fa-lg fa-save" class="float-right" type="sumbit"
+                form="formCreate" />
+        </div>
     </div>
-  </div>
-</div>
-</div>
-<script>
-  $(document).ready(function() {
-      $('.select2').select2({
-          theme: "bootstrap"
-      });
-  });
-  
-</script>
-<style>
-  .select2-container--open .select2-dropdown {
-  z-index: 1070;
-}
-</style>
+@stop
 
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <x-adminlte-card theme="dark" theme-mode="outline">
+                <form action="{{ route('admin.usuarios.store') }}" method="post" id="formCreate">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Nombre de usuario:</label>
+                                <input type="text" class="form-control" placeholder="Adrian Torres" name="name"
+                                    value="{{ old('name') }}">
+                                @error('name')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Idioma:</label>
+                                <x-adminlte-select2 name="idioma">
+                                  <option value="">Selecciones una opción.......</option>
+                                    @foreach ($idiomas as $idioma)
+                                        <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
+                                    @endforeach
+                                </x-adminlte-select2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Telefono: </label>
+                                <input type="number" class="form-control" placeholder="02-2956862" name="telefono"
+                                    value="{{ old('telefono') }}">
+                                @error('telefono')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Fecha de nacimiento:</label>
+                                <input type="date" name="date" id="" class="form-control"
+                                    value="{{ old('date') }}">
+                                @error('date')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Importacion: </label>
+                                <input type="number" class="form-control" name="importacion" min="0"
+                                    value="{{ old('importacion') }}">
+                                @error('importacion')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Estado:</label>
+                                <x-adminlte-select2 name="estado">
+                                    <option value="">Selecciones una opción.......</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </x-adminlte-select2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Ruc: </label>
+                                <input type="number" class="form-control" name="ruc" placeholder="1727569840001"
+                                    value="{{ old('ruc') }}">
+                                @error('ruc')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Cedula: </label>
+                                <input type="numer" class="form-control" name="cedula" placeholder="1727569840"
+                                    value="{{ old('cedula') }}">
+                                @error('cedula')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Email: </label>
+                                <input type="mail" class="form-control" name="email" placeholder="usuario@gmail.com"
+                                    value="{{ old('email') }}">
+                                @error('email')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Password: </label>
+                                <input type="password" class="form-control" name="password" placeholder=""
+                                    value="{{ old('password') }}">
+                                @error('password')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Asignar un rol: </label>
+                            <x-adminlte-select2 name="roles">
+                              <option value="">Selecciones una opción.......</option>
+                                @foreach ($roles as $rol)
+                                    <option value="{{ $rol->name }}">{{ $rol->name }}</option>
+                                @endforeach
+                            </x-adminlte-select2>
+                        </div>
+                    </div>
+                </form>
+            </x-adminlte-card>
+        </div>
+    </div>
+@stop
