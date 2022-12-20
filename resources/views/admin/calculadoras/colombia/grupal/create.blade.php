@@ -63,15 +63,15 @@
                                 <div class="input-group">
                                     <input type="number" name="total_productos" class="form-control" min="1"
                                         value="{{ old('total_productos') }}">
-                                    @error('total_productos')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-solid fa-arrow-up-9-1"></i></span>
                                     </div>
                                 </div>
+                                @error('total_productos')
+                                        <small style="color: red">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -79,15 +79,15 @@
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="peso" value="{{ old('peso') }}">
-                                    @error('peso')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-solid fa-arrow-up-9-1"></i></span>
                                     </div>
                                 </div>
+                                @error('peso')
+                                <small style="color: red">
+                                    {{ $message }}
+                                </small>
+                            @enderror
                             </div>
                         </div>
                     </div>
@@ -105,16 +105,15 @@
                                 <div class="input-group">
                                     <input type="number" name="total_cartones" class="form-control" id=""
                                         value="{{ old('total_cartones') }}" min=1>
-
-                                    @error('total_cartones')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
                                     </div>
                                 </div>
+                                @error('total_cartones')
+                                <small style="color: red">
+                                    {{ $message }}
+                                </small>
+                            @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -123,15 +122,15 @@
                                 <div class="input-group">
                                     <input type="float" name="precio_china" class="form-control" id=""
                                         value="{{ old('precio_china') }}">
-                                    @error('precio_china')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
                                     </div>
                                 </div>
+                                @error('precio_china')
+                                        <small style="color: red">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
                             </div>
                         </div>
                     </div>

@@ -2,8 +2,8 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-<x-adminlte-info-box title="Recuerde asignar un sol y el estado al usuario" text="Gestión de Usuarios"
-        icon="fa-solid fa-list text-primary" theme="gradient-primary" icon-theme="white" />
+<x-adminlte-info-box title="Recuerde asignar un rol y el estado al usuario" text="Gestión de Usuarios"
+        icon="fas fa-lg fa-user-plus text-primary" theme="gradient-primary" icon-theme="white" />
 <div class="row">
     <div class="col-md-12 ">
         <a href="{{route('admin.usuarios.create')}}" class="float-right"><x-adminlte-button label="Agregar Usuario" theme="dark" icon="fas fa-lg fa-user-plus"/></a>
@@ -32,7 +32,7 @@
                         <td>{!!$usuario->date !!}</td>
                         <td>{!! $usuario->importacion !!}</td>
                         <td>{!! $usuario->idioma !!}</td>
-                        @if ($usuario->estado == '1')
+                        @if ($usuario->estado == 'true')
                         <td><i class="fa-solid fa-check"></i></td>
                         @else
                         <td><i class="fa-solid fa-xmark"></i></td>

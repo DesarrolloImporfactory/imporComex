@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label>Idioma:</label>
                                 <x-adminlte-select2 name="idioma">
-                                  <option value="">Selecciones una opción.......</option>
+                                    <option value="">Selecciones una opción.......</option>
                                     @foreach ($idiomas as $idioma)
                                         <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
                                     @endforeach
@@ -56,8 +56,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Fecha de nacimiento:</label>
-                                <input type="date" name="date" id="" class="form-control"
-                                    value="{{ old('date') }}">
+                                <input type="date" name="date" id="" class="form-control" value="{{ old('date') }}">
                                 @error('date')
                                     <small style="color: red">{{ $message }}</small>
                                 @enderror
@@ -78,69 +77,85 @@
                                 <label>Estado:</label>
                                 <x-adminlte-select2 name="estado">
                                     <option value="">Selecciones una opción.......</option>
-                                    <option value="1">Activo</option>
+                                    <option value="true">Activo</option>
                                     <option value="0">Inactivo</option>
                                 </x-adminlte-select2>
                             </div>
                         </div>
-
+                    
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Ruc: </label>
-                                <input type="number" class="form-control" name="ruc" placeholder="1727569840001"
-                                    value="{{ old('ruc') }}">
-                                @error('ruc')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Ruc: </label>
+                                        <input type="number" class="form-control" name="ruc" placeholder="1727569840001"
+                                            value="{{ old('ruc') }}">
+                                        @error('ruc')
+                                            <small style="color: red">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Cedula: </label>
+                                        <input type="numer" class="form-control" name="cedula" placeholder="1727569840"
+                                            value="{{ old('cedula') }}">
+                                        @error('cedula')
+                                            <small style="color: red">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                    
+                    
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Email: </label>
+                                        <input type="mail" class="form-control" name="email" placeholder="usuario@gmail.com"
+                                            value="{{ old('email') }}">
+                                        @error('email')
+                                            <small style="color: red">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Password: </label>
+                                        <input type="password" class="form-control" name="password" placeholder=""
+                                            value="{{ old('password') }}">
+                                        @error('password')
+                                            <small style="color: red">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                    
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Cedula: </label>
-                                <input type="numer" class="form-control" name="cedula" placeholder="1727569840"
-                                    value="{{ old('cedula') }}">
-                                @error('cedula')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Email: </label>
-                                <input type="mail" class="form-control" name="email" placeholder="usuario@gmail.com"
-                                    value="{{ old('email') }}">
-                                @error('email')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Password: </label>
-                                <input type="password" class="form-control" name="password" placeholder=""
-                                    value="{{ old('password') }}">
-                                @error('password')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Asignar un rol: </label>
-                            <x-adminlte-select2 name="roles">
-                              <option value="">Selecciones una opción.......</option>
+                            <label for="">Seleccione los roles</label>
+                            <select name="roles[]" id="select2" class="form-control" title="Asignar roles" multiple="multiple">
                                 @foreach ($roles as $rol)
                                     <option value="{{ $rol->name }}">{{ $rol->name }}</option>
                                 @endforeach
-                            </x-adminlte-select2>
+                            </select>
+                    
+                    
                         </div>
+                    
                     </div>
                 </form>
             </x-adminlte-card>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#select2').select2({
+                theme: "bootstrap",
+    
+            });
+        });
+    </script>
 @stop

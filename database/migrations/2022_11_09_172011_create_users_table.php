@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('date');
             $table->string('importacion');
             $table->string('idioma');
-            $table->boolean('estado')->nullable();
+            $table->string('estado')->nullable();
             $table->integer('cedula')->length(10)->nullable();
-            $table->integer('ruc')->length(13)->nullable();
+            $table->integer('ruc')->length(10)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

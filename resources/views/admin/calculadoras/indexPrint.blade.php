@@ -21,6 +21,7 @@
                     </a>
                 </div>
             </div>
+            <br>
             @include('components.ticket')
         </div>
         <div class="col-md-6 ">
@@ -33,6 +34,7 @@
                     </a>
                 </div>
             </div>
+            <br>
             @include('components.cotizacion')
         </div>
 

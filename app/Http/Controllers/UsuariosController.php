@@ -53,7 +53,6 @@ class UsuariosController extends Controller
             'telefono' => ['required'],
             'date'=>['required'],
             'importacion' => ['required'],
-            'estado' => ['required'],
             'ruc'=>['required'],
             'cedula' => ['required'],
             'email' => ['required'],
@@ -70,7 +69,6 @@ class UsuariosController extends Controller
             'date'=>$request->input('date'),
             'importacion'=>$request->input('importacion'),
             'idioma'=>$request->input('idioma'),
-            'estado'=>$estado,
             'cedula'=>$request->input('cedula'),
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
@@ -85,11 +83,44 @@ class UsuariosController extends Controller
         $user=User::findOrFail($id);
         $rol = Role::all();
         $idiomas=Idioma::get();
-        return view('admin.usuarios.editar',compact('user','rol','idiomas'));
+        return view('admin.usuarios.formEdit',compact('user','rol','idiomas'));
     }
     //asignar roles al usuario
     public function show(Request $request, $user)
     {
+        // $users=User::findOrFail($user);
+        // $datos=array(
+        //     'name'=>$request->input('name'),
+        //     'telefono'=>$request->input('telefono'),
+        //     'date'=>$request->input('date'),
+        //     'importacion'=>$request->input('importacion'),
+        //     'idioma'=>$request->input('idioma'),
+        //     'estado'=>$request->input('estado'),
+        //     'cedula'=>$request->input('cedula'),
+        //     'ruc'=>$request->input('ruc'),
+        //     'email'=>$request->input('email'),
+        // );
+        // User::whereid($user)->update($datos);
+        // return redirect()->route('admin.usuarios.edit',$users)->with('mensaje','Informacion Actualizada');
+    }
+
+ 
+    public function update(Request $request, $user)
+    {
+        $request->validate([
+            'name'=>['required'],
+            'idioma' => ['required'],
+            'telefono' => ['required'],
+            'date'=>['required'],
+            'importacion' => ['required'],
+            'estado' => ['required'],
+            'ruc'=>['required'],
+            'cedula' => ['required'],
+            'email' => ['required'],
+            'password' => ['required'],
+            'roles'=>['required'],
+               
+         ]);
         $users=User::findOrFail($user);
         $datos=array(
             'name'=>$request->input('name'),
@@ -103,17 +134,9 @@ class UsuariosController extends Controller
             'email'=>$request->input('email'),
         );
         User::whereid($user)->update($datos);
-        return redirect()->route('admin.usuarios.edit',$users)->with('mensaje','Informacion Actualizada');
-    }
-
- 
-    public function update(Request $request, $user)
-    {
-
-        $users=User::findOrFail($user);
         $users->roles()->sync($request->roles);
         //User::whereid($user)->update($datos);
-        return redirect()->route('admin.usuarios.edit',$users)->with('mensaje','Roles Asignados');
+        return redirect('admin/usuarios')->with('mensaje','Roles Asignados');
     }
 
  

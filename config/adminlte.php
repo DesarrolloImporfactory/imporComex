@@ -149,8 +149,8 @@ return [
     */
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -541,6 +541,22 @@ return [
                     'asset' => true,
                     'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
                 ],
+                
+            ],
+        ],
+        'bootstrapSwitch' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/select2/css/bootstrap3/bootstrap-switch.min.css',
+                ],            
             ],
         ],
         'Chartjs' => [

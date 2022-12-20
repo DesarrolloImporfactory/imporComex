@@ -1,0 +1,70 @@
+/* css de la vista blade */
+
+.invoice-box {
+    background-color: #fff;
+    color: #2a2a2a;
+    font-size: 16px;
+    height: auto;
+    line-height: 24px;
+    margin: 1%;
+    max-width: 21.5cm;
+    border-bottom-style: ridge;
+}
+
+.invoice-box table {
+    width: 100%;
+    line-height: inherit;
+    text-align: left;
+    
+}
+
+.items-table th {
+    padding: 5px;
+    background: #eee;
+    border-bottom: 0px solid #ddd;
+    font-weight: bold;
+    background-color: #6D727A;
+    color: white;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.mts {
+    
+    border-bottom-style: ridge;
+}
+
+
+.bold {
+    font-weight: bold;
+    
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.options {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.general {
+    border: solid;
+    
+}
+.div1 {
+    border-top-style: ridge;
+    margin-left: 1%;
+    margin-right: 1%;
+}

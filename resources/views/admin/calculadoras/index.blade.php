@@ -63,7 +63,6 @@
                             <input type="hidden" name="pais" id="" value="{{ $pais->id }}">
                             <select class="form-control select2 text-center" style="width: 50%;" name="modalidad"
                                 required>
-
                                 <option value="1">FCL</option>
                                 <option value="3">GRUPAL</option>
                                 <option value="2">LCL</option>

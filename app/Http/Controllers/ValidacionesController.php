@@ -18,11 +18,13 @@ class ValidacionesController extends Controller
         
         
         $cotizacion = Cotizaciones::whereid($id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
-        $carbon = new \Carbon\Carbon();
-        $id= $cotizacion->barcode;
+         $carbon = new \Carbon\Carbon();
+         $proveedores = Validacion::wherecotizacion_id($id)->get();
+         $id= $cotizacion->barcode;
+         $inBackground=true;
+        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','id','proveedores','inBackground']));
+         //return $proveedores;
         
-        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','id']));
-        //return $code;
     }
 
     
@@ -38,8 +40,7 @@ class ValidacionesController extends Controller
              'bateria'=>['required'],
              'liquidos' => ['required'],
              'inflamable' => ['required'],
-             'proveedores'=>['required','numeric'],
-             'enlace'=>['required','url'],    
+             'proveedores'=>['required','numeric'],   
           ]);
 
         $total=$request->input('estado');
@@ -71,6 +72,11 @@ class ValidacionesController extends Controller
                 $nombre_pro=$request->input('nombre_pro'.$i);   
             }else{
                 $nombre_pro='null';
+            }
+            if ($request->input('enlace'.$i)) {
+                $enlace=$request->input('enlace'.$i);   
+            }else{
+                $enlace='null';
             }
             
           

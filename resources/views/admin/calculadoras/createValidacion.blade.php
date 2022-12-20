@@ -57,14 +57,6 @@
                 </div>
 
             </div>
-            <div class="form-group">
-                <label for="">Enlace</label>
-                <input type="text" class="form-control" name="enlace" placeholder="www.imporcomex.com"
-                    value="{{ old('enlace') }}">
-                @error('enlace')
-                    <small style="color:red">{{ $message }}</small>
-                @enderror
-            </div>
 
             {{-- div para los inputs dinamicos --}}
             <div class="newData"></div>
@@ -90,6 +82,12 @@
                 '<div class="col-md-12">' +
                 '<label style="color:red">Nombre del Proveedor ' + i + ':</label>' +
                 '<input  type="text" name="nombre_pro' + i +'"  class="form-control"  placeholder="Ingrese el nombre del proveedor">' +
+                '</div>' +
+                '</div>' +
+                '<div id="newRow' + i + '" class="form-row">' +
+                '<div class="col-md-12">' +
+                '<label style="color:red">Enlace o contacto del proveedor ' + i + ':</label>' +
+                '<input  type="text" name="enlace' + i +'"  class="form-control"  placeholder="Ingrese el contacto o enlace del proveedor">' +
                 '</div>' +
                 '</div>' +
                 '<div id="newRow' + i + '" class="form-row">' +
