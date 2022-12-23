@@ -4,15 +4,28 @@
 
 @section('content_header')
 
+    @if ($mensaje=='false')
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
+        </script>
+    @endif
+    
+
     <div class="row ">
-        <x-adminlte-info-box title="Progreso de tu Importación" text="{{ $cotizacion->proceso }}/4" icon="fas fa-lg fa-tasks text-orange"
-            theme="warning" icon-theme="dark" progress=50 progress-theme="dark" description="50% para completa tu solicitud" />
+        <x-adminlte-info-box title="Progreso de tu Importación" text="{{ $cotizacion->proceso }}/4"
+            icon="fas fa-lg fa-tasks text-orange" theme="warning" icon-theme="dark" progress=50 progress-theme="dark"
+            description="50% para completa tu solicitud" />
     </div>
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>Cotizador {{$cotizacion->pais->nombre_pais}}</b></p>
+                <p><b>Cotizador {{ $cotizacion->pais->nombre_pais }}</b></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>

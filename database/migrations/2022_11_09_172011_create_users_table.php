@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('date');
             $table->string('importacion');
             $table->string('idioma');
+           // $table->integer('cotizaciones')->nullable();
             $table->string('estado')->nullable();
             $table->integer('cedula')->length(10)->nullable();
             $table->integer('ruc')->length(10)->nullable();

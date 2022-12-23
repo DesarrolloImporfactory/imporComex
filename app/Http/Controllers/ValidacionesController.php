@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 
@@ -13,16 +14,16 @@ use Illuminate\Support\Facades\DB;
 class ValidacionesController extends Controller
 {
     
-    public function print($id)
+    public function print($cotizacion_id)
     {
         
         
-        $cotizacion = Cotizaciones::whereid($id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
+        $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
          $carbon = new \Carbon\Carbon();
-         $proveedores = Validacion::wherecotizacion_id($id)->get();
-         $id= $cotizacion->barcode;
+         $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
+         $barcode= $cotizacion->barcode;
          $inBackground=true;
-        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','id','proveedores','inBackground']));
+        return view('admin.calculadoras.indexPrint',compact(['cotizacion','carbon','barcode','proveedores','inBackground']));
          //return $proveedores;
         
     }
@@ -37,77 +38,85 @@ class ValidacionesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-             'bateria'=>['required'],
-             'liquidos' => ['required'],
-             'inflamable' => ['required'],
-             'proveedores'=>['required','numeric'],   
-          ]);
+            'bateria'=>['required'],
+            'liquidos' => ['required'],
+            'inflamable' => ['required'],
+            'proveedores'=>['required','numeric'], 
+         ]);
 
-        $total=$request->input('estado');
-        $contador=count($total)+1;
+       $total=$request->input('estado');
+       $contador=count($total)+1;
+       $bateria=$request->input('bateria');
+       $liquidos=$request->input('liquidos'); 
+       $inflamable=$request->input('inflamable');
+       $proveedores=$request->input('proveedores');
+       $cotizacion_id=$request->input('idCotizacion');
 
-        $bateria=$request->input('bateria');
-        $liquidos=$request->input('liquidos');
-        $inflamable=$request->input('inflamable');
-        $proveedores=$request->input('proveedores');
-        $enlace=$request->input('enlace');
-        //$nombre_pro=$request->input('nombre_pro');
-        $cotizacion_id=$request->input('idCotizacion');
-    
+       if ($bateria=='si' || $liquidos=='si' || $inflamable=='si') {
+        $data = Cotizaciones::whereid($cotizacion_id)->first();
         
-         for ($i=1; $i < $contador ; $i++) { 
-            
-             if ($request->hasFile('factura'.$i)) {
-                 $archivo=$request->file('factura'.$i)->store('docs','public');   
-             }else{
-                $archivo='null';
-             }
-             if ($request->hasFile('foto'.$i)) {
-                $foto=$request->file('foto'.$i)->store('uploads','public');   
-            }else{
-                $foto='null';
-            }
+        return redirect()->route('validacion.edit',$data);
 
-            if ($request->input('nombre_pro'.$i)) {
-                $nombre_pro=$request->input('nombre_pro'.$i);   
+    } else {
+        for ($i=1; $i < $contador ; $i++) { 
+        
+            if ($request->hasFile('factura'.$i)) {
+                $archivo=$request->file('factura'.$i)->store('docs','public');   
             }else{
-                $nombre_pro='null';
+               $archivo='null';
             }
-            if ($request->input('enlace'.$i)) {
-                $enlace=$request->input('enlace'.$i);   
-            }else{
-                $enlace='null';
-            }
-            
-          
-             DB::table('validacions')->insert([
-                'bateria'=>$bateria,
-                'liquidos'=>$liquidos,
-                'inflamable'=>$inflamable,
-                'proveedores'=>$proveedores,
-                'factura'=>$archivo,
-                'foto'=>$foto,
-                'nombre_pro'=>$nombre_pro,
-                'enlace'=>$enlace,
-                'cotizacion_id'=>$cotizacion_id,
-                'created_at'=>now()
-            ]);
-         }
-            $id=$request->input('idCotizacion');
-            $cotizacion = Cotizaciones::select('*')->whereid($id)->first();
-            $total=($cotizacion->total)+(($proveedores)*50);
-            
+            if ($request->hasFile('foto'.$i)) {
+               $foto=$request->file('foto'.$i)->store('uploads','public');   
+           }else{
+               $foto='null';
+           }
 
-             $datos=array(
-                 "proceso"=>'2',
-                 "total"=>$total
-             );
-            
-             Cotizaciones::whereid($id)->update($datos);
-             return redirect()->route('validacion.print',$id);
-            
-            
-            
+           if ($request->input('nombre_pro'.$i)) {
+               $nombre_pro=$request->input('nombre_pro'.$i);   
+           }else{
+               $nombre_pro='null';
+           }
+           if ($request->input('enlace'.$i)) {
+               $enlace=$request->input('enlace'.$i);   
+           }else{
+               $enlace='null';
+           }
+           if ($request->input('total_cartones'.$i)) {
+               $total_cartones=$request->input('total_cartones'.$i);   
+           }else{
+               $total_cartones='null';
+           }
+         
+            DB::table('validacions')->insert([
+               'bateria'=>$bateria,
+               'liquidos'=>$liquidos,
+               'inflamable'=>$inflamable,
+               'proveedores'=>$proveedores,
+               'factura'=>$archivo,
+               'foto'=>$foto,
+               'nombre_pro'=>$nombre_pro,
+               'enlace'=>$enlace,
+               'cotizacion_id'=>$cotizacion_id,
+               'total_cartones'=>$total_cartones,
+               'created_at'=>now()
+           ]);
+        }
+        //$id=$request->input('idCotizacion');
+        $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
+        $total=($cotizacion->total)+(($proveedores)*50);
+        
+        $datos=array(
+            "proceso"=>'2',
+            "total"=>$total
+        );
+        Cotizaciones::whereid($cotizacion_id)->update($datos);
+ 
+         return redirect()->route('validacion.print',$cotizacion_id);
+        
+    }
+        
+
+       
     }
     
     public function guardar(Request $request, $id)
@@ -120,11 +129,18 @@ class ValidacionesController extends Controller
         //
     }
 
-    
-    public function edit($id)
+    public function edit($data)
     {
-        return $id;
+        $cotizacion = Cotizaciones::whereid($data)->with(['carga','pais','modalidad'])->first();
+        $mensaje="false";
+        $data=[
+            'cotizacion'=>$cotizacion,
+            'mensaje'=>$mensaje
+        ];
+        return view('admin.calculadoras.colombia.grupal.formulario',$data);
+     
     }
+
 
     
     public function update(Request $request, $id)

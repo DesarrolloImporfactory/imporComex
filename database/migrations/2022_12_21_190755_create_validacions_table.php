@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('liquidos');
             $table->string('inflamable');
             $table->string('proveedores');
+            $table->integer('total_cartones')->nullable();
             $table->string('factura')->nullable();
             $table->string('foto')->nullable();
             $table->string('enlace');

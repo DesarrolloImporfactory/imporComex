@@ -348,7 +348,14 @@ return [
             'classes'  => 'text-left'
             
         ],
-        
+    
+        [
+            
+            'text' => 'Cotizaciones',
+            'url'  => 'admin/cotizaciones',
+            'icon'=>'fa fa-fw fa-clipboard'
+            
+        ],
         
         [
             
@@ -357,7 +364,6 @@ return [
             'icon'=>'fa fa-fw fa-calculator'
             
         ],
-        
         [
             
             'text' => 'Gestionar Idiomas',
@@ -544,21 +550,21 @@ return [
                 
             ],
         ],
-        'bootstrapSwitch' => [
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => true,
-                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
-                ],
-                [
-                    'type' => 'css',
-                    'asset' => true,
-                    'location' => 'vendor/select2/css/bootstrap3/bootstrap-switch.min.css',
-                ],            
-            ],
-        ],
+        // 'bootstrapSwitch' => [
+        //     'active' => true,
+        //     'files' => [
+        //         [
+        //             'type' => 'js',
+        //             'asset' => true,
+        //             'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+        //         ],
+        //         [
+        //             'type' => 'css',
+        //             'asset' => true,
+        //             'location' => 'vendor/select2/css/bootstrap3/bootstrap-switch.min.css',
+        //         ],            
+        //     ],
+        // ],
         'Chartjs' => [
             'active' => false,
             'files' => [
@@ -569,12 +575,57 @@ return [
                 ],
             ],
         ],
-        'Sweetalert2' => [
-            'active' => false,
+        'DatatablesPlugins' => [
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.print.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/jszip/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/pdfmake/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'Sweetalert2' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],

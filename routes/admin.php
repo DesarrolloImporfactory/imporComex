@@ -12,8 +12,11 @@ use App\Http\Controllers\CalculadorasController;
 use App\Http\Controllers\EcuadorController;
 use App\Http\Controllers\ColombiaController;
 use App\Http\Controllers\ValidacionesController;
+use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\CotizacionesController;
 use Illuminate\Routing\RouteGroup;
+use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\Admin\HomeController;
 
 
@@ -51,6 +54,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ticket/{id}/pdf', [ReportesController::class, 'pdfTicket'])->name('ticket.pdf');
     Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
+
+    Route::resource('admin/contenedores', ContenedoresController::class)->names('admin.contenedores');
+    Route::resource('admin/estados', EstadosController::class)->names('admin.estados');
+
+    Route::resource('admin/cotizaciones', CotizacionesController::class)->names('admin.cotizaciones');
 
 });
 

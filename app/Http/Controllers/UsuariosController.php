@@ -88,20 +88,7 @@ class UsuariosController extends Controller
     //asignar roles al usuario
     public function show(Request $request, $user)
     {
-        // $users=User::findOrFail($user);
-        // $datos=array(
-        //     'name'=>$request->input('name'),
-        //     'telefono'=>$request->input('telefono'),
-        //     'date'=>$request->input('date'),
-        //     'importacion'=>$request->input('importacion'),
-        //     'idioma'=>$request->input('idioma'),
-        //     'estado'=>$request->input('estado'),
-        //     'cedula'=>$request->input('cedula'),
-        //     'ruc'=>$request->input('ruc'),
-        //     'email'=>$request->input('email'),
-        // );
-        // User::whereid($user)->update($datos);
-        // return redirect()->route('admin.usuarios.edit',$users)->with('mensaje','Informacion Actualizada');
+    
     }
 
  

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('tarifa_gruapls', function (Blueprint $table) {
             $table->id();
             $table->string('m3');
-            $table->string('vxcbm');
-            $table->string('tcbm');
+            $table->float('vxcbm',8,2);
+            $table->integer('tcbm');
             $table->timestamps();
         });
     }

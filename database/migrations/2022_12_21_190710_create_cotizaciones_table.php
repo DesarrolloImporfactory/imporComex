@@ -16,8 +16,12 @@ return new class extends Migration
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
             $table->string('barcode');
+            $table->string('estado')->nullable();
             $table->bigInteger('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
+
+            $table->bigInteger('especialista_id')->unsigned()->nullable();
+            $table->foreign('especialista_id')->references('id')->on('users')->onUpdate('cascade');
 
             $table->bigInteger('pais_id')->unsigned()->nullable();
             $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade');
@@ -29,7 +33,6 @@ return new class extends Migration
             $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade');
 
             $table->string('producto')->nullable();
-            $table->integer('total_cartones')->nullable();
             $table->integer('total_productos')->nullable();
             $table->string('precio_china')->nullable();
 

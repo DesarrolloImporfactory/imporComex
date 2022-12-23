@@ -14,60 +14,74 @@
         
     @endphp
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
 
-                <div class="card-header">
-                    <h3 class="card-title">Listado de Modalidades</h3>
-                    <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
-                        data-bs-target="#crearModalidad">
-                        Agregar Modalidad
-                    </button>
-                </div>
-                <div class="card-body">
-                    <x-adminlte-datatable :heads="$heads2" head-theme="dark" id="table1">
+                        <div class="card-header">
+                            <h3 class="card-title">Listado de Modalidades</h3>
+                            <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
+                                data-bs-target="#crearModalidad">
+                                Agregar Modalidad
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <x-adminlte-datatable :heads="$heads2" head-theme="dark" id="table1">
 
-                        @foreach ($modalidades as $modalidad)
-                            <tr>
-                                <th scope="row">{!! $modalidad->id !!}</th>
-                                <td>{!! $modalidad->modalidad !!}</td>
-                                <td>{!! $modalidad->descripcion !!}</td>
-                                <td>
-                                    <a class="" href="#" role="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fa-solid fa-bars"></i>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item " href=" " data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal{{ $modalidad->id }}"><i
-                                                    class="bi bi-pencil-square"></i> Editar
+                                @foreach ($modalidades as $modalidad)
+                                    <tr>
+                                        <th scope="row">{!! $modalidad->id !!}</th>
+                                        <td>{!! $modalidad->modalidad !!}</td>
+                                        <td>{!! $modalidad->descripcion !!}</td>
+                                        <td>
+                                            <a class="" href="#" role="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="fa-solid fa-bars"></i>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <!-- Modal eliminar -->
-                                            @include('admin.modalidades.formDelete')
-                                            <!-- Modal editar -->
-                                        </li>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item " href=" " data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal{{ $modalidad->id }}"><i
+                                                            class="bi bi-pencil-square"></i> Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <!-- Modal eliminar -->
+                                                    @include('admin.modalidades.formDelete')
+                                                    <!-- Modal editar -->
+                                                </li>
 
-                                    </ul>
-                                </td>
-                            </tr>
-                            <!-- Modal editar -->
-                            @include('admin.modalidades.formEdit')
-                            <!-- Modal editar -->
-                        @endforeach
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <!-- Modal editar -->
+                                    @include('admin.modalidades.formEdit')
+                                    <!-- Modal editar -->
+                                @endforeach
 
-                    </x-adminlte-datatable>
+                            </x-adminlte-datatable>
+                        </div>
+
+                    </div>
+
+                    <!-- ---------------MODAL-------------------- -->
+                    @include('admin.modalidades.formCreate')
+                    <!-- ---------------FIN MODAL----------------- -->
                 </div>
-
+                <div class="col-md-6">
+                    @include('admin.modalidades.estados.table')
+                </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
 
-            <!-- ---------------MODAL-------------------- -->
-            @include('admin.modalidades.formCreate')
-            <!-- ---------------FIN MODAL----------------- -->
+                    @include('admin.modalidades.contenedores.table')
+
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Incoterms</h3>

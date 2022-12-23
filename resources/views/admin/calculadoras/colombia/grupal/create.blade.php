@@ -80,7 +80,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="peso" value="{{ old('peso') }}">
                                     <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa-solid fa-arrow-up-9-1"></i></span>
+                                        <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i class="fa-brands fa-google"></i></span>
                                     </div>
                                 </div>
                                 @error('peso')
@@ -101,24 +101,19 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Total Cartones</label>
-                                <div class="input-group">
-                                    <input type="number" name="total_cartones" class="form-control" id=""
-                                        value="{{ old('total_cartones') }}" min=1>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
-                                    </div>
-                                </div>
-                                @error('total_cartones')
-                                <small style="color: red">
-                                    {{ $message }}
-                                </small>
-                            @enderror
+                                <label for="">Dimensiones/Volumen</label>
+                                <input type="text" name="volumen" id="" class="form-control"
+                                    value="{{ old('volumen') }}">
+                                @error('volumen')
+                                    <small style="color: red">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Precio del producto en China:</label>
+                                <label for="">Precio total de compra:</label>
                                 <div class="input-group">
                                     <input type="float" name="precio_china" class="form-control" id=""
                                         value="{{ old('precio_china') }}">
@@ -137,10 +132,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Dimensiones/Volumen</label>
-                                <input type="text" name="volumen" id="" class="form-control"
-                                    value="{{ old('volumen') }}">
-                                @error('volumen')
+                                <label for="">Direccion</label>
+                                <input type="text" name="direccion" id="" class="form-control "
+                                    value="{{ old('direccion') }}">
+                                @error('direccion')
                                     <small style="color: red">
                                         {{ $message }}
                                     </small>
@@ -164,21 +159,7 @@
                                 </x-adminlte-select2>
                             </div>
                         </div>
-                        <div class="col-md-4">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="">Direccion</label>
-                            <input type="text" name="direccion" id="" class="form-control "
-                                value="{{ old('direccion') }}">
-                            @error('direccion')
-                                <small style="color: red">
-                                    {{ $message }}
-                                </small>
-                            @enderror
-                        </div>
+                        <div class="col-md-4"></div>
                     </div>
                 </form>
 

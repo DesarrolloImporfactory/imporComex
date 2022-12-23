@@ -13,12 +13,12 @@ class ReportesController extends Controller
     public function pdfTicket(Request $request, $id){
         $cotizacion = Cotizaciones::whereid($id)->with(['validacions','modalidad','carga','pais','usuario'])->first();
         $carbon = new \Carbon\Carbon();
-        $id= $cotizacion->id;
+        $barcode= $cotizacion->id;
         $proveedores = Validacion::wherecotizacion_id($id)->get();
         $inBackground=false;
         $data=[
             'cotizacion'=>$cotizacion,
-            'id'=>$id,
+            'barcode'=>$barcode,
             'proveedores'=>$proveedores,
             'inBackground'=>$inBackground
         ];

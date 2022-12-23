@@ -11,4 +11,7 @@ class Contenedores extends Model
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'contenedor_id','id');
     }
+    public function estado(){
+        return $this->belongsTo(Estado::class,'estado_id','id');
+    }
 }

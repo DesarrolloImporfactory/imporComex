@@ -86,6 +86,12 @@
                 '</div>' +
                 '<div id="newRow' + i + '" class="form-row">' +
                 '<div class="col-md-12">' +
+                '<label style="color:red">Cantidad de cartones ' + i + ':</label>' +
+                '<input  type="number" name="total_cartones' + i +'" min="1"  class="form-control"  placeholder="Cantidad">' +
+                '</div>' +
+                '</div>' +
+                '<div id="newRow' + i + '" class="form-row">' +
+                '<div class="col-md-12">' +
                 '<label style="color:red">Enlace o contacto del proveedor ' + i + ':</label>' +
                 '<input  type="text" name="enlace' + i +'"  class="form-control"  placeholder="Ingrese el contacto o enlace del proveedor">' +
                 '</div>' +
