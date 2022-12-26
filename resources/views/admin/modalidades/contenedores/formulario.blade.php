@@ -9,8 +9,14 @@
     @enderror
     <div class="form-group">
         <label for="exampleInputEmail1">Estado del Contenedor</label>
-        <input type="text" class="form-control" name="estado" placeholder="Estado del contenedor"
-            value="{{ isset($contenedor->estado) ? $contenedor->estado : old('estado') }}">
+        <select name="estado_id" class="form-control">
+            @foreach ($estados as $item)
+                <option value="{{ $item->id }}">{{$item->name}}</option>
+            @endforeach
+        </select>
+        
+        {{-- <input type="text" class="form-control" name="estado" placeholder="Estado del contenedor"
+            value="{{ isset($contenedor->estado) ? $contenedor->estado : old('estado') }}"> --}}
     </div>
     @error('estado')
         <small style="color: red">{{ $message }}</small>

@@ -340,7 +340,7 @@ return [
             
         ],
         [
-            
+            'key' => 'Dashboard',
             'text' => 'Dashboard',
             'route'  => 'home',
             'icon'=>'nav-icon fas fa-tachometer-alt',
@@ -348,7 +348,13 @@ return [
             'classes'  => 'text-left'
             
         ],
-    
+        // [
+            
+        //     'text' => 'Especialistas',
+        //     'route'  => 'admin.especialistas.show,{{ Auth::user()->name }}',
+        //     'icon'=>'fa fa-fw fa-headset'
+            
+        // ],
         [
             
             'text' => 'Cotizaciones',
@@ -550,21 +556,6 @@ return [
                 
             ],
         ],
-        // 'bootstrapSwitch' => [
-        //     'active' => true,
-        //     'files' => [
-        //         [
-        //             'type' => 'js',
-        //             'asset' => true,
-        //             'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
-        //         ],
-        //         [
-        //             'type' => 'css',
-        //             'asset' => true,
-        //             'location' => 'vendor/select2/css/bootstrap3/bootstrap-switch.min.css',
-        //         ],            
-        //     ],
-        // ],
         'Chartjs' => [
             'active' => false,
             'files' => [

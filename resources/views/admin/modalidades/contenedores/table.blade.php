@@ -17,7 +17,7 @@
                 <tr>
                     <th scope="row">{!! $contenedor->id !!}</th>
                     <td>{!! $contenedor->name !!}</td>
-                    <td>{!! $contenedor->estado !!}</td>
+                    <td>{!! $contenedor->estado->name!!}</td>
                     <td>{!! $contenedor->salida !!}</td>
                     <td>{!! $contenedor->llegada !!}</td>
                     <td>{!! $contenedor->tipo !!}</td>

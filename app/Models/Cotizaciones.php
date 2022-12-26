@@ -23,7 +23,9 @@ class Cotizaciones extends Model
     public function usuario(){
         return $this->belongsTo(User::class,'usuario_id','id');
     }
-
+    public function especialista(){
+        return $this->belongsTo(User::class,'especialista_id','id');
+    }
     public function incoter(){
         return $this->belongsTo(Incoterm::class,'incoterms_id','id');
     }

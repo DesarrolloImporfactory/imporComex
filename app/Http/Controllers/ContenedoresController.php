@@ -12,12 +12,8 @@ class ContenedoresController extends Controller
     {
         $request->validate([
             'name'=>['required'],
-            'estado' => ['required'],
-            'salida' => ['required'],
-            'llegada'=>['required'],
-            'tipo' => ['required'],
-            'latitud'=>['required'],
-            'longitud' => ['required'],   
+            'estado_id' => ['required'],
+           
          ]);
 
         $datos =request()->except('_token');

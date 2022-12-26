@@ -9,7 +9,7 @@ use App\Http\Controllers\ModalidadesController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CalculadorasController;
-use App\Http\Controllers\EcuadorController;
+use App\Http\Controllers\EspecialistasController;
 use App\Http\Controllers\ColombiaController;
 use App\Http\Controllers\ValidacionesController;
 use App\Http\Controllers\EstadosController;
@@ -59,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/estados', EstadosController::class)->names('admin.estados');
 
     Route::resource('admin/cotizaciones', CotizacionesController::class)->names('admin.cotizaciones');
+
+    Route::resource('admin/especialistas', EspecialistasController::class)->names('admin.especialistas');
 
 });
 

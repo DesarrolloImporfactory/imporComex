@@ -15,7 +15,7 @@ class ModalidadesController extends Controller
     {
         $modalidades=Modalidades::get();
         $incoterms=Incoterms::get();
-        $contenedores=Contenedores::get();
+        $contenedores=Contenedores::with('estado')->get();
         $estados = Estado::get();
         $data=array(
             'modalidades'=>$modalidades,

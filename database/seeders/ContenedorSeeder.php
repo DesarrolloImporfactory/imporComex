@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Contenedores;
+use Illuminate\Support\Facades\DB;
 
 class ContenedorSeeder extends Seeder
 {
@@ -15,16 +16,22 @@ class ContenedorSeeder extends Seeder
      */
     public function run()
     {
-        $carga =[
-            '20 FT DRY',
-            '40 FT DRY',
-            '40 FT HQ'
+        $contenedores =[
+            [
+                'name'=>'20 FT DRY',
+                'estado_id'=>'1'
+            ],
+            [
+                'name'=>'40 FT DRY',
+                'estado_id'=>'1'
+            ],
+            [
+                'name'=>'40 FT HQ',
+                'estado_id'=>'1'
+            ]
 
         ];
-        foreach ($carga as $cargas) {
-            Contenedores::create([
-                'name'=>$cargas
-            ]);
-        }
+        DB::table('contenedores')->insert($contenedores);
+        
     }
 }

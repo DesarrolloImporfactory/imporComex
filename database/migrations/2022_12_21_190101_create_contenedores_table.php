@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->bigInteger('estado_id')->unsigned()->nullable();
             $table->foreign('estado_id')->references('id')->on('estados')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('estado')->nullable();
             $table->string('salida')->nullable();
             $table->string('llegada')->nullable();
             $table->string('tipo')->nullable();

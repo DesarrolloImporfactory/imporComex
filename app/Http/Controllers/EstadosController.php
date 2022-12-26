@@ -30,17 +30,6 @@ class EstadosController extends Controller
         return redirect()->route('admin.modalidades.index');
     }
 
-   
-    public function show($id)
-    {
-        //
-    }
-
-   
-    public function edit($id)
-    {
-        //
-    }
 
   
     public function update(Request $request, $id)

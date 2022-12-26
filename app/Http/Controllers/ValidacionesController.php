@@ -7,6 +7,7 @@ use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
 use App\Models\User;
+use App\Models\Contenedores;
 use Illuminate\Support\Facades\DB;
 
 
@@ -101,11 +102,38 @@ class ValidacionesController extends Controller
                'created_at'=>now()
            ]);
         }
+        //codigo para traer el contenedor mas recientemente creado con estado libre =1
+        $data = Contenedores::whereestado_id(1)->latest('created_at')->first();
+        if (isset($data)) {
+           $contenedorNuevo=$data->id;
+        } 
+
+            //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
+       $query= "
+       select count(id) as cotizaciones, contenedor_id from cotizaciones where estado='aprobado'  group by contenedor_id";
+
+       $consulta = DB::select($query);
+
+       //condicion para saber si existe cotizaciones asignadas
+       if (count($consulta)>0) {
+            $id=min($consulta);
+            $idContenedorExistente=$id->contenedor_id;
+            if ($contenedorNuevo!= $idContenedorExistente) {
+                $contenedor = $contenedorNuevo;
+            } else {
+                $contenedor =$idContenedorExistente;
+            }
+        } else {
+            
+            $contenedor=$contenedorNuevo;
+        }
+
         //$id=$request->input('idCotizacion');
         $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
         $total=($cotizacion->total)+(($proveedores)*50);
         
         $datos=array(
+            "contenedor_id"=>$contador,
             "proceso"=>'2',
             "total"=>$total
         );

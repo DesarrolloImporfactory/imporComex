@@ -22,8 +22,18 @@ class UserSeeder extends Seeder
             'date'=>'01/05/1998',
             'importacion'=>'12',
             'idioma'=>'ingles',
-            'email'=>'vistor.robles@gmail.com',
+            'email'=>'victor.robles@gmail.com',
             'password'=>bcrypt('12345678'),
         ])->assignRole('Admin');  
+
+        User::create([
+            'name'=>'Pedro',
+            'telefono'=>'1',
+            'date'=>'01/05/1998',
+            'importacion'=>'12',
+            'idioma'=>'ingles',
+            'email'=>'pedro.trujillo@gmail.com',
+            'password'=>bcrypt('12345678'),
+        ])->assignRole('Especialista');  
     }
 }

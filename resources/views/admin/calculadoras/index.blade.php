@@ -99,14 +99,6 @@
             margin: auto;
         }
 
-        .content-wrapper {
-            background-image: url('../assets/imporcomexImage/fondo-3.png') !important;
-            height: 10px;
-        }
     </style>
 @stop
 
-@section('js')
-
-
-@stop

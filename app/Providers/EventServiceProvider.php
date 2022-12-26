@@ -6,6 +6,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +30,15 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(BuildingMenu::class, function(BuildingMenu $event){
+            $usuario = User::where('id', Auth::user()->id)->first();
+            $event->menu->addAfter('Dashboard',[
+                
+                'text' => 'Especialistas',
+                'url'  => route('admin.especialistas.show',$usuario->id),
+                'icon'=>'fa fa-fw fa-headset'
+            ]);
+        });
     }
 
     /**
