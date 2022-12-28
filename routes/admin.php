@@ -61,6 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/cotizaciones', CotizacionesController::class)->names('admin.cotizaciones');
 
     Route::resource('admin/especialistas', EspecialistasController::class)->names('admin.especialistas');
-
+    Route::get('admin/especialistas/count',[EspecialistasController::class, 'count'])->name('admin.especialistas.count');
 });
 

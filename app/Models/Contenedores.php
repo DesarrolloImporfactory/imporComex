@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Contenedores extends Model
 {
     use HasFactory;
+   
     public function cotizaciones(){
-        return $this->hasMany(Cotizaciones::class,'contenedor_id','id');
+        return $this->belongsToMany(Cotizaciones::class,'contenedor_cotizacion');
     }
+    
     public function estado(){
         return $this->belongsTo(Estado::class,'estado_id','id');
     }

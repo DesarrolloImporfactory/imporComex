@@ -29,8 +29,8 @@ class Cotizaciones extends Model
     public function incoter(){
         return $this->belongsTo(Incoterm::class,'incoterms_id','id');
     }
-    public function contenedor(){
-        return $this->belongsTo(Contenedores::class,'contenedor_id','id');
+    public function contenedores(){
+        return $this->belongsToMany(Contenedores::class,'contenedor_cotizacion');
     }
     public function tarifa(){
         return $this->belongsTo(tarifaGruapl::class,'tarifa_id','id');

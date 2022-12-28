@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "laravelcollective/html": "^6.3",
+        "livewire/livewire": "^2.10",
         "milon/barcode": "^9.0",
         "spatie/laravel-permission": "^5.5"
     },

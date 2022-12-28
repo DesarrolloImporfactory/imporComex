@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
-use App\Models\User;
 use App\Models\Contenedores;
 use Illuminate\Support\Facades\DB;
 
@@ -110,7 +109,7 @@ class ValidacionesController extends Controller
 
             //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
        $query= "
-       select count(id) as cotizaciones, contenedor_id from cotizaciones where estado='aprobado'  group by contenedor_id";
+       select count(id) as cotizaciones, contenedor_id from contenedor_cotizacion group by contenedor_id";
 
        $consulta = DB::select($query);
 
@@ -128,17 +127,18 @@ class ValidacionesController extends Controller
             $contenedor=$contenedorNuevo;
         }
 
-        //$id=$request->input('idCotizacion');
         $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
         $total=($cotizacion->total)+(($proveedores)*50);
         
         $datos=array(
-            "contenedor_id"=>$contador,
             "proceso"=>'2',
             "total"=>$total
         );
         Cotizaciones::whereid($cotizacion_id)->update($datos);
- 
+        DB::table('contenedor_cotizacion')->insert([
+            'cotizacion_id'=>$cotizacion_id,
+            'contenedor_id'=>$contenedor,
+        ]);
          return redirect()->route('validacion.print',$cotizacion_id);
         
     }

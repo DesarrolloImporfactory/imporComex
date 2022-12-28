@@ -149,7 +149,7 @@ class ColombiaController extends Controller
             $grupal->modalidad_id=$request->input('modalidad');
             $grupal->producto=$request->input('producto');
             $grupal->peso=$peso;
-            $grupal->estado="pendiente";
+            $grupal->estado="Pendiente";
             $grupal->origen=$request->input('origen');
             $grupal->total_productos=$request->input('total_productos');
             $grupal->precio_china=$request->input('precio_china');

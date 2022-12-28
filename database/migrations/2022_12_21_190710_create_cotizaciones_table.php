@@ -36,9 +36,6 @@ return new class extends Migration
             $table->integer('total_productos')->nullable();
             $table->string('precio_china')->nullable();
 
-            $table->bigInteger('contenedor_id')->unsigned()->nullable();
-            $table->foreign('contenedor_id')->references('id')->on('contenedores')->onUpdate('cascade');
-
             $table->bigInteger('incoterms_id')->unsigned()->nullable();
             $table->foreign('incoterms_id')->references('id')->on('incoterms')->onUpdate('cascade');
 
