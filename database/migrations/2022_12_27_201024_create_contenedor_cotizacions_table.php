@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contenedor_cotizacion', function (Blueprint $table) {
+        Schema::create('contenedor_cotizacions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cotizacion_id')->nullable()->constrained('cotizaciones')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('contenedor_id')->nullable()->constrained('contenedores')->cascadeOnUpdate()->nullOnDelete();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contenedor_cotizacion');
+        Schema::dropIfExists('contenedor_cotizacions');
     }
 };

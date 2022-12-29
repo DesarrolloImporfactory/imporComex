@@ -1,5 +1,5 @@
 @php
-    $heads3 = ['ID', 'Nombre', 'Estado', 'Fecha salida', 'Fecha llegada', 'Tipo', 'Latitud', 'Longitud', 'Acciones'];
+    $heads3 = ['id','Nombre', 'Estado', 'Fecha salida', 'Fecha llegada', 'Tipo', 'Latitud', 'Longitud','cotizaciones', 'Acciones'];
     
 @endphp
 <div class="card">
@@ -8,21 +8,23 @@
         <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#crearContenedor">
             Agregar Contenedor
         </button>
-        @include('admin.modalidades.contenedores.create')
+        @include('admin.contenedores.create')
     </div>
     <div class="card-body">
+
         <x-adminlte-datatable :heads="$heads3" head-theme="dark" id="table3">
 
-            @foreach ($contenedores as $contenedor)
+            @foreach ($consulta as $contenedor )
                 <tr>
-                    <th scope="row">{!! $contenedor->id !!}</th>
-                    <td>{!! $contenedor->name !!}</td>
-                    <td>{!! $contenedor->estado->name!!}</td>
+                    <td>{!! $contenedor->id!!}</td>
+                    <td>{!! $contenedor->contenedor!!}</td>
+                    <td>{!! $contenedor->name!!}</td>
                     <td>{!! $contenedor->salida !!}</td>
                     <td>{!! $contenedor->llegada !!}</td>
                     <td>{!! $contenedor->tipo !!}</td>
                     <td>{!! $contenedor->latitud !!}</td>
                     <td>{!! $contenedor->longitud !!}</td>
+                    <td>{!! $contenedor->total!!}</td>
                     <td>
                         <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-bars"></i>
@@ -35,16 +37,15 @@
                                 </a>
                             </li>
                             <li>
-                                @include('admin.modalidades.contenedores.delete')
+                                @include('admin.contenedores.delete')
                             </li>
 
                         </ul>
                     </td>
                 </tr>
-                @include('admin.modalidades.contenedores.edit')
+                @include('admin.contenedores.edit')
             @endforeach
 
         </x-adminlte-datatable>
-
     </div>
 </div>

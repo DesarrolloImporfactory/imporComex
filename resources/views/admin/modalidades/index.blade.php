@@ -2,8 +2,8 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <x-adminlte-info-box title="Gestion de:" text="Modalidades, Contenedores e Incoterms"
-        icon="fa-solid fa-list text-primary" theme="gradient-primary" icon-theme="white" />
+    <x-adminlte-info-box title="Gestion de:" text="Modalidades - Incoterms" icon="fa-solid fa-list text-primary"
+        theme="gradient-primary" icon-theme="white" />
 
 @stop
 
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
 
                         <div class="card-header">
@@ -64,20 +64,15 @@
                         </div>
 
                     </div>
-
                     <!-- ---------------MODAL-------------------- -->
                     @include('admin.modalidades.formCreate')
                     <!-- ---------------FIN MODAL----------------- -->
                 </div>
-                <div class="col-md-6">
-                    @include('admin.modalidades.estados.table')
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
-
-                    @include('admin.modalidades.contenedores.table')
-
+                    @include('admin.modalidades.estados.table')
                 </div>
             </div>
         </div>

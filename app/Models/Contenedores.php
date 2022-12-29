@@ -10,7 +10,7 @@ class Contenedores extends Model
     use HasFactory;
    
     public function cotizaciones(){
-        return $this->belongsToMany(Cotizaciones::class,'contenedor_cotizacion');
+        return $this->belongsToMany(Cotizaciones::class);
     }
     
     public function estado(){

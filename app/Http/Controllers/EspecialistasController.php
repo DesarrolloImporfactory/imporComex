@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
 use App\Models\User;
+use App\Models\Validacion;
 use Spatie\Permission\Models\Role;
 
 class EspecialistasController extends Controller
@@ -20,9 +21,22 @@ class EspecialistasController extends Controller
         return  response()->json($cotizaciones);
     }
 
-    public function create()
+    public function dowloadFoto($id)
     {
-        //
+        $proveedor = Validacion :: where('id',$id)->first();
+        $foto = $proveedor->foto;
+        $archivo = storage_path('app/public/'.$foto);
+        return response()->download($archivo);
+        //return $archivo;
+    }
+
+    public function dowloadArchivo($id)
+    {
+        $proveedor = Validacion :: where('id',$id)->first();
+        $foto = $proveedor->factura;
+        $archivo = storage_path('app/public/'.$foto);
+        return response()->download($archivo);
+        //return $archivo;
     }
 
 
@@ -63,9 +77,10 @@ class EspecialistasController extends Controller
 
     public function edit($id)
     {
+        $proveedor = Validacion :: where('cotizacion_id',$id)->get();
         $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->first();
-        //return $cotizacion;
-        return view('admin.especialistas.view', compact('cotizacion'));
+        //return $proveedor;
+        return view('admin.especialistas.view', compact('cotizacion','proveedor'));
     }
 
 

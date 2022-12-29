@@ -390,9 +390,6 @@ return [
             'text' => 'Cargas/Tarifas',
             'route'  => 'cargas',
             'icon' => 'fas fa-fw fa-truck',
-            'label'       => 'new',
-            'label_color' => 'info',
-            
             
         ],
         [
@@ -404,11 +401,18 @@ return [
         ],
         [
             
+            'text' => 'Contenedores',
+            'route'  => 'admin.contenedores.index',
+            'icon' => 'fas fa-brands fa-docker',
+            'label'       => 'new',
+            'label_color' => 'success',
+            
+        ],
+        [
+            
             'text' => 'Gestion General',
             'route'  => 'modalidades',
             'icon' => 'fas fa-fw fa-inbox',
-            'label'       => 'new',
-            'label_color' => 'success',
             
         ],
 

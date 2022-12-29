@@ -10,7 +10,7 @@
                     <form action="{{ route('admin.contenedores.update', $contenedor->id) }}" method="post">
                         {{ method_field('PATCH') }}
                         @csrf
-                        @include('admin.modalidades.contenedores.formulario')
+                        @include('admin.contenedores.formulario')
                     </form>
                 </div>
             </div>

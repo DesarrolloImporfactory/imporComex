@@ -53,7 +53,7 @@ class ColombiaController extends Controller
     {
         $request->validate([
             'usuario_id'=>['required'],
-            'producto' => ['required', 'string', 'max:25'],
+            'producto' => ['required', 'string', 'max:2555'],
             'peso' => ['required',],
             'cargas_id'=>['required'],
             'total_productos'=>['required','numeric:0'],

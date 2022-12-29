@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Nombre del Contenedor</label>
         <input type="text" class="form-control" name="name" placeholder="Contenedor"
-            value="{{ isset($contenedor->name) ? $contenedor->name : old('name') }}">
+            value="{{ isset($contenedor->contenedor) ? $contenedor->contenedor : old('name') }}">
     </div>
     @error('name')
         <small style="color: red">{{ $message }}</small>

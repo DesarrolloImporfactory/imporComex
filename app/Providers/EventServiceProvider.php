@@ -36,7 +36,9 @@ class EventServiceProvider extends ServiceProvider
                 
                 'text' => 'Especialistas',
                 'url'  => route('admin.especialistas.show',$usuario->id),
-                'icon'=>'fa fa-fw fa-headset'
+                'icon'=>'fa fa-fw fa-headset',
+                'label'=>'new',
+                'label_color'=>'primary',
             ]);
         });
     }

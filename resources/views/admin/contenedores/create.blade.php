@@ -9,7 +9,7 @@
                     </div>
                     <form action="{{ route('admin.contenedores.store')}}" method="post" >
                         @csrf
-                        @include('admin.modalidades.contenedores.formulario')
+                        @include('admin.contenedores.formulario')
                     </form>
                 </div>
             </div>

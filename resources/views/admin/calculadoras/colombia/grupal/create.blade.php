@@ -3,13 +3,13 @@
 @section('title', 'Calculadora colombia')
 
 @section('content_header')
-    <div class="row ">
+    {{-- <div class="row ">
         <div class="col-sm-12">
             <x-adminlte-info-box title="Progreso de tu Importación" text="1/4" icon="fas fa-lg fa-tasks text-orange"
                 theme="warning" icon-theme="dark" progress=25 progress-theme="dark"
                 description="25% para completa tu solicitud" />
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
@@ -26,7 +26,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-11">
             <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
                 type="sumbit" form="formCreate" />
         </div>
@@ -104,6 +104,8 @@
                                 <label for="">Dimensiones/Volumen</label>
                                 <input type="text" name="volumen" id="" class="form-control"
                                     value="{{ old('volumen') }}">
+                                   
+                                    <p>La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa aqui:<a href="www.imporcomexcorp.com/calculadora-cbm">www.imporcomexcorp.com/calculadora-cbm</a></p>
                                 @error('volumen')
                                     <small style="color: red">
                                         {{ $message }}
@@ -113,7 +115,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Precio total de compra:</label>
+                                <label for="">Precio total de compra</label>
                                 <div class="input-group">
                                     <input type="float" name="precio_china" class="form-control" id=""
                                         value="{{ old('precio_china') }}">
@@ -132,7 +134,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Direccion</label>
+                                <label for="">Direccion de entrega</label>
                                 <input type="text" name="direccion" id="" class="form-control "
                                     value="{{ old('direccion') }}">
                                 @error('direccion')

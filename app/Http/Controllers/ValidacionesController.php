@@ -109,7 +109,7 @@ class ValidacionesController extends Controller
 
             //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
        $query= "
-       select count(id) as cotizaciones, contenedor_id from contenedor_cotizacion group by contenedor_id";
+       select count(id) as cotizaciones, contenedor_id from contenedor_cotizacions group by contenedor_id";
 
        $consulta = DB::select($query);
 
@@ -135,7 +135,7 @@ class ValidacionesController extends Controller
             "total"=>$total
         );
         Cotizaciones::whereid($cotizacion_id)->update($datos);
-        DB::table('contenedor_cotizacion')->insert([
+        DB::table('contenedor_cotizacions')->insert([
             'cotizacion_id'=>$cotizacion_id,
             'contenedor_id'=>$contenedor,
         ]);
