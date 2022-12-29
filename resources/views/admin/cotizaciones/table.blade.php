@@ -1,6 +1,4 @@
-<x-adminlte-card title="Gestionar cotizaciones asignadas" theme="dark" icon="fa-solid fa-handshake-angle">
-
-
+<x-adminlte-card title="Cotizaciones" theme="dark" icon="fa-sharp fa-solid fa-coins">
     <x-table>
         <thead class="text-center">
             <tr>
@@ -31,10 +29,7 @@
                     <td>{{ $cotizacion->total }}</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-xs btn-default text-primary mx-1 shadow" data-bs-toggle="modal"
-                                data-bs-target="#modalContenedor{{ $cotizacion->id }}" title="{{ $cotizacion->id }}">
-                                <i class="fa fa-lg fa-fw fa-pen"></i>
-                            </a>
+                            @include('admin.cotizaciones.delete')
                             <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
                                 class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
                                 <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -50,5 +45,4 @@
         </tbody>
 
     </x-table>
-
 </x-adminlte-card>

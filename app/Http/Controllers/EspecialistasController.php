@@ -93,7 +93,7 @@ class EspecialistasController extends Controller
         Cotizaciones::whereid($idCotiz)->update($datos);
         $usuario = Cotizaciones::findOrFail($idCotiz);
         $id = $usuario->usuario_id;
-        return redirect()->route('admin.especialistas.show', $id)->with('mensaje', 'Modalid Actualizada');
+        return redirect()->route('admin.especialistas.show', $id)->with('mensaje', 'Estado Actualizado');
         //return $idCotiz;
     }
 

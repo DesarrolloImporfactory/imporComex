@@ -32,14 +32,24 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::listen(BuildingMenu::class, function(BuildingMenu $event){
             $usuario = User::where('id', Auth::user()->id)->first();
-            $event->menu->addAfter('Dashboard',[
+            $event->menu->addAfter('Dashboard',
+            [
                 
                 'text' => 'Especialistas',
                 'url'  => route('admin.especialistas.show',$usuario->id),
                 'icon'=>'fa fa-fw fa-headset',
                 'label'=>'new',
                 'label_color'=>'primary',
-            ]);
+            ],
+            [
+                
+                'text' => 'Cotizaciones',
+                'url'  => route('admin.cotizaciones.show',$usuario->id),
+                'icon'=>'fa fa-solid fa-coins',
+                'label'=>'new',
+                'label_color'=>'primary',
+            ]
+        );
         });
     }
 

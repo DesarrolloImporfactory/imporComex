@@ -36,6 +36,18 @@
 @stop
 
 @section('content')
+
+@if (Session::has('mensaje'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ Session::get('mensaje') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
     @include('admin.especialistas.table')
 @stop
 @push('js')

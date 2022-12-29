@@ -348,20 +348,6 @@ return [
             'classes'  => 'text-left'
             
         ],
-        // [
-            
-        //     'text' => 'Especialistas',
-        //     'route'  => 'admin.especialistas.show,{{ Auth::user()->name }}',
-        //     'icon'=>'fa fa-fw fa-headset'
-            
-        // ],
-        [
-            
-            'text' => 'Cotizaciones',
-            'url'  => 'admin/cotizaciones',
-            'icon'=>'fa fa-fw fa-clipboard'
-            
-        ],
         
         [
             
@@ -621,7 +607,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                 ],
             ],
         ],

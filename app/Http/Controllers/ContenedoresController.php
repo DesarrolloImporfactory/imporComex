@@ -41,7 +41,7 @@ class ContenedoresController extends Controller
 
         $datos = request()->except('_token');
         Contenedores::insert($datos);
-        return redirect()->route('admin.modalidades.index');
+        return redirect()->route('admin.contenedores.index')->with('mensaje','Contenedor Creado!');
     }
 
 
@@ -50,13 +50,13 @@ class ContenedoresController extends Controller
     {
         $datos = request()->except(['_token', '_method']);
         Contenedores::whereid($id)->update($datos);
-        return redirect()->route('admin.modalidades.index');
+        return redirect()->route('admin.contenedores.index')->with('mensaje','Contenedor Actualizado!');
     }
 
 
     public function destroy($id)
     {
         Contenedores::destroy($id);
-        return redirect()->route('admin.modalidades.index');
+        return redirect()->route('admin.contenedores.index')->with('mensaje','Contenedor Eliminado!');
     }
 }
