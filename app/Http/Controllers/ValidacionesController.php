@@ -13,7 +13,13 @@ use Illuminate\Support\Facades\DB;
 
 class ValidacionesController extends Controller
 {
-    
+    // public function __construct()
+    // {
+    //     $this->middleware('can:validacion.print')->only('print');
+    //     $this->middleware('can:validacion.store')->only('store');
+        
+    // }
+
     public function print($cotizacion_id)
     {
         

@@ -40,6 +40,7 @@ class EventServiceProvider extends ServiceProvider
                 'icon'=>'fa fa-fw fa-headset',
                 'label'=>'new',
                 'label_color'=>'primary',
+                'can'=>'admin.especialistas.show',
             ],
             [
                 
@@ -48,6 +49,7 @@ class EventServiceProvider extends ServiceProvider
                 'icon'=>'fa fa-solid fa-coins',
                 'label'=>'new',
                 'label_color'=>'primary',
+                'can'=>'admin.cotizaciones.show',
             ]
         );
         });

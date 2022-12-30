@@ -10,6 +10,13 @@ use Spatie\Permission\Models\Role;
 
 class EspecialistasController extends Controller
 {
+public function __construct()
+    {
+        
+        $this->middleware('can:admin.especialistas.show')->only('show');
+        // $this->middleware('can:admin.especialistas.edit')->only('edit');
+        // $this->middleware('can:admin.especialistas.update')->only('update');
+    }
 
     public function index()
     {

@@ -7,7 +7,12 @@ use App\Models\Paises;
 
 class CalculadorasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin.calculadoras.index')->only('index');
     
+    }
+
     public function index()
     {
         $paises = Paises::get();

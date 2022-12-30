@@ -9,7 +9,14 @@ use App\Models\Estado;
 
 class ModalidadesController extends Controller
 {
-   
+    public function __construct()
+    {
+        $this->middleware('can:admin.modalidades.index')->only('index');
+        // $this->middleware('can:admin.modalidades.store')->only('store');
+        // $this->middleware('can:admin.modalidades.update')->only('update');
+        // $this->middleware('can:admin.modalidades.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $modalidades=Modalidades::get();

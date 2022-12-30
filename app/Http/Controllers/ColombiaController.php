@@ -18,7 +18,13 @@ use Illuminate\Support\Facades\DB;
 
 class ColombiaController extends Controller
 {
-   
+//    public function __construct()
+//     {
+//         $this->middleware('can:admin.colombia.create')->only('create');
+//         $this->middleware('can:admin.colombia.store')->only('store');
+        
+//     }
+
     public function index()
     {
         $cotizaciones = Cotizaciones::with('carga')->get(); 

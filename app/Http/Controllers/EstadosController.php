@@ -7,7 +7,14 @@ USE App\Models\Estado;
 
 class EstadosController extends Controller
 {
-    
+    // public function __construct()
+    // {
+        
+    //     $this->middleware('can:admin.estados.store')->only('store');
+    //     $this->middleware('can:admin.estados.update')->only('update');
+    //     $this->middleware('can:admin.estados.destroy')->only('destroy');
+    // }
+
     public function index()
     {
         //

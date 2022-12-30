@@ -8,7 +8,14 @@ use App\Models\tarifaGruapl;
 
 class CargasController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('can:admin.cargas.index')->only('index');
+        // $this->middleware('can:admin.cargas.store')->only('store');
+        // $this->middleware('can:admin.cargas.update')->only('update');
+        // $this->middleware('can:admin.cargas.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $carga=tipo_cargas::get();

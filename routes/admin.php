@@ -18,6 +18,8 @@ use App\Http\Controllers\CotizacionesController;
 use Illuminate\Routing\RouteGroup;
 use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\CotizacionIndividualController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -65,5 +67,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('admin/{foto}/dowload',[EspecialistasController::class, 'dowloadFoto'])->name('admin.dowload');
     Route::get('admin/{foto}/dowload/archivo',[EspecialistasController::class, 'dowloadArchivo'])->name('admin.dowload.archivo');
+
+    Route::post('admin/dashboar/all',[DashboardController::class, 'all'])->name('admin.dashboard.all');
+
+    Route::resource('admin/individual', CotizacionIndividualController::class)->names('admin.individual');
 });
 

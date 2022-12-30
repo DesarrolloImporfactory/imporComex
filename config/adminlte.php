@@ -336,7 +336,6 @@ return [
             'route'  => 'admin.usuarios.index',
             'icon'=>'fa fa-fw fa-users',
             'can' => 'admin.usuarios.index',
-            'icon_color'=>'yellow',
             
         ],
         [
@@ -344,7 +343,6 @@ return [
             'text' => 'Dashboard',
             'route'  => 'home',
             'icon'=>'nav-icon fas fa-tachometer-alt',
-            'icon_color'=>'yellow',
             'classes'  => 'text-left'
             
         ],
@@ -353,7 +351,8 @@ return [
             
             'text' => 'Calculadora',
             'route'  => 'admin.calculadoras.index',
-            'icon'=>'fa fa-fw fa-calculator'
+            'icon'=>'fa fa-fw fa-calculator',
+            'can'=>'admin.calculadoras.index',
             
         ],
         [
@@ -361,14 +360,14 @@ return [
             'text' => 'Gestionar Idiomas',
             'route'  => 'idiomas',
             'icon' => 'fas fa-fw fa-language',
-            
+            'can' => 'admin.idiomas.index',
         ],
         [
             
             'text' => 'Listado de roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-users-cog fa-fw',
-            
+            'can'=>'admin.roles.index',
         ],
         
         [
@@ -376,6 +375,7 @@ return [
             'text' => 'Cargas/Tarifas',
             'route'  => 'cargas',
             'icon' => 'fas fa-fw fa-truck',
+            'can'=>'admin.cargas.index',
             
         ],
         [
@@ -383,7 +383,7 @@ return [
             'text' => 'Gestionar Paises',
             'route'  => 'paises',
             'icon' => 'fas fa-fw fa-passport',
-            
+            'can' => 'admin.paises.index',
         ],
         [
             
@@ -392,6 +392,7 @@ return [
             'icon' => 'fas fa-brands fa-docker',
             'label'       => 'new',
             'label_color' => 'success',
+            'can'=>'admin.contenedores.index',
             
         ],
         [
@@ -399,6 +400,7 @@ return [
             'text' => 'Gestion General',
             'route'  => 'modalidades',
             'icon' => 'fas fa-fw fa-inbox',
+            'can'=>'admin.modalidades.index',
             
         ],
 

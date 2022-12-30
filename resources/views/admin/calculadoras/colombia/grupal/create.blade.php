@@ -68,10 +68,10 @@
                                     </div>
                                 </div>
                                 @error('total_productos')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
+                                    <small style="color: red">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -80,14 +80,15 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="peso" value="{{ old('peso') }}">
                                     <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i class="fa-brands fa-google"></i></span>
+                                        <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
+                                                class="fa-brands fa-google"></i></span>
                                     </div>
                                 </div>
                                 @error('peso')
-                                <small style="color: red">
-                                    {{ $message }}
-                                </small>
-                            @enderror
+                                    <small style="color: red">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -102,10 +103,15 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Dimensiones/Volumen</label>
-                                <input type="text" name="volumen" id="" class="form-control"
-                                    value="{{ old('volumen') }}">
-                                   
-                                    <p>La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa aqui:<a href="www.imporcomexcorp.com/calculadora-cbm">www.imporcomexcorp.com/calculadora-cbm</a></p>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="volumen" id="" class="form-control"
+                                        placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
+                                        aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="ejecutar()"><i
+                                                class="fa-solid fa-question"></i></button>
+                                    </div>
+                                </div>
                                 @error('volumen')
                                     <small style="color: red">
                                         {{ $message }}
@@ -124,10 +130,10 @@
                                     </div>
                                 </div>
                                 @error('precio_china')
-                                        <small style="color: red">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
+                                    <small style="color: red">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -171,5 +177,22 @@
         {{-- $cotizaciones --}}
         <div class="col-md-1"></div>
     </div>
-
+    <script>
+        function ejecutar() {
+            Swal.fire({
+                title: '<strong><u>Información</u></strong>',
+                icon: 'info',
+                text: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:',
+                html: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:</b>  ' +
+                    '<a href="https://imporcomexcorp.com/calculadora-cbm" target="_blank">www.imporcomexcorp.com/calculadora-cbm</a> ',
+                showCloseButton: false,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonAriaLabel: 'Thumbs down'
+            })
+        }
+    </script>
 @stop

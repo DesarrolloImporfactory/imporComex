@@ -12,4 +12,8 @@ class Paises extends Model
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'pais_id','id');
     }
+
+    public function coIndividual(){
+        return $this->hasMany(CoIndividual::class,'pais_id','id');
+    }
 }

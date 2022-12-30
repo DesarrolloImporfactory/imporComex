@@ -7,10 +7,17 @@
     @if ($mensaje=='false')
         <script>
             Swal.fire({
+                title: '<strong><u>lo sentimos mucho</u></strong>',
                 icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                footer: '<a href="">Why do I have this issue?</a>'
+                html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
+                    '<a href="{{route('admin.individual.create')}}" >Cotizacion invididual</a> ',
+                showCloseButton: false,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonAriaLabel: 'Thumbs down'
             })
         </script>
     @endif

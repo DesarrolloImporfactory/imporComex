@@ -36,7 +36,7 @@
                                 <x-adminlte-select2 name="idioma">
                                     <option value="">Selecciones una opción.......</option>
                                     @foreach ($idiomas as $idioma)
-                                        <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
+                                        <option value="{{ $idioma->nombre }}"{{ old('idioma') == $idioma->nombre ? 'selected' : '' }}>{{ $idioma->nombre }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
@@ -73,13 +73,12 @@
                             </div>
                         </div>
                         <div class="col-md-4">
+                            <label>Estado:</label>
                             <div class="form-group">
-                                <label>Estado:</label>
-                                <x-adminlte-select2 name="estado">
-                                    <option value="">Selecciones una opción.......</option>
-                                    <option value="true">Activo</option>
-                                    <option value="0">Inactivo</option>
-                                </x-adminlte-select2>
+                                <select name="estado" class="selectpicker" title="Seleccione el estado" data-width="75%">
+                                    <option value="true"{{ old('estado') == 'true' ? 'selected' : '' }}>Activo</option>
+                                    <option value="0"{{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
+                                </select>
                             </div>
                         </div>
                     

@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class ContenedoresController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin.contenedores.index')->only('index');
+        // $this->middleware('can:admin.contenedores.store')->only('store');
+        // $this->middleware('can:admin.contenedores.update')->only('update');
+        // $this->middleware('can:admin.contenedores.destroy')->only('destroy');
+    }
 
     public function index()
     {

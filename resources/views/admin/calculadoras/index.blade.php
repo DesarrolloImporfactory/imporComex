@@ -105,11 +105,11 @@
         @endforeach
 
     </div><br><br><br><br><br><br><br><br>
-<div class="row">
-    <div class="col-md-12 text-center">
-        <button class="btn btn-outline-dark">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</button>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button class="btn btn-outline-dark">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</button>
+        </div>
     </div>
-</div>
 @stop
 
 @section('css')
@@ -117,10 +117,16 @@
         .card {
             background: #E3E3E3 !important;
             position: relative !important;
-            
+
         }
-       
-        
-       
+
+        .content-wrapper {
+            min-height: 100vh;
+            background-image: url(../assets/imporcomexImage/elemento-1.png) !important;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
     </style>
 @stop

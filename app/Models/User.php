@@ -17,6 +17,9 @@ class User extends Authenticatable
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'usuario_id','id');
     }
+    public function coIndividual(){
+        return $this->hasMany(CoIndividual::class,'usuario_id','id');
+    }
 
     protected $fillable = [
         'name',

@@ -8,20 +8,16 @@
                     <label for="">¿Tiene bateria?</label>
                     <x-adminlte-select2 name="bateria">
                         <option value="">Selecciona una opción....</option>
-                        <option value="{{ old('bateria') }}">{{ old('bateria') }}</option>
-                        
-                        <option value="si">Si</option>
-                        <option value="no">No</option>
+                        <option value="si"{{ old('bateria') == 'si' ? 'selected' : '' }}>Si</option>
+                        <option value="no"{{ old('bateria') == 'no' ? 'selected' : '' }}>No</option>
                     </x-adminlte-select2>
                 </div>
                 <div class="form-group">
                     <label for="">¿Es inflamable?</label>
                     <x-adminlte-select2 name="inflamable">
                         <option value="">Selecciona una opción....</option>
-                        <option value="{{ old('inflamable') }}">{{ old('inflamable') }}</option>
-                        
-                        <option value="si">Si</option>
-                        <option value="no">No</option>
+                        <option value="si"{{ old('inflamable') == 'si' ? 'selected' : '' }}>Si</option>
+                        <option value="no"{{ old('inflamable') == 'no' ? 'selected' : '' }}>No</option>
                     </x-adminlte-select2>
 
                 </div>
@@ -32,10 +28,8 @@
                     <label for="">¿Tiene liquidos?</label>
                     <x-adminlte-select2 name="liquidos">
                         <option value="">Selecciona una opción....</option>
-                        <option value="{{ old('liquidos') }}">{{ old('liquidos') }}</option>
-                        
-                        <option value="si">Si</option>
-                        <option value="no">No</option>
+                        <option value="si"{{ old('liquidos') == 'si' ? 'selected' : '' }}>Si</option>
+                        <option value="no"{{ old('liquidos') == 'no' ? 'selected' : '' }}>No</option>
                     </x-adminlte-select2>
 
                 </div>
@@ -43,24 +37,17 @@
                     <label for="">¿Cuantos proveedores tiene?</label>
                     <x-adminlte-select2 name="proveedores" id="numero" onchange="ejecutar()" class="form-control">
                         <option value="">Selecciona una opción....</option>
-                        <option value="{{ old('proveedores') }}">{{ old('proveedores') }}</option>
-                        
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1"{{ old('proveedores') == '1' ? 'selected' : '' }}>1</option>
+                        <option value="2"{{ old('proveedores') == '2' ? 'selected' : '' }}>2</option>
+                        <option value="3"{{ old('proveedores') == '3' ? 'selected' : '' }}>3</option>
+                        <option value="4"{{ old('proveedores') == '4' ? 'selected' : '' }}>4</option>
+                        <option value="5"{{ old('proveedores') == '5' ? 'selected' : '' }}>5</option>
                     </x-adminlte-select2>
-                    {{-- <input type="number" class="form-control add-btn " id="numero" onkeyup="ejecutar()" name="proveedores"
-                        placeholder="Cantidad" value="{{ old('proveedores') }}"> --}}
-
                 </div>
 
             </div>
-
             {{-- div para los inputs dinamicos --}}
             <div class="newData"></div>
-
             {{-- div para los inputs dinamicos --}}
         </div>
     </div>
@@ -81,7 +68,7 @@
                 '<div id="newRow' + i + '" class="form-row">' +
                 '<div class="col-md-12">' +
                 '<label style="color:red">Nombre del Proveedor ' + i + ':</label>' +
-                '<input  type="text" name="nombre_pro' + i +'"  class="form-control"  placeholder="Ingrese el nombre del proveedor">' +
+                '<input  type="text" name="nombre_pro' + i +'"  class="form-control"  placeholder="Ingrese el nombre del proveedor" value="{{old('nombre_pro')}}">' +
                 '</div>' +
                 '</div>' +
                 '<div id="newRow' + i + '" class="form-row">' +

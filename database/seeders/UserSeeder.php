@@ -18,22 +18,32 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name'=>'Victor',
-            'telefono'=>'1',
+            'telefono'=>'0963657780',
             'date'=>'01/05/1998',
             'importacion'=>'12',
-            'idioma'=>'ingles',
+            'idioma'=>'Ingles',
             'email'=>'victor.robles@gmail.com',
             'password'=>bcrypt('12345678'),
         ])->assignRole('Admin');  
 
         User::create([
             'name'=>'Pedro',
-            'telefono'=>'1',
+            'telefono'=>'0984757750',
             'date'=>'01/05/1998',
             'importacion'=>'12',
-            'idioma'=>'ingles',
+            'idioma'=>'Ingles',
             'email'=>'pedro.trujillo@gmail.com',
             'password'=>bcrypt('12345678'),
         ])->assignRole('Especialista');  
+
+        User::create([
+            'name'=>'Ariel Taipe',
+            'telefono'=>'0963607750',
+            'date'=>'01/05/1998',
+            'importacion'=>'12',
+            'idioma'=>'Ingles',
+            'email'=>'ariel.12isaias@gmail.com',
+            'password'=>bcrypt('12345678'),
+        ])->assignRole('Client');  
     }
 }

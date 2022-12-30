@@ -7,14 +7,21 @@ use App\Models\Paises;
 
 class PaisesController extends Controller
 {
-  
-    public function index()
+    public function __construct()
     {
-        $datos['paises']=Paises::get();
-        return view('admin.paises.index',$datos);
+        $this->middleware('can:admin.paises.index')->only('index');
+        // $this->middleware('can:admin.paises.store')->only('store');
+        // $this->middleware('can:admin.paises.update')->only('update');
+        // $this->middleware('can:admin.paises.destroy')->only('destroy');
     }
 
-    
+    public function index()
+    {
+        $datos['paises'] = Paises::get();
+        return view('admin.paises.index', $datos);
+    }
+
+
     public function create()
     {
         //
@@ -23,37 +30,37 @@ class PaisesController extends Controller
     public function store(Request $request)
     {
         $datosPaises = new Paises();
-        $datosPaises->nombre_pais=$request->input('nombre_pais');
+        $datosPaises->nombre_pais = $request->input('nombre_pais');
         $datosPaises->save();
-        return redirect('paises')->with('mensaje','Pais registrado');
+        return redirect('paises')->with('mensaje', 'Pais registrado');
     }
 
-    
+
     public function show($id)
     {
         //
     }
 
-    
+
     public function edit($id)
     {
         //
     }
 
-   
+
     public function update(Request $request, $id)
     {
-        $datos=array(
-            "nombre_pais"=>$request->input('nombre_pais')
+        $datos = array(
+            "nombre_pais" => $request->input('nombre_pais')
         );
         Paises::whereid($id)->update($datos);
-        return redirect('paises')->with('mensaje','Pais Actualizado');
+        return redirect('paises')->with('mensaje', 'Pais Actualizado');
     }
 
-    
+
     public function destroy($id)
     {
         Paises::destroy($id);
-        return redirect('paises')->with('mensaje','Pais Eliminado');
+        return redirect('paises')->with('mensaje', 'Pais Eliminado');
     }
 }

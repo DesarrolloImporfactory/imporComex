@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
 use App\Models\User;
-use App\Models\Validacion;
+use App\Models\Paises;
+use App\Models\Incoterm;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class CotizacionesController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('can:admin.cotizaciones.show')->only('show');
+        // $this->middleware('can:admin.cotizaciones.destroy')->only('destroy');
+
+    }
+
     public function index()
     {
         $cotizaciones = Cotizaciones::get();
@@ -21,13 +28,13 @@ class CotizacionesController extends Controller
    
     public function create()
     {
-        //
+        
     }
 
-    
+    //funciona para cotizacion individual
     public function store(Request $request)
     {
-        //
+        
     }
 
    
@@ -44,7 +51,7 @@ class CotizacionesController extends Controller
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         } else {
-            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->get();
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
@@ -57,6 +64,7 @@ class CotizacionesController extends Controller
             'cotizacionesPendientes' => $cotizacionesPendientes
         ];
         return view('admin.cotizaciones.index', $data);
+        //return $data;
     }
 
   

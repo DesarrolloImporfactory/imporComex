@@ -13,4 +13,9 @@ class Incoterm extends Model
         return $this->hasMany(Cotizaciones::class,'incoterms_id','id');
     }
 
+    public function coIndividual(){
+        return $this->hasMany(CoIndividual::class,'incoterms_id','id');
+    }
+
+
 }

@@ -35,7 +35,10 @@
                                 <x-adminlte-select2 name="idioma">
                                     <option value="{{ $user->idioma }}">{{ $user->idioma }}</option>
                                     @foreach ($idiomas as $idioma)
-                                        <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
+                                    @if ($user->idioma!=$idioma->nombre )
+                                    <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
+                                    @endif
+                                        
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
