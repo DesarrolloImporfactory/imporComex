@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('importacion');
             $table->string('idioma');
             $table->string('estado')->nullable();
-            $table->integer('cedula')->length(10)->nullable();
-            $table->integer('ruc')->length(13)->nullable();
+            $table->string('cedula')->nullable();
+            $table->string('ruc')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

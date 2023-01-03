@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Paises;
 use App\Models\User;
 use App\Models\Cotizaciones;
+use App\Models\Contenedores;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,6 +20,8 @@ class DashboardController extends Controller
 
     public function totalCotizaciones(Request $request)
     {
+        $usuarios = User::count();
+        $contenedores = Contenedores::count();
 
         $id = $request->input('id');
         $usuarioRol = User::with('roles')->findOrFail($id);
@@ -34,7 +38,9 @@ class DashboardController extends Controller
             $data = [
                 'cotizaciones' => $cotizaciones,
                 'aprobadas' => $cotizacionesAprobadas,
-                'pendientes' => $cotizacionesPendientes
+                'pendientes' => $cotizacionesPendientes,
+                'usuarios'=>$usuarios,
+                'contenedores'=>$contenedores
             ];
             return response()->json($data);
         } else {
@@ -46,16 +52,22 @@ class DashboardController extends Controller
             $data = [
                 'cotizaciones' => $cotizaciones,
                 'aprobadas' => $cotizacionesAprobadas,
-                'pendientes' => $cotizacionesPendientes
+                'pendientes' => $cotizacionesPendientes,
+                'usuarios'=>$usuarios,
+                'contenedores'=>$contenedores
             ];
             return response()->json($data);
         }
     }
 
-    public function cotizacionesAprobadas(Request $request)
+    public function grafica1(Request $request)
     {
-        $usuarios = Paises::count();
-        return response()->json($usuarios);
+        $query = "
+        SELECT count(*) as cotizaciones, users.name as Usuario from cotizaciones inner join users on cotizaciones.especialista_id= users.id GROUP BY(users.name)
+        ";
+
+        $consulta = DB::select($query);
+        return $consulta;
     }
 
     public function cotizacionesPendientes(Request $request)

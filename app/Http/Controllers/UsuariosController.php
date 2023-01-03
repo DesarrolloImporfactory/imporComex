@@ -53,9 +53,9 @@ class UsuariosController extends Controller
             'telefono' => ['required'],
             'date'=>['required'],
             'importacion' => ['required'],
-            'ruc'=>['nullable','max:14'],
-            'cedula' => ['required','min:10','max:10'],
-            'email' => ['required','email','unique'],
+            'ruc'=>['required'],
+            'cedula' => ['required','min:9','max:10'],
+            'email' => ['required','email'],
             'password' => ['required'],
             'roles'=>['required'],
                

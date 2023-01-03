@@ -71,8 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/dashboar/all', [DashboardController::class, 'all'])->name('admin.dashboard.all');
     Route::post('admin/dashboar/totalCotizaciones', [DashboardController::class, 'totalCotizaciones'])
         ->name('admin.dashboard.totalCotizaciones');
-    Route::post('admin/dashboar/cotizacionesAprobadas', [DashboardController::class, 'cotizacionesAprobadas'])
-        ->name('admin.dashboard.cotizacionesAprobadas');
+    Route::post('admin/dashboar/grafica1', [DashboardController::class, 'grafica1'])
+        ->name('admin.dashboard.grafica1');
     Route::post('admin/dashboar/cotizacionesPendientes', [DashboardController::class, 'cotizacionesPendientes'])
         ->name('admin.dashboard.cotizacionesPendientes');
     //fin de rutas 
