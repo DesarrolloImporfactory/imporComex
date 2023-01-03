@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
 use App\Models\User;
-use App\Models\Paises;
+use App\Models\Validacion;
 use App\Models\Incoterm;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -45,12 +45,18 @@ class CotizacionesController extends Controller
         foreach ($usuarioRol->roles as $rol) {
             $usuario = $rol->name;
         }
+     
         if ($usuario == "Admin") {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
-        } else {
+        } else if($usuario == "Especialista") {
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
+            $cotizaciones = Cotizaciones::count();
+            $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
+            $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
+        }else{
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
@@ -60,8 +66,8 @@ class CotizacionesController extends Controller
         $data = [
             'listadoCotizaciones' => $listadoCotizaciones,
             'cotizaciones' => $cotizaciones,
-            'cotizacionesAprobadas' => $cotizacionesAprobadas,
-            'cotizacionesPendientes' => $cotizacionesPendientes
+            'aprobadas' => $cotizacionesAprobadas,
+            'pendientes' => $cotizacionesPendientes
         ];
         return view('admin.cotizaciones.index', $data);
         //return $data;
@@ -70,7 +76,10 @@ class CotizacionesController extends Controller
   
     public function edit($id)
     {
-        //
+        $proveedor = Validacion :: where('cotizacion_id',$id)->get();
+        $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->first();
+        //return $proveedor;
+        return view('admin.cotizaciones.view', compact('cotizacion','proveedor'));
     }
 
     public function update(Request $request, $id)

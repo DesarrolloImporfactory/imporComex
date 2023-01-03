@@ -65,8 +65,13 @@ public function __construct()
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
-        } else {
-            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->get();
+        } else if($usuario == "Especialista") {
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
+            $cotizaciones = Cotizaciones::count();
+            $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
+            $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
+        }else{
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();

@@ -30,7 +30,7 @@
                     <td>
                         <div class="btn-group">
                             @include('admin.cotizaciones.delete')
-                            <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
+                            <a href="{{ route('admin.cotizaciones.edit', $cotizacion->id) }}"
                                 class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
                                 <i class="fa fa-lg fa-fw fa-eye"></i>
                             </a>

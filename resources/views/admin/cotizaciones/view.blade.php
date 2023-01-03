@@ -38,25 +38,8 @@
                         <div class="col-md-3">
                             <label for="">Estado:</label>
                             <div class="form-group">
-                                <select name="estado" class="selectpicker " data-style="btn-primary">
-                                    @if ($cotizacion->estado == 'Aprobado')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="Finalizado">Finalizado</option>
-                                    @endif
-                                    @if ($cotizacion->estado == 'Pendiente')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Aprobado">Aprobado</option>
-                                        <option value="Finalizado">Finalizado</option>
-                                    @endif
-                                    @if ($cotizacion->estado == 'Finalizado')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Aprobado">Aprobado</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                    @endif
-                                </select>
-
-                                {{-- <input type="text" name="estado" class="form-control" value="{{$cotizacion->estado}}" > --}}
+                                
+                                <input type="text" name="estado" class="form-control" value="{{$cotizacion->estado}}" disabled>
                             </div>
                         </div>
                         <div class="col-md-3">

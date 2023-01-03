@@ -27,28 +27,28 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Route::get('admin',[HomeController::class, 'index']);
 Route::middleware('auth')->group(function () {
 
-    Route::get('idiomas',[IdiomasController::class, 'index'])->name('idiomas');
+    Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
-    
-    Route::get('cargas',[CargasController::class, 'index'])->name('cargas');
-    Route::patch('tarifa/{id}',[CargasController::class,'updateTarifa'])->name('tarifa.updateTarifa');
+
+    Route::get('cargas', [CargasController::class, 'index'])->name('cargas');
+    Route::patch('tarifa/{id}', [CargasController::class, 'updateTarifa'])->name('tarifa.updateTarifa');
     Route::resource('admin/cargas', CargasController::class)->names('admin.cargas');
-    
-    Route::get('paises',[PaisesController::class, 'index'])->name('paises');
+
+    Route::get('paises', [PaisesController::class, 'index'])->name('paises');
     Route::resource('admin/paises', PaisesController::class)->names('admin.paises');
-    
-    Route::get('modalidades',[ModalidadesController::class, 'index'])->name('modalidades');
+
+    Route::get('modalidades', [ModalidadesController::class, 'index'])->name('modalidades');
     Route::resource('admin/modalidades', ModalidadesController::class)->names('admin.modalidades');
-    
+
     //Route::get('usuarios',[UsuariosController::class, 'index'])->name('usuarios');
 
-    Route::patch('admin/show/{user}',[UsuariosController::class, 'show'])->name('usuarios.show');
+    Route::patch('admin/show/{user}', [UsuariosController::class, 'show'])->name('usuarios.show');
     Route::resource('admin/usuarios', UsuariosController::class)->names('admin.usuarios');
- 
+
     Route::resource('roles', RolesController::class)->names('admin.roles');
 
     Route::resource('calculadoras', CalculadorasController::class)->names('admin.calculadoras');
-    
+
     Route::resource('colombia', ColombiaController::class)->names('admin.colombia');
 
     Route::resource('validacion', ValidacionesController::class)->names('validacion');
@@ -63,13 +63,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/cotizaciones', CotizacionesController::class)->names('admin.cotizaciones');
 
     Route::resource('admin/especialistas', EspecialistasController::class)->names('admin.especialistas');
-    Route::get('admin/especialistas/count',[EspecialistasController::class, 'count'])->name('admin.especialistas.count');
+    Route::get('admin/especialistas/count', [EspecialistasController::class, 'count'])->name('admin.especialistas.count');
 
-    Route::get('admin/{foto}/dowload',[EspecialistasController::class, 'dowloadFoto'])->name('admin.dowload');
-    Route::get('admin/{foto}/dowload/archivo',[EspecialistasController::class, 'dowloadArchivo'])->name('admin.dowload.archivo');
-
-    Route::post('admin/dashboar/all',[DashboardController::class, 'all'])->name('admin.dashboard.all');
+    Route::get('admin/{foto}/dowload', [EspecialistasController::class, 'dowloadFoto'])->name('admin.dowload');
+    Route::get('admin/{foto}/dowload/archivo', [EspecialistasController::class, 'dowloadArchivo'])->name('admin.dowload.archivo');
+    //rutas para el dashboar
+    Route::post('admin/dashboar/all', [DashboardController::class, 'all'])->name('admin.dashboard.all');
+    Route::post('admin/dashboar/totalCotizaciones', [DashboardController::class, 'totalCotizaciones'])
+        ->name('admin.dashboard.totalCotizaciones');
+    Route::post('admin/dashboar/cotizacionesAprobadas', [DashboardController::class, 'cotizacionesAprobadas'])
+        ->name('admin.dashboard.cotizacionesAprobadas');
+    Route::post('admin/dashboar/cotizacionesPendientes', [DashboardController::class, 'cotizacionesPendientes'])
+        ->name('admin.dashboard.cotizacionesPendientes');
+    //fin de rutas 
 
     Route::resource('admin/individual', CotizacionIndividualController::class)->names('admin.individual');
 });
-
