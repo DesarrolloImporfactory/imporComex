@@ -20,14 +20,14 @@ class RoleSeeder extends Seeder
         $role2=Role::create(['name'=>'Client']);
         $role3=Role::create(['name'=>'Especialista']);
 
-        Permission::create(['name'=>'home','description'=>'Ver modulo de dashboard'])->syncRoles([$role,$role2]);
+        Permission::create(['name'=>'home','description'=>'Ver modulo de dashboard'])->syncRoles([$role,$role3]);
 
         Permission::create(['name'=>'admin.usuarios.index','description'=>'Ver modulo de usuarios'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.usuarios.edit','description'=>'Editar usuarios'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.usuarios.update','description'=>'Actualizar usuarios'])->syncRoles([$role]);
       
 
-        Permission::create(['name'=>'admin.idiomas.index','description'=>'Ver modulo de idiomas'])->syncRoles([$role,$role2]);
+        Permission::create(['name'=>'admin.idiomas.index','description'=>'Ver modulo de idiomas'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.idiomas.store','description'=>'Crear idioma'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.idiomas.update','description'=>'Editar idioma'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.idiomas.destroy','description'=>'Eliminar idioma'])->syncRoles([$role]);
@@ -52,7 +52,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.roles.edit','description'=>'Editar roles'])->syncRoles($role);
         // Permission::create(['name'=>'admin.roles.destroy','description'=>'Eliminar roles'])->syncRoles($role);
 
-        Permission::create(['name'=>'admin.calculadoras.index','description'=>'Calculadoras'])->syncRoles([$role]);
+        Permission::create(['name'=>'admin.calculadoras.index','description'=>'Calculadoras'])->syncRoles([$role, $role3,$role2]);
         
         // Permission::create(['name'=>'admin.colombia.create','description'=>'Ver cotizador'])->syncRoles([$role]);
         // Permission::create(['name'=>'admin.colombia.store','description'=>'Crear cotizacion'])->syncRoles([$role]);
@@ -60,7 +60,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'validacion.print','description'=>'Ver PDFS'])->syncRoles([$role]);
         // Permission::create(['name'=>'validacion.store','description'=>'Crear proveedores'])->syncRoles([$role]);
       
-        Permission::create(['name'=>'admin.contenedores.index','description'=>'Ver contenedores'])->syncRoles([$role]);
+        Permission::create(['name'=>'admin.contenedores.index','description'=>'Ver contenedores'])->syncRoles([$role, $role3]);
         // Permission::create(['name'=>'admin.contenedores.store','description'=>'Crear contenedores']);
         // Permission::create(['name'=>'admin.contenedores.edit','description'=>'Editar contenedores']);
         // Permission::create(['name'=>'admin.contenedores.destroy','description'=>'Eliminar contenedores']);
@@ -69,10 +69,10 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.estados.edit','description'=>'Editar estados'])->syncRoles([$role]);
         // Permission::create(['name'=>'admin.estados.destroy','description'=>'Eliminar estados'])->syncRoles([$role]);
 
-        Permission::create(['name'=>'admin.cotizaciones.show','description'=>'Ver cotizaciones'])->syncRoles([$role]);
+        Permission::create(['name'=>'admin.cotizaciones.show','description'=>'Ver cotizaciones'])->syncRoles([$role, $role3,$role2]);
         // Permission::create(['name'=>'admin.cotizaciones.destroy','description'=>'Eliminar cotizaciones'])->syncRoles([$role]);
 
-        Permission::create(['name'=>'admin.especialistas.show','description'=>'Dashboar Especialistas'])->syncRoles([$role]);
+        Permission::create(['name'=>'admin.especialistas.show','description'=>'Dashboar Especialistas'])->syncRoles([$role, $role3]);
         // Permission::create(['name'=>'admin.especialistas.edit','description'=>'Editar cotizacion'])->syncRoles([$role]);
         // Permission::create(['name'=>'admin.especialistas.update','description'=>'Actualizar cotizacion'])->syncRoles([$role]);
 
