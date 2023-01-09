@@ -4,77 +4,81 @@
 
 @section('content_header')
 
-@if (Session::has('mensaje'))
-<script>
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: '{{ Session::get('mensaje') }}',
-        showConfirmButton: false,
-        timer: 1500
-    })
-</script>
-@endif
+    @if (Session::has('mensaje'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ Session::get('mensaje') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
     <h3>Cotizacion Individual</h3>
-<div class="row">
-    <div class="col-md-12">
-        <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
-                type="sumbit" form="form" />
+    <div class="row">
+        <div class="col-md-12">
+            <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right" type="sumbit"
+                form="form" />
+        </div>
     </div>
-</div>
 @stop
 
 @section('content')
     <x-adminlte-card title="Formulario de carga individual" theme="dark" icon="fas fa-lg fa-moon">
-        <form action="{{route('admin.individual.store')}}" method="post" id="form">
+        <form action="{{ route('admin.individual.store') }}" method="post" id="form">
             @csrf
             <div class="row">
                 <input type="hidden" name="usuario_id" id="" value="{{ Auth::user()->id }}">
                 <div class="col-md-3">
                     <label for="">Pais de origen: </label>
                     <div class="form-group">
-                        <select name="origen_id" id="" class="selectpicker" title="Seleccionar">
+                        <x-adminlte-select2 name="origen_id" data-placeholder="Seleccione una opcion...">
+                            <option />
                             @foreach ($paises as $item)
-                                <option value="{{ $item->id }}"{{ old('estado') == $item->id ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}"{{ old('origen_id') == $item->id ? 'selected' : '' }}>
                                     {{ $item->nombre_pais }}</option>
                             @endforeach
-                        </select>
+                        </x-adminlte-select2>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="">Pais de destino: </label>
                     <div class="form-group">
-                        <select name="destino_id" id="" class="selectpicker" title="Seleccionar">
+                        <x-adminlte-select2 name="destino_id" data-placeholder="Seleccione una opcion...">
+                            <option />
                             @foreach ($paises as $item)
-                                <option value="{{ $item->id }}"{{ old('origen') == $item->id ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}"{{ old('destino_id') == $item->id ? 'selected' : '' }}>
                                     {{ $item->nombre_pais }}</option>
                             @endforeach
-                        </select>
+                        </x-adminlte-select2>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="">Cantidad de proveedores: </label>
                     <div class="form-group">
-                        <select name="proveedores" id="" class="selectpicker" title="Seleccionar">
+                        <x-adminlte-select2 name="proveedores" data-placeholder="Seleccione una opcion...">
+                            <option />
                             <option value="1"{{ old('proveedores') == '1' ? 'selected' : '' }}>1</option>
                             <option value="2"{{ old('proveedores') == '2' ? 'selected' : '' }}>2</option>
                             <option value="3"{{ old('proveedores') == '3' ? 'selected' : '' }}>3</option>
                             <option value="4"{{ old('proveedores') == '4' ? 'selected' : '' }}>4</option>
                             <option value="5"{{ old('proveedores') == '5' ? 'selected' : '' }}>5</option>
-                        </select>
+                        </x-adminlte-select2>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="">Termino de negociacion: </label>
                     <div class="form-group">
-                        <select name="incoterms_id" id="incoterms" class="selectpicker" title="Seleccionar"
-                            onchange="crear()">
+                        <x-adminlte-select2 name="incoterms_id" id="incoterms" onchange="crear()"
+                            data-placeholder="Seleccione una opcion...">
+                            <option />
                             @foreach ($incoterms as $item)
                                 <option
-                                    value="{{ $item->id }} "{{ old('incoterms_id') == $item->id ? 'selected' : '' }}>
+                                    value="{{ $item->id }} ">
                                     {{ $item->name }}</option>
                             @endforeach
-                        </select>
+                        </x-adminlte-select2>
                     </div>
                 </div>
             </div>
@@ -84,15 +88,24 @@
                     <div class="form-group">
                         <label for="">Valor de la factura: </label>
                         <input type="text" name="valor" id="" class="form-control">
+                        @error('valor')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="">Peso bruto: </label>
                     <input type="text" name="peso" id="" class="form-control">
+                    @error('peso')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-md-4">
                     <label for="">Productos: </label>
                     <input type="text" name="productos" id="" class="form-control">
+                    @error('productos')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="row">
@@ -107,6 +120,9 @@
                                     class="fa-solid fa-question"></i></button>
                         </div>
                     </div>
+                    @error('volumen')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-md-4">
                     <div class="newData">
@@ -139,24 +155,24 @@
         }
     </script>
 
-<script>
-    function ejecutar() {
-        Swal.fire({
-            title: '<strong><u>Información</u></strong>',
-            icon: 'info',
-            text: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:',
-            html: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:</b>  ' +
-                '<a href="https://imporcomexcorp.com/calculadora-cbm" target="_blank">www.imporcomexcorp.com/calculadora-cbm</a> ',
-            showCloseButton: false,
-            showCancelButton: false,
-            focusConfirm: false,
-            confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
-            cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-            cancelButtonAriaLabel: 'Thumbs down'
-        })
-    }
-</script>
+    <script>
+        function ejecutar() {
+            Swal.fire({
+                title: '<strong><u>Información</u></strong>',
+                icon: 'info',
+                text: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:',
+                html: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:</b>  ' +
+                    '<a href="https://imporcomexcorp.com/calculadora-cbm" target="_blank">www.imporcomexcorp.com/calculadora-cbm</a> ',
+                showCloseButton: false,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonAriaLabel: 'Thumbs down'
+            })
+        }
+    </script>
 @stop
 
 @section('css')

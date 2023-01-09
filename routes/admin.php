@@ -20,7 +20,7 @@ use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\CotizacionIndividualController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\ImpuestosController;
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -76,6 +76,13 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/dashboar/cotizacionesPendientes', [DashboardController::class, 'cotizacionesPendientes'])
         ->name('admin.dashboard.cotizacionesPendientes');
     //fin de rutas 
-
+    Route::get('admin/cotizaciones/aprobadas/{aprobado}',[CotizacionesController::class,'cotizacionesAprobadas'])->name('admin.cotizaciones.aprobadas');
     Route::resource('admin/individual', CotizacionIndividualController::class)->names('admin.individual');
+
+    Route::resource('admin/impuestos', ImpuestosController::class)->names('admin.impuestos');
+
+    Route::get('editar/{id}/paso1',[ColombiaController::class,'editpaso1'])->name('editar.paso1');
+    Route::patch('actualizar/paso1/{id}',[ColombiaController::class,'actualizarPaso1'])->name('actualizar.paso1');
+    Route::get('editar/{id}/paso2',[ValidacionesController::class,'editpaso2'])->name('editar.paso2');
+
 });

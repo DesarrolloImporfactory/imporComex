@@ -21,6 +21,10 @@ class User extends Authenticatable
         return $this->hasMany(CoIndividual::class,'usuario_id','id');
     }
 
+    public function impuesto(){
+        return $this->hasMany(cotizacion_impuesto::class,'usuario_id','id');
+    }
+
     protected $fillable = [
         'name',
         'email',

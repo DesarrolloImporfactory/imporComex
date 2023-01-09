@@ -75,7 +75,7 @@
                   </tr>
                   <tr>
                     <td><b>Cantidad total de productos:</b></td>
-                    <td>{{$cotizacion->total_productos}}</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><b>CBM Total: </b></td>

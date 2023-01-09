@@ -18,18 +18,11 @@ use Illuminate\Support\Facades\DB;
 
 class ColombiaController extends Controller
 {
-    //    public function __construct()
-    //     {
-    //         $this->middleware('can:admin.colombia.create')->only('create');
-    //         $this->middleware('can:admin.colombia.store')->only('store');
-
-    //     }
+   
 
     public function index()
     {
-        $cotizaciones = Cotizaciones::with('carga')->get();
-        //return view('admin.calculadoras.colombia.grupal.index',compact('cotizaciones'));
-        return $cotizaciones;
+        return "index";
     }
 
     public function create(Request $request)
@@ -61,10 +54,10 @@ class ColombiaController extends Controller
             'producto' => ['required', 'string', 'max:2555'],
             'peso' => ['required',],
             'cargas_id' => ['required'],
-            'total_productos' => ['required', 'numeric:0'],
+            'tiene_bateria' => ['required'],
             'precio_china' => ['required', 'numeric:0'],
             'direccion' => ['required', 'string', 'min:5'],
-            'volumen' => ['required', 'min:0', 'max:8', 'numeric:0'],
+            'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
             'ciudad_entrega' => ['required'],
         ]);
         $grupal = new Cotizaciones();
@@ -113,9 +106,21 @@ class ColombiaController extends Controller
                 $resultado = ($volumen * $datos->vxcbm) / 1;
 
                 break;
-            case ($volumen >= 7 && $volumen < 8):
+            case ($volumen > 7 && $volumen <= 9):
 
                 $datos = tarifaGruapl::findOrFail(8);
+                $resultado = ($volumen * $datos->vxcbm) / 1;
+
+                break;
+            case ($volumen > 9 && $volumen <= 12):
+
+                $datos = tarifaGruapl::findOrFail(9);
+                $resultado = ($volumen * $datos->vxcbm) / 1;
+
+                break;
+            case ($volumen > 12 && $volumen <= 15):
+
+                $datos = tarifaGruapl::findOrFail(14);
                 $resultado = ($volumen * $datos->vxcbm) / 1;
 
                 break;
@@ -158,7 +163,7 @@ class ColombiaController extends Controller
         $grupal->peso = $peso;
         $grupal->estado = "Pendiente";
         $grupal->origen = $request->input('origen');
-        $grupal->total_productos = $request->input('total_productos');
+        $grupal->tiene_bateria = $request->input('tiene_bateria');
         $grupal->precio_china = $request->input('precio_china');
         $grupal->cargas_id = $request->input('cargas_id');
         $grupal->direccion = $request->input('direccion');
@@ -175,8 +180,10 @@ class ColombiaController extends Controller
     }
 
 
-    public function show($id)
+    public function editpaso1($id)
     {
+        $datos = Cotizaciones::with(['carga', 'pais', 'modalidad'])->whereid($id)->first();
+        return view('admin.paso1.edit', compact('datos'));
     }
 
 
@@ -191,7 +198,21 @@ class ColombiaController extends Controller
         return view('admin.calculadoras.colombia.grupal.formulario', $data);
     }
 
-
+    public function actualizarPaso1(Request $request, $id)
+    {
+        $usuarioId=$request->input('usuario_id');
+        $datos=[
+            'producto'=>$request->input('producto'),
+            'tiene_bateria'=>$request->input('tiene_bateria'),
+            'peso'=>$request->input('peso'),
+            'volumen'=>$request->input('volumen'),
+            'precio_china'=>$request->input('precio_china'),
+            'direccion'=>$request->input('direccion'),
+            'ciudad_entrega'=>$request->input('ciudad_entrega')
+        ];
+        Cotizaciones::where('id',$id)->update($datos);
+        return redirect()->route('admin.especialistas.show',$usuarioId)->with('mensaje','Paso 1 actualizado!');
+    }
     public function update(Request $request, $id)
     {
         $datos = array(

@@ -3,8 +3,7 @@
 @section('title', 'Calculadora colombia')
 
 @section('content_header')
-
-    @if ($mensaje == 'false')
+@if (Session::has('error'))
         <script>
             Swal.fire({
                 title: '<strong><u>lo sentimos mucho</u></strong>',
@@ -21,13 +20,6 @@
             })
         </script>
     @endif
-
-
-    {{-- <div class="row ">
-        <x-adminlte-info-box title="Progreso de tu Importación" text="{{ $cotizacion->proceso }}/4"
-            icon="fas fa-lg fa-tasks text-orange" theme="warning" icon-theme="dark" progress=50 progress-theme="dark"
-            description="50% para completa tu solicitud" />
-    </div> --}}
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
@@ -48,7 +40,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ route('validacion.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('validacion.update',$cotizacion->id) }}" method="post" enctype="multipart/form-data">
+                {{method_field('PATCH')}}
                 @csrf
                 <input type="hidden" value="{{ $cotizacion->id }}" name="idCotizacion">
                 <div class="row">
@@ -61,7 +54,7 @@
                     <div class="row">
                         <div class="col-md-7">
 
-                            @include('admin.calculadoras.createValidacion')
+                            @include('admin.paso2.validacion')
 
                         </div>
                         <div class="col-md-5">

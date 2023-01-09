@@ -39,6 +39,7 @@
                                         <option value="{{ $idioma->nombre }}"{{ old('idioma') == $idioma->nombre ? 'selected' : '' }}>{{ $idioma->nombre }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
+                                
                             </div>
                         </div>
                         <div class="col-md-4">

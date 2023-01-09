@@ -1,11 +1,8 @@
-
-
-<form action="{{route('admin.cotizaciones.destroy',$cotizacion->id)}}" method="post" class="btnDelete">
+<form action="{{route('admin.impuestos.destroy',$item->id)}}" method="POST" class="btnDelete">
     @csrf
     {{method_field('DELETE')}}
-    <button type="submit" class="dropdown-item text-danger" title="Delete" ><i class="fa fa-lg fa-fw fa-trash"></i>Eliminar</button>  
+    <button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete" ><i class="fa fa-lg fa-fw fa-trash"></i></button>
 </form>
-
 <script>
     $('.btnDelete').submit(function(e) {
         e.preventDefault();

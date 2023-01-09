@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade');
 
             $table->string('producto')->nullable();
-            $table->integer('total_productos')->nullable();
+            $table->string('tiene_bateria')->nullable();
             $table->string('precio_china')->nullable();
 
             $table->bigInteger('incoterms_id')->unsigned()->nullable();

@@ -30,17 +30,37 @@
                     <td>{{ $cotizacion->direccion }}/{{ $cotizacion->ciudad_entrega }}</td>
                     <td>{{ $cotizacion->total }}</td>
                     <td>
-                        <div class="btn-group">
-                            <a class="btn btn-xs btn-default text-primary mx-1 shadow" data-bs-toggle="modal"
-                                data-bs-target="#modalContenedor{{ $cotizacion->id }}" title="{{ $cotizacion->id }}">
-                                <i class="fa fa-lg fa-fw fa-pen"></i>
-                            </a>
-                            <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
-                                class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                            </a>
-                        </div>
+                        <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-bars"></i>
+                        </a>
+                        <ul class="dropdown-menu text-center">
+                            <li>
+                                <a class="dropdown-item   text-teal  " data-bs-toggle="modal"
+                                    data-bs-target="#modalContenedor{{ $cotizacion->id }}"
+                                    title="{{ $cotizacion->id }}"><i class="fa fa-lg fa-fw fa-pen"></i> Editar</a>
+                                </a>
 
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
+                                    class="dropdown-item   text-primary " title="Details">
+                                    <i class="fa fa-lg fa-fw fa-eye"></i>Detalles
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('editar.paso1', $cotizacion->id) }}"
+                                    class="dropdown-item   text-warning " title="Details">
+                                    <i class="fa-solid fa-circle"></i></i>Paso 1
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('editar.paso2', $cotizacion->id) }}"
+                                    class="dropdown-item   text-warning " title="Details">
+                                    <i class="fa-solid fa-circle"></i></i></i>Paso 2
+                                </a>
+                            </li>
+
+                        </ul>
                     </td>
                     @include('admin.especialistas.edit')
 

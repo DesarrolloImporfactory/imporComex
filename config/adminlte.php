@@ -403,6 +403,13 @@ return [
             'can'=>'admin.modalidades.index',
             
         ],
+        [
+            
+            'text' => 'Impuestos',
+            'route'  => 'admin.impuestos.index',
+            'icon' => 'fas fa-solid fa-money-bill-transfer'
+            
+        ],
 
         [
             'text'    => 'multilevel',
@@ -502,6 +509,16 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
+                ],
+            ],
+        ],
+        'BootstrapSwitch' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
                 ],
             ],
         ],

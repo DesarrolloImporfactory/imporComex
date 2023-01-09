@@ -41,5 +41,12 @@ class Cotizaciones extends Model
     public function validacions(){
         return $this->hasMany(Validacion::class,'cotizacion_id','id');
     }
+    public function accion(){
+        return $this->hasMany(Accion::class,'cotizacion_id','id');
+    }
+
+    public function impuesto(){
+        return $this->hasMany(cotizacion_impuesto::class,'cotizacion_id','id');
+    }
 
 }

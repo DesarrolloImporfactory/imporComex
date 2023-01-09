@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('validacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_pro');
-            $table->string('bateria');
             $table->string('liquidos');
             $table->string('inflamable');
             $table->string('proveedores');
             $table->integer('total_cartones')->nullable();
             $table->string('factura')->nullable();
             $table->string('foto')->nullable();
-            $table->string('enlace');
+            $table->string('enlace')->nullable();
+            $table->string('contacto')->nullable();
             $table->bigInteger('cotizacion_id')->unsigned();
             $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

@@ -141,6 +141,35 @@
                         </div>
 
                     </div>
+                    @if ($dato==0)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    la cotizacion no tiene asignado un contenedor
+                                  </div>
+                            </div>
+                        </div>
+                    @else
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Contenedor: </label>
+                                <input type="text" name="volumen" class="form-control"
+                                    value="{{ $contenedor->name }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Estado del contenedor: </label>
+                                <input type="text" name="estado" class="form-control"
+                                    value="{{$contenedor->estado->name}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div> 
+                    @endif
                 </form>
             </x-adminlte-card>
         </div>
