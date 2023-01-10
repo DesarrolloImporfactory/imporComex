@@ -8,7 +8,7 @@ use App\Models\Paises;
 use App\Models\tipo_cargas;
 use App\Models\User;
 use App\Models\Incoterm;
-use App\Models\Contenedores;
+use App\Models\Validacion;
 use App\Models\Cotizaciones;
 use Illuminate\Support\Facades\Validator;
 use App\Models\tarifaGruapl;
@@ -171,7 +171,7 @@ class ColombiaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_entrega = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $grupal->total = $resultado;
+        $grupal->total_logistica = $resultado;
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
@@ -211,7 +211,14 @@ class ColombiaController extends Controller
             'ciudad_entrega'=>$request->input('ciudad_entrega')
         ];
         Cotizaciones::where('id',$id)->update($datos);
-        return redirect()->route('admin.especialistas.show',$usuarioId)->with('mensaje','Paso 1 actualizado!');
+        $validacion=Validacion::where('cotizacion_id',$id)->get();
+        if(count($validacion)>0){
+            return redirect()->route('editar.paso2', $id);
+        }else{
+            return redirect()->route('admin.colombia.edit', $id)->with('mensaje','Completemos la cotizacion!');
+        }
+        
+        //return redirect()->route('admin.especialistas.show',$usuarioId)->with('mensaje','Paso 1 actualizado!');
     }
     public function update(Request $request, $id)
     {

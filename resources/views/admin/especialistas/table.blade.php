@@ -50,13 +50,13 @@
                             <li>
                                 <a href="{{ route('editar.paso1', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i></i>Paso 1
+                                    <i class="fa-solid fa-circle"></i>Paso 1
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('editar.paso2', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i></i></i>Paso 2
+                                    <i class="fa-solid fa-circle"></i>Paso 2
                                 </a>
                             </li>
 

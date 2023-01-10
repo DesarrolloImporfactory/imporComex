@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('impuestos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('signo');
+            $table->string('signo')->nullable();
             $table->string('estado')->nullable();
             $table->double('valor')->nullable();
             $table->timestamps();

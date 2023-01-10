@@ -61,9 +61,9 @@
                        @include('admin.impuestos.delete')
                     </div>
                 </td>
-                
+                @include('admin.impuestos.edit')
             </tr>
-            @include('admin.impuestos.edit')
+           
             @endforeach
         </tbody>
     </x-table>

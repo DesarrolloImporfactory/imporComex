@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ticket/{id}/pdf', [ReportesController::class, 'pdfTicket'])->name('ticket.pdf');
     Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
+    Route::resource('admin/calcular/impuesto', ReportesController::class)->names('calcular.impuestos');
 
     Route::resource('admin/contenedores', ContenedoresController::class)->names('admin.contenedores');
     Route::resource('admin/estados', EstadosController::class)->names('admin.estados');

@@ -20,15 +20,15 @@
             <div class="modal-body">{{ $slot }}</div>
         @endif
 
-        {{-- Modal footer --}}
-        <div class="modal-footer">
+        {{-- copiar boton cerrar --}}
+        {{-- <div class="modal-footer">
             @isset($footerSlot)
                 {{ $footerSlot }}
             @else
                 <x-adminlte-button class="{{ $makeCloseButtonClass }}"
                     data-dismiss="modal" label="Close"/>
             @endisset
-        </div>
+        </div> --}}
 
     </div>
     </div>

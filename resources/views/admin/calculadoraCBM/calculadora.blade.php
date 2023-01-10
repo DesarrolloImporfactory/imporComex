@@ -13,22 +13,22 @@
                             <div class="input-group">
 
                                 <div class="form-floating ">
-                                    <input type="number" class="form-control" id="cantidad" name="cantidad"
+                                    <input type="number" min="0"  class="form-control" id="cantidad" name="cantidad"
                                         placeholder="name@example.com">
                                     <label for="floatingInput">Cantidad</label>
                                 </div>
                                 <div class="form-floating ">
-                                    <input type="number" class="form-control" id="longitud" name="longitud"
+                                    <input type="number" min="0"  class="form-control" id="longitud" name="longitud"
                                         placeholder="name@example.com">
                                     <label for="floatingInput">Longitud</label>
                                 </div>
                                 <div class="form-floating ">
-                                    <input type="number" class="form-control" id="anchura" name="anchura"
+                                    <input type="number" min="0"  class="form-control" id="anchura" name="anchura"
                                         placeholder="name@example.com">
-                                    <label for="floatingInput">Anchura</label>
+                                    <label for="floatingInput">Ancho</label>
                                 </div>
                                 <div class="form-floating ">
-                                    <input type="number" class="form-control" id="altura" name="altura"
+                                    <input type="number" min="0" class="form-control" id="altura" name="altura"
                                         placeholder="name@example.com">
                                     <label for="floatingInput">Altura</label>
                                 </div>
@@ -68,8 +68,9 @@
             document.getElementById('total').value = "Revisar los campos";
         } else {
             let result = (longitud * anchura * altura) / 1000000;
-            document.getElementById('total').value = result;
-            document.getElementById('volumen').value = result;
+            let total = result*cantidad;
+            document.getElementById('total').value = total;
+            document.getElementById('volumen').value = total;
         }
 
 

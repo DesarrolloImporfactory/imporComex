@@ -117,11 +117,11 @@
             <tbody>
                 <tr>
                     <td><b>Total Servicio Logístico</b></td>
-                    <td>Pendiente</td>
+                    <td>{{ $cotizacion->total_logistica }}$</td>
                 </tr>
                 <tr>
                     <td><b>Impuestos apróx. </b></td>
-                    <td>Pendiente</td>
+                    <td>{{ $cotizacion->total_impuesto }}$</td>
                 </tr>
                 <tr>
                     <td><b>Gtos. TOTAL A PAGAR: </b></td>

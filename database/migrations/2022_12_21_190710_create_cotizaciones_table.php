@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
@@ -45,13 +41,14 @@ return new class extends Migration
             $table->string('gastos_exw')->nullable();
             $table->boolean('seguro')->nullable();
             $table->integer('proceso')->nullable();
-            $table->string('pais_od')->nullable();
             $table->string('origen')->nullable();
             $table->string('peso')->nullable();
             $table->string('volumen')->nullable();
             $table->string('direccion')->nullable();
             $table->string('ciudad_entrega')->nullable();
             $table->string('ruta')->nullable();
+            $table->string('total_logistica')->nullable();
+            $table->string('total_impuesto')->nullable();
             $table->string('total')->nullable();
             $table->timestamps();
         });

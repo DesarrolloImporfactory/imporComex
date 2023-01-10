@@ -3,13 +3,7 @@
 @section('title', 'Calculadora colombia')
 
 @section('content_header')
-    {{-- <div class="row ">
-        <div class="col-sm-12">
-            <x-adminlte-info-box title="Progreso de tu Importación" text="1/4" icon="fas fa-lg fa-tasks text-orange"
-                theme="warning" icon-theme="dark" progress=25 progress-theme="dark"
-                description="25% para completa tu solicitud" />
-        </div>
-    </div> --}}
+    
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
@@ -101,7 +95,7 @@
                                         placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
                                         aria-describedby="basic-addon2">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                        <button title="Calculadora" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                 class="fa-solid fa-question"></i></button>
                                     </div>
                                 </div>

@@ -32,7 +32,7 @@ class ValidacionesController extends Controller
         $barcode = $cotizacion->barcode;
         $inBackground = true;
         $impuesto = Impuesto::all();
-        return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'proveedores', 'inBackground','impuesto']));
+        return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'proveedores', 'inBackground', 'impuesto']));
         //return $proveedores;
 
     }
@@ -139,11 +139,11 @@ class ValidacionesController extends Controller
             }
 
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
-            $total = ($cotizacion->total) + (($proveedores) * 50);
+            $total = ($cotizacion->total_logistica) + (($proveedores) * 50);
 
             $datos = array(
                 "proceso" => '2',
-                "total" => $total
+                "total_logistica" => $total
             );
             Cotizaciones::whereid($cotizacion_id)->update($datos);
             DB::table('contenedor_cotizacions')->insert([
@@ -161,16 +161,23 @@ class ValidacionesController extends Controller
 
     public function editpaso2($data)
     {
+        
         $validacion = Validacion::wherecotizacion_id($data)->first();
         $validaciones = Validacion::wherecotizacion_id($data)->get();
         $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad', 'validacions'])->first();
-        $datos = [
-            'validacion' => $validacion,
-            'cotizacion' => $cotizacion,
-            'validaciones' => $validaciones
-        ];
-        //return $data;
-        return view('admin.paso2.edit', $datos);
+        if(count($validaciones)>0){
+            $datos = [
+                'validacion' => $validacion,
+                'cotizacion' => $cotizacion,
+                'validaciones' => $validaciones
+            ];
+            return view('admin.paso2.edit', $datos);
+        }else{
+            return redirect()->route('admin.colombia.edit', $data)->with('mensaje','Completemos la cotizacion!');
+        }
+         
+        // //return $data;
+        // 
     }
 
     public function edit($data)
@@ -198,25 +205,25 @@ class ValidacionesController extends Controller
 
         if ($liquidos == 'si' || $inflamable == 'si') {
             $data = Cotizaciones::whereid($cotizacion_id)->first();
-            
-            return redirect()->route('editar.paso2', $data)->with('error','error');
+
+            return redirect()->route('editar.paso2', $data)->with('error', 'error');
         } else {
-            if(($request->input('condicion'))=="verdad"){
+            if (($request->input('condicion')) == "verdad") {
                 for ($i = 1; $i < $contador; $i++) {
 
                     if ($request->hasFile('factura' . $i)) {
-                        Storage::delete('public/'.$request->input('facturaOriginal'.$i));
+                        Storage::delete('public/' . $request->input('facturaOriginal' . $i));
                         $archivo = $request->file('factura' . $i)->store('docs', 'public');
                     } else {
-                        $archivo = $request->input('facturaOriginal'.$i);
+                        $archivo = $request->input('facturaOriginal' . $i);
                     }
                     if ($request->hasFile('foto' . $i)) {
-                        Storage::delete('public/'.$request->input('fotoOriginal'.$i));
+                        Storage::delete('public/' . $request->input('fotoOriginal' . $i));
                         $foto = $request->file('foto' . $i)->store('uploads', 'public');
                     } else {
-                        $foto = $request->input('fotoOriginal'.$i);
+                        $foto = $request->input('fotoOriginal' . $i);
                     }
-    
+
                     if ($request->input('nombre_pro' . $i)) {
                         $nombre_pro = $request->input('nombre_pro' . $i);
                     } else {
@@ -237,8 +244,8 @@ class ValidacionesController extends Controller
                     } else {
                         $total_cartones = 'null';
                     }
-    
-                    DB::table('validacions')->where('id',$id)->update([
+
+                    DB::table('validacions')->where('id', $id)->update([
                         'liquidos' => $liquidos,
                         'inflamable' => $inflamable,
                         'proveedores' => $proveedores,
@@ -251,11 +258,11 @@ class ValidacionesController extends Controller
                         'created_at' => now()
                     ]);
                 }
-            }else{
-                Validacion::where('cotizacion_id',$cotizacion_id)->delete();
+            } else {
+                Validacion::where('cotizacion_id', $cotizacion_id)->delete();
                 for ($i = 1; $i < $contador; $i++) {
 
-                    
+
 
                     if ($request->hasFile('factura' . $i)) {
                         $archivo = $request->file('factura' . $i)->store('docs', 'public');
@@ -267,7 +274,7 @@ class ValidacionesController extends Controller
                     } else {
                         $foto = 'null';
                     }
-    
+
                     if ($request->input('nombre_pro' . $i)) {
                         $nombre_pro = $request->input('nombre_pro' . $i);
                     } else {
@@ -288,7 +295,7 @@ class ValidacionesController extends Controller
                     } else {
                         $total_cartones = 'null';
                     }
-    
+
                     DB::table('validacions')->insert([
                         'liquidos' => $liquidos,
                         'inflamable' => $inflamable,
@@ -305,7 +312,7 @@ class ValidacionesController extends Controller
                 }
             }
         }
-        return redirect()->route('admin.especialistas.show',$usuarioId)->with('mensaje','Paso 2 Actualizado');
+        return redirect()->route('admin.especialistas.show', $usuarioId)->with('mensaje', 'Paso 2 Actualizado');
     }
 
 

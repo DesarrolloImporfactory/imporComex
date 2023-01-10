@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContenedorSeeder::class);
         $this->call(IncotermSeeder::class);
         $this->call(TarifaSeeder::class);
+        $this->call(ImpuestoSeeder::class);
     }
 }

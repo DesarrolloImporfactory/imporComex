@@ -116,8 +116,8 @@
                             placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
                             aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" onclick="ejecutar()"><i
-                                    class="fa-solid fa-question"></i></button>
+                            <button title="Calculadora" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                class="fa-solid fa-question"></i></button>
                         </div>
                     </div>
                     @error('volumen')
@@ -131,6 +131,7 @@
                 </div>
             </div>
         </form>
+        @include('admin.calculadoraCBM.calculadora')
     </x-adminlte-card>
 
     <script type="text/javascript">

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->bigInteger('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
 
-            $table->date('fecha')->nullable();
+            $table->string('valor')->nullable();
             $table->timestamps();
         });
     }

@@ -21,7 +21,17 @@
             })
         </script>
     @endif
-
+    @if (Session::has('mensaje'))
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{{ Session::get('mensaje') }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    @endif
 
     {{-- <div class="row ">
         <x-adminlte-info-box title="Progreso de tu Importación" text="{{ $cotizacion->proceso }}/4"
@@ -116,9 +126,9 @@
                                                     value="{{ $cotizacion->volumen }}" disabled>
                                             </div>
                                             <div class="form-group" style="color: red">
-                                                <label for="">Total: </label>
+                                                <label for="">Total valor logistica: </label>
                                                 <input type="text" class="form-control "
-                                                    value="{{ $cotizacion->total }}" disabled style="color: red">
+                                                    value="{{ $cotizacion->total_logistica }}" disabled style="color: red">
                                             </div>
                                         </div>
                                     </div>

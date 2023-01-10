@@ -107,7 +107,8 @@
     </div><br><br><br><br><br><br><br><br>
     <div class="row">
         <div class="col-md-12 text-center">
-            <button class="btn btn-outline-dark">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</button>
+            
+            <a class="btn btn-outline-dark " href="{{ route('admin.individual.create') }}" target="_blank">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</a>
         </div>
     </div>
 @stop
