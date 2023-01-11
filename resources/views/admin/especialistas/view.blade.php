@@ -19,7 +19,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <x-adminlte-card title="Gestionar cotizaciones asignadas" theme="dark" icon="fa-solid fa-handshake-angle">
                 <form action="{{ route('admin.especialistas.update', $cotizacion->id) }}" method="post" id="formCreate">
                     {{ method_field('PATCH') }}
@@ -31,7 +31,7 @@
 
                                 {!! DNS1D::getBarcodeHTML("$cotizacion->barcode", 'C128A') !!}
                                 <div class="text-center">
-                                    {{$cotizacion->barcode}}
+                                    {{ $cotizacion->barcode }}
                                 </div>
                             </div>
                         </div>
@@ -55,8 +55,6 @@
                                         <option value="Pendiente">Pendiente</option>
                                     @endif
                                 </select>
-
-                                {{-- <input type="text" name="estado" class="form-control" value="{{$cotizacion->estado}}" > --}}
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -107,13 +105,6 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Cantidad de Productos:</label>
-                                <input type="text" name="total_productos" class="form-control"
-                                    value="{{ $cotizacion->total_productos }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
                                 <label for="">Precio China:</label>
                                 <input type="text" name="precio_china" class="form-control"
                                     value="{{ $cotizacion->precio_china }}" disabled>
@@ -129,49 +120,97 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Peso de Exportacion:</label>
-                                <input type="text" name="peso" class="form-control"
-                                    value="{{ $cotizacion->peso }}" disabled>
+                                <input type="text" name="peso" class="form-control" value="{{ $cotizacion->peso }}"
+                                    disabled>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Volumen de Exportacion:</label>
                                 <input type="text" name="volumen" class="form-control"
                                     value="{{ $cotizacion->volumen }}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Ciudad y dir. de entrega:</label>
                                 <input type="text" name="estado" class="form-control"
                                     value="{{ $cotizacion->ciudad_entrega }} - {{ $cotizacion->direccion }}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Costo total:</label>
                                 <input type="text" name="total" class="form-control"
                                     value="{{ $cotizacion->total }}" disabled>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Cantidad de proveedores: </label>
+                                <input type="text" name="total" class="form-control"
+                                    value="{{ $proveedores->proveedores }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
 
                     </div>
                 </form>
+
             </x-adminlte-card>
         </div>
-        <div class="col-md-2">
-            <x-adminlte-card title="Archivos Adjuntados" theme="dark" icon="fa-solid fa-handshake-angle">
+        <div class="col-md-3">
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <x-adminlte-card title="Informacion del proveedor" theme="dark" icon="fa-solid fa-handshake-angle">
                 @php
                     $contador = 1;
+                    $contador1 = 1;
+                    $contador2 = 1;
                 @endphp
-                @foreach ($proveedor as $item)
-                        <a href="{{route('admin.dowload',$item->id)}}" class="btn btn-danger">Foto {{$contador++}}</a><br><br>                 
-                @endforeach
-                @foreach ($proveedor as $item)
-                        <a href="{{route('admin.dowload.archivo',$item->id)}}" class="btn btn-primary">Archivo {{$contador++}}</a><br><br>                 
-                @endforeach
+                <p for="">Tiene liquidos?: {{ $proveedores->liquidos }}</p>
+                <p for="">Es inflamable?: {{ $proveedores->inflamable }}</p>
+                <table class="table">
+                    
+                    
+                    <thead>
+                    @foreach ($proveedor as $item)
+                    
+                        <tr>
+
+                            <th scope="col">Proveedor {{$contador++}}: </th>
+                            <td>{{$item->nombre_pro}}</td>
+                            <th scope="col">Cantidad de cartones: </th>
+                            <td>{{$item->total_cartones}}</td>
+                        </tr>
+                       
+                        <tr>
+                            <th scope="col">Foto: </th>
+                            <td><a href="{{route('admin.dowload',$item->id)}}" class="btn btn-danger">Foto {{$contador1++}}</a></td>
+                            <th scope="col">Archivo: </th>
+                            <td><a href="{{ route('admin.dowload.archivo', $item->id) }}" class="btn btn-primary">Archivo
+                                {{ $contador2++ }}</a></td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="col">Enlace: </th>
+                            <td>{{$item->enlace}}</td>
+                            <th scope="col">Contacto: </th>
+                            <td>{{$item->contacto}}</td>
+                        </tr>
+                    @endforeach
+                </thead>
+                </table>
+
             </x-adminlte-card>
         </div>
     </div>

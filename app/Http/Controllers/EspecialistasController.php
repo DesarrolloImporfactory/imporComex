@@ -90,9 +90,10 @@ public function __construct()
     public function edit($id)
     {
         $proveedor = Validacion :: where('cotizacion_id',$id)->get();
+        $proveedores = Validacion :: where('cotizacion_id',$id)->first();
         $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->first();
         //return $proveedor;
-        return view('admin.especialistas.view', compact('cotizacion','proveedor'));
+        return view('admin.especialistas.view', compact('cotizacion','proveedor','proveedores'));
     }
 
 
