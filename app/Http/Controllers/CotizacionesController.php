@@ -56,12 +56,13 @@ class CotizacionesController extends Controller
         } else if ($usuario == "Especialista") {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
             $cotizacionIndividual = CoIndividual::with(['origen', 'destino', 'incoter', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
+            $cotizaciones = Cotizaciones::where('especialista_id',$id)->count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         } else {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizacionIndividual = CoIndividual::with(['origen', 'destino', 'incoter', 'usuario', 'especialista'])->whereusuario_id($id)->get();
-            $cotizaciones = Cotizaciones::count();
+            $cotizaciones = Cotizaciones::where('id',$id)->count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         }
