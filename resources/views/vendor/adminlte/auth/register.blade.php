@@ -1,34 +1,34 @@
 @extends('adminlte::auth.auth-page', ['auth_type' => 'register'])
 
-@php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login') )
-@php( $register_url = View::getSection('register_url') ?? config('adminlte.register_url', 'register') )
+@php($login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login'))
+@php($register_url = View::getSection('register_url') ?? config('adminlte.register_url', 'register'))
 
 @if (config('adminlte.use_route_url', false))
-    @php( $login_url = $login_url ? route($login_url) : '' )
-    @php( $register_url = $register_url ? route($register_url) : '' )
+    @php($login_url = $login_url ? route($login_url) : '')
+    @php($register_url = $register_url ? route($register_url) : '')
 @else
-    @php( $login_url = $login_url ? url($login_url) : '' )
-    @php( $register_url = $register_url ? url($register_url) : '' )
+    @php($login_url = $login_url ? url($login_url) : '')
+    @php($register_url = $register_url ? url($register_url) : '')
 @endif
 
 @section('auth_header')
-<br>
-<div class="">
-    <div class="row">
-        <div class="col-sm-2 ">
+    <br>
+    <div class="">
+        <div class="row">
+            <div class="col-sm-2 ">
 
-        </div>
-        <div class="col-sm-4 text-center ">
-           <img src="../assets/imporcomexImage/logo-dany-travel.png" width="90" alt="">
-        </div>
-        <div class="col-sm-4  text-center">
-            <img src="../assets/imporcomexImage/logo_academia.png" width="115" alt="">
-        </div>
-        <div class="col-sm-2  ">
+            </div>
+            <div class="col-sm-4 text-center ">
+                <img src="../assets/imporcomexImage/logo-dany-travel.png" width="90" alt="">
+            </div>
+            <div class="col-sm-4  text-center">
+                <img src="../assets/imporcomexImage/logo_academia.png" width="115" alt="">
+            </div>
+            <div class="col-sm-2  ">
 
+            </div>
         </div>
     </div>
-</div>
 @stop
 
 
@@ -40,7 +40,7 @@
         {{-- Name field --}}
         <div class="input-group mb-3">
             <input autocomplete="off" type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                   value="{{ old('name') }}" placeholder="Nombre Completo" autofocus>
+                value="{{ old('name') }}" placeholder="Nombre Completo" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -57,8 +57,9 @@
 
         {{-- telefono --}}
         <div class="input-group mb-3">
-            <input autocomplete="off" type="number" name="telefono" class="form-control @error('telefono') is-invalid @enderror"
-                   value="{{ old('telefono') }}" placeholder="Teléfono" autofocus>
+            <input autocomplete="off" type="number" name="telefono"
+                class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}"
+                placeholder="Teléfono" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -76,9 +77,9 @@
         {{-- Fecha --}}
         <div class="input-group mb-3">
             <input autocomplete="off" type="date" name="date" class="form-control @error('date') is-invalid @enderror"
-                   value="{{ old('date') }}" placeholder="Fecha de Nacimiento" autofocus>
+                value="{{ old('date') }}" placeholder="Fecha de Nacimiento" autofocus>
 
-        
+
             @error('date')
                 <span class="invalid-feedback" role="alert">
                     <strong>La fecha es requerida</strong>
@@ -88,15 +89,16 @@
 
         {{-- Importacion --}}
         <div class="input-group mb-3">
-            <input autocomplete="off" type="text" name="importacion" class="form-control @error('importacion') is-invalid @enderror"
-                   value="{{ old('importacion') }}" placeholder="Importaciones realizas en 1 año" autofocus>
+            <input autocomplete="off" type="text" name="importacion"
+                class="form-control @error('importacion') is-invalid @enderror" value="{{ old('importacion') }}"
+                placeholder="Importaciones realizas en 1 año" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-hashtag {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-        
+
             @error('importacion')
                 <span class="invalid-feedback" role="alert">
                     <strong>La importación es requerida</strong>
@@ -104,17 +106,19 @@
             @enderror
         </div>
         
-        {{-- Idioma--}}
+        {{-- Idioma --}}
         <div class="input-group mb-3">
-            <input autocomplete="off" type="text" name="idioma" id="autocomplete" class="form-control @error('idioma') is-invalid @enderror"
-                   value="{{ old('idioma') }}" placeholder="Idioma" autofocus>
+            <input autocomplete="off" type="text" name="idioma" id="autocomplete"
+                class="form-control @error('idioma') is-invalid @enderror" value="{{ old('idioma') }}" placeholder="Idioma"
+                autofocus>
+            
 
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-language {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-        
+
             @error('idioma')
                 <span class="invalid-feedback" role="alert">
                     <strong>El idioma es requerido</strong>
@@ -124,8 +128,9 @@
 
         {{-- Email field --}}
         <div class="input-group mb-3">
-            <input autocomplete="off" type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                   value="{{ old('email') }}" placeholder="Correo electrónico">
+            <input autocomplete="off" type="email" name="email"
+                class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
+                placeholder="Correo electrónico">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -142,8 +147,9 @@
 
         {{-- Password field --}}
         <div class="input-group mb-3">
-            <input autocomplete="off" type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                   placeholder="{{ __('adminlte::adminlte.password') }}">
+            <input autocomplete="off" type="password" name="password"
+                class="form-control @error('password') is-invalid @enderror"
+                placeholder="{{ __('adminlte::adminlte.password') }}">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -161,8 +167,8 @@
         {{-- Confirm password field --}}
         <div class="input-group mb-3">
             <input autocomplete="off" type="password" name="password_confirmation"
-                   class="form-control @error('password_confirmation') is-invalid @enderror"
-                   placeholder="Vuelva a escribir la contraseña">
+                class="form-control @error('password_confirmation') is-invalid @enderror"
+                placeholder="Vuelva a escribir la contraseña">
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -178,7 +184,8 @@
         </div>
 
         {{-- Register button --}}
-        <button style="background-color:#DB2311" type="submit" class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-danger') }}">
+        <button style="background-color:#DB2311" type="submit"
+            class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-danger') }}">
             <span class="fas fa-user-plus"></span>
             REGISTRAR
         </button>
@@ -186,16 +193,15 @@
     </form>
 
     <script>
-       
-        $( "#autocomplete" ).autocomplete({
-            source: function(request, response){
+        $("#autocomplete").autocomplete({
+            source: function(request, response) {
                 $.ajax({
-                    url: "{{route('search.idioma')}}",
+                    url: "{{ route('search.idioma') }}",
                     dataType: 'json',
                     data: {
                         temp: request.temp
                     },
-                    success: function(data){
+                    success: function(data) {
                         response(data)
                     }
                 });
@@ -211,8 +217,6 @@
             <a href="{{ $login_url }}">
                 ¿Ya tienes cuenta?
             </a>
-        </p>            
+        </p>
     </div>
 @stop
-
-

@@ -32,10 +32,14 @@ class ColombiaController extends Controller
         $modalidad = Modalidades::findOrFail($idModalidad);
         $idPais = $request->input('pais');
         $pais = Paises::findOrFail($idPais);
+        $clientes = User::whereHas("roles", function ($q) {
+            $q->where("name", "Client");
+        })->get();
 
         $mensajes = [
             'modalidad' => $modalidad,
             'paises' => $pais,
+            'clientes'=>$clientes
 
         ];
         if ($modalidad->id == "3") {
@@ -49,9 +53,10 @@ class ColombiaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'usuario_id' => ['required'],
-            'producto' => ['required', 'string', 'max:2555'],
+        if($request->input('existe')){
+            $request->validate([
+                'cliente' => ['required'], 
+                'producto' => ['required', 'string', 'max:2555'],
             'peso' => ['required',],
             'cargas_id' => ['required'],
             'tiene_bateria' => ['required'],
@@ -59,7 +64,28 @@ class ColombiaController extends Controller
             'direccion' => ['required', 'string', 'min:5'],
             'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
             'ciudad_entrega' => ['required'],
-        ]);
+            ]);
+        }else{
+            $request->validate([
+                'producto' => ['required', 'string', 'max:2555'],
+                'peso' => ['required',],
+                'cargas_id' => ['required'],
+                'tiene_bateria' => ['required'],
+                'precio_china' => ['required', 'numeric:0'],
+                'direccion' => ['required', 'string', 'min:5'],
+                'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
+                'ciudad_entrega' => ['required'],
+            ]);
+        }
+
+        if($request->input('cliente')){
+            
+            $cliente = $request->input('cliente');
+        }else{
+            $cliente = $request->input('usuario_id');
+        }
+
+        
         $grupal = new Cotizaciones();
         $volumen = $request->input('volumen');
 
@@ -154,9 +180,10 @@ class ColombiaController extends Controller
 
             $especialista = $idEspecialistaNuevo;
         }
+        
         $grupal->barcode = $barcode;
         $peso = $request->input('peso') . 'kg';
-        $grupal->usuario_id = $request->input('usuario_id');
+        $grupal->usuario_id = $cliente;
         $grupal->pais_id = $request->input('pais');
         $grupal->modalidad_id = $request->input('modalidad');
         $grupal->producto = $request->input('producto');
@@ -217,8 +244,6 @@ class ColombiaController extends Controller
         }else{
             return redirect()->route('admin.colombia.edit', $id)->with('mensaje','Completemos la cotizacion!');
         }
-        
-        //return redirect()->route('admin.especialistas.show',$usuarioId)->with('mensaje','Paso 1 actualizado!');
     }
     public function update(Request $request, $id)
     {
@@ -231,6 +256,7 @@ class ColombiaController extends Controller
         return redirect('colombia')->with('mensaje', 'Cotizacion Actualizado');
         //return $datos;
     }
+
 
 
     public function destroy($id)

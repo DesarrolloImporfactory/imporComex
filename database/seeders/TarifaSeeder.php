@@ -13,8 +13,8 @@ class TarifaSeeder extends Seeder
     {
         $tarifas=[
             [
-                'm3'=>'0..5',
-                'vxcbm'=>'350.00',
+                'm3'=>'0.5',
+                'vxcbm'=>'700.00',
                 'tcbm'=>'350'
             ],
             [

@@ -8,6 +8,7 @@ use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
 use App\Models\Contenedores;
 use App\Models\Impuesto;
+use App\Models\cotizacion_impuesto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,14 +26,19 @@ class ValidacionesController extends Controller
     public function print($cotizacion_id)
     {
 
-
+        $relacion = cotizacion_impuesto::where('cotizacion_id',$cotizacion_id)->exists();
+        if($relacion==1){
+            $impuestoCotizacion = cotizacion_impuesto::where('cotizacion_id',$cotizacion_id)->with('impuesto')->get();
+        }else{
+            $impuestoCotizacion="falso";
+        }
         $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario'])->first();
         $carbon = new \Carbon\Carbon();
         $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
         $barcode = $cotizacion->barcode;
         $inBackground = true;
         $impuesto = Impuesto::all();
-        return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'proveedores', 'inBackground', 'impuesto']));
+        return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'proveedores', 'inBackground', 'impuesto','impuestoCotizacion']));
         //return $proveedores;
 
     }
@@ -312,7 +318,8 @@ class ValidacionesController extends Controller
                 }
             }
         }
-        return redirect()->route('admin.especialistas.show', $usuarioId)->with('mensaje', 'Paso 2 Actualizado');
+        return redirect()->route('validacion.print', $cotizacion_id);
+        //return redirect()->route('admin.especialistas.show', $usuarioId)->with('mensaje', 'Paso 2 Actualizado');
     }
 
 

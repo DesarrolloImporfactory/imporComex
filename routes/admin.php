@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RolesController::class)->names('admin.roles');
 
     Route::resource('calculadoras', CalculadorasController::class)->names('admin.calculadoras');
+    Route::get('admin/calculadoras',[UsuariosController::class, 'createUserFast'])->name('create.user.fast');
 
     Route::resource('colombia', ColombiaController::class)->names('admin.colombia');
 
