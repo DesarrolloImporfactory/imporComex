@@ -42,8 +42,6 @@ class IdiomasController extends Controller
         $datosIdiomas = new Idioma();
         $datosIdiomas->nombre=$request->input('nombre');
         $datosIdiomas->codigo=$request->input('codigo');
-
-        // return response()->json($datosIdiomas);
         $datosIdiomas->save();
         return redirect('idiomas')->with('mensaje','Idioma registrado');
     }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Idioma;
+use App\Models\Paises;
+use App\Models\Modalidades;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades;
@@ -27,6 +29,37 @@ class UsuariosController extends Controller
         ];
 
         return view('admin.usuarios.index',$datos);
+    }
+
+    public function createUserFast(Request $request){
+
+        $idModalidad = $request->input('modalidad');
+        $modalidad = Modalidades::findOrFail($idModalidad);
+        $idPais = $request->input('paises');
+        $pais = Paises::findOrFail($idPais);
+        $clientes = User::whereHas("roles", function ($q) {
+            $q->where("name", "Client");
+        })->get();
+
+        $mensajes = [
+            'modalidad' => $modalidad,
+            'paises' => $pais,
+            'clientes'=>$clientes
+
+        ];
+        $request->validate([
+            'nombre'=>['required'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+               
+         ]);
+        User::create([
+            'name'=>$request->input('nombre'),
+            'telefono'=>$request->input('telefono'),
+            'email'=>$request->input('email'),
+            'password'=>Hash::make($request->input('password')),
+        ])->assignRole('Client'); 
+
+        return view('admin.calculadoras.colombia.grupal.create', $mensajes);
     }
 
    
