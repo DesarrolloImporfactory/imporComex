@@ -7,7 +7,7 @@ use App\Models\Modalidades;
 use App\Models\Paises;
 use App\Models\tipo_cargas;
 use App\Models\User;
-use App\Models\Incoterm;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Validacion;
 use App\Models\Cotizaciones;
 use Illuminate\Support\Facades\Validator;
@@ -15,10 +15,11 @@ use App\Models\tarifaGruapl;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use App\Mail\EmailEspecialista;
 
 class ColombiaController extends Controller
 {
-   
+
 
     public function index()
     {
@@ -39,7 +40,7 @@ class ColombiaController extends Controller
         $mensajes = [
             'modalidad' => $modalidad,
             'paises' => $pais,
-            'clientes'=>$clientes
+            'clientes' => $clientes
 
         ];
         if ($modalidad->id == "3") {
@@ -53,19 +54,19 @@ class ColombiaController extends Controller
 
     public function store(Request $request)
     {
-        if($request->input('existe')){
+        if ($request->input('existe')) {
             $request->validate([
-                'cliente' => ['required'], 
+                'cliente' => ['required'],
                 'producto' => ['required', 'string', 'max:2555'],
-            'peso' => ['required',],
-            'cargas_id' => ['required'],
-            'tiene_bateria' => ['required'],
-            'precio_china' => ['required', 'numeric:0'],
-            'direccion' => ['required', 'string', 'min:5'],
-            'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
-            'ciudad_entrega' => ['required'],
+                'peso' => ['required',],
+                'cargas_id' => ['required'],
+                'tiene_bateria' => ['required'],
+                'precio_china' => ['required', 'numeric:0'],
+                'direccion' => ['required', 'string', 'min:5'],
+                'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
+                'ciudad_entrega' => ['required'],
             ]);
-        }else{
+        } else {
             $request->validate([
                 'producto' => ['required', 'string', 'max:2555'],
                 'peso' => ['required',],
@@ -78,14 +79,14 @@ class ColombiaController extends Controller
             ]);
         }
 
-        if($request->input('cliente')){
-            
+        if ($request->input('cliente')) {
+
             $cliente = $request->input('cliente');
-        }else{
+        } else {
             $cliente = $request->input('usuario_id');
         }
 
-        
+
         $grupal = new Cotizaciones();
         $volumen = $request->input('volumen');
 
@@ -169,10 +170,13 @@ class ColombiaController extends Controller
         $consulta = DB::select($query);
         //condicion para saber si existe cotizaciones asignadas
         if (count($consulta) > 0) {
+            
             $id = min($consulta);
+            
             $idEspecialistaExistente = $id->especialista_id;
             if ($idEspecialistaNuevo != $idEspecialistaExistente) {
                 $especialista = $idEspecialistaNuevo;
+               
             } else {
                 $especialista = $idEspecialistaExistente;
             }
@@ -180,7 +184,12 @@ class ColombiaController extends Controller
 
             $especialista = $idEspecialistaNuevo;
         }
-        
+        ////Envio de correo electronico al especialista
+        $datosEspecialista = User::findOrFail($especialista);
+        $emailEsp =$datosEspecialista->email;
+        $correo = new EmailEspecialista;
+        Mail::to($emailEsp)->send($correo);
+        /// fin de correo
         $grupal->barcode = $barcode;
         $peso = $request->input('peso') . 'kg';
         $grupal->usuario_id = $cliente;
@@ -227,22 +236,32 @@ class ColombiaController extends Controller
 
     public function actualizarPaso1(Request $request, $id)
     {
-        $usuarioId=$request->input('usuario_id');
-        $datos=[
-            'producto'=>$request->input('producto'),
-            'tiene_bateria'=>$request->input('tiene_bateria'),
-            'peso'=>$request->input('peso'),
-            'volumen'=>$request->input('volumen'),
-            'precio_china'=>$request->input('precio_china'),
-            'direccion'=>$request->input('direccion'),
-            'ciudad_entrega'=>$request->input('ciudad_entrega')
+        $request->validate([
+            'producto' => ['required', 'string', 'max:2555'],
+            'peso' => ['required',],
+            'cargas_id' => ['required'],
+            'tiene_bateria' => ['required'],
+            'precio_china' => ['required', 'numeric:0'],
+            'direccion' => ['required', 'string', 'min:5'],
+            'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
+            'ciudad_entrega' => ['required'],
+        ]);
+
+        $datos = [
+            'producto' => $request->input('producto'),
+            'tiene_bateria' => $request->input('tiene_bateria'),
+            'peso' => $request->input('peso'),
+            'volumen' => $request->input('volumen'),
+            'precio_china' => $request->input('precio_china'),
+            'direccion' => $request->input('direccion'),
+            'ciudad_entrega' => $request->input('ciudad_entrega')
         ];
-        Cotizaciones::where('id',$id)->update($datos);
-        $validacion=Validacion::where('cotizacion_id',$id)->get();
-        if(count($validacion)>0){
+        Cotizaciones::where('id', $id)->update($datos);
+        $validacion = Validacion::where('cotizacion_id', $id)->get();
+        if (count($validacion) > 0) {
             return redirect()->route('editar.paso2', $id);
-        }else{
-            return redirect()->route('admin.colombia.edit', $id)->with('mensaje','Completemos la cotizacion!');
+        } else {
+            return redirect()->route('admin.colombia.edit', $id)->with('mensaje', 'Completemos la cotizacion!');
         }
     }
     public function update(Request $request, $id)

@@ -104,10 +104,7 @@
             $('.calculadora').submit(function(e) {
                 e.preventDefault();
                 var k = 1;
-                // let cantidad1 = $("#cantidad").val();
-                // let longitud1 = $("#longitud").val();
-                // let anchura1 = $("#anchura").val();
-                // let altura1 = $("#altura").val();
+               
                 var contador = 0;
                 for (let step = 0; step < j; step++) {
                     let cantidad = $("#cantidad" + k).val();
@@ -125,7 +122,7 @@
                         let total = result * cantidad;
                         contador = contador+total;
                         let valor = document.getElementById('total').value;
-                        document.getElementById('total' + k).value = total;
+                        document.getElementById('total' + k).value = (parseFloat(total)).toFixed(2);
                         document.getElementById('volumen').value = (parseFloat(contador)+parseFloat(valor)).toFixed(2);
                     }
                     k++
@@ -162,8 +159,9 @@
         } else {
             let result = (longitud * anchura * altura) / 1000000;
             let total = result * cantidad;
-            document.getElementById('total').value = total;
-            document.getElementById('volumen').value = total;
+            document.getElementById('total').value = (parseFloat(total)).toFixed(2);
+            document.getElementById('volumen').value = (parseFloat(total)).toFixed(2);
+            
         }
 
 

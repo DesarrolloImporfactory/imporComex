@@ -66,7 +66,6 @@
                     @endforeach
                 </div>
             </div>
-
             {{-- div para los inputs dinamicos --}}
         </div>
     </div>
@@ -183,7 +182,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 //codigo para vaciar el div antes de ejecutar
-                
+
                 $(".datos").remove();
 
                 $(".newData").empty();

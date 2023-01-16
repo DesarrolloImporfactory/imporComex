@@ -54,7 +54,7 @@
                         <div class="card-body">
                             {{-- <h5 class="">{{ $pais->nombre_pais }}</h5> --}}
                             <img src="../assets/imporcomexImage/colombia.jpg" width="155px" alt=""
-                                style="border-radius: 20px;">
+                                style="border-radius: 20px; opacity: 0.5;">
 
                         </div>
                         <div>
@@ -62,13 +62,13 @@
 
                                 @csrf
                                 <input type="hidden" name="pais" id="" value="{{ $pais->id }}">
-                                <select class="selectpicker show-tick" data-width="75%" name="modalidad"
+                                <select class="selectpicker show-tick" data-width="75%" name="modalidad" disabled
                                     title="SELECCIONA TU TIPO DE CARGA" required>
                                     <option value="1">FCL</option>
                                     <option value="3">GRUPAL</option>
                                     <option value="2">LCL</option>
                                 </select><br><br>
-                                <button type="submit" class="btn btn-dark"><b>INGRESAR</b></button>
+                                <button type="submit" class="btn btn-dark" disabled><b>Proximamente</b></button>
                             </form>
                         </div><br>
 
@@ -81,7 +81,7 @@
                         <div class="card-body">
                             {{-- <h5 class="">{{ $pais->nombre_pais }}</h5> --}}
                             <img src="../assets/imporcomexImage/eeuu.jpg" width="150px" alt=""
-                                style="border-radius: 20px;">
+                                style="border-radius: 20px; opacity: 0.5;">
 
                         </div>
                         <div>
@@ -89,13 +89,13 @@
 
                                 @csrf
                                 <input type="hidden" name="pais" id="" value="{{ $pais->id }}">
-                                <select class="selectpicker show-tick" data-width="75%" name="modalidad"
+                                <select class="selectpicker show-tick" data-width="75%" name="modalidad" disabled
                                     title="SELECCIONA TU TIPO DE CARGA" required>
                                     <option value="1">FCL</option>
                                     <option value="3">GRUPAL</option>
                                     <option value="2">LCL</option>
                                 </select><br><br>
-                                <button type="submit" class="btn btn-dark"><b>INGRESAR</b></button>
+                                <button type="submit" class="btn btn-dark" disabled><b>Proximamente</b></button>
                             </form>
                         </div><br>
 
@@ -118,7 +118,7 @@
         .card {
             background: #E3E3E3 !important;
             position: relative !important;
-
+           
         }
 
         .content-wrapper {

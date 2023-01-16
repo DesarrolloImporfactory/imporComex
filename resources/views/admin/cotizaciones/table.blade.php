@@ -40,22 +40,33 @@
                             <li>
                                 <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
                                     class="dropdown-item   text-primary " title="Details">
-                                    <i class="fa fa-lg fa-fw fa-eye"></i>Detalles
+                                    <i class="fa fa-lg fa-fw fa-eye"></i> Detalles
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('editar.paso1', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i></i>Paso 1
+                                    <i class="fa-solid fa-circle"></i> Paso 1
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('editar.paso2', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i></i></i>Paso 2
+                                    <i class="fa-solid fa-circle"></i> Paso 2
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('ticket.pdf', $cotizacion->id) }}"
+                                    class="dropdown-item   text-info " title="Details">
+                                    <i class="fa-solid fa-ticket"></i> Ticket
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('cotizacion.pdf', $cotizacion->id) }}"
+                                    class="dropdown-item   text-success " title="Details">
+                                    <i class="fa-solid fa-file-pdf"></i> Cotizacion
+                                </a>
+                            </li>
                         </ul>
                     </td>
                     @include('admin.especialistas.edit')
