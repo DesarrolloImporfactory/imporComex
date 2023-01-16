@@ -20,7 +20,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>Cotizador {{ $paises->nombre_pais }}</b></p>
+                <p><b>Cotizadorrr {{ $paises->nombre_pais }}</b></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
