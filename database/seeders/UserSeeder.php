@@ -51,6 +51,7 @@ class UserSeeder extends Seeder
             'date'=>'01/05/1998',
             'importacion'=>'12',
             'idioma'=>'Ingles',
+            // 'email_verified_at'=>'2023-01-17 16:30:44',
             'email'=>'ariel.12isaias@gmail.com',
             'password'=>bcrypt('12345678'),
         ])->assignRole('Admin');  

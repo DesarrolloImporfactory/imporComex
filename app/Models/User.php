@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\UserResetPassword;
-use App\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmails;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -58,6 +58,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmails);
     }
 }
