@@ -148,11 +148,18 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Cantidad de proveedores: </label>
-                                <input type="text" name="total" class="form-control"
-                                    value="{{ $proveedores->proveedores }}" disabled>
-                            </div>
+                            @if ($proveedor == 'false' && $proveedores == 'false')
+                                <div class="alert alert-danger">
+                                    No existe informacion de proveedores
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <label for="">Cantidad de proveedores: </label>
+                                    <input type="text" name="total" class="form-control"
+                                        value="{{ $proveedores->proveedores }}" disabled>
+                                </div>
+                            @endif
+
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
@@ -166,50 +173,56 @@
             </x-adminlte-card>
         </div>
         <div class="col-md-3">
-            
+
         </div>
     </div>
     <div class="row">
         <div class="col-md-9">
             <x-adminlte-card title="Informacion del proveedor" theme="dark" icon="fa-solid fa-handshake-angle">
-                @php
-                    $contador = 1;
-                    $contador1 = 1;
-                    $contador2 = 1;
-                @endphp
-                <p for="">Tiene liquidos?: {{ $proveedores->liquidos }}</p>
-                <p for="">Es inflamable?: {{ $proveedores->inflamable }}</p>
-                <table class="table">
-                    
-                    
-                    <thead>
-                    @foreach ($proveedor as $item)
-                    
-                        <tr>
+                @if ($proveedor == 'false' && $proveedores == 'false')
+                    <div class="alert alert-danger">
+                        No existe informacion de proveedores
+                    </div>
+                @else
+                    @php
+                        $contador = 1;
+                        $contador1 = 1;
+                        $contador2 = 1;
+                    @endphp
+                    <p for="">Tiene liquidos?: {{ $proveedores->liquidos }}</p>
+                    <p for="">Es inflamable?: {{ $proveedores->inflamable }}</p>
+                    <table class="table">
 
-                            <th scope="col">Proveedor {{$contador++}}: </th>
-                            <td>{{$item->nombre_pro}}</td>
-                            <th scope="col">Cantidad de cartones: </th>
-                            <td>{{$item->total_cartones}}</td>
-                        </tr>
-                       
-                        <tr>
-                            <th scope="col">Foto: </th>
-                            <td><a href="{{route('admin.dowload',$item->id)}}" class="btn btn-danger">Foto {{$contador1++}}</a></td>
-                            <th scope="col">Archivo: </th>
-                            <td><a href="{{ route('admin.dowload.archivo', $item->id) }}" class="btn btn-primary">Archivo
-                                {{ $contador2++ }}</a></td>
-                        </tr>
-                        
-                        <tr>
-                            <th scope="col">Enlace: </th>
-                            <td>{{$item->enlace}}</td>
-                            <th scope="col">Contacto: </th>
-                            <td>{{$item->contacto}}</td>
-                        </tr>
-                    @endforeach
-                </thead>
-                </table>
+                        <thead>
+                            @foreach ($proveedor as $item)
+                                <tr>
+
+                                    <th scope="col">Proveedor {{ $contador++ }}: </th>
+                                    <td>{{ $item->nombre_pro }}</td>
+                                    <th scope="col">Cantidad de cartones: </th>
+                                    <td>{{ $item->total_cartones }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="col">Foto: </th>
+                                    <td><a href="{{ route('admin.dowload', $item->id) }}" class="btn btn-danger">Foto
+                                            {{ $contador1++ }}</a></td>
+                                    <th scope="col">Archivo: </th>
+                                    <td><a href="{{ route('admin.dowload.archivo', $item->id) }}"
+                                            class="btn btn-primary">Archivo
+                                            {{ $contador2++ }}</a></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="col">Enlace: </th>
+                                    <td>{{ $item->enlace }}</td>
+                                    <th scope="col">Contacto: </th>
+                                    <td>{{ $item->contacto }}</td>
+                                </tr>
+                            @endforeach
+                        </thead>
+                    </table>
+                @endif
 
             </x-adminlte-card>
         </div>

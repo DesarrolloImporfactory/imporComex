@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IdiomasController;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,9 @@ use Illuminate\Routing\RouteGroup;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('verified');
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
 
 
 Route::get('/register',[IdiomasController::class,'register'])->name('register');

@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'idioma'=>'Ingles',
             'email'=>'victor.robles@gmail.com',
             'password'=>bcrypt('12345678'),
-        ])->assignRole('Admin');  
+        ])->assignRole('Client');  
 
         User::create([
             'name'=>'Pedro',
@@ -53,6 +53,6 @@ class UserSeeder extends Seeder
             'idioma'=>'Ingles',
             'email'=>'ariel.12isaias@gmail.com',
             'password'=>bcrypt('12345678'),
-        ])->assignRole('Client');  
+        ])->assignRole('Admin');  
     }
 }

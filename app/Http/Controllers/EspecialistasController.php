@@ -10,9 +10,9 @@ use Spatie\Permission\Models\Role;
 
 class EspecialistasController extends Controller
 {
-public function __construct()
+    public function __construct()
     {
-        
+
         $this->middleware('can:admin.especialistas.show')->only('show');
         // $this->middleware('can:admin.especialistas.edit')->only('edit');
         // $this->middleware('can:admin.especialistas.update')->only('update');
@@ -30,18 +30,18 @@ public function __construct()
 
     public function dowloadFoto($id)
     {
-        $proveedor = Validacion :: where('id',$id)->first();
+        $proveedor = Validacion::where('id', $id)->first();
         $foto = $proveedor->foto;
-        $archivo = storage_path('app/public/'.$foto);
+        $archivo = storage_path('app/public/' . $foto);
         return response()->download($archivo);
         //return $archivo;
     }
 
     public function dowloadArchivo($id)
     {
-        $proveedor = Validacion :: where('id',$id)->first();
+        $proveedor = Validacion::where('id', $id)->first();
         $foto = $proveedor->factura;
-        $archivo = storage_path('app/public/'.$foto);
+        $archivo = storage_path('app/public/' . $foto);
         return response()->download($archivo);
         //return $archivo;
     }
@@ -65,12 +65,12 @@ public function __construct()
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
-        } else if($usuario == "Especialista") {
+        } else if ($usuario == "Especialista") {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
-        }else{
+        } else {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
@@ -89,17 +89,24 @@ public function __construct()
 
     public function edit($id)
     {
-        $proveedor = Validacion :: where('cotizacion_id',$id)->get();
-        $proveedores = Validacion :: where('cotizacion_id',$id)->first();
+        $existe = Validacion::where('cotizacion_id', $id)->exists();
+        if ($existe == 1) {
+            $proveedor = Validacion::where('cotizacion_id', $id)->get();
+            $proveedores = Validacion::where('cotizacion_id', $id)->first();
+        } else {
+            $proveedor = 'false';
+            $proveedores = 'false';
+        }
+
         $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->first();
         //return $proveedor;
-        return view('admin.especialistas.view', compact('cotizacion','proveedor','proveedores'));
+        return view('admin.especialistas.view', compact('cotizacion', 'proveedor', 'proveedores'));
     }
 
 
     public function update(Request $request, $idCotiz)
     {
-        
+
         $datos = array(
             "estado" => $request->input('estado')
         );

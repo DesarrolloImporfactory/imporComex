@@ -32,7 +32,7 @@
                         <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-bars"></i>
                         </a>
-                        <ul class="dropdown-menu text-center">
+                        <ul class="dropdown-menu ">
                             <li>
                                 
                                 @include('admin.cotizaciones.delete')
@@ -46,13 +46,13 @@
                             <li>
                                 <a href="{{ route('editar.paso1', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i> Paso 1
+                                    <i class="fa-solid fa-circle"></i> Inf. cotizacion
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('editar.paso2', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i> Paso 2
+                                    <i class="fa-solid fa-circle"></i> Reg. provedores
                                 </a>
                             </li>
                             <li>
@@ -65,6 +65,12 @@
                                 <a href="{{ route('cotizacion.pdf', $cotizacion->id) }}"
                                     class="dropdown-item   text-success " title="Details">
                                     <i class="fa-solid fa-file-pdf"></i> Cotizacion
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('validacion.print', $cotizacion->id) }}"
+                                    class="dropdown-item   text-success " title="Details">
+                                    <i class="fa-solid fa-circle"></i> Calcular imp.
                                 </a>
                             </li>
                         </ul>

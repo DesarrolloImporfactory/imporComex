@@ -268,8 +268,6 @@ class ValidacionesController extends Controller
                 Validacion::where('cotizacion_id', $cotizacion_id)->delete();
                 for ($i = 1; $i < $contador; $i++) {
 
-
-
                     if ($request->hasFile('factura' . $i)) {
                         $archivo = $request->file('factura' . $i)->store('docs', 'public');
                     } else {

@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserResetPassword extends Notification
+class VerifyEmail extends Notification
 {
     use Queueable;
-    protected $token;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct()
     {
-        $this->token = $token;
+        //
     }
 
     /**
@@ -41,12 +41,13 @@ class UserResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Restablecer contraseña')
+            ->subject('Confirmación de correo electrónico')
             ->greeting('Hola que tal!')
-            ->line('Hemos recibido una solicitud para reiniciar tu contraseña.')
-            ->action('Reiniciar password', url('/password/reset/' . $this->token))
-            ->line('Si usted no ha realizado esta solicitud no haga nada. ')
-            ->salutation('Gracias por usar nuestra aplicacion!');
+            ->line('¡Gracias por registrarte en Imporcomex!.')
+            ->line('Verifica tu dirección de correo electrónico para mantener tu cuenta segura. En nuestro cotizador, podras calcular la logistica e impuestos de tus importaciones.')
+            ->action('Confirmar email', url('/'))
+            ->line('Gracias por usar nuestra aplicacion!')
+            ->salutation('Saludos,');
     }
 
     /**

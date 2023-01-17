@@ -25,7 +25,7 @@ use App\Http\Controllers\ImpuestosController;
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
 
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
