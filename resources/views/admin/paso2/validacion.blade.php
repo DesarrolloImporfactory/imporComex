@@ -45,27 +45,27 @@
             <div class="newData"></div>
             {{-- div para los inputs dinamicos --}}
         </div>
-        <div class="row ">
+        <div class="row datos">
             {{-- div para los inputs dinamicos --}}
-            <div class="datos">
-                <input type="hidden" name="condicion" value="verdad">
-                @php
-                    $contador = 1;
-                    $contador2 = 1;
-                @endphp
-                <div class="col-md-6">
-                    @foreach ($validaciones as $item)
-                        <a href="{{ route('admin.dowload', $item->id) }}" class="btn btn-danger">Foto
-                            {{ $contador++ }}</a><br><br>
-                    @endforeach
-                </div>
-                <div class="col-md-6">
-                    @foreach ($validaciones as $item)
-                        <a href="{{ route('admin.dowload.archivo', $item->id) }}" class="btn btn-primary">Archivo
-                            {{ $contador2++ }}</a><br><br>
-                    @endforeach
-                </div>
+
+            <input type="hidden" name="condicion" value="verdad">
+            @php
+                $contador = 1;
+                $contador2 = 1;
+            @endphp
+            <div class="col-md-6">
+                @foreach ($validaciones as $item)
+                    <a href="{{ route('admin.dowload', $item->id) }}" class="btn btn-danger">Foto
+                        {{ $contador++ }}</a><br><br>
+                @endforeach
             </div>
+            <div class="col-md-6">
+                @foreach ($validaciones as $item)
+                    <a href="{{ route('admin.dowload.archivo', $item->id) }}" class="btn btn-primary">Archivo
+                        {{ $contador2++ }}</a><br><br>
+                @endforeach
+            </div>
+
             {{-- div para los inputs dinamicos --}}
         </div>
     </div>

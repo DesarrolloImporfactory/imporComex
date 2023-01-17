@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hola especialista</h1>
+    {{$usuario_id}}
+    
 </body>
 </html>

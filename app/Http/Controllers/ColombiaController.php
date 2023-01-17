@@ -187,8 +187,8 @@ class ColombiaController extends Controller
         ////Envio de correo electronico al especialista
         $datosEspecialista = User::findOrFail($especialista);
         $emailEsp =$datosEspecialista->email;
-        $correo = new EmailEspecialista;
-        Mail::to($emailEsp)->send($correo);
+        //$correo = new EmailEspecialista;
+        Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
         $grupal->barcode = $barcode;
         $peso = $request->input('peso') . 'kg';

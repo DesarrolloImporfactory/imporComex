@@ -55,6 +55,7 @@ class UsuariosController extends Controller
         User::create([
             'name'=>$request->input('nombre'),
             'telefono'=>$request->input('telefono'),
+            'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
             'password'=>Hash::make($request->input('password')),
         ])->assignRole('Client'); 

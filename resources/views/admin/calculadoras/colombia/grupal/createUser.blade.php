@@ -14,7 +14,11 @@
             </div>
             <div class="form-group">
                 <label for="nombre">Telefono: </label>
-                <input type="text" name="telefono" class="form-control" value="{{old('telefono')}}">
+                <input type="text" name="telefono" class="form-control" value="{{old('telefono')}}" placeholder="opcional">
+            </div>
+            <div class="form-group">
+                <label for="nombre">Ruc: </label>
+                <input type="text" name="ruc" class="form-control" value="{{old('ruc')}}">
             </div>
             <div class="form-group">
                 <label for="email">Email: </label>

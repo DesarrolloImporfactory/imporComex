@@ -8,19 +8,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class EmailEspecialista extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $usuario_id;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $datos=User::findOrFail($id);
+        $this->usuario_id=$datos;
     }
 
     /**
