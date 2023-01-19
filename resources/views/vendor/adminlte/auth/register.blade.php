@@ -69,7 +69,7 @@
 
             @error('telefono')
                 <span class="invalid-feedback" role="alert">
-                    <strong>El telefono es requerido</strong>
+                    <strong>{{$message}}</strong>
                 </span>
             @enderror
         </div>

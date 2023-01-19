@@ -41,6 +41,7 @@ class LoginController extends Controller
 
     public function redirectPath()
     {
+        
         $id = auth()->user()->id;
         $usuarioRol = User::with('roles')->findOrFail($id);
         //foreach para mapear la consulta anidada
@@ -48,6 +49,7 @@ class LoginController extends Controller
             $usuario = $rol->name;
         }
         if($usuario == "Admin"){
+            
             return '/home';
         }
 

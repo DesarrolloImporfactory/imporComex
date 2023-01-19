@@ -22,15 +22,15 @@
         </script>
     @endif
     @if (Session::has('mensaje'))
-    <script>
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '{{ Session::get('mensaje') }}',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ Session::get('mensaje') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
     @endif
 
     {{-- <div class="row ">
@@ -78,17 +78,16 @@
                             <div class="card">
                                 <div class="card-body">
 
-
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="" class="text-success">La cotizacion {{ $cotizacion->tiene_bateria }} tiene bateria,
+                                                {{ $cotizacion->liquidos }} tiene liquidos y {{ $cotizacion->inflamable }}
+                                                es inflamable</label>
+                                        </div>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Productos: </label>
-                                                <input type="text" class="form-control "
-                                                    value="{{ $cotizacion->producto }}" disabled>
-                                            </div>
-
-
 
                                             <div class="form-group">
                                                 <label for="">Peso bruto : </label>
@@ -111,13 +110,6 @@
                                                 <label for="">Ciudad de entrega:</label>
                                                 <input type="text" class="form-control "
                                                     value="{{ $cotizacion->ciudad_entrega }}" disabled>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <label for="">Precio total de compra:</label>
-                                                <input type="text" class="form-control "
-                                                    value="{{ $cotizacion->precio_china }}" disabled>
                                             </div>
 
                                             <div class="form-group">

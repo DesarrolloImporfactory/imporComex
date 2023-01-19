@@ -28,9 +28,11 @@ return new class extends Migration
             $table->bigInteger('cargas_id')->unsigned()->nullable();
             $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade');
 
-            $table->string('producto')->nullable();
+            // $table->string('producto')->nullable();
             $table->string('tiene_bateria')->nullable();
-            $table->string('precio_china')->nullable();
+            $table->string('liquidos');
+            $table->string('inflamable');
+            // $table->string('precio_china')->nullable();
 
             $table->bigInteger('incoterms_id')->unsigned()->nullable();
             $table->foreign('incoterms_id')->references('id')->on('incoterms')->onUpdate('cascade');

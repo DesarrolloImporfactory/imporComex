@@ -5,15 +5,15 @@
 @section('content_header')
 
     @if (Session::has('mensaje'))
-    <script>
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '{{ Session::get('mensaje') }}',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ Session::get('mensaje') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
     @endif
 
     <div class="row">
@@ -35,11 +35,11 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             @can('admin.calculadoras.cliente')
-            <x-adminlte-button data-toggle="modal" data-target="#modalCustom" label="Agregar Cliente" theme="dark"
-            icon="fa-solid fa-user-plus" class="float-left" />
-        @include('admin.calculadoras.colombia.grupal.createUser')
+                <x-adminlte-button data-toggle="modal" data-target="#modalCustom" label="Agregar Cliente" theme="dark"
+                    icon="fa-solid fa-user-plus" class="float-left" />
+                @include('admin.calculadoras.colombia.grupal.createUser')
             @endcan
-            
+
             <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
                 type="sumbit" form="formCreate" />
         </div>
@@ -61,14 +61,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <input type="hidden" name="usuario_id" value="{{ Auth::user()->id }}" id="">
-                                <label>Nombre del Producto(s)</label>
-                                <input type="text" name="producto" class="form-control" id="" autofocus
-                                    value="{{ old('producto') }}">
-                                @error('producto')
-                                    <small style="color: red">
-                                        {{ $message }}
-                                    </small>
-                                @enderror
+                                <label for="">¿Es inflamable?</label>
+                                <x-adminlte-select2 name="inflamable" id="inflamable" onchange="accion3()">
+                                    <option value="">Selecciona una opción....</option>
+                                    <option value="si"{{ old('inflamable') == 'si' ? 'selected' : '' }}>Si</option>
+                                    <option value="no"{{ old('inflamable') == 'no' ? 'selected' : '' }}>No</option>
+                                </x-adminlte-select2>
+
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -82,22 +81,13 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="">Peso bruto</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="peso" value="{{ old('peso') }}"
-                                        placeholder="Ingresar un valor o N/A">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
-                                                class="fa-brands fa-google"></i></span>
-                                    </div>
-                                </div>
-                                @error('peso')
-                                    <small style="color: red">
-                                        <p>En caso de no disponer ingresar N/A</p>
-                                        {{ $message }}
-                                    </small>
-                                @enderror
+                            <div class="form-group" id="divLiquido">
+                                <label for="">¿Tiene liquidos?</label>
+                                <x-adminlte-select2 name="liquidos" id="liquidos" onchange="accion1()" class="liquidos">
+                                    <option value="">Selecciona una opción....</option>
+                                    <option value="si"{{ old('liquidos') == 'si' ? 'selected' : '' }}>Si</option>
+                                    <option value="no"{{ old('liquidos') == 'no' ? 'selected' : '' }}>No</option>
+                                </x-adminlte-select2>
                             </div>
                         </div>
                     </div>
@@ -132,16 +122,18 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Precio total de compra</label>
+                                <label for="">Peso bruto</label>
                                 <div class="input-group">
-                                    <input type="float" name="precio_china" class="form-control" id=""
-                                        value="{{ old('precio_china') }}">
+                                    <input type="text" class="form-control" name="peso"
+                                        value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
                                     <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                                        <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
+                                                class="fa-brands fa-google"></i></span>
                                     </div>
                                 </div>
-                                @error('precio_china')
+                                @error('peso')
                                     <small style="color: red">
+                                        <p>En caso de no disponer ingresar N/A</p>
                                         {{ $message }}
                                     </small>
                                 @enderror
@@ -192,7 +184,7 @@
                             @can('admin.calculadoras.cliente')
                                 <input type="hidden" value="si" name="existe">
                                 <div class="form-group">
-                                    <label for="">Seleccionar Cliente: </label>
+                                    <label for="">Seleccionar Cliente2: </label>
                                     <x-adminlte-select2 name="cliente" id="cliente">
                                         <option value="">Selecciona una opción....</option>
                                         @foreach ($clientes as $item)
@@ -220,6 +212,53 @@
     </script>
 
     <script>
+        
+
+        function accion1(valor) {
+
+            valor = $("#liquidos").val();
+            if (valor == 'si') {
+                Swal.fire({
+                    title: '<strong><u>lo sentimos mucho</u></strong>',
+                    icon: 'error',
+                    html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
+                        '<a href="{{ route('admin.individual.create') }}" >Cotizacion invididual</a> ',
+                    showCloseButton: false,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                    confirmButtonAriaLabel: 'Thumbs up, great!',
+                    cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                    cancelButtonAriaLabel: 'Thumbs down'
+                })
+
+                $('#liquidos').val($('#liquidos > option:first').val());
+            }
+
+        }
+
+        function accion3() {
+
+            let valor = $("#inflamable").val();
+
+            if (valor == 'si') {
+                Swal.fire({
+                    title: '<strong><u>lo sentimos mucho</u></strong>',
+                    icon: 'error',
+                    html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
+                        '<a href="{{ route('admin.individual.create') }}" >Cotizacion invididual</a> ',
+                    showCloseButton: false,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                    confirmButtonAriaLabel: 'Thumbs up, great!',
+                    cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                    cancelButtonAriaLabel: 'Thumbs down'
+                })
+                $('#inflamable').val($('#inflamable > option:first').val());
+            }
+        }
+
         function accion2() {
 
             let valor = $("#bateria").val();
@@ -238,6 +277,7 @@
                     cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
                     cancelButtonAriaLabel: 'Thumbs down'
                 })
+                $('#bateria').val($('#bateria > option:first').val());
             }
         }
 

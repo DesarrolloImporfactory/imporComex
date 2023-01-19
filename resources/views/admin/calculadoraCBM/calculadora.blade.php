@@ -5,6 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Calculadora de Metros Cubicos</h1>
                 {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 <button class="btn add-btn btn-info">+</button>
+                <button class="btn rest-btn btn-info">-</button>
             </div>
             <div class="modal-body">
 
@@ -61,11 +62,12 @@
     $(function() {
         var i = 0;
         var j = 0;
+        var m = 0;
         $('.add-btn').click(function(e) {
             e.preventDefault();
             j++;
             i++;
-
+            m++;
             $('.newData').append('<div class="row" id="newRow' + i + '">' +
                 '<div class="col-md-9">' +
                 '<form id="forms" class="calculadora">' +
@@ -95,16 +97,18 @@
                 '</div>' +
                 '<div class="col-md-3">' +
                 '<div class="form-floating " >' +
-                '<input type="text" class="form-control" id="total' + i + '"  disabled style="color: red">' +
+                '<input type="text" class="form-control" id="total' + i +
+                '"  disabled style="color: red">' +
                 '<label for="floatingInput">Volumen Total</label>' +
                 '</div>' +
                 '</div>'
+
             );
 
             $('.calculadora').submit(function(e) {
                 e.preventDefault();
                 var k = 1;
-               
+
                 var contador = 0;
                 for (let step = 0; step < j; step++) {
                     let cantidad = $("#cantidad" + k).val();
@@ -120,25 +124,37 @@
                     } else {
                         let result = (longitud * anchura * altura) / 1000000;
                         let total = result * cantidad;
-                        contador = contador+total;
+                        contador = contador + total;
                         let valor = document.getElementById('total').value;
-                        document.getElementById('total' + k).value = (parseFloat(total)).toFixed(2);
-                        document.getElementById('volumen').value = (parseFloat(contador)+parseFloat(valor)).toFixed(2);
+                        document.getElementById('total' + k).value = (parseFloat(total))
+                            .toFixed(2);
+                        document.getElementById('volumen').value = (parseFloat(contador) +
+                            parseFloat(valor)).toFixed(2);
                     }
                     k++
-                    
+
                 }
-                
+
                 // ----------------------------
             });
 
         });
 
 
-        $(document).on('click', '.remove-lnk', function(e) {
+        $('.rest-btn').click(function(e) {
             e.preventDefault();
-            var id = $(this).attr("id");
-            $('#newRow' + id + '').remove();
+            
+            var max = 0;
+            for (var i = j; i >= 1; i--) {
+                if (i > max) {
+                    max = i;
+                }
+                
+            }
+
+            console.log(max);
+            $('#newRow' + max + '').remove();
+            j--;
         });
 
     });
@@ -161,7 +177,7 @@
             let total = result * cantidad;
             document.getElementById('total').value = (parseFloat(total)).toFixed(2);
             document.getElementById('volumen').value = (parseFloat(total)).toFixed(2);
-            
+
         }
 
 

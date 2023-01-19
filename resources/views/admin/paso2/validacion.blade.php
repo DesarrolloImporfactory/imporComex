@@ -4,24 +4,14 @@
             <input type="hidden" value="{{ Auth::user()->id }}" name="usuarioId">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="">¿Es inflamable?</label>
-                    <x-adminlte-select2 name="inflamable" id="inflamable" onchange="accion3()">
-                        <option value="">Selecciona una opción....</option>
-                        <option value="si"{{ $validacion->inflamable == 'si' ? 'selected' : '' }}>Si</option>
-                        <option value="no"{{ $validacion->inflamable == 'no' ? 'selected' : '' }}>No</option>
-                    </x-adminlte-select2>
+                   
 
                 </div>
 
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="">¿Tiene liquidos?</label>
-                    <x-adminlte-select2 name="liquidos" id="liquidos" onchange="accion1()" class="liquidos">
-                        <option value="">Selecciona una opción....</option>
-                        <option value="si"{{ $validacion->liquidos == 'si' ? 'selected' : '' }}>Si</option>
-                        <option value="no"{{ $validacion->liquidos == 'no' ? 'selected' : '' }}>No</option>
-                    </x-adminlte-select2>
+                    
 
                 </div>
             </div>

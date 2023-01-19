@@ -18,8 +18,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', function () {
+    Auth::logout(); 
     return view('welcome');
-})->middleware('verified');
+});
 
 Auth::routes(['verify'=>true]);
 
