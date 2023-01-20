@@ -57,22 +57,22 @@ class ColombiaController extends Controller
         if ($request->input('existe')) {
             $request->validate([
                 'cliente' => ['required'],
-                'producto' => ['required', 'string', 'max:2555'],
+                'inflamable' => ['required'],
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
                 'tiene_bateria' => ['required'],
-                'precio_china' => ['required', 'numeric:0'],
+                'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
                 'ciudad_entrega' => ['required'],
             ]);
         } else {
             $request->validate([
-                'producto' => ['required', 'string', 'max:2555'],
+                'inflamable' => ['required'],
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
                 'tiene_bateria' => ['required'],
-                'precio_china' => ['required', 'numeric:0'],
+                'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
                 'ciudad_entrega' => ['required'],
@@ -195,12 +195,12 @@ class ColombiaController extends Controller
         $grupal->usuario_id = $cliente;
         $grupal->pais_id = $request->input('pais');
         $grupal->modalidad_id = $request->input('modalidad');
-        $grupal->producto = $request->input('producto');
+        $grupal->inflamable = $request->input('inflamable');
         $grupal->peso = $peso;
         $grupal->estado = "Pendiente";
         $grupal->origen = $request->input('origen');
         $grupal->tiene_bateria = $request->input('tiene_bateria');
-        $grupal->precio_china = $request->input('precio_china');
+        $grupal->liquidos = $request->input('liquidos');
         $grupal->cargas_id = $request->input('cargas_id');
         $grupal->direccion = $request->input('direccion');
         $grupal->especialista_id = $especialista;

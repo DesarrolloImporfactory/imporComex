@@ -184,7 +184,7 @@
                             @can('admin.calculadoras.cliente')
                                 <input type="hidden" value="si" name="existe">
                                 <div class="form-group">
-                                    <label for="">Seleccionar Cliente2: </label>
+                                    <label for="">Seleccionar Cliente: </label>
                                     <x-adminlte-select2 name="cliente" id="cliente">
                                         <option value="">Selecciona una opción....</option>
                                         @foreach ($clientes as $item)
