@@ -40,6 +40,8 @@
                 @include('admin.calculadoras.colombia.grupal.createUser')
             @endcan
 
+            @livewire('create-products')
+
             <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
                 type="sumbit" form="formCreate" />
         </div>
@@ -210,10 +212,18 @@
             this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
         });
     </script>
+    <script>
+         window.addEventListener('show-form',event =>{
+            $('#form').modal('show');
+        })
+        window.addEventListener('keyboard-form',event =>{
+            $('#form').modal('hide');
+        })
+    </script>
 
     <script>
         
-
+       
         function accion1(valor) {
 
             valor = $("#liquidos").val();

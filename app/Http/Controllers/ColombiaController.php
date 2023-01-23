@@ -16,6 +16,11 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Mail\EmailEspecialista;
+use App\Models\Producto;
+use App\Models\Insumo;
+use App\Models\Categoria;
+Use App\Models\ProductoInsumo;
+
 
 class ColombiaController extends Controller
 {
@@ -24,6 +29,45 @@ class ColombiaController extends Controller
     public function index()
     {
         return "index";
+    }
+
+    public function save(Request $request){
+        
+        $input = $request->all();
+        $cotizacion_id = $request->input("cotizacion_id");
+        try {
+            DB::beginTransaction();
+            $producto = Producto::create([
+                "nombre"=>$input["nombre"],
+                "cantidad"=>$input["cantidad"],
+                "categoria_id"=>$input["categoria_id"],
+                "precio"=>$this->calcular_precio($input["insumo_id"], $input["cantidades"]),
+            ]);
+            foreach ($input["insumo_id"] as $key => $value) {
+                ProductoInsumo::create([
+                    "insumo_id"=>$value,
+                    "producto_id"=>$producto->id,
+                    "cantidad"=>$input["cantidades"][$key]
+                ]);
+                $ins = Insumo::find($value);
+                $ins->update(["cantidad"=>$ins->cantidad - $input["cantidades"][$key]]);
+            }
+            DB::commit();
+            return redirect()->route('admin.colombia.edit', $cotizacion_id );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.colombia.edit', $cotizacion_id )->with('mensaje',$e->getMessage());
+        }
+        
+    }
+
+    public function calcular_precio($insumos, $cantidades){
+        $precio=0;
+        foreach ($insumos  as $key => $value) {
+            $insumo = Insumo::find($value);
+            $precio += ($insumo->precio * $cantidades[$key]);
+        }
+        return $precio;
     }
 
     public function create(Request $request)
@@ -225,13 +269,17 @@ class ColombiaController extends Controller
 
     public function edit($data)
     {
+        $categoria=Categoria::all();
+        $insumo=Insumo::all();
         $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad'])->first();
         $mensaje = "true";
         $data = [
+            'categoria'=>$categoria,
+            'insumo'=>$insumo,
             'cotizacion' => $cotizacion,
             'mensaje' => $mensaje
         ];
-        return view('admin.calculadoras.colombia.grupal.formulario', $data);
+        return view('admin.calculadoras.colombia.grupal.maestro', $data);
     }
 
     public function actualizarPaso1(Request $request, $id)

@@ -86,5 +86,6 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('editar/{id}/paso1',[ColombiaController::class,'editpaso1'])->name('editar.paso1');
     Route::patch('actualizar/paso1/{id}',[ColombiaController::class,'actualizarPaso1'])->name('actualizar.paso1');
     Route::get('editar/{id}/paso2',[ValidacionesController::class,'editpaso2'])->name('editar.paso2');
+    Route::post('admin/colombia/save',[ColombiaController::class, 'save'])->name('admin.colombia.save');
 
 });
