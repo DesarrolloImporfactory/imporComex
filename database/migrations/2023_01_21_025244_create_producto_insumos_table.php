@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('insumo_id')->unsigned()->nullable();
             $table->foreign('insumo_id')->references('id')->on('insumos')->onUpdate('cascade');
-            $table->bigInteger('producto_id')->unsigned()->nullable();
-            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade');
+            $table->bigInteger('cotizacion_id')->unsigned()->nullable();
+            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
             $table->string('cantidad');
             $table->timestamps();
         });

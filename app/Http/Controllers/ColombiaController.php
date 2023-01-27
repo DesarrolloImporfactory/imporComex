@@ -31,22 +31,39 @@ class ColombiaController extends Controller
         return "index";
     }
 
+    public function saveProduct(Request $request){
+        $cotizacion_id=$request->input('cotizacion_id');
+        $datos = new Insumo();
+        $datos->nombre = $request->input('nombreInsumo');
+        //$datos->categoria_id = $request->input('categoria_id');
+        $datos->cantidad = $request->input('cantidadInsumo');
+        $datos->precio = $request->input('precioInsumo');
+        $datos->porcentaje = $request->input('porcentajeInsumo');
+        $datos->save();
+        return redirect()->route('admin.colombia.edit', $cotizacion_id );
+
+    }
+
     public function save(Request $request){
-        
+        $request->validate([
+            'insumos' => ['required'],
+            'cantidad' => ['required'],
+            
+        ]);
         $input = $request->all();
         $cotizacion_id = $request->input("cotizacion_id");
         try {
             DB::beginTransaction();
-            $producto = Producto::create([
-                "nombre"=>$input["nombre"],
-                "cantidad"=>$input["cantidad"],
-                "categoria_id"=>$input["categoria_id"],
-                "precio"=>$this->calcular_precio($input["insumo_id"], $input["cantidades"]),
-            ]);
+            // $producto = Producto::create([
+            //     "nombre"=>$input["nombre"],
+            //     "cantidad"=>$input["cantidad"],
+            //     "categoria_id"=>$input["categoria_id"],
+            //     "precio"=>$this->calcular_precio($input["insumo_id"], $input["cantidades"]),
+            // ]);
             foreach ($input["insumo_id"] as $key => $value) {
                 ProductoInsumo::create([
                     "insumo_id"=>$value,
-                    "producto_id"=>$producto->id,
+                    "cotizacion_id"=>$input["cotizacion_id"],
                     "cantidad"=>$input["cantidades"][$key]
                 ]);
                 $ins = Insumo::find($value);

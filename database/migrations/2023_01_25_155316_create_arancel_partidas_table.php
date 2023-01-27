@@ -13,12 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('insumos', function (Blueprint $table) {
+        Schema::create('arancel_partidas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('precio');
-            $table->string('cantidad');
-            $table->string('porcentaje');
+            $table->string('capitulo');
+            $table->string('codigo_suplementario');
+            $table->date('fecha');
+            $table->string('descripcion');
+            $table->string('partida_clave');
+            $table->string('partida');
+            $table->string('subpartida');
+            $table->string('tipo_elemento');
             $table->timestamps();
         });
     }
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('insumos');
+        Schema::dropIfExists('arancel_partidas');
     }
 };

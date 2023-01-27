@@ -390,8 +390,6 @@ return [
             'text' => 'Contenedores',
             'route'  => 'admin.contenedores.index',
             'icon' => 'fas fa-brands fa-docker',
-            'label'       => 'new',
-            'label_color' => 'success',
             'can'=>'admin.contenedores.index',
             
         ],

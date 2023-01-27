@@ -40,8 +40,6 @@
                 @include('admin.calculadoras.colombia.grupal.createUser')
             @endcan
 
-            @livewire('create-products')
-
             <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
                 type="sumbit" form="formCreate" />
         </div>
@@ -105,7 +103,7 @@
                             <div class="form-group">
                                 <label for="">Dimensiones/Volumen</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="volumen" id="volumen" class="form-control decimal"
+                                    <input type="text" name="volumen" id="volumen" class="form-control decimal @error('volumen') is-invalid @enderror"
                                         value="{{ old('volumen') }}" placeholder="Ingresar en CBM, mas informacion"
                                         aria-label="Recipient's username" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
@@ -115,8 +113,8 @@
                                     </div>
                                 </div>
                                 @error('volumen')
-                                    <small style="color: red">
-                                        {{ $message }}
+                                    <small style="color:#d80e22ed">
+                                        <b>{{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -126,7 +124,7 @@
                             <div class="form-group">
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="peso"
+                                    <input type="text" class="form-control @error('peso') is-invalid @enderror" name="peso"
                                         value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
@@ -134,9 +132,9 @@
                                     </div>
                                 </div>
                                 @error('peso')
-                                    <small style="color: red">
+                                    <small style="color: #d80e22ed">
                                         <p>En caso de no disponer ingresar N/A</p>
-                                        {{ $message }}
+                                        <b>{{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -146,11 +144,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Direccion de entrega</label>
-                                <input type="text" name="direccion" id="" class="form-control "
+                                <input type="text" name="direccion" id="" class="form-control @error('direccion') is-invalid @enderror "
                                     placeholder="Dir. donde recibirás tu carga" value="{{ old('direccion') }}">
                                 @error('direccion')
-                                    <small style="color: red">
-                                        {{ $message }}
+                                    <small style="color: #d80e22ed">
+                                       <b> {{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -187,12 +185,7 @@
                                 <input type="hidden" value="si" name="existe">
                                 <div class="form-group">
                                     <label for="">Seleccionar Cliente: </label>
-                                    <x-adminlte-select2 name="cliente" id="cliente">
-                                        <option value="">Selecciona una opción....</option>
-                                        @foreach ($clientes as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </x-adminlte-select2>
+                                    @livewire('clientes-list')
                                 </div>
                             @endcan
 
@@ -200,7 +193,7 @@
                     </div>
                 </form>
 
-                @include('admin.calculadoraCBM.calculadora')
+                @include('admin.calculadoraCBM.calculadoraPrueba')
 
             </x-adminlte-card>
         </div>

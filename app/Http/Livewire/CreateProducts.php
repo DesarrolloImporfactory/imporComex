@@ -8,41 +8,38 @@ use Livewire\Component;
 
 class CreateProducts extends Component
 {
-    
-    public $nombre,$cantidad,$precio,$categoria_id;
+    protected $listeners = ['modal' => 'modalAbrir'];
+    public $nombre, $cantidad, $precio, $categoria_id;
     protected $rules = [
-        'nombre'=>'required',
-        'cantidad'=>'required',
-        'precio'=>'required',
-        'categoria_id'=>'required',
+        'nombre' => 'required',
+        'cantidad' => 'required',
+        'precio' => 'required',
+        'categoria_id' => 'required',
     ];
     public $open;
 
-    public function addNew($open){
-        $this->open=$open;
-        if($open==true){
-            $this->dispatchBrowserEvent('show-form');
-        }else{
-            $this->dispatchBrowserEvent('keyboard-form');
-        }
-        
+    public function modalAbrir()
+    {
+        //dd('hola');
+        $this->dispatchBrowserEvent('show-form');
     }
 
-    public function save(){
-        
-        $this->validate();
-        $datos = new Producto();
-        $datos->nombre=$this->nombre;
-        $datos->cantidad=$this->cantidad;
-        $datos->precio=$this->precio;
-        $datos->categoria_id=$this->categoria_id;
-        if($datos->save()){
-           $this->addNew(false);
-        }else{
-            $this->addNew(true);
+    public function save()
+    {
+        try {
+            $this->validate();
+            $datos = new Producto();
+            $datos->nombre = $this->nombre;
+            $datos->cantidad = $this->cantidad;
+            $datos->precio = $this->precio;
+            $datos->categoria_id = $this->categoria_id;
+            $datos->save();
+            $this->dispatchBrowserEvent('close');
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('show');
         }
     }
-    
+
 
     public function render()
     {

@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('insumos', function (Blueprint $table) {
+        Schema::create('pais_embarques', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('precio');
-            $table->string('cantidad');
-            $table->string('porcentaje');
+            $table->string('nombre_pais');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('insumos');
+        Schema::dropIfExists('pais_embarques');
     }
 };

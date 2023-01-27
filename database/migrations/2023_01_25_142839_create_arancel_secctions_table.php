@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('insumos', function (Blueprint $table) {
+        Schema::create('arancel_secctions', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('precio');
-            $table->string('cantidad');
-            $table->string('porcentaje');
+            $table->date('fecha');
+            $table->string('seccion_nombre');
+            $table->string('subpartida');
+            $table->string('tipo_elemento');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('insumos');
+        Schema::dropIfExists('arancel_secctions');
     }
 };
