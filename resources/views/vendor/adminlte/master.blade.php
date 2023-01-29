@@ -122,8 +122,10 @@
     {{-- Livewire Script --}}
     @if (config('adminlte.livewire'))
         @if (app()->version() >= 7)
+        @livewire('livewire-ui-modal')
             @livewireScripts
         @else
+        @livewire('livewire-ui-modal')
             <livewire:scripts />
         @endif
     @endif
@@ -132,7 +134,7 @@
     @yield('adminlte_js')
 
   
-
+    
 
 </body>
 

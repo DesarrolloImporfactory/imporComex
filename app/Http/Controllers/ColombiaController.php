@@ -296,7 +296,7 @@ class ColombiaController extends Controller
             'cotizacion' => $cotizacion,
             'mensaje' => $mensaje
         ];
-        return view('admin.calculadoras.colombia.grupal.maestro', $data);
+        return view('admin.calculadoras.colombia.maestroAjax', $data);
     }
 
     public function actualizarPaso1(Request $request, $id)

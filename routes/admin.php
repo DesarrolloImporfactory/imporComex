@@ -19,6 +19,7 @@ use Illuminate\Routing\RouteGroup;
 use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\CotizacionIndividualController;
+use App\Http\Controllers\CotizacionProductosController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpuestosController;
 
@@ -89,4 +90,5 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('admin/colombia/save',[ColombiaController::class, 'save'])->name('admin.colombia.save');
     Route::post('admin/save/producto',[ColombiaController::class, 'saveProduct'])->name('admin.save.producto');
 
+    Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
 });

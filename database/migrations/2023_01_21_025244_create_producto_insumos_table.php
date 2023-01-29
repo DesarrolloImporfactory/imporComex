@@ -19,7 +19,9 @@ return new class extends Migration
             $table->foreign('insumo_id')->references('id')->on('insumos')->onUpdate('cascade');
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
             $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
-            $table->string('cantidad');
+            $table->integer('cantidad');
+            $table->integer('precio');
+            $table->integer('porcentaje');
             $table->timestamps();
         });
     }

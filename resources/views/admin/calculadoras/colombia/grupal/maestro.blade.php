@@ -63,6 +63,7 @@
         <div class="col-md-12">
             @include('admin.productos.index')
             {{-- @livewire('create-products') --}}
+            <button onclick="Livewire.emit('openModal', 'hello-world')">Open Modal</button>
             <button type="submit" form="formProducto" class="btn btn-success">Guardar</button>
             <form action="{{ route('admin.colombia.save') }}" method="post" id="formProducto">
                 @csrf
