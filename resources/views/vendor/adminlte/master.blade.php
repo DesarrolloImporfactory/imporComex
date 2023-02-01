@@ -92,11 +92,11 @@
     }
 
     .register-page {
-        background-image: url(../assets/imporcomexImage/fondo-2.png);
+        background-image: url({{asset('storage/imporcomexImage/fondo-2.png')}});
     }
 
     .login-page {
-        background-image: url(../assets/imporcomexImage/fondo-2.png);
+        background-image: url({{asset('storage/imporcomexImage/fondo-2.png')}});
     }
 </style>
 

@@ -19,10 +19,10 @@
 
             </div>
             <div class="col-sm-4 text-center ">
-                <img src="../assets/imporcomexImage/logo-dany-travel.png" width="90" alt="">
+                <img src="{{asset('storage/imporcomexImage/logo-dany-travel.png')}}" width="90" alt="">
             </div>
             <div class="col-sm-4  text-center">
-                <img src="../assets/imporcomexImage/logo_academia.png" width="115" alt="">
+                <img src="{{asset('storage/imporcomexImage/logo_academia.png')}}" width="115" alt="">
             </div>
             <div class="col-sm-2  ">
 

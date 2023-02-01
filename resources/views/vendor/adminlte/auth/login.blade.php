@@ -23,7 +23,7 @@
 @section('auth_header')
     <div class="text-center">
         <h3><b>LOGIN IMPORCOMEX</b></h3><br>
-    <img src="../assets/imporcomexImage/icono.png" alt="" width="150">
+        <img src="{{asset('storage/imporcomexImage/icono.png')}}" alt="logo" width="150">
     </div>
 @stop
 

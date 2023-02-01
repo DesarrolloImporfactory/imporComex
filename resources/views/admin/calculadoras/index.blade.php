@@ -23,7 +23,7 @@
 
                         <div class="card-body">
                             {{-- <h5>{{ $pais->nombre_pais }}</h5> --}}
-                            <img src="../assets/imporcomexImage/ecuador.jpg" width="150px" alt=""
+                            <img src="{{asset('storage/imporcomexImage/ecuador.jpg')}}" width="150px" alt=""
                                 style="border-radius: 20px;">
 
                         </div>
@@ -53,7 +53,7 @@
                     <div class="card text-center " style="border-radius: 20px;">
                         <div class="card-body">
                             {{-- <h5 class="">{{ $pais->nombre_pais }}</h5> --}}
-                            <img src="../assets/imporcomexImage/colombia.jpg" width="155px" alt=""
+                            <img src="{{asset('storage/imporcomexImage/colombia.jpg')}}" width="155px" alt=""
                                 style="border-radius: 20px; opacity: 0.5;">
 
                         </div>
@@ -80,7 +80,7 @@
                     <div class="card text-center " style="border-radius: 20px;">
                         <div class="card-body">
                             {{-- <h5 class="">{{ $pais->nombre_pais }}</h5> --}}
-                            <img src="../assets/imporcomexImage/eeuu.jpg" width="150px" alt=""
+                            <img src="{{asset('storage/imporcomexImage/eeuu.jpg')}}" width="150px" alt=""
                                 style="border-radius: 20px; opacity: 0.5;">
 
                         </div>
@@ -123,7 +123,7 @@
 
         .content-wrapper {
             min-height: 100vh;
-            background-image: url(../assets/imporcomexImage/elemento-1.png) !important;
+            background-image: url({{asset('storage/imporcomexImage/elemento-1.png')}}) !important;
             background-repeat: no-repeat;
             background-position: center center;
             background-size: cover;
