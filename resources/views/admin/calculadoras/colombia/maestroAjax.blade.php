@@ -390,7 +390,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{asset('../../admin/relacion')}}",
+                    url: "{{asset('../../admin/relaciones')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
