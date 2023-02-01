@@ -35,8 +35,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             @can('admin.calculadoras.cliente')
-                <x-adminlte-button data-toggle="modal" data-target="#modalCustom" label="Agregar Cliente" theme="dark"
-                    icon="fa-solid fa-user-plus" class="float-left" />
+                
                 @include('admin.calculadoras.colombia.grupal.createUser')
             @endcan
 
@@ -103,7 +102,7 @@
                             <div class="form-group">
                                 <label for="">Dimensiones/Volumen</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="volumen" id="volumen" class="form-control decimal"
+                                    <input type="text" name="volumen" id="volumen" class="form-control decimal @error('volumen') is-invalid @enderror"
                                         value="{{ old('volumen') }}" placeholder="Ingresar en CBM, mas informacion"
                                         aria-label="Recipient's username" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
@@ -113,8 +112,8 @@
                                     </div>
                                 </div>
                                 @error('volumen')
-                                    <small style="color: red">
-                                        {{ $message }}
+                                    <small style="color:#d80e22ed">
+                                        <b>{{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -124,7 +123,7 @@
                             <div class="form-group">
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="peso"
+                                    <input type="text" class="form-control @error('peso') is-invalid @enderror" name="peso"
                                         value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
@@ -132,9 +131,9 @@
                                     </div>
                                 </div>
                                 @error('peso')
-                                    <small style="color: red">
+                                    <small style="color: #d80e22ed">
                                         <p>En caso de no disponer ingresar N/A</p>
-                                        {{ $message }}
+                                        <b>{{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -144,11 +143,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Direccion de entrega</label>
-                                <input type="text" name="direccion" id="" class="form-control "
+                                <input type="text" name="direccion" id="" class="form-control @error('direccion') is-invalid @enderror "
                                     placeholder="Dir. donde recibirás tu carga" value="{{ old('direccion') }}">
                                 @error('direccion')
-                                    <small style="color: red">
-                                        {{ $message }}
+                                    <small style="color: #d80e22ed">
+                                       <b> {{ $message }}</b>
                                     </small>
                                 @enderror
                             </div>
@@ -185,12 +184,10 @@
                                 <input type="hidden" value="si" name="existe">
                                 <div class="form-group">
                                     <label for="">Seleccionar Cliente: </label>
-                                    <x-adminlte-select2 name="cliente" id="cliente">
-                                        <option value="">Selecciona una opción....</option>
-                                        @foreach ($clientes as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
+                                    <x-adminlte-select2 name="cliente" id="cliente" enable-old-support>
+                                      <option value="">Selecione una opcion......</option>
                                     </x-adminlte-select2>
+                                    {{-- @livewire('clientes-list') --}}
                                 </div>
                             @endcan
 
@@ -198,7 +195,7 @@
                     </div>
                 </form>
 
-                @include('admin.calculadoraCBM.calculadora')
+                @include('admin.calculadoraCBM.calculadoraPrueba')
 
             </x-adminlte-card>
         </div>
@@ -212,8 +209,8 @@
     </script>
 
     <script>
-        
-
+       
+       
         function accion1(valor) {
 
             valor = $("#liquidos").val();
@@ -281,21 +278,5 @@
             }
         }
 
-        function ejecutar() {
-            Swal.fire({
-                title: '<strong><u>Información</u></strong>',
-                icon: 'info',
-                text: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:',
-                html: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:</b>  ' +
-                    '<a href="https://imporcomexcorp.com/calculadora-cbm" target="_blank">www.imporcomexcorp.com/calculadora-cbm</a> ',
-                showCloseButton: false,
-                showCancelButton: false,
-                focusConfirm: false,
-                confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            })
-        }
     </script>
 @stop

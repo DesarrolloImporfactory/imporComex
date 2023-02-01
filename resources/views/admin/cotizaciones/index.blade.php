@@ -13,7 +13,7 @@
             })
         </script>
     @endif
-
+    <input type="hidden" id="id_user" value="{{ Auth::user()->id }}">
     <div class="row">
         <div class="col-md-4">
             <x-adminlte-small-box title="Cotizaciones" text="total : {{ $cotizaciones }}" icon="fas fa-coins " theme="danger"
@@ -33,10 +33,7 @@
 
     @section('content')
 
-        <form action="{{ route('admin.dashboard.totalCotizaciones') }}" method="post" id="form">
-            @csrf
-            <input type="hidden" name="id" value="{{ Auth::user()->id }}">
-        </form>
+    
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -76,17 +73,22 @@
     @push('js')
         <script>
             $(document).ready(function() {
-
+                var id = $("#id_user").val();
                 let sBox1 = new _AdminLTE_SmallBox('sbUpdatable');
 
                 let updateBox1 = () => {
                     // Stop loading animation.
                     sBox1.toggleLoading();
+                    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                     // Update data.
                     $.ajax({
-                        url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                        method: "POST",
-                        data: $("#form").serialize()
+                        url: "../../admin/dashboard/" + id,
+                        method: "GET",
+                        dataType: "json",
                     }).done(function(res) {
 
                         var respuesta = res.cotizaciones;
@@ -120,17 +122,22 @@
     @push('js')
         <script>
             $(document).ready(function() {
-
+                var id = $("#id_user").val();
                 let sBox2 = new _AdminLTE_SmallBox('aprobadas');
 
                 let updateBox2 = () => {
                     // Stop loading animation.
                     sBox2.toggleLoading();
+                    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                     // Update data.
                     $.ajax({
-                        url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                        method: "POST",
-                        data: $("#form").serialize()
+                        url: "../../admin/dashboard/" + id,
+                        method: "GET",
+                        dataType:"json"
                     }).done(function(res) {
 
                         var respuesta = res.aprobadas;
@@ -165,17 +172,22 @@
     @push('js')
         <script>
             $(document).ready(function() {
-
+                var id = $("#id_user").val();
                 let sBox3 = new _AdminLTE_SmallBox('pendientes');
 
                 let updateBox3 = () => {
                     // Stop loading animation.
                     sBox3.toggleLoading();
+                    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                     // Update data.
                     $.ajax({
-                        url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                        method: "POST",
-                        data: $("#form").serialize()
+                        url: "../../admin/dashboard/" + id,
+                        method: "GET",
+                        dataType:"json",
                     }).done(function(res) {
 
                         var respuesta = res.pendientes;
@@ -186,7 +198,6 @@
                         let icon = 'fas fa-triangle-exclamation' + ['text-dark', 'text-light',
                             'text-warning'
                         ][idx];
-                        //let url = ['url1', 'url2', 'url3'][idx];
 
                         let data = {
                             text,

@@ -5,20 +5,20 @@
 @section('content_header')
     <div class="row">
         <div class="col-md-3">
-            <x-adminlte-small-box title="{{$usuarios}}" text="Usuarios" icon="fas fa-users " theme="gradient-primary"
+            <x-adminlte-small-box title="{{ $usuarios }}" text="Usuarios" icon="fas fa-users " theme="gradient-primary"
                 url="#" url-text="Reputation history" id="sbUpdatable" />
         </div>
         <div class="col-md-3">
-            <x-adminlte-small-box title="{{$cotizaciones}}" text="Cotizaciones" icon="fas fa-chart-bar" theme="warning"
+            <x-adminlte-small-box title="{{ $cotizaciones }}" text="Cotizaciones" icon="fas fa-chart-bar" theme="warning"
                 url="#" url-text="Reputation history" id="cotizaciones" />
         </div>
         <div class="col-md-3">
-            <x-adminlte-small-box title="{{$pendientes}}" text="Pendientes" icon="fa-solid fa-circle-exclamation" theme="danger"
-                url="#" url-text="Reputation history" id="pendientes" />
+            <x-adminlte-small-box title="{{ $pendientes }}" text="Pendientes" icon="fa-solid fa-circle-exclamation"
+                theme="danger" url="#" url-text="Reputation history" id="pendientes" />
         </div>
         <div class="col-md-3">
-            <x-adminlte-small-box title="{{$contenedores}}" text="Contenedores" icon="fa-brands fa-docker " theme="success"
-                url="#" url-text="Reputation history" id="contenedores" />
+            <x-adminlte-small-box title="{{ $contenedores }}" text="Contenedores" icon="fa-brands fa-docker "
+                theme="success" url="#" url-text="Reputation history" id="contenedores" />
         </div>
     </div>
 
@@ -38,10 +38,8 @@
             </x-adminlte-card>
         </div>
     </div>
-    <form action="{{ route('admin.dashboard.all') }}" method="post" id="form">
-        @csrf
-        <input type="hidden" name="id" value="">
-    </form>
+    <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}">
+
 @stop
 
 @section('css')
@@ -101,6 +99,7 @@
         });
 
         $(document).ready(function() {
+            var id = $("#id").val();
 
             let sBox = new _AdminLTE_SmallBox('sbUpdatable');
             let sBox1 = new _AdminLTE_SmallBox('cotizaciones');
@@ -110,32 +109,43 @@
             let updateBox = () => {
                 // Stop loading animation.
                 sBox.toggleLoading();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 // Update data.
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
-                }).done(function(res) {
-
-                    let rep = res.usuarios;
-                    let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
-                    let text = 'Usuarios' + [idx];
-                    let data = {
-                        text,
-                        title: rep
-                    };
-                    sBox.update(data);
+                    type: "GET",
+                    url: "admin/dashboard/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                        let rep = response.usuarios;
+                        let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
+                        let text = 'Usuarios' + [idx];
+                        let data = {
+                            text,
+                            title: rep
+                        };
+                        sBox.update(data);
+                    }
                 });
+
 
             };
             let updateBox1 = () => {
                 // Stop loading animation.
                 sBox1.toggleLoading();
                 // Update data.
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "admin/dashboard/" + id,
+                    method: "GET",
+                    dataType: "json",
                 }).done(function(res) {
 
                     let rep = res.cotizaciones;
@@ -154,10 +164,15 @@
                 // Stop loading animation.
                 sBox2.toggleLoading();
                 // Update data.
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "admin/dashboard/" + id,
+                    method: "GET",
+                    dataType: "json",
                 }).done(function(res) {
 
                     let rep = res.pendientes;
@@ -177,9 +192,9 @@
                 sBox3.toggleLoading();
                 // Update data.
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "admin/dashboard/" + id,
+                    method: "GET",
+                    dataType: "json",
                 }).done(function(res) {
 
                     let rep = res.contenedores;

@@ -35,7 +35,7 @@ class ContenedoresController extends Controller
         ];
 
         return view('admin.contenedores.index',$data);
-        //return $consulta;
+
     }
 
     public function store(Request $request)

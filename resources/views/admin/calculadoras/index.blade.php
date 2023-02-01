@@ -7,7 +7,7 @@
         <br>
         <h1><b>SELECCIONA TU PAÍS</b></h1>
     </div>
-    @livewire('search-users')
+   
 @stop
 
 @section('content')

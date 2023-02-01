@@ -18,12 +18,22 @@ class DashboardController extends Controller
         return response()->json($usuarios);
     }
 
-    public function totalCotizaciones(Request $request)
+    public function clientes(){
+        $clientes = User::whereHas("roles", function ($q) {
+            $q->where("name", "Client");
+        })->get();
+        return response()->json([
+            'status'=>200,
+            'clientes'=>$clientes
+        ]);
+    }
+
+    public function totalCotizaciones($id)
     {
         $usuarios = User::count();
         $contenedores = Contenedores::count();
 
-        $id = $request->input('id');
+       
         $usuarioRol = User::with('roles')->findOrFail($id);
         //foreach para mapear la consulta anidada
         foreach ($usuarioRol->roles as $rol) {
