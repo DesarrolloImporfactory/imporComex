@@ -389,8 +389,8 @@
                 });
 
                 $.ajax({
-                    type: "POST",
-                    url: "{{asset('../../admin/relaciones')}}",
+                    type: "GET",
+                    url: "{{asset('admin/crear')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {

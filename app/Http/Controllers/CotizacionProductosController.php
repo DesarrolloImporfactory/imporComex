@@ -19,9 +19,7 @@ class CotizacionProductosController extends Controller
     {
         //
     }
-
-    public function store(Request $request)
-    {
+    public function saludo(Request $request){
         $validator = Validator::make($request->all(), [
             'insumo_id' => 'required',
             'cantidad' => 'required|numeric',
@@ -61,6 +59,11 @@ class CotizacionProductosController extends Controller
                 'message' => 'Producto creado!',
             ]);
         }
+    }
+
+    public function store(Request $request)
+    {
+        return response()->json('hola');
     }
 
    
