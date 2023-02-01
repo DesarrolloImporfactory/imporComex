@@ -92,6 +92,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin/save/producto', [ColombiaController::class, 'saveProduct'])->name('admin.save.producto');
 
     Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
-    Route::get('admin/crear',[CotizacionProductosController::class, 'saludo'])->name('admin.crear');
+    //Route::get('admin/crear',[CotizacionProductosController::class, 'saludo'])->name('admin.crear');
     
 });

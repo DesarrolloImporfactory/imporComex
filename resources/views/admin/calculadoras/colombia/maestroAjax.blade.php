@@ -389,8 +389,8 @@
                 });
 
                 $.ajax({
-                    type: "GET",
-                    url: "../../admin/crear",
+                    type: "POST",
+                    url: "../../admin/relacion",
                     data: data,
                     dataType: "json",
                     success: function(response) {
