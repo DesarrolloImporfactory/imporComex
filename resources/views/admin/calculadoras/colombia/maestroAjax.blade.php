@@ -390,7 +390,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "{{asset('admin/crear')}}",
+                    url: "../../admin/crear",
                     data: data,
                     dataType: "json",
                     success: function(response) {
