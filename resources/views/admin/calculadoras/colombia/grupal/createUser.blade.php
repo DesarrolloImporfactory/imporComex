@@ -1,6 +1,6 @@
-
-<x-adminlte-button data-toggle="modal" id="abrir" data-target="#example" label="Agregar Cliente" theme="warning"
-                    icon="fa-solid fa-user-plus" class="float-left" />
+<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#example">
+    <i class="fa-solid fa-user-plus"></i> Agregar Cliente
+</button>
 
 <div class="modal fade" id="example" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -61,6 +61,7 @@
         clientes();
 
         function clientes() {
+            $("#cliente").append(`<option value="">Selecione una opcion......</option>`);
             $.ajax({
                 type: "GET",
                 url: "{{ route('admin.clientes') }}",
@@ -113,6 +114,7 @@
                         })
                         $('#id_form').find('input').val("");
                         $("#example").modal('hide');
+                        $("#cliente").html("");
                         clientes();
                     }
                 }

@@ -185,7 +185,7 @@
                                 <div class="form-group">
                                     <label for="">Seleccionar Cliente: </label>
                                     <x-adminlte-select2 name="cliente" id="cliente" enable-old-support>
-                                      <option value="">Selecione una opcion......</option>
+                                      
                                     </x-adminlte-select2>
                                     {{-- @livewire('clientes-list') --}}
                                 </div>
