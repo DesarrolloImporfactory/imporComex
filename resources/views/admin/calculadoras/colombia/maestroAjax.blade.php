@@ -202,19 +202,19 @@
                         $.each(response.productos, function(key, producto) {
                             $('#body').append(`
                                 <tr>
-                                    <td>${producto.id}</td>
+                                    <td>${(producto.id)}</td>
                                     <td>${producto.insumo.nombre}</td>
-                                    <td>${producto.precio}</td>
-                                    <td>${producto.cantidad}</td>
-                                    <td>${producto.fob}</td>
-                                    <td>${producto.seguro}</td>
-                                    <td>${producto.flete}</td>
-                                    <td>${producto.cif}</td>
-                                    <td>${producto.advalorem}</td>
-                                    <td>${producto.porcentaje}%</td>
-                                    <td>${producto.fodinfa}</td>
-                                    <td>${producto.iva}</td>
-                                    <td>${producto.total}</td>
+                                    <td>${(producto.precio).toFixed(2)}</td>
+                                    <td>${(producto.cantidad).toFixed(2)}</td>
+                                    <td>${(producto.fob).toFixed(2)}</td>
+                                    <td>${(producto.seguro).toFixed(2)}</td>
+                                    <td>${(producto.flete).toFixed(2)}</td>
+                                    <td>${(producto.cif).toFixed(2)}</td>
+                                    <td>${(producto.advalorem).toFixed(2)}</td>
+                                    <td>${(producto.porcentaje).toFixed(2)}%</td>
+                                    <td>${(producto.fodinfa).toFixed(2)}</td>
+                                    <td>${(producto.iva).toFixed(2)}</td>
+                                    <td>${(producto.total).toFixed(2)}</td>
                                     <td>
                                         <a type="button" value="${producto.id}" id="btn-eliminar" class=" btn-sm"><i class="fa-solid fa-trash "></i></a>
                                         <a type="button" value="${producto.id}" id="btn-edit" class="btn-sm"><i class="fa-solid fa-pen-to-square "></i></a>

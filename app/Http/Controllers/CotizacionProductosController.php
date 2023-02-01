@@ -19,47 +19,6 @@ class CotizacionProductosController extends Controller
     {
         //
     }
-    public function saludo(Request $request){
-        $validator = Validator::make($request->all(), [
-            'insumo_id' => 'required',
-            'cantidad' => 'required|numeric',
-            'precio' => 'required|numeric',
-            'porcentaje' => 'required|numeric',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->messages(),
-            ]);
-        } else {
-            $fob = $request->input('cantidad')*$request->input('precio');
-            $seguro = $fob*0.01;
-            $flete = $fob/5;
-            $cif = $fob+$seguro+$flete;
-            $advalorem = $cif*($request->input('porcentaje')/100);
-            $fodinfa = $cif*0.005;
-            $iva = ($cif+$advalorem+$fodinfa)*(12/100);
-            $producto = new ProductoInsumo();
-            $producto->insumo_id = $request->input('insumo_id');
-            $producto->cantidad = $request->input('cantidad');
-            $producto->precio = $request->input('precio');
-            $producto->fob = $fob;
-            $producto->seguro = $seguro;
-            $producto->flete = $flete;
-            $producto->cif = $cif;
-            $producto->advalorem = $advalorem;
-            $producto->fodinfa = $fodinfa;
-            $producto->iva = $iva;
-            $producto->total = $advalorem+$fodinfa+$iva;
-            $producto->porcentaje = $request->input('porcentaje');
-            $producto->cotizacion_id = $request->input('cotizacion_id');
-            $producto->save();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Producto creado!',
-            ]);
-        }
-    }
 
     public function store(Request $request)
     {
