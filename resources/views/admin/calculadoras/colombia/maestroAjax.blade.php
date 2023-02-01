@@ -390,7 +390,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('admin.relacion.store') }}",
+                    url: "../../admin/relacion",
                     data: data,
                     dataType: "json",
                     success: function(response) {
