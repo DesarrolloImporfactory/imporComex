@@ -20,7 +20,15 @@ return new class extends Migration
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
             $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
             $table->integer('cantidad');
-            $table->integer('precio');
+            $table->float('precio',8,2);
+            $table->float('fob',8,2);
+            $table->float('seguro',8,2);
+            $table->float('flete',8,2);
+            $table->float('cif',8,2);
+            $table->float('advalorem',8,2);
+            $table->float('fodinfa',8,2);
+            $table->float('iva',8,2);
+            $table->float('total',8,2);
             $table->integer('porcentaje');
             $table->timestamps();
         });

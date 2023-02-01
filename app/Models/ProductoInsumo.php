@@ -8,5 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class ProductoInsumo extends Model
 {
     use HasFactory;
-    protected $fillable = ['cotizacion_id', 'insumo_id', 'cantidad','precio','porcentaje'];
+
+    protected $fillable = [
+        'cotizacion_id',
+        'insumo_id',
+        'cantidad',
+        'precio',
+        'fob',
+        'seguro',
+        'flete',
+        'cif',
+        'advalore',
+        'porcentaje',
+        'fodinfa',
+        'iva',
+        'total'
+    ];
+
+    public function insumo(){
+        return $this->belongsTo(Insumo::class,'insumo_id','id');
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Modalidades;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Validator;
 
 class UsuariosController extends Controller
 {
@@ -33,34 +34,32 @@ class UsuariosController extends Controller
 
     public function createUserFast(Request $request){
 
-        $idModalidad = $request->input('modalidad');
-        $modalidad = Modalidades::findOrFail($idModalidad);
-        $idPais = $request->input('paises');
-        $pais = Paises::findOrFail($idPais);
-        $clientes = User::whereHas("roles", function ($q) {
-            $q->where("name", "Client");
-        })->get();
-
-        $mensajes = [
-            'modalidad' => $modalidad,
-            'paises' => $pais,
-            'clientes'=>$clientes
-
-        ];
-        $request->validate([
-            'nombre'=>['required'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-               
-         ]);
-        User::create([
-            'name'=>$request->input('nombre'),
-            'telefono'=>$request->input('telefono'),
-            'ruc'=>$request->input('ruc'),
-            'email'=>$request->input('email'),
-            'password'=>Hash::make($request->input('password')),
-        ])->assignRole('Client'); 
-
-        return view('admin.calculadoras.colombia.grupal.create', $mensajes);
+        $validator = Validator::make($request->all(),[
+            'nombre'=>'required',
+            'telefono'=>'required',
+            'ruc'=>'required|min:13',
+            'email'=>'required|string|email|unique:users',
+            'password'=>'required|min:8'
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status'=>400,
+                'messages'=>$validator->messages()
+            ]);
+        }else{
+            User::create([
+                'name'=>$request->input('nombre'),
+                'telefono'=>$request->input('telefono'),
+                'ruc'=>$request->input('ruc'),
+                'email'=>$request->input('email'),
+                'password'=>Hash::make($request->input('password')),
+            ])->assignRole('Client');
+            return response()->json([
+                'status'=>200,
+                'messages'=>'Cliente creado con exito'
+            ]);
+        }
+        
     }
 
    

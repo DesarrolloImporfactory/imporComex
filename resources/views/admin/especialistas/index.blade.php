@@ -2,18 +2,18 @@
 @section('title', 'Especialistas')
 
 @section('content_header')
-
+<input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}">
     <div class="row">
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizaciones }}" text="Total de Cotizaciones" icon="fas fa-star" url="#"
+            <x-adminlte-small-box title="{{ $cotizaciones }}" text="Total de Cotizaciones: " icon="fas fa-star" url="#"
                 url-text="View details" id="cotizaciones" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizacionesAprobadas }}" text="Cotizaciones Aprobadas" icon="fas fa-chart-bar"
+            <x-adminlte-small-box title="{{ $cotizacionesAprobadas }}" text="Cotizaciones Aprobadas: " icon="fas fa-chart-bar"
                 theme="info" url="#" url-text="More info" id="aprobadas" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizacionesPendientes }}" text="Cotizaciones Pendientes"
+            <x-adminlte-small-box title="{{ $cotizacionesPendientes }}" text="Cotizaciones Pendientes: "
                 icon="fas fa-eye text-dark" theme="teal" url="#" url-text="View details" id="pendientes" />
         </div>
     </div>
@@ -38,6 +38,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
+            var id = $("#id").val();
 
             let sBox = new _AdminLTE_SmallBox('cotizaciones');
             let sBox2 = new _AdminLTE_SmallBox('aprobadas');
@@ -45,11 +46,16 @@
             let updateBox = () => {
                 // Stop loading animation.
                 sBox.toggleLoading();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 // Update data.
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "../../admin/dashboard/" + id,
+                    method: "GET",
+                    dataType: "json",
                 }).done(function(res) {
 
                     var respuesta = res.cotizaciones;
@@ -71,11 +77,16 @@
             let updateBox2 = () => {
                 // Stop loading animation.
                 sBox2.toggleLoading();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 // Update data.
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "../../admin/dashboard/" + id,
+                    method: "GET",
+                    dataType:"json",
                 }).done(function(res) {
 
                     var respuesta = res.aprobadas;
@@ -94,11 +105,16 @@
             let updateBox3 = () => {
                 // Stop loading animation.
                 sBox3.toggleLoading();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 // Update data.
                 $.ajax({
-                    url: "{{ route('admin.dashboard.totalCotizaciones') }}",
-                    method: "POST",
-                    data: $("#form").serialize()
+                    url: "../../admin/dashboard/" + id,
+                    method: "GET",
+                    dataType: "json",
                 }).done(function(res) {
 
                     var respuesta = res.pendientes;

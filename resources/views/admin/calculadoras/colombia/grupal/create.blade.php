@@ -35,8 +35,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             @can('admin.calculadoras.cliente')
-                <x-adminlte-button data-toggle="modal" data-target="#modalCustom" label="Agregar Cliente" theme="dark"
-                    icon="fa-solid fa-user-plus" class="float-left" />
+                
                 @include('admin.calculadoras.colombia.grupal.createUser')
             @endcan
 
@@ -185,7 +184,10 @@
                                 <input type="hidden" value="si" name="existe">
                                 <div class="form-group">
                                     <label for="">Seleccionar Cliente: </label>
-                                    @livewire('clientes-list')
+                                    <x-adminlte-select2 name="cliente" id="cliente" enable-old-support>
+                                      <option value="">Selecione una opcion......</option>
+                                    </x-adminlte-select2>
+                                    {{-- @livewire('clientes-list') --}}
                                 </div>
                             @endcan
 
@@ -205,17 +207,9 @@
             this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
         });
     </script>
-    <script>
-         window.addEventListener('show-form',event =>{
-            $('#form').modal('show');
-        })
-        window.addEventListener('keyboard-form',event =>{
-            $('#form').modal('hide');
-        })
-    </script>
 
     <script>
-        
+       
        
         function accion1(valor) {
 
@@ -284,21 +278,5 @@
             }
         }
 
-        function ejecutar() {
-            Swal.fire({
-                title: '<strong><u>Información</u></strong>',
-                icon: 'info',
-                text: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:',
-                html: 'La dimension total de tu carga debe ser en CBM(M3), si aun no la tienes ingresa al siguiente enlace:</b>  ' +
-                    '<a href="https://imporcomexcorp.com/calculadora-cbm" target="_blank">www.imporcomexcorp.com/calculadora-cbm</a> ',
-                showCloseButton: false,
-                showCancelButton: false,
-                focusConfirm: false,
-                confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            })
-        }
     </script>
 @stop

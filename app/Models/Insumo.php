@@ -9,4 +9,8 @@ class Insumo extends Model
 {
     use HasFactory;
     protected $fillable = ['nombre', 'cantidad', 'precio','porcentaje'];
+
+    public function productoInsumo(){
+        return $this->hasMany(ProductoInsumo::class,'insumo_id','id');
+    }
 }

@@ -38,7 +38,7 @@
 
 </x-adminlte-modal>
 {{-- Example button to open modal --}}
-<x-adminlte-button label="Crear producto" data-toggle="modal" data-target="#modal" class="bg-danger" />
+<x-adminlte-button label="Crear producto" data-toggle="modal" data-target="#modal" class="bg-success mt-3" />
 <style>
     .select2-container--open .select2-dropdown {
         z-index: 1070;
