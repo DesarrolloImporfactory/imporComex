@@ -107,8 +107,7 @@
                                         aria-label="Recipient's username" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button title="Calculadora" class="btn btn-outline-secondary" type="button"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                class="fa-solid fa-question"></i></button>
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-calculator"></i></button>
                                     </div>
                                 </div>
                                 @error('volumen')
@@ -155,27 +154,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Ciudad de entrega</label>
-                                <x-adminlte-select2 name="ciudad_entrega">
+                                <x-adminlte-select2 name="ciudad_entrega" enable-old-support>
                                     <option value="">Selecciona una opción....</option>
-                                    <option value="Quito"{{ old('ciudad_entrega') == 'Quito' ? 'selected' : '' }}>Quito
-                                    </option>
-                                    <option value="Guayaquil"{{ old('ciudad_entrega') == 'Guayaquil' ? 'selected' : '' }}>
-                                        Guayaquil</option>
-                                    <option value="Cuenca"{{ old('ciudad_entrega') == 'Cuenca' ? 'selected' : '' }}>Cuenca
-                                    </option>
-                                    <option value="Ambato"{{ old('ciudad_entrega') == 'Ambato' ? 'selected' : '' }}>Ambato
-                                    </option>
-                                    <option value="Latacunga"{{ old('ciudad_entrega') == 'Latacunga' ? 'selected' : '' }}>
-                                        Latacunga</option>
-                                    <option value="Riobamba"{{ old('ciudad_entrega') == 'Riobamba' ? 'selected' : '' }}>
-                                        Riobamba</option>
-                                    <option value="Manabi"{{ old('ciudad_entrega') == 'Manabi' ? 'selected' : '' }}>Manabi
-                                    </option>
-                                    <option
-                                        value="Esmeraldad"{{ old('ciudad_entrega') == 'Esmeraldad' ? 'selected' : '' }}>
-                                        Esmeraldad</option>
-                                    <option value="Machala"{{ old('ciudad_entrega') == 'Machala' ? 'selected' : '' }}>
-                                        Machala</option>
+                                    @foreach ($ciudades as $item)
+                                        <option value="{{$item->id}}">{{$item->nombre_provincia}} - {{$item->nombre_canton}}</option>
+                                    @endforeach
                                 </x-adminlte-select2>
                             </div>
                         </div>

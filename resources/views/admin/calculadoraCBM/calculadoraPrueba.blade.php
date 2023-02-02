@@ -5,14 +5,14 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Calculadora de Metros Cubicos</h1>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row formulario">
                     <div class="form-group col-3">
                         <label for="">Cartones</label>
                         <input type="number" min="0" name="" id="cartones" class="form-control">
 
                     </div>
                     <div class="form-group col-3">
-                        <label for="">Longitud</label>
+                        <label for="">Largo</label>
                         <input type="number" min="0" name="" id="longitud" class="form-control">
                     </div>
                     <div class="form-group col-3">
@@ -20,7 +20,7 @@
                         <input type="number" name="" min="0" id="ancho" class="form-control">
                     </div>
                     <div class="form-group col-3">
-                        <label for="">Altura</label>
+                        <label for="">Alto</label>
                         <input type="number" name="" min="0" id="altura" class="form-control">
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-7">
                         <button type="button" class="btn btn-primary " id="bt_add">Agregar</button>
-                        <button type="button" class="btn btn-secondary float-right" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary float-right" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -60,12 +60,14 @@
 <script>
     $(document).ready(function() {
         $("#bt_add").click(function() {
+            
             agregar();
         })
     })
     var cont = 0;
 
     function agregar() {
+        
         cont++;
         var cartones = $("#cartones").val();
         var longitud = $("#longitud").val();
@@ -91,6 +93,7 @@
         } else {
             alert("se debe ingresar valores validos");
         }
+        $('.formulario').find('input').val("");
     }
 
     function eliminar_insumo(id, subTotal){

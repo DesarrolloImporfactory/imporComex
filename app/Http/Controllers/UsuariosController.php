@@ -7,9 +7,11 @@ use App\Models\User;
 use App\Models\Idioma;
 use App\Models\Paises;
 use App\Models\Modalidades;
+use App\Notifications\SendPassword;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class UsuariosController extends Controller
@@ -47,6 +49,7 @@ class UsuariosController extends Controller
                 'messages'=>$validator->messages()
             ]);
         }else{
+            $password = $request->input('password');
             User::create([
                 'name'=>$request->input('nombre'),
                 'telefono'=>$request->input('telefono'),
@@ -54,6 +57,7 @@ class UsuariosController extends Controller
                 'email'=>$request->input('email'),
                 'password'=>Hash::make($request->input('password')),
             ])->assignRole('Client');
+            Notification::route('mail', $request->input('email'))->notify(new SendPassword($password));
             return response()->json([
                 'status'=>200,
                 'messages'=>'Cliente creado con exito'

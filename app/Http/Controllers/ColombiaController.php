@@ -19,6 +19,7 @@ use App\Mail\EmailEspecialista;
 use App\Models\Producto;
 use App\Models\Insumo;
 use App\Models\Categoria;
+use App\Models\Ciudad;
 Use App\Models\ProductoInsumo;
 
 
@@ -89,7 +90,7 @@ class ColombiaController extends Controller
 
     public function create(Request $request)
     {
-
+        $ciudades = Ciudad::all();
         $idModalidad = $request->input('modalidad');
         $modalidad = Modalidades::findOrFail($idModalidad);
         $idPais = $request->input('pais');
@@ -101,7 +102,8 @@ class ColombiaController extends Controller
         $mensajes = [
             'modalidad' => $modalidad,
             'paises' => $pais,
-            'clientes' => $clientes
+            'clientes' => $clientes,
+            'ciudades'=>$ciudades
 
         ];
         if ($modalidad->id == "3") {
@@ -266,7 +268,7 @@ class ColombiaController extends Controller
         $grupal->direccion = $request->input('direccion');
         $grupal->especialista_id = $especialista;
         $grupal->volumen = $request->input('volumen');
-        $grupal->ciudad_entrega = $request->input('ciudad_entrega');
+        $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
         $grupal->total_logistica = $resultado;
 

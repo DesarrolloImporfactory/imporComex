@@ -107,7 +107,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Registro de productos" theme="dark" icon="fas fa-lg fa-moon">
+            <x-adminlte-card title="CALCULEMOS TUS IMPUESTOS" theme="dark" icon="fas fa-lg fa-calculator">
 
                 <div class="row">
                     <ul id="errores_formulario"></ul>
@@ -115,7 +115,7 @@
                     <div class="row" id="exampleModal">
                         <div class="form-group col-md-3">
                             <label for="">Buscar referencia</label>
-                            <x-adminlte-select2 name="insumos" id="insumos" onchange="colocarPrecio()" enable-old-support>
+                            <x-adminlte-select2 name="insumos" id="insumos"  enable-old-support>
                                 <option value="">Seleccione lo que esta buscando</option>
                                 @foreach ($insumo as $item)
                                     <option precio="{{ $item->precio }}" porcentaje="{{ $item->porcentaje }}"
@@ -135,11 +135,11 @@
                         </div>
                         <div class="col-md-2">
                             <label for="">Precio</label>
-                            <input type="text" name="" id="precio" class="form-control" readonly>
+                            <input type="number" min="0" name="" id="precio" class="form-control" value="{{ old('precio') }}">
                         </div>
                         <div class="col-md-2">
                             <label for="">Porcentaje</label>
-                            <input type="text" name="" id="porcentaje" class="form-control" readonly>
+                            <input type="number" min="0" name="" id="porcentaje" class="form-control" value="{{ old('porcentaje') }}">
                         </div>
                         <div class="form-group col-md-1 mt-4">
                             <button type="button" class="btn btn-primary crear mt-2">Agregar</button>
@@ -181,12 +181,12 @@
 @stop
 @section('js')
     <script>
-        function colocarPrecio() {
-            var precio = $("#insumos option:selected").attr('precio');
-            $("#precio").val(precio);
-            var porcentaje = $("#insumos option:selected").attr('porcentaje');
-            $("#porcentaje").val(porcentaje);
-        }
+        // function colocarPrecio() {
+        //     var precio = $("#insumos option:selected").attr('precio');
+        //     $("#precio").val(precio);
+        //     var porcentaje = $("#insumos option:selected").attr('porcentaje');
+        //     $("#porcentaje").val(porcentaje);
+        // }
         $(document).ready(function() {
             fetchProducts();
 

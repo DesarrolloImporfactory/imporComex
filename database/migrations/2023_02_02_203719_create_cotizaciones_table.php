@@ -40,6 +40,9 @@ return new class extends Migration
             $table->bigInteger('tarifa_id')->unsigned()->nullable();
             $table->foreign('tarifa_id')->references('id')->on('tarifa_gruapls')->onUpdate('cascade');
 
+            $table->bigInteger('ciudad_id')->unsigned()->nullable();
+            $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade');
+
             $table->string('gastos_exw')->nullable();
             $table->boolean('seguro')->nullable();
             $table->integer('proceso')->nullable();
@@ -47,7 +50,7 @@ return new class extends Migration
             $table->string('peso')->nullable();
             $table->string('volumen')->nullable();
             $table->string('direccion')->nullable();
-            $table->string('ciudad_entrega')->nullable();
+            // $table->string('ciudad_entrega')->nullable();
             $table->string('ruta')->nullable();
             $table->string('total_logistica')->nullable();
             $table->string('total_impuesto')->nullable();
