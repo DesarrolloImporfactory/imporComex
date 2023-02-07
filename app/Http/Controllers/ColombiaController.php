@@ -20,7 +20,7 @@ use App\Models\Producto;
 use App\Models\Insumo;
 use App\Models\Categoria;
 use App\Models\Ciudad;
-Use App\Models\ProductoInsumo;
+use App\Models\ProductoInsumo;
 
 
 class ColombiaController extends Controller
@@ -32,8 +32,9 @@ class ColombiaController extends Controller
         return "index";
     }
 
-    public function saveProduct(Request $request){
-        $cotizacion_id=$request->input('cotizacion_id');
+    public function saveProduct(Request $request)
+    {
+        $cotizacion_id = $request->input('cotizacion_id');
         $datos = new Insumo();
         $datos->nombre = $request->input('nombreInsumo');
         //$datos->categoria_id = $request->input('categoria_id');
@@ -41,15 +42,15 @@ class ColombiaController extends Controller
         $datos->precio = $request->input('precioInsumo');
         $datos->porcentaje = $request->input('porcentajeInsumo');
         $datos->save();
-        return redirect()->route('admin.colombia.edit', $cotizacion_id );
-
+        return redirect()->route('admin.colombia.edit', $cotizacion_id);
     }
 
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $request->validate([
             'insumos' => ['required'],
             'cantidad' => ['required'],
-            
+
         ]);
         $input = $request->all();
         $cotizacion_id = $request->input("cotizacion_id");
@@ -63,24 +64,24 @@ class ColombiaController extends Controller
             // ]);
             foreach ($input["insumo_id"] as $key => $value) {
                 ProductoInsumo::create([
-                    "insumo_id"=>$value,
-                    "cotizacion_id"=>$input["cotizacion_id"],
-                    "cantidad"=>$input["cantidades"][$key]
+                    "insumo_id" => $value,
+                    "cotizacion_id" => $input["cotizacion_id"],
+                    "cantidad" => $input["cantidades"][$key]
                 ]);
                 $ins = Insumo::find($value);
-                $ins->update(["cantidad"=>$ins->cantidad - $input["cantidades"][$key]]);
+                $ins->update(["cantidad" => $ins->cantidad - $input["cantidades"][$key]]);
             }
             DB::commit();
-            return redirect()->route('admin.colombia.edit', $cotizacion_id );
+            return redirect()->route('admin.colombia.edit', $cotizacion_id);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.colombia.edit', $cotizacion_id )->with('mensaje',$e->getMessage());
+            return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('mensaje', $e->getMessage());
         }
-        
     }
 
-    public function calcular_precio($insumos, $cantidades){
-        $precio=0;
+    public function calcular_precio($insumos, $cantidades)
+    {
+        $precio = 0;
         foreach ($insumos  as $key => $value) {
             $insumo = Insumo::find($value);
             $precio += ($insumo->precio * $cantidades[$key]);
@@ -103,7 +104,7 @@ class ColombiaController extends Controller
             'modalidad' => $modalidad,
             'paises' => $pais,
             'clientes' => $clientes,
-            'ciudades'=>$ciudades
+            'ciudades' => $ciudades
 
         ];
         if ($modalidad->id == "3") {
@@ -233,13 +234,12 @@ class ColombiaController extends Controller
         $consulta = DB::select($query);
         //condicion para saber si existe cotizaciones asignadas
         if (count($consulta) > 0) {
-            
+
             $id = min($consulta);
-            
+
             $idEspecialistaExistente = $id->especialista_id;
             if ($idEspecialistaNuevo != $idEspecialistaExistente) {
                 $especialista = $idEspecialistaNuevo;
-               
             } else {
                 $especialista = $idEspecialistaExistente;
             }
@@ -249,7 +249,7 @@ class ColombiaController extends Controller
         }
         ////Envio de correo electronico al especialista
         $datosEspecialista = User::findOrFail($especialista);
-        $emailEsp =$datosEspecialista->email;
+        $emailEsp = $datosEspecialista->email;
         //$correo = new EmailEspecialista;
         Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
@@ -281,20 +281,24 @@ class ColombiaController extends Controller
 
     public function editpaso1($id)
     {
-        $datos = Cotizaciones::with(['carga', 'pais', 'modalidad'])->whereid($id)->first();
-        return view('admin.paso1.edit', compact('datos'));
+        $datos = Cotizaciones::with(['carga', 'pais', 'modalidad', 'ciudad'])->whereid($id)->first();
+        $ciudades = Ciudad::all();
+        $clientes = User::whereHas("roles", function ($q) {
+            $q->where("name", "Client");
+        })->get();
+        return view('admin.paso1.edit', compact('datos', 'ciudades', 'clientes'));
     }
 
 
     public function edit($data)
     {
-        $categoria=Categoria::all();
-        $insumo=Insumo::all();
+        $categoria = Categoria::all();
+        $insumo = Insumo::all();
         $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad'])->first();
         $mensaje = "true";
         $data = [
-            'categoria'=>$categoria,
-            'insumo'=>$insumo,
+            'categoria' => $categoria,
+            'insumo' => $insumo,
             'cotizacion' => $cotizacion,
             'mensaje' => $mensaje
         ];
@@ -304,24 +308,25 @@ class ColombiaController extends Controller
     public function actualizarPaso1(Request $request, $id)
     {
         $request->validate([
-            'producto' => ['required', 'string', 'max:2555'],
+            'inflamable' => ['required'],
             'peso' => ['required',],
             'cargas_id' => ['required'],
             'tiene_bateria' => ['required'],
-            'precio_china' => ['required', 'numeric:0'],
+            'liquidos' => ['required'],
             'direccion' => ['required', 'string', 'min:5'],
             'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
             'ciudad_entrega' => ['required'],
         ]);
 
         $datos = [
-            'producto' => $request->input('producto'),
+            'inflamable'=> $request->input('inflamable'),
             'tiene_bateria' => $request->input('tiene_bateria'),
+            'liquidos' => $request->input('liquidos'),
+            'cargas_id'=>$request->input('cargas_id'),
             'peso' => $request->input('peso'),
             'volumen' => $request->input('volumen'),
-            'precio_china' => $request->input('precio_china'),
             'direccion' => $request->input('direccion'),
-            'ciudad_entrega' => $request->input('ciudad_entrega')
+            'ciudad_id' => $request->input('ciudad_entrega')
         ];
         Cotizaciones::where('id', $id)->update($datos);
         $validacion = Validacion::where('cotizacion_id', $id)->get();

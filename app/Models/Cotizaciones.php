@@ -16,10 +16,10 @@ class Cotizaciones extends Model
     }
 
     
-    public function pais(){
+    public function ciudad(){
         return $this->belongsTo(Ciudad::class,'ciudad_id','id');
     }
-    public function ciudad(){
+    public function pais(){
         return $this->belongsTo(Paises::class,'pais_id','id');
     }
     public function carga(){

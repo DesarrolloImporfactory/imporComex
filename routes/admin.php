@@ -22,8 +22,7 @@ use App\Http\Controllers\CotizacionIndividualController;
 use App\Http\Controllers\CotizacionProductosController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpuestosController;
-
-
+use App\Http\Controllers\ProveedoresController;
 
 //Route::get('admin',[HomeController::class, 'index']);
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -58,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('ticket/{id}/pdf', [ReportesController::class, 'pdfTicket'])->name('ticket.pdf');
     Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
+    Route::get('cotizacion/{id}/download', [ReportesController::class, 'cotizacionDownload'])->name('cotizacion.download');
     Route::resource('admin/calcular/impuesto', ReportesController::class)->names('calcular.impuestos');
 
     Route::resource('admin/contenedores', ContenedoresController::class)->names('admin.contenedores');
@@ -90,6 +90,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('editar/{id}/paso2', [ValidacionesController::class, 'editpaso2'])->name('editar.paso2');
     Route::post('admin/colombia/save', [ColombiaController::class, 'save'])->name('admin.colombia.save');
     Route::post('admin/save/producto', [ColombiaController::class, 'saveProduct'])->name('admin.save.producto');
+
+    Route::resource('admin/proveedor', ProveedoresController::class)->names('admin.proveedor');
 
     Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
     //Route::get('admin/crear',[CotizacionProductosController::class, 'saludo'])->name('admin.crear');

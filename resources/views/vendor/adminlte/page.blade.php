@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 
     {{-- <link rel="stylesheet" href="{{ asset('css/reportes.css')}}" /> --}}
-    <link rel="stylesheet" href="../css/invoices.css">
+    <link rel="stylesheet" href="{{asset("css/invoices.css")}}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{asset('storage/build/css/demo.css')}}">
     <link rel="stylesheet" href="{{asset('storage/build/css/intlTelInput.css')}}">

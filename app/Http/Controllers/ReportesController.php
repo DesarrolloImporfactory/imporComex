@@ -7,6 +7,7 @@ use App\Models\Cotizaciones;
 use App\Models\Validacion;
 use App\Models\cotizacion_impuesto;
 use PDF;
+use App\Models\ProductoInsumo;
 use Illuminate\Support\Facades\DB;
 
 
@@ -26,17 +27,34 @@ class ReportesController extends Controller
             'inBackground' => $inBackground
         ];
         $pdf = PDF::loadView('reportes.pdfTicket', $data);
-        return $pdf->download($carbon . 'ticket.pdf');
+        return $pdf->stream($carbon . 'ticket.pdf');
     }
     public function pdfCotizacion(Request $request, $id)
     {
-        $cotizacion = Cotizaciones::whereid($id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario'])->first();
+        $cotizacion = Cotizaciones::whereid($id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario','ciudad'])->first();
         $carbon = new \Carbon\Carbon();
+        $productos = ProductoInsumo::wherecotizacion_id($id)->with('insumo')->get();
         $inBackground = false;
         $data = [
             'cotizacion' => $cotizacion,
             'carbon' => $carbon,
-            'inBackground' => $inBackground
+            'inBackground' => $inBackground,
+            'productos' => $productos
+        ];
+        $pdf = PDF::loadView('reportes.pdfCotizacion', $data);
+        return $pdf->stream($carbon . 'cotizacion.pdf');
+    }
+
+    public function cotizacionDownload(Request $request, $id){
+        $cotizacion = Cotizaciones::whereid($id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario','ciudad'])->first();
+        $carbon = new \Carbon\Carbon();
+        $productos = ProductoInsumo::wherecotizacion_id($id)->with('insumo')->get();
+        $inBackground = false;
+        $data = [
+            'cotizacion' => $cotizacion,
+            'carbon' => $carbon,
+            'inBackground' => $inBackground,
+            'productos' => $productos
         ];
         $pdf = PDF::loadView('reportes.pdfCotizacion', $data);
         return $pdf->download($carbon . 'cotizacion.pdf');

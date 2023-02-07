@@ -82,14 +82,13 @@
                             <div class="form-group">
                                 <label for="">Dimensiones/Volumen</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="volumen" id="volumen" class="form-control"
+                                    <input type="text" name="volumen" id="volumen" class="form-control decimal @error('volumen') is-invalid @enderror"
                                         value="{{ isset($datos->volumen) ? $datos->volumen : old('volumen') }}"
                                         placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
                                         aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button title="Calculadora" class="btn btn-outline-secondary" type="button"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                class="fa-solid fa-question"></i></button>
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-calculator"></i></button>
                                     </div>
                                 </div>
                                 @error('volumen')
@@ -103,7 +102,7 @@
                             <div class="form-group">
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="peso"
+                                    <input type="text" class="form-control @error('peso') is-invalid @enderror" name="peso"
                                         value="{{ isset($datos->peso) ? $datos->peso : old('peso') }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
@@ -122,7 +121,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Direccion de entrega</label>
-                                <input type="text" name="direccion" id="" class="form-control "
+                                <input type="text" name="direccion" id="" class="form-control @error('direccion') is-invalid @enderror"
                                     value="{{ isset($datos->direccion) ? $datos->direccion : old('direccion') }}">
                                 @error('direccion')
                                     <small style="color: red">
@@ -134,35 +133,33 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Ciudad de entrega</label>
-                                <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="ciudad_entrega">
-                                    <option value="">Selecciona una opción....</option>
-                                    <option value="Quito"{{ $datos->ciudad_entrega == 'Quito' ? 'selected' : '' }}>Quito
-                                    </option>
-                                    <option value="Guayaquil"{{ $datos->ciudad_entrega == 'Guayaquil' ? 'selected' : '' }}>
-                                        Guayaquil</option>
-                                    <option value="Cuenca"{{ $datos->ciudad_entrega == 'Cuenca' ? 'selected' : '' }}>Cuenca
-                                    </option>
-                                    <option value="Ambato"{{ $datos->ciudad_entrega == 'Ambato' ? 'selected' : '' }}>Ambato
-                                    </option>
-                                    <option value="Latacunga"{{ $datos->ciudad_entrega == 'Latacunga' ? 'selected' : '' }}>
-                                        Latacunga</option>
-                                    <option value="Riobamba"{{ $datos->ciudad_entrega == 'Riobamba' ? 'selected' : '' }}>
-                                        Riobamba</option>
-                                    <option value="Manabi"{{ $datos->ciudad_entrega == 'Manabi' ? 'selected' : '' }}>Manabi
-                                    </option>
-                                    <option
-                                        value="Esmeraldad"{{ $datos->ciudad_entrega == 'Esmeraldad' ? 'selected' : '' }}>
-                                        Esmeraldad</option>
-                                    <option value="Machala"{{ $datos->ciudad_entrega == 'sMachala' ? 'selected' : '' }}>
-                                        Machala</option>
+                                <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="ciudad_entrega" enable-old-support>
+                                    @foreach ($ciudades as $item)
+                                    <option value="{{$item->id}}">{{$item->nombre_provincia}} - {{$item->nombre_canton}}</option>
+                                @endforeach
                                 </x-adminlte-select2>
                             </div>
                         </div>
-                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            @can('admin.calculadoras.cliente')
+                                <input type="hidden" value="si" name="existe">
+                                <div class="form-group">
+                                    <label for="">Seleccionar Cliente: </label>
+                                    <x-adminlte-select2 name="cliente" id="cliente" enable-old-support>
+                                        <option value="">Seleccione una opcion......</option>
+                                      @foreach ($clientes as $item)
+                                          <option value="{{$item->id}}"{{ $datos->usuario_id==$item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                      @endforeach
+                                    </x-adminlte-select2>
+                                    {{-- @livewire('clientes-list') --}}
+                                </div>
+                            @endcan
+
+                        </div>
                     </div>
                 </form>
 
-                @include('admin.calculadoraCBM.calculadora')
+                @include('admin.calculadoraCBM.calculadoraPrueba')
             </x-adminlte-card>
         </div>
         {{-- $cotizaciones --}}
@@ -240,5 +237,6 @@
                 $('#bateria').val($('#bateria > option:first').val());
             }
         }
+
     </script>
 @stop

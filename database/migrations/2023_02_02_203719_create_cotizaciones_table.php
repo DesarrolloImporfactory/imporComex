@@ -52,9 +52,10 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             // $table->string('ciudad_entrega')->nullable();
             $table->string('ruta')->nullable();
-            $table->string('total_logistica')->nullable();
-            $table->string('total_impuesto')->nullable();
-            $table->string('total')->nullable();
+            $table->float('total_logistica')->nullable();
+            $table->float('total_impuesto')->nullable();
+            $table->float('total_compra')->nullable();
+            $table->float('total')->nullable();
             $table->timestamps();
         });
     }
