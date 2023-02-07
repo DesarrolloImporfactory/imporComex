@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('validacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_pro');
-            $table->string('proveedores');
+            $table->string('proveedores')->nullable();
             $table->integer('total_cartones')->nullable();
             $table->string('factura')->nullable();
             $table->string('foto')->nullable();
