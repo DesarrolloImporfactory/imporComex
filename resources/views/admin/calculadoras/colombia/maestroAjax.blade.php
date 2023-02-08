@@ -342,7 +342,7 @@
                     url: "../../admin/relacion/" + $id_cotizacion,
                     dataType: "json",
                     success: function(response) {
-
+                        console.log(response);
                         $('#body').html("");
                         $.each(response.productos, function(key, producto) {
                             $('#body').append(`
@@ -352,7 +352,7 @@
                                     <td>${(producto.precio).toFixed(2)}</td>
                                     <td>${(producto.cantidad).toFixed(2)}</td>
                                     
-                                    <td>${(producto.impuestos).toFixed(2)}</td>
+                                    <td>${(producto.Impuestos).toFixed(2)}</td>
                                     <td>${(producto.total).toFixed(2)}</td>
                                     <td>
                                         <a type="button" value="${producto.id}" id="btn-eliminar" class=" btn-sm"><i class="fa-solid fa-trash "></i></a>
