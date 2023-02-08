@@ -28,8 +28,8 @@ class ValidacionesController extends Controller
     public function print($cotizacion_id)
     {
          $relacion = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->exists();
-         $validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
-         if ($relacion == 1 && $validacion == 1) {
+         //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
+         if ($relacion == 1 ) {
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario','ciudad'])->first();
             $carbon = new \Carbon\Carbon();
             $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with('insumo')->get();
@@ -57,8 +57,8 @@ class ValidacionesController extends Controller
             'impuestos' => 'required|numeric|min:1',
             'compra' => 'required|numeric|min:1',
         ]);
-        $relacion = Validacion::where('cotizacion_id', $cotizacion_id)->count();
-        if ($validator->fails() || $relacion==0) {
+        //$relacion = Validacion::where('cotizacion_id', $cotizacion_id)->count();
+        if ($validator->fails() ) {
             return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message','Por favor complete el proceso de cotizacion');
         } else {
            

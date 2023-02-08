@@ -28,6 +28,7 @@ return new class extends Migration
             $table->float('advalorem',8,2);
             $table->float('fodinfa',8,2);
             $table->float('iva',8,2);
+            $table->float('Impuestos',8,2);
             $table->float('total',8,2);
             $table->integer('porcentaje');
             $table->timestamps();

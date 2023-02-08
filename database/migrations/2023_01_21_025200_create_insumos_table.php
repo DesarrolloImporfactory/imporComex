@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('insumos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('precio');
-            $table->string('cantidad');
             $table->string('porcentaje');
             $table->timestamps();
         });

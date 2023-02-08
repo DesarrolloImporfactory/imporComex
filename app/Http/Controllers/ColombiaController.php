@@ -37,9 +37,6 @@ class ColombiaController extends Controller
         $cotizacion_id = $request->input('cotizacion_id');
         $datos = new Insumo();
         $datos->nombre = $request->input('nombreInsumo');
-        //$datos->categoria_id = $request->input('categoria_id');
-        $datos->cantidad = $request->input('cantidadInsumo');
-        $datos->precio = $request->input('precioInsumo');
         $datos->porcentaje = $request->input('porcentajeInsumo');
         $datos->save();
         return redirect()->route('admin.colombia.edit', $cotizacion_id);
@@ -125,6 +122,7 @@ class ColombiaController extends Controller
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
                 'tiene_bateria' => ['required'],
+                'cantidad_proveedores' => ['required'],
                 'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
@@ -266,6 +264,7 @@ class ColombiaController extends Controller
         $grupal->liquidos = $request->input('liquidos');
         $grupal->cargas_id = $request->input('cargas_id');
         $grupal->direccion = $request->input('direccion');
+        $grupal->cantidad_proveedores = $request->input('cantidad_proveedores');
         $grupal->especialista_id = $especialista;
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
@@ -312,6 +311,7 @@ class ColombiaController extends Controller
             'peso' => ['required',],
             'cargas_id' => ['required'],
             'tiene_bateria' => ['required'],
+            'cantidad_proveedores' => ['required'],
             'liquidos' => ['required'],
             'direccion' => ['required', 'string', 'min:5'],
             'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
@@ -324,6 +324,7 @@ class ColombiaController extends Controller
             'liquidos' => $request->input('liquidos'),
             'cargas_id'=>$request->input('cargas_id'),
             'peso' => $request->input('peso'),
+            'cantidad_proveedores' => $request->input('cantidad_proveedores'),
             'volumen' => $request->input('volumen'),
             'direccion' => $request->input('direccion'),
             'ciudad_id' => $request->input('ciudad_entrega')
