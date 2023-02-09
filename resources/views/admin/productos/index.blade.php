@@ -21,11 +21,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">Nombre del producto: </label>
-                        <input type="text" class="form-control" name="nombreInsumo" id="nombreInsumo" placeholder="producto....">
+                        <input type="text" class="form-control" name="nombreInsumo" id="nombreInsumo" placeholder="Nombre del producto">
                     </div>
                     <div class="form-group">
                         <label for="">Porcentaje: </label>
-                        <input type="text" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo">
+                        <input type="number" min="1" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo" placeholder="Valor porcentual">
                     </div>
                 </div>
                 <div class="modal-footer">
