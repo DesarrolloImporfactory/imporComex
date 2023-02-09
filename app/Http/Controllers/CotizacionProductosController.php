@@ -83,7 +83,7 @@ class CotizacionProductosController extends Controller
             $totalFlete = $totalFlete + $item->flete;
             $totalCif = $totalCif + $item->cif;
             $totalIva = $totalIva + $item->iva;
-            $totalImpuestos = $totalImpuestos + $item->impuestos;
+            $totalImpuestos = $totalImpuestos + $item->Impuestos;
             $totalFodinfa = $totalFodinfa + $item->fodinfa;
             $totalAdvalorem = $totalAdvalorem + $item->advalorem;
             $totalTotal = $totalTotal + $item->total;
