@@ -83,7 +83,6 @@
                 url: "{{ route('admin.clientes') }}",
                 dataType: "json",
                 success: function(response) {
-                    console.log(response);
                     $.each(response.clientes, function(key, cliente) {
                         $("#cliente").append(`
                                 <option value="${cliente.id}">${cliente.name}</option>

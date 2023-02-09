@@ -59,6 +59,13 @@
                         <label for="">Precio: </label>
                         <input type="number" class="form-control" id="edit_precio" name="edit_precio">
                     </div>
+                    @can('admin.calculadoras.cliente')
+                        <div class="form-group">
+                            <label for="">Porcentaje: </label>
+                            <input type="number" class="form-control" id="edit_porcentaje" name="edit_porcentaje">
+                        </div>
+                    @endcan
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -72,11 +79,11 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalle de  valores</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalle de valores</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <div class="form-group mt-3">
                         <label for="">Valor del FOB</label>
                         <input type="number" min="1" class="form-control" name="fob" id="edit_fob" readonly>
@@ -87,19 +94,23 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="">Valor %</label>
-                        <input type="number" min="1" class="form-control" name="porcentaje" id="edit_porcentaje" readonly>
+                        <input type="number" min="1" class="form-control" name="porcentaje" id="edit_porcentaje"
+                            readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">ADVALOREM</label>
-                        <input type="number" min="1" class="form-control" name="advalorem" id="edit_advalorem" readonly>
+                        <input type="number" min="1" class="form-control" name="advalorem" id="edit_advalorem"
+                            readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">FODINFA</label>
-                        <input type="number" min="1" class="form-control" name="fodinfa" id="edit_fodinfa" readonly>
+                        <input type="number" min="1" class="form-control" name="fodinfa" id="edit_fodinfa"
+                            readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">IVA</label>
-                        <input type="number" min="1" class="form-control" name="iva" id="edit_iva" readonly>
+                        <input type="number" min="1" class="form-control" name="iva" id="edit_iva"
+                            readonly>
                     </div>
 
                 </div>
@@ -250,12 +261,7 @@
                         <div class="form-group col-md-3">
                             <label for="">Buscar referencia</label>
                             <x-adminlte-select2 name="insumos" id="insumos" onchange="colocar()" enable-old-support>
-                                <option >Seleccione lo que esta buscando</option>
-                                @foreach ($insumo as $item)
-                                    <option porcentaje="{{ $item->porcentaje }}" value="{{ $item->id }}">
-                                        {{ $item->nombre }}
-                                    </option>
-                                @endforeach
+
                             </x-adminlte-select2>
                         </div>
                         <div class="col-md-2 mt-3">
@@ -416,6 +422,7 @@
                             $('#relacion_id').val(response.relacion.id);
                             $('#edit_cantidad').val(response.relacion.cantidad);
                             $('#edit_precio').val(response.relacion.precio);
+                            $('#edit_porcentaje').val(response.relacion.porcentaje);
                         }
                     }
                 });
@@ -459,6 +466,7 @@
                 var datos = {
                     'cantidad': $('#edit_cantidad').val(),
                     'precio': $('#edit_precio').val(),
+                    'porcentaje': $('#edit_porcentaje').val(),
                 }
                 $.ajaxSetup({
                     headers: {
@@ -545,7 +553,7 @@
             $(document).on('click', '.crear', function(e) {
 
                 e.preventDefault();
-                
+
                 $("#bodyTotal").html("");
                 var data = {
                     'insumo_id': $('#insumos').val(),
@@ -586,7 +594,8 @@
                             )
                             fetchProducts();
                             $('#exampleModal').find('input').val("");
-                            $("#insumos").val("Seleccione lo que esta buscando").trigger( "change" );
+                            $("#insumos").val("Seleccione lo que esta buscando").trigger(
+                                "change");
                         }
                     }
                 });

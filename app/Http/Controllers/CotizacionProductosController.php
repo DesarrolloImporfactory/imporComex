@@ -140,7 +140,7 @@ class CotizacionProductosController extends Controller
                 $seguro = $fob * 0.01;
                 $flete = $fob / 5;
                 $cif = $fob + $seguro + $flete;
-                $advalorem = $cif * ($datos->porcentaje / 100);
+                $advalorem = $cif * ($request->input('cantidad') / 100);
                 $fodinfa = $cif * 0.005;
                 $iva = ($cif + $advalorem + $fodinfa) * (12 / 100);
                 $Impuestos = $advalorem + $fodinfa + $iva;

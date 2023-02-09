@@ -1,48 +1,100 @@
-{{-- Themed --}}
-<x-adminlte-modal id="modal" title="Agregar producto" size="sm" theme="teal" icon="fas fa-box" v-centered static-backdrop
-    scrollable>
-    <div>
-        <form action="{{ route('admin.save.producto') }}" method="post" id="formProduct">
-            @csrf
-            <input type="hidden" name="cotizacion_id" value="{{ $cotizacion->id }}">
-            <div class="row">
-                <x-adminlte-input name="nombreInsumo" id="nombreInsumo" label="Nombre del producto"
-                    placeholder="producto...." fgroup-class="col-md-12" disable-feedback />
-            </div>
-            <div class="form-group">
-                <label for="">Porcentaje</label>
-                <input type="text" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo">
-            </div>
-            <button class="btn btn-danger" type="submit">Crear</button>
-            <x-adminlte-button class="btn btn-secondary" data-dismiss="modal" label="Close" />
-        </form>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" id="abrir" data-bs-toggle="modal" data-bs-target="#modalProducto">
+    Agregar producto
+</button>
 
+<!-- Modal -->
+<div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="post" id="formProducto">
+                @csrf
+                <div class="modal-body formulario">
+                    <div id="validaciones">
+                        <ul id="erroresProducto">
+
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre del producto: </label>
+                        <input type="text" class="form-control" name="nombreInsumo" id="nombreInsumo" placeholder="producto....">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Porcentaje: </label>
+                        <input type="text" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="crearProducto">Agregar</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-</x-adminlte-modal>
-{{-- Example button to open modal --}}
-<x-adminlte-button label="Agregar producto" data-toggle="modal" data-target="#modal" class="bg-warning mt-3" />
-<style>
-    .select2-container--open .select2-dropdown {
-        z-index: 1070;
-    }
-    .error{
-        color: red;
-    }
-</style>
+</div>
 <script>
     $(document).ready(function() {
-        $('#formProduct').validate({
-            rules: {
-                nombreInsumo: "required",
-                porcentajeInsumo: "required",
-
-            },
-            messages: {
-                nombreInsumo: "Por favor ingresa el nombre del producto",
-                porcentajeInsumo: "Porfavor ingrese el porcentaje del producto",
-            },
-
+        productos();
+        function productos(){
+            $("#insumos").append(`<option>Seleccione lo que esta buscando...</option>`);
+            $.ajax({
+                type: "GET",
+                url: "{{ route('admin.colombia.index') }}",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response.insumos, function (key, insumo) { 
+                         $("#insumos").append(`<option value="${insumo.id}" porcentaje="${insumo.porcentaje}">${insumo.nombre}</option>`);
+                    });
+                }
+            });
+        }
+        $(document).on("click", "#abrir", function(e) {
+            e.preventDefault();
+            $("#validaciones").removeClass('alert alert-danger');
+            $("#erroresProducto").html("");
+            $('.formulario').find('input').val("");
+            $("#crearProducto").text("Crear");
+        });
+        $("#formProducto").submit(function(e) {
+            e.preventDefault();
+            // $("#validaciones").removeClass('alert alert-danger');
+            // $("#erroresProducto").html("");
+            var data = $("#formProducto").serialize();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.save.producto') }}",
+                data: data,
+                dataType: "json",
+                success: function (response) {
+                    if(response.status == 400){
+                        $("#erroresProducto").html("");
+                        $("#validaciones").addClass('alert alert-danger');
+                        $.each(response.message, function (key, error) { 
+                             $("#erroresProducto").append(`
+                                <li>${error}</li>
+                             `);
+                        });
+                        $("#crearProducto").text("Volver a intentar");
+                    }else{
+                        $("#crearProducto").text("Agregando....");
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $(".formulario").find('input').val("");
+                        $("#modalProducto").modal('hide');
+                        $("#insumos").html("");
+                        productos();
+                    }
+                }
+            });
         });
     });
 </script>

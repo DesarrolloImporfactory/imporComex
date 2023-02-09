@@ -29,17 +29,36 @@ class ColombiaController extends Controller
 
     public function index()
     {
-        return "index";
+        $insumos = Insumo::all();
+        return response()->json([
+            'status'=>200,
+            'insumos'=>$insumos,
+        ]);
     }
 
     public function saveProduct(Request $request)
     {
-        $cotizacion_id = $request->input('cotizacion_id');
-        $datos = new Insumo();
-        $datos->nombre = $request->input('nombreInsumo');
-        $datos->porcentaje = $request->input('porcentajeInsumo');
-        $datos->save();
-        return redirect()->route('admin.colombia.edit', $cotizacion_id);
+        $validator = Validator::make($request->all(),[
+            'nombreInsumo'=>'required',
+            'porcentajeInsumo'=>'required | numeric| min:1',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status'=>400,
+                'message'=>$validator->messages(),
+            ]);
+        }else{
+            $producto = new Insumo();
+            $producto->nombre = $request->input('nombreInsumo');
+            $producto->porcentaje = $request->input('porcentajeInsumo');
+            $producto->save();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Producto creado!',
+            ]);
+        }
+       
+        
     }
 
     public function save(Request $request)
