@@ -19,8 +19,11 @@ return new class extends Migration
             $table->foreign('insumo_id')->references('id')->on('insumos')->onUpdate('cascade');
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
             $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
+            $table->bigInteger('proveedor_id')->unsigned()->nullable();
+            $table->foreign('proveedor_id')->references('id')->on('validacions')->onUpdate('cascade');
             $table->integer('cantidad');
             $table->float('precio',8,2);
+            $table->float('divisas',8,2);
             $table->float('fob',8,2);
             $table->float('seguro',8,2);
             $table->float('flete',8,2);

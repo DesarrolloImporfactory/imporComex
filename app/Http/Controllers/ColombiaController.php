@@ -56,9 +56,7 @@ class ColombiaController extends Controller
                 'status'=>200,
                 'message'=>'Producto creado!',
             ]);
-        }
-       
-        
+        }    
     }
 
     public function save(Request $request)
@@ -271,6 +269,8 @@ class ColombiaController extends Controller
         //$correo = new EmailEspecialista;
         Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
+        $proveedores = $request->input('cantidad_proveedores');
+        
         $grupal->barcode = $barcode;
         $peso = $request->input('peso') . 'kg';
         $grupal->usuario_id = $cliente;
@@ -289,7 +289,7 @@ class ColombiaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $grupal->total_logistica = $resultado;
+        $grupal->total_logistica = $resultado + (($proveedores*50)-50);
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();

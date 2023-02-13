@@ -94,8 +94,7 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="">Valor %</label>
-                        <input type="number" min="1" class="form-control" name="porcentaje" id="edit_porcentaje"
-                            readonly>
+                        <input type="number" min="1" class="form-control" name="porcentaje" id="edit_por" readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">ADVALOREM</label>
@@ -161,8 +160,15 @@
                             <div class="col-md-2">
                                 <div class="form-group" style="color: white">
                                     <label for="">TOTAL: </label>
-                                    <input style="background:white "" type="text" name="cotizacion_total"
+                                    <input style="background:white" type="text" name="cotizacion_total"
                                         id="cotizacion_total" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="color: white">
+                                    <label for="">TOTAL PRODUCTOS: </label>
+                                    <input style="background:#38ACFC; border: blue" type="text" name="cantidad_productos"
+                                        id="productos_total" class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +270,7 @@
 
                             </x-adminlte-select2>
                         </div>
-                        <div class="col-md-2 mt-3">
+                        <div class="col-md-2 mt-4">
                             @include('admin.productos.index')
                         </div>
                         <div class="col-md-2">
@@ -296,6 +302,7 @@
                                 <th>PRODUCTO</th>
                                 <th>PRECIO</th>
                                 <th>CANTIDAD</th>
+                                <th>SALIDA DIVISAS</th>
                                 <th>TOTAL IMPUESTOS</th>
                                 <th>TOTAL</th>
                                 <th colspan="2">OPCIONES</th>
@@ -337,10 +344,6 @@
         }
         $(document).ready(function() {
             fetchProducts();
-            //proveedores();
-
-
-
             function fetchProducts() {
                 var $id_cotizacion = $('#cotizacion_id').val();
                 $.ajax({
@@ -357,7 +360,7 @@
                                     <td>${producto.insumo.nombre}</td>
                                     <td>${(producto.precio).toFixed(2)}</td>
                                     <td>${(producto.cantidad).toFixed(2)}</td>
-                                    
+                                    <td>${(producto.divisas).toFixed(2)}</td>
                                     <td>${(producto.Impuestos).toFixed(2)}</td>
                                     <td>${(producto.total).toFixed(2)}</td>
                                     <td>
@@ -371,6 +374,7 @@
                         $("#bodyTotal").append(`
                          <tr>
                                  <td><b>Total:</b></td>
+                                 <td></td>
                                  <td></td>
                                  <td></td>
                                  <td></td>
@@ -388,14 +392,7 @@
                             parseFloat(
                                 logistica)).toFixed(2));
 
-                        // $("#totalFob").val(response.totalFob);
-                        // $("#totalSeguro").val(response.totalSeguro);
-                        // $("#totalFlete").val(response.totalFlete);
-                        // $("#totalCif").val(response.totalCif);
-                        // $("#totalAdvalorem").val(response.totalAdvalorem);
-                        // $("#totalFodinfa").val(response.totalFodinfa);
-                        // $("#totalIva").val(response.totalIva);
-                        // $("#total").val(response.total);
+                        $("#productos_total").val((response.totalProducto));
 
                     }
                 });
@@ -448,7 +445,7 @@
                         } else {
                             $('#edit_cif').val(response.relacion.cif);
                             $('#edit_fob').val(response.relacion.fob);
-                            $('#edit_porcentaje').val(response.relacion.porcentaje);
+                            $('#edit_por').val(response.relacion.porcentaje);
                             $('#edit_advalorem').val(response.relacion.advalorem);
                             $('#edit_fodinfa').val(response.relacion.fodinfa);
                             $('#edit_iva').val(response.relacion.iva);
@@ -491,7 +488,7 @@
                         } else if (response.status == 404) {
                             $('#errores_formEdit').html("");
                             Swal.fire(
-                                'Good job!',
+                                'Buen Trabajo!',
                                 response.message,
                                 'success'
                             )
@@ -499,7 +496,7 @@
                             $('#errores_formEdit').html("");
                             fetchProducts();
                             Swal.fire(
-                                'Good job!',
+                                'Buen Trabajo!',
                                 response.message,
                                 'success'
                             )
@@ -557,8 +554,8 @@
                 $("#bodyTotal").html("");
                 var data = {
                     'insumo_id': $('#insumos').val(),
-                    'cantidad': $('#precio').val(),
-                    'precio': $('#cantidad').val(),
+                    'cantidad': $('#cantidad').val(),
+                    'precio': $('#precio').val(),
                     'porcentaje': $('#porcentaje').val(),
                     'cotizacion_id': $('#cotizacion_id').val(),
                 }

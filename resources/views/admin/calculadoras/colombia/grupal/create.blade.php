@@ -47,7 +47,9 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
+            <div class="" id="alerta" role="alert">
 
+            </div>
             <!-- /.card-header -->
             <x-adminlte-card title="TIPO DE CARGA {{ $modalidad->modalidad }}" theme="dark">
                 <form action="{{ route('admin.colombia.store') }}" method="post" id="formCreate">
@@ -133,9 +135,9 @@
                             <div class="form-group">
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control @error('peso') is-invalid @enderror"
-                                        name="peso" value="{{ old('peso') }}"
-                                        placeholder="Ingresar un valor o N/A">
+                                    <input type="text" id="peso"
+                                        class="form-control @error('peso') is-invalid @enderror" name="peso"
+                                        value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
                                                 class="fa-brands fa-google"></i></span>
@@ -273,5 +275,22 @@
                 $('#bateria').val($('#bateria > option:first').val());
             }
         }
+
+        $(document).ready(function() {
+            $(document).on('keyup', '#peso', function(e) {
+                e.preventDefault();
+                var valor = $(this).val();
+                $("#alerta").html("");
+                $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
+                if (valor >= 4000) {
+                    $("#alerta").addClass("alert alert-warning alert-dismissible fade show");
+                    console.log(valor);
+                    $("#alerta").append(`
+                        <strong>Advertencia!</strong> El valor del peso bruto es igual o mayor a 4000kg y puede aplicar recargos.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `);
+                }
+            });
+        });
     </script>
 @stop

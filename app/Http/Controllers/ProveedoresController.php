@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
 use App\Models\Validacion;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +59,6 @@ class ProveedoresController extends Controller
         return response()->json([
             'status'=>200,
             'proveedores'=>$datos,
-            'id'=>$id
         ]);
     }
 
@@ -72,6 +72,29 @@ class ProveedoresController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function asignarProveedor(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'proveedor_id' => 'required',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'errores' => $validator->messages()
+            ]);
+        }else{
+            $data = [
+                'proveedor_id'=>$request->input('proveedor_id')
+            ];
+            ProductoInsumo::where('id',$id)->update($data);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Proveedor asignado!'
+            ]);
+        }
+       
     }
 
 

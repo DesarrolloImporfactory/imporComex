@@ -27,26 +27,68 @@ class ValidacionesController extends Controller
 
     public function print($cotizacion_id)
     {
-         $relacion = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->exists();
-         //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
-         if ($relacion == 1 ) {
-            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario','ciudad'])->first();
+        $relacion = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->exists();
+        //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
+        if ($relacion == 1) {
+            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad'])->first();
             $carbon = new \Carbon\Carbon();
             $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with('insumo')->get();
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
             $barcode = $cotizacion->barcode;
             $inBackground = true;
-            return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground','proveedores']));
-         } else {
+            return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground', 'proveedores']));
+        } else {
             return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message', 'Completemos la cotizacion!');
-         }
-        
+        }
     }
 
 
     public function create()
     {
         return $data = "Vista Craete";
+    }
+
+    public function guardarProveedor(Request $request)
+    {
+        $cantidad = count($request->input('estado'));
+        $contador = 0;
+        for ($i = 1; $i <= $cantidad; $i++) {
+
+            $validator = Validator::make($request->all(), [
+                'nombre_pro' . $i => 'required',
+                'enlace' . $i => 'required',
+                'contacto' . $i => 'required',
+            ]);
+            if ($validator->fails()) {
+                $contador++;
+            }
+        }
+
+        if ($contador == 0) {
+            for ($i = 1; $i <= $cantidad; $i++) {
+                if($request->file('foto' . $i)){
+                    $foto =$request->file('foto' . $i)->store('uploads', 'public');
+                }else{
+                    $foto = "null";
+                }
+                Validacion::create([
+                    'nombre_pro' => $request->input('nombre_pro' . $i),
+                    'contacto' => $request->input('contacto' . $i),
+                    'enlace' => $request->input('enlace' . $i),
+                    'foto' => $foto,
+                    'cotizacion_id'=>$request->input('cotizacion_id'),
+                ]);
+                
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Proveedor creado!',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+            ]);
+        }
     }
 
 
@@ -56,12 +98,13 @@ class ValidacionesController extends Controller
         $validator = Validator::make($request->all(), [
             'impuestos' => 'required|numeric|min:1',
             'compra' => 'required|numeric|min:1',
+            'cantidad_productos' => 'required|numeric|min:1',
         ]);
         //$relacion = Validacion::where('cotizacion_id', $cotizacion_id)->count();
-        if ($validator->fails() ) {
-            return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message','Por favor complete el proceso de cotizacion');
+        if ($validator->fails()) {
+            return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message', 'Por favor complete el proceso de cotizacion');
         } else {
-           
+
             //codigo para traer el contenedor mas recientemente creado con estado libre =1
             $data = Contenedores::whereestado_id(1)->latest('created_at')->first();
             if (isset($data)) {
@@ -94,6 +137,7 @@ class ValidacionesController extends Controller
                 "proceso" => '3',
                 "total_impuesto" => $request->input('impuestos'),
                 "total_compra" => $request->input('compra'),
+                "cantidad_productos" => $request->input('cantidad_productos'),
                 "total" => $logistica + $request->input('impuestos') + $request->input('compra')
             ];
 
@@ -127,7 +171,6 @@ class ValidacionesController extends Controller
         } else {
             return redirect()->route('admin.colombia.edit', $data)->with('mensaje', 'Completemos la cotizacion!');
         }
-
     }
 
     public function edit($data)
@@ -145,7 +188,6 @@ class ValidacionesController extends Controller
 
     public function update(Request $request, $id)
     {
-        
     }
 
 

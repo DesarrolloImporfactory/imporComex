@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\CotizacionIndividualController;
 use App\Http\Controllers\CotizacionProductosController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DivisaController;
 use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
 
@@ -92,8 +93,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin/save/producto', [ColombiaController::class, 'saveProduct'])->name('admin.save.producto');
 
     Route::resource('admin/proveedor', ProveedoresController::class)->names('admin.proveedor');
-
+    Route::post('admin/guardarProveedor', [ValidacionesController:: class, 'guardarProveedor'])->name('admin.guardarProveedor');
     Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
-    //Route::get('admin/crear',[CotizacionProductosController::class, 'saludo'])->name('admin.crear');
+    Route::resource('admin/divisas', DivisaController::class)->names('admin.divisas');
+    Route::put('update/proveedor/{id}', [ProveedoresController:: class, 'asignarProveedor'])->name('update/proveedor/{id}');
     
 });

@@ -52,6 +52,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             // $table->string('ciudad_entrega')->nullable();
             $table->string('cantidad_proveedores')->nullable();
+            $table->string('cantidad_productos')->nullable();
             $table->float('total_logistica')->nullable();
             $table->float('total_impuesto')->nullable();
             $table->float('total_compra')->nullable();

@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" id="abrir" data-bs-toggle="modal" data-bs-target="#modalProducto">
+<button type="button" class="btn btn-primary mt-2" id="abrir" data-bs-toggle="modal" data-bs-target="#modalProducto">
     Agregar producto
 </button>
 

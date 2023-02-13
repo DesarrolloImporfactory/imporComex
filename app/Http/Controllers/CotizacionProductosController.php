@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Divisa;
 use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +34,7 @@ class CotizacionProductosController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
+            $divisa = Divisa::first();
             $fob = $request->input('cantidad') * $request->input('precio');
             $seguro = $fob * 0.01;
             $flete = $fob / 5;
@@ -46,6 +48,7 @@ class CotizacionProductosController extends Controller
             $producto->cantidad = $request->input('cantidad');
             $producto->precio = $request->input('precio');
             $producto->fob = $fob;
+            $producto->divisas = $fob*$divisa->tarifa;
             $producto->seguro = $seguro;
             $producto->flete = $flete;
             $producto->cif = $cif;
@@ -68,6 +71,7 @@ class CotizacionProductosController extends Controller
     public function show($id)
     {
         $productos = ProductoInsumo::with('insumo')->where('cotizacion_id', $id)->get();
+        $totalProducto=0;
         $totalFob = 0;
         $totalSeguro = 0;
         $totalFlete = 0;
@@ -78,6 +82,7 @@ class CotizacionProductosController extends Controller
         $totalImpuestos = 0;
         $totalTotal = 0;
         foreach ($productos as $item) {
+            $totalProducto = $totalProducto + $item->cantidad;
             $totalSeguro = $totalSeguro + $item->seguro;
             $totalFob = $totalFob + $item->fob;
             $totalFlete = $totalFlete + $item->flete;
@@ -90,6 +95,7 @@ class CotizacionProductosController extends Controller
         }
 
         return response()->json([
+            'totalProducto' => $totalProducto,
             'totalSeguro' => $totalSeguro,
             'totalFob' => $totalFob,
             'totalFlete' => $totalFlete,
