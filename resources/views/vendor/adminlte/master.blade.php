@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+imagenes<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -92,11 +92,11 @@
     }
 
     .register-page {
-        background-image: url({{asset('storage/imporcomexImage/fondo-2.png')}});
+        background-image: url({{asset('imagenes/fondo-2.png')}});
     }
 
     .login-page {
-        background-image: url({{asset('storage/imporcomexImage/fondo-2.png')}});
+        background-image: url({{asset('imagenes/fondo-2.png')}});
     }
 </style>
 

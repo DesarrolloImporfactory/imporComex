@@ -4,7 +4,7 @@
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Imporcomex')
 
-<img src="{{asset('storage/imporcomexImage/icono.png')}}" class="" alt="Imporcomex S.A.S">
+<img src="{{asset('imagenes/icono.png')}}" class="" alt="Imporcomex S.A.S">
 {{-- <p>{{ base_path('public/imagenes/icono.png') }}</p>
 <p>si</p> --}}
 @else

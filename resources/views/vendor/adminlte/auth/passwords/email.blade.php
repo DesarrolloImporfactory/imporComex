@@ -12,7 +12,7 @@
     
     <div class="text-center">
         <h5>Restablecer la contraseña</h5><br>
-        <img src="{{asset('storage/imporcomexImage/icono.png')}}" alt="" width="150">
+        <img src="{{asset('imagenes/icono.png')}}" alt="" width="150">
     </div>
 @stop
 
@@ -53,7 +53,7 @@
         <style>
    
             body{
-                background-image: url({{asset('storage/imporcomexImage/fondo-2.png')}})!important;
+                background-image: url({{asset('imagenes/fondo-2.png')}})!important;
             }
         </style>
     </form>
