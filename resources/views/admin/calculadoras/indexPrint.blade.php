@@ -53,8 +53,10 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <a href="{{ route('admin.cotizaciones.show', $cotizacion->usuario_id) }}" class="btn btn-dark float-right"><i
+            <a href="{{ route('admin.cotizaciones.show', $cotizacion->usuario_id) }}" class="btn btn-warning float-left"><i
                     class="fa-solid fa-list-check"></i> Mis cotizaciones</a>
+            <a href="{{ route('admin.showProv', $cotizacion->id) }}" class="btn btn-dark float-right"><i
+                    class="fa-solid fa-arrow-right"></i> Siguiente</a>
         </div>
         <div class="col-md-1"></div>
     </div><br>
@@ -63,27 +65,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
 
-            <div class="card proveedores">
-                <div class="" id="alerta" role="alert">
 
-                </div>
-                <div class="card-body">
-
-                    <form action="" id="crearProveedores" enctype="multipart/form-data" method="POST">
-                        @csrf
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-warning">Agregar</button>
-                            </div>
-                        </div>
-                        <input type="hidden" id="proveedores" value="{{ $cotizacion->cantidad_proveedores }}">
-                        <input type="hidden" id="cotizacion_id" name="cotizacion_id" value="{{ $cotizacion->id }}">
-                        <div id="contenido">
-
-                        </div>
-                    </form>
-                </div>
-            </div>
             <x-adminlte-card title="Visualizar detalles de tu cotizacion" theme="dark">
                 <div class="row">
                     <div class="col-md-12 text-center">
@@ -113,14 +95,11 @@
                             <th>Precio</th>
                             <th>Impuesto Unitario</th>
                             <th>Logistica Unitaria</th>
-                            <th>Porcentaje</th>
-                            <th>Opciones</th>
+                            <th>Producto unitario</th>
+                            <th>Divisa unitario</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $i = 1;
-                        @endphp
                         @foreach ($productos as $item)
                             <tr>
                                 <td>{{ $item->insumo->id }}</td>
@@ -130,9 +109,10 @@
                                 <td>{{ number_format($item->Impuestos / $item->cantidad, 2) }}</td>
                                 <td>{{ number_format($cotizacion->total_logistica / $cotizacion->cantidad_productos, 2) }}
                                 </td>
-                                <td>{{ $item->insumo->porcentaje }}</td>
-                                <td><a href="" type="button" class="btn btn-info agregarProveedor"
-                                        value="{{ $item->id }}">+</a></td>
+                                <td>{{ number_format($item->precio + $item->Impuestos / $item->cantidad + $cotizacion->total_logistica / $cotizacion->cantidad_productos, 2) }}
+                                </td>
+                                <td>{{ number_format($item->divisas / $item->cantidad, 2) }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -147,10 +127,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>Partida arancelaria:</b></td>
-                            <td>Pendiente</td>
-                        </tr>
-                        <tr>
                             <td><b>CBM Total: </b></td>
                             <td>{{ $cotizacion->volumen }}</td>
                         </tr>
@@ -159,12 +135,9 @@
                             <td>{{ $cotizacion->peso }}</td>
                         </tr>
                         <tr>
-                            <td><b>Valor Factura EXW + envío a bodegas: </b></td>
-                            <td>Pendiente</td>
-                        </tr>
-                        <tr>
                             <td><b>Lugar de entrega: </b></td>
-                            <td>{{ $cotizacion->ciudad->nombre_provincia }} - {{ $cotizacion->ciudad->nombre_canton }}
+                            <td>{{ $cotizacion->ciudad->nombre_provincia }} - {{ $cotizacion->ciudad->nombre_canton }} -
+                                {{ $cotizacion->direccion }}
                             </td>
                         </tr>
 
@@ -187,6 +160,10 @@
                             <td>{{ $cotizacion->total_impuesto }}$</td>
                         </tr>
                         <tr>
+                            <td><b>Valor de compra. </b></td>
+                            <td>{{ $cotizacion->total_fob }}$</td>
+                        </tr>
+                        <tr>
                             <td><b>Gtos. TOTAL A PAGAR: </b></td>
                             <td>{{ $cotizacion->total }}$</td>
                         </tr>
@@ -206,7 +183,7 @@
                     <div class="modal-body">
                         <div id="class1">
                             <ul id="errores">
-        
+
                             </ul>
                         </div>
                         <form action="" id="formAsignar">
@@ -215,8 +192,7 @@
                             <input type="hidden" id="id" name="id">
                             <div class="form-group formAsignar">
                                 <label for="">Seleccionar proveedor: </label>
-                                <select data-width="100%" name="proveedor_id"
-                                    id="proveedor_id">
+                                <select data-width="100%" name="proveedor_id" id="proveedor_id">
                                 </select>
                             </div>
                         </form>
@@ -232,139 +208,6 @@
 
     @include('components.cotizacion')
     @include('components.ticket')
-    <script>
-        $(document).ready(function() {
 
-            inputs();
-            proveedores();
-
-            function inputs() {
-                var proveedores = $("#proveedores").val();
-                var i = 1;
-                for (i = 1; i <= proveedores; i++) {
-                    $("#contenido").append(`
-                    <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Nombre proveedor ${i}: </label>
-                                    <input type="text" class="form-control" name="nombre_pro${i}" id="nombre_pro${i}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Enlace proveedor ${i}: </label>
-                                    <input type="text" class="form-control" name="enlace${i}" id="enlace${i}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Contacto proveedor ${i}: </label>
-                                    <input type="text" class="form-control" name="contacto${i}" id="contacto${i}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Foto ${i}: </label>
-                                    <input type="file" class="form-control" name="foto${i}" id="foto${i}">
-                                    <input type="hidden" name="estado[]" value="${i}" class="form-control">
-                                </div>
-                            </div>
-                    </div>     
-                `);
-                }
-            }
-
-            function proveedores() {
-                $("#proveedor_id").append(`<option value="">Selecione una opcion......</option>`);
-                var id_cotizacion = $('#cotizacion').val();
-                $.ajax({
-                    type: "GET",
-                    url: "../../admin/proveedor/"+id_cotizacion,
-                    dataType: "json",
-                    success: function(response) {
-                        $.each(response.proveedores, function(key, proveedor) {
-                        $("#proveedor_id").append(`
-                                <option value="${proveedor.id}">${proveedor.nombre_pro}</option>
-                             `);
-                    });
-                    }
-                });
-            }
-
-            $(document).on('click', '.agregarProveedor', function(e) {
-                e.preventDefault();
-                var id = $(this).attr("value");
-                $("#agregarProveedor").modal("show");
-                $("#id").val(id);
-            });
-
-            $("#formAsignar").submit(function(e) {
-                e.preventDefault();
-                var data = $(this).serialize();
-                var id = $("#id").val();
-                $.ajax({
-                    type: "PUT",
-                    url: "../../update/proveedor/" + id,
-                    data: data,
-                    dataType: "json",
-                    success: function(response) {
-                        if(response.status == 400){
-                            $("#errores").html("");
-                            $('#class1').addClass('alert alert-danger');
-                            $.each(response.errores, function(key, err_values) {
-                                $('#errores').append(`
-                                    <li>${err_values}</li>
-                                 `);
-                            });
-                        }
-                        $("#class1").removeClass('alert alert-danger');
-                            $("#errores").html("");
-                            Swal.fire(
-                                'Good job!',
-                                response.message,
-                                'success'
-                            )
-                            $('.formAsignar').find('input').val("");
-                            $("#agregarProveedor").modal("hide");
-                    }
-                });
-            });
-
-            $("#crearProveedores").submit(function(e) {
-                e.preventDefault();
-                $("#alerta").html("");
-                $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
-                var formData = new FormData(document.getElementById("crearProveedores"));
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.guardarProveedor') }}",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.status == 400) {
-                            $("#alerta").addClass(
-                                "alert alert-danger alert-dismissible fade show");
-                            $("#alerta").append(`
-                                <strong>Por favor complete todos los campos.</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            `);
-                        } else {
-                            //$("#alerta").empty();
-                            $(".proveedores").remove();
-                            Swal.fire(
-                                'Good job!',
-                                response.message,
-                                'success'
-                            )
-                        }
-                    }
-                });
-            });
-
-        });
-    </script>
 
 @stop

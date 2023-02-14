@@ -96,6 +96,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin/guardarProveedor', [ValidacionesController:: class, 'guardarProveedor'])->name('admin.guardarProveedor');
     Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
     Route::resource('admin/divisas', DivisaController::class)->names('admin.divisas');
-    Route::put('update/proveedor/{id}', [ProveedoresController:: class, 'asignarProveedor'])->name('update/proveedor/{id}');
+    Route::put('update/proveedor/{id}', [ProveedoresController:: class, 'asignarProveedor'])->name('update.proveedor');
+    Route::get('admin/showProv/{id}', [ProveedoresController:: class, 'showProv'])->name('admin.showProv');
     
 });

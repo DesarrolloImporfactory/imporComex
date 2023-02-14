@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cotizaciones;
 use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
 use App\Models\Validacion;
@@ -13,29 +14,41 @@ class ProveedoresController extends Controller
 
     public function create(Request $request)
     {
-       
+    }
+    public function showProv($id)
+    {
+        $respuesta = Validacion::where('cotizacion_id', $id)->get();
+        $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad'])->first();
+        $productos = ProductoInsumo::wherecotizacion_id($id)->with(['insumo','proveedor'])->get();
+        //codigo para saber si debe imprimir los inputs de los proveedores
+        if (count($respuesta) > 0) {
+            $proveedores = 0;
+        } else {
+            $proveedores = $cotizacion->cantidad_proveedores;
+        }
+        return view('admin.proveedores.index',compact('proveedores','cotizacion','productos'));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->file(), [
-            'foto'=>'required',
-            'factura'=>'required',
+            'foto' => 'required',
+            'factura' => 'required',
         ]);
         $validar = Validator::make($request->all(), [
-            'nombre_proveedor'=>'required',
-            'cantidad_cartones'=>'required | numeric | min:1',
-            'enlace'=>'required | url',
-            'contacto'=>'required'
+            'nombre_proveedor' => 'required',
+            'cantidad_cartones' => 'required | numeric | min:1',
+            'enlace' => 'required | url',
+            'contacto' => 'required'
         ]);
-        
+
         if ($validator->fails() || $validar->fails()) {
             return response()->json([
                 'status' => 400,
                 'errors' => $validator->messages(),
                 'errores' => $validar->messages(),
             ]);
-        }else{
+        } else {
             $proveedor = new Validacion();
             $proveedor->nombre_pro = $request->input('nombre_proveedor');
             $proveedor->total_cartones = $request->input('cantidad_cartones');
@@ -55,10 +68,10 @@ class ProveedoresController extends Controller
 
     public function show($id)
     {
-        $datos = Validacion::where('cotizacion_id',$id)->get();
+        $datos = Validacion::where('cotizacion_id', $id)->get();
         return response()->json([
-            'status'=>200,
-            'proveedores'=>$datos,
+            'status' => 200,
+            'proveedores' => $datos,
         ]);
     }
 
@@ -79,22 +92,21 @@ class ProveedoresController extends Controller
         $validator = Validator::make($request->all(), [
             'proveedor_id' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
                 'errores' => $validator->messages()
             ]);
-        }else{
+        } else {
             $data = [
-                'proveedor_id'=>$request->input('proveedor_id')
+                'proveedor_id' => $request->input('proveedor_id')
             ];
-            ProductoInsumo::where('id',$id)->update($data);
+            ProductoInsumo::where('id', $id)->update($data);
             return response()->json([
                 'status' => 200,
                 'message' => 'Proveedor asignado!'
             ]);
         }
-       
     }
 
 
@@ -102,8 +114,8 @@ class ProveedoresController extends Controller
     {
         Validacion::destroy($id);
         return response()->json([
-            'status'=>200,
-            'message'=>'Proveedor eliminado!'
+            'status' => 200,
+            'message' => 'Proveedor eliminado!'
         ]);
     }
 }

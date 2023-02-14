@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Divisa;
 use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +32,6 @@ class CotizacionProductosController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-            $divisa = Divisa::first();
             $fob = $request->input('cantidad') * $request->input('precio');
             $seguro = $fob * 0.01;
             $flete = $fob / 5;
@@ -48,7 +45,6 @@ class CotizacionProductosController extends Controller
             $producto->cantidad = $request->input('cantidad');
             $producto->precio = $request->input('precio');
             $producto->fob = $fob;
-            $producto->divisas = $fob*$divisa->tarifa;
             $producto->seguro = $seguro;
             $producto->flete = $flete;
             $producto->cif = $cif;

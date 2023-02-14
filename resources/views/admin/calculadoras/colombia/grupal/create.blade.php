@@ -98,14 +98,15 @@
                                 <div class="form-group">
                                     <label for="">Cantidad de proveedores: </label>
                                     <input type="hidden" name="cargas_id" id="" value="1">
-                                    <input type="number" min="1"
-                                        class="form-control @error('cantidad_proveedores') is-invalid @enderror"
-                                        name="cantidad_proveedores" value="{{ old('cantidad_proveedores') }}">
-                                    @error('cantidad_proveedores')
-                                        <small style="color: #d80e22ed">
-                                            <b> {{ $message }}</b>
-                                        </small>
-                                    @enderror
+                                    <x-adminlte-select2 name="cantidad_proveedores" enable-old-support>
+                                        <option value="">Selecciona una opción....</option>
+                                        <option value="1"{{ old('cantidad_proveedores') == '1' ? 'selected' : '' }}>1</option>
+                                        <option value="2"{{ old('cantidad_proveedores') == '2' ? 'selected' : '' }}>2</option>
+                                        <option value="3"{{ old('cantidad_proveedores') == '3' ? 'selected' : '' }}>3</option>
+                                        <option value="4"{{ old('cantidad_proveedores') == '4' ? 'selected' : '' }}>4</option>
+                                        <option value="5"{{ old('cantidad_proveedores') == '5' ? 'selected' : '' }}>5</option>
+                                    </x-adminlte-select2>
+
                                 </div>
                             </div>
                         </div>
@@ -282,7 +283,7 @@
                 var valor = $(this).val();
                 $("#alerta").html("");
                 $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
-                if (valor >= 4000) {
+                if (valor >= 400) {
                     $("#alerta").addClass("alert alert-warning alert-dismissible fade show");
                     console.log(valor);
                     $("#alerta").append(`

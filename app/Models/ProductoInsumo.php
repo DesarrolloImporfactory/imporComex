@@ -28,4 +28,7 @@ class ProductoInsumo extends Model
     public function insumo(){
         return $this->belongsTo(Insumo::class,'insumo_id','id');
     }
+    public function proveedor(){
+        return $this->belongsTo(Validacion::class,'proveedor_id','id');
+    }
 }

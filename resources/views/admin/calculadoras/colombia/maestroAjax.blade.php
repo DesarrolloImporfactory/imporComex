@@ -93,7 +93,7 @@
                         <input type="number" min="1" class="form-control" name="cif" id="edit_cif" readonly>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="">Valor %</label>
+                        <label for="">% AD VALOREM</label>
                         <input type="number" min="1" class="form-control" name="porcentaje" id="edit_por" readonly>
                     </div>
                     <div class="form-group mt-3">
@@ -169,6 +169,13 @@
                                     <label for="">TOTAL PRODUCTOS: </label>
                                     <input style="background:#38ACFC; border: blue" type="text" name="cantidad_productos"
                                         id="productos_total" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="color: white">
+                                    <label for="">TOTAL FOB: </label>
+                                    <input style="background:#38ACFC; border: blue" type="text" name="total_fob"
+                                        id="fob_total" class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +309,7 @@
                                 <th>PRODUCTO</th>
                                 <th>PRECIO</th>
                                 <th>CANTIDAD</th>
-                                <th>SALIDA DIVISAS</th>
+                                <th>FOB</th>
                                 <th>TOTAL IMPUESTOS</th>
                                 <th>TOTAL</th>
                                 <th colspan="2">OPCIONES</th>
@@ -360,7 +367,7 @@
                                     <td>${producto.insumo.nombre}</td>
                                     <td>${(producto.precio).toFixed(2)}</td>
                                     <td>${(producto.cantidad).toFixed(2)}</td>
-                                    <td>${(producto.divisas).toFixed(2)}</td>
+                                    <td>${(producto.fob).toFixed(2)}</td>
                                     <td>${(producto.Impuestos).toFixed(2)}</td>
                                     <td>${(producto.total).toFixed(2)}</td>
                                     <td>
@@ -377,20 +384,19 @@
                                  <td></td>
                                  <td></td>
                                  <td></td>
-                                 <td></td>
-                                 <td><input type="hidden" class="form-control" id="totalImpuestos"><b>${(response.totalImpuestos).toFixed(2)}</b></td>
-                                 <td><input type="hidden" class="form-control" id="totalTotal"><b>${(response.totalTotal).toFixed(2)}</b></td>
+                                 <td><b>${(response.totalFob).toFixed(2)}</b></td>
+                                 <td><b>${(response.totalImpuestos).toFixed(2)}</b></td>
+                                 <td><b>${(response.totalTotal).toFixed(2)}</b></td>
                                  <td></td>
                              </tr>
                          `);
                         $("#compra").val((response.totalFob).toFixed(2));
                         $("#impuestos").val((response.totalImpuestos).toFixed(2));
+                        $("#fob_total").val((response.totalFob).toFixed(2));
                         var logistica = $("#valor").val();
                         $("#logistica").val((logistica));
 
-                        $("#cotizacion_total").val((response.totalFob + response.totalImpuestos +
-                            parseFloat(
-                                logistica)).toFixed(2));
+                        $("#cotizacion_total").val((response.totalFob + response.totalImpuestos+parseFloat(logistica)).toFixed(2));
 
                         $("#productos_total").val((response.totalProducto));
 

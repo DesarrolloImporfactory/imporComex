@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('proveedor_id')->references('id')->on('validacions')->onUpdate('cascade');
             $table->integer('cantidad');
             $table->float('precio',8,2);
-            $table->float('divisas',8,2);
+            $table->float('divisas',8,2)->nullable();;
             $table->float('fob',8,2);
             $table->float('seguro',8,2);
             $table->float('flete',8,2);

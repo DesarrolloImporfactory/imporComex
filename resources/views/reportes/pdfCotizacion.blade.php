@@ -168,20 +168,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Partida arancelaria:</b></td>
-                        <td>Pendiente</td>
-                    </tr>
-                    <tr>
                         <td><b>CBM Total: </b></td>
                         <td>{{ $cotizacion->volumen }}</td>
                     </tr>
                     <tr>
                         <td><b>Peso bruto total: </b></td>
                         <td>{{ $cotizacion->peso }}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Valor Factura EXW + envío a bodegas: </b></td>
-                        <td>Pendiente</td>
                     </tr>
                     <tr>
                         <td><b>Lugar de entrega: </b></td>
@@ -207,6 +199,10 @@
                     <tr>
                         <td><b>Total Servicio Logístico</b></td>
                         <td>{{ $cotizacion->total_logistica }}$</td>
+                    </tr>
+                    <tr>
+                        <td><b>Valor de compra. </b></td>
+                        <td>{{ $cotizacion->total_fob }}$</td>
                     </tr>
                     <tr>
                         <td><b>Impuestos apróx. </b></td>

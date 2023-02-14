@@ -32,7 +32,7 @@ class ValidacionesController extends Controller
         if ($relacion == 1) {
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad'])->first();
             $carbon = new \Carbon\Carbon();
-            $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with('insumo')->get();
+            $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo','proveedor'])->get();
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
             $barcode = $cotizacion->barcode;
             $inBackground = true;
@@ -67,7 +67,7 @@ class ValidacionesController extends Controller
         if ($contador == 0) {
             for ($i = 1; $i <= $cantidad; $i++) {
                 if($request->file('foto' . $i)){
-                    $foto =$request->file('foto' . $i)->store('uploads', 'public');
+                    $foto =$request->file('foto' . $i)->store('docs', 'public');
                 }else{
                     $foto = "null";
                 }
@@ -99,6 +99,7 @@ class ValidacionesController extends Controller
             'impuestos' => 'required|numeric|min:1',
             'compra' => 'required|numeric|min:1',
             'cantidad_productos' => 'required|numeric|min:1',
+            'total_fob' => 'required|numeric|min:1',
         ]);
         //$relacion = Validacion::where('cotizacion_id', $cotizacion_id)->count();
         if ($validator->fails()) {
@@ -137,6 +138,7 @@ class ValidacionesController extends Controller
                 "proceso" => '3',
                 "total_impuesto" => $request->input('impuestos'),
                 "total_compra" => $request->input('compra'),
+                "total_fob" => $request->input('total_fob'),
                 "cantidad_productos" => $request->input('cantidad_productos'),
                 "total" => $logistica + $request->input('impuestos') + $request->input('compra')
             ];
