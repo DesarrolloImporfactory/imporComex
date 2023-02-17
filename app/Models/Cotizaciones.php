@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Validacion;
-
+use Illuminate\Support\Carbon;
 
 class Cotizaciones extends Model
 {
@@ -52,6 +52,10 @@ class Cotizaciones extends Model
 
     public function impuesto(){
         return $this->hasMany(cotizacion_impuesto::class,'cotizacion_id','id');
+    }
+
+    public function getTimeAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d');
     }
 
 }

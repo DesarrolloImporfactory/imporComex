@@ -9,7 +9,9 @@ use App\Models\Cotizaciones;
 use App\Models\Contenedores;
 use App\Models\Impuesto;
 use App\Models\cotizacion_impuesto;
+use App\Models\Divisa;
 use App\Models\ProductoInsumo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -57,6 +59,7 @@ class ValidacionesController extends Controller
             $validator = Validator::make($request->all(), [
                 'nombre_pro' . $i => 'required',
                 'enlace' . $i => 'required',
+                'cartones' . $i => 'required',
                 'contacto' . $i => 'required',
             ]);
             if ($validator->fails()) {
@@ -75,14 +78,17 @@ class ValidacionesController extends Controller
                     'nombre_pro' => $request->input('nombre_pro' . $i),
                     'contacto' => $request->input('contacto' . $i),
                     'enlace' => $request->input('enlace' . $i),
+                    'total_cartones' => $request->input('cartones' . $i),
                     'foto' => $foto,
                     'cotizacion_id'=>$request->input('cotizacion_id'),
+                    'proveedores'=>$request->input('proveedores'),
                 ]);
                 
             }
             return response()->json([
                 'status' => 200,
                 'message' => 'Proveedor creado!',
+                'datos' => $request->all()
             ]);
         } else {
             return response()->json([
@@ -133,12 +139,14 @@ class ValidacionesController extends Controller
 
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
             $logistica = $cotizacion->total_logistica;
-
+            $divisa = Divisa::first();
             $datos = [
                 "proceso" => '3',
                 "total_impuesto" => $request->input('impuestos'),
                 "total_compra" => $request->input('compra'),
+                "time" => Carbon::now(),
                 "total_fob" => $request->input('total_fob'),
+                "ISD" => $request->input('total_fob') * $divisa->tarifa,
                 "cantidad_productos" => $request->input('cantidad_productos'),
                 "total" => $logistica + $request->input('impuestos') + $request->input('compra')
             ];

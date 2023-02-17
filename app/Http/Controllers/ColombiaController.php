@@ -21,7 +21,7 @@ use App\Models\Insumo;
 use App\Models\Categoria;
 use App\Models\Ciudad;
 use App\Models\ProductoInsumo;
-
+use Carbon\Carbon;
 
 class ColombiaController extends Controller
 {
@@ -279,6 +279,7 @@ class ColombiaController extends Controller
         $grupal->inflamable = $request->input('inflamable');
         $grupal->peso = $peso;
         $grupal->estado = "Pendiente";
+        $grupal->time = Carbon::now();
         $grupal->origen = $request->input('origen');
         $grupal->tiene_bateria = $request->input('tiene_bateria');
         $grupal->liquidos = $request->input('liquidos');

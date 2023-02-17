@@ -79,10 +79,7 @@
                                 data-bs-target="#PDF" title="Revisar">
                                 <i class="fa-solid fa-eye"></i> Ver Archivo
                             </a>
-                            <a class="btn btn-xs btn-default text-teal mx-1 shadow" data-bs-toggle="modal"
-                                data-bs-target="#ticket" title="Revisar">
-                                <i class="fa-solid fa-eye"></i> Ver Tickets
-                            </a>
+                            
                         </div>
                     </div>
                 </div><br>
@@ -165,6 +162,10 @@
                             <td>{{ $cotizacion->total_fob }}$</td>
                         </tr>
                         <tr>
+                            <td><b>ISD. </b></td>
+                            <td>{{ $cotizacion->ISD}}$</td>
+                        </tr>
+                        <tr>
                             <td><b>Gtos. TOTAL A PAGAR: </b></td>
                             <td>{{ $cotizacion->total }}$</td>
                         </tr>
@@ -208,7 +209,7 @@
     </div>
 
     @include('components.cotizacion')
-    @include('components.ticket')
+    
 
 
 @stop

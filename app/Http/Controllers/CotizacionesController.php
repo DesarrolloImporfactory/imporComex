@@ -75,7 +75,7 @@ class CotizacionesController extends Controller
             'pendientes' => $cotizacionesPendientes
         ];
         return view('admin.cotizaciones.index', $data);
-        //return $data;
+        //return $listadoCotizaciones;
     }
 
 

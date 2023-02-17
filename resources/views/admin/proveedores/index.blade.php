@@ -11,7 +11,7 @@
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>
-            <x-adminlte-progress theme="warning" value=75 animated with-label />
+            <x-adminlte-progress theme="warning" value=100 animated with-label />
         </div>
         <div class="col-md-3">
         </div>
@@ -21,37 +21,43 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-12">
             <a href="{{ route('admin.showProv', $cotizacion->id) }}" class="btn btn-dark float-right"><i
                     class="fa-solid fa-arrow-right"></i> Siguiente</a>
         </div>
-        <div class="col-md-1"></div>
     </div><br>
 
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+
+        @include('components.ticket')
+        <div class="col-md-12">
             <x-adminlte-card title="Visualizar detalles de tu cotizacion" theme="dark">
                 <div class="proveedores">
                     <div class="" id="alerta" role="alert">
 
                     </div>
                     <div class="">
-
-                        <form action="" id="crearProveedores" enctype="multipart/form-data" method="POST">
-                            @csrf
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <button type="submit" class="btn btn-warning">Agregar</button>
+                        @if ($proveedores > 0)
+                            <form action="" id="crearProveedores" enctype="multipart/form-data" method="POST">
+                                @csrf
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-warning">Agregar</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <input type="hidden" id="proveedores" value="{{ $proveedores }}">
-                            <input type="hidden" id="cotizacion_id" name="cotizacion_id" value="{{ $cotizacion->id }}">
-                            <div id="contenido">
+                                <input type="hidden" id="proveedores" name="proveedores" value="{{ $proveedores }}">
+                                <input type="hidden" id="cotizacion_id" name="cotizacion_id" value="{{ $cotizacion->id }}">
+                                <div id="contenido">
 
+                                </div>
+                            </form>
+                        @else
+                            <div></div>
+                            <div class="row " id="ver">
+                                <input type="hidden" id="prov"  value="{{ $proveedores }}">
                             </div>
-                        </form>
+                        @endif
+
                     </div>
                 </div><br>
                 <x-table class="table table-striped">
@@ -80,7 +86,7 @@
                 </x-table>
             </x-adminlte-card>
         </div>
-        <div class="col-md-1"></div>
+
         <div class="modal fade" id="agregarProveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -100,7 +106,7 @@
                             <input type="hidden" id="id" name="id">
                             <div class="form-group formAsignar">
                                 <label for="">Seleccionar proveedor: </label>
-                                <select data-width="100%" name="proveedor_id" id="proveedor_id">
+                                <select class="form-control" name="proveedor_id" id="proveedor_id">
                                 </select>
                             </div>
                         </form>
@@ -119,6 +125,27 @@
 
             inputs();
             proveedores();
+            mostrarTicket();
+
+            function mostrarTicket() {
+                var proveedores = $("#prov").val();
+                if (proveedores == 0) {
+                    $("#ver").append(`
+                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="alert alert-success" role="alert">
+                                        Excelente, ahora solo debemos asignar los proveedores a cada producto.
+                                        <a class="btn btn-xs btn-default text-teal mx-1 shadow float-right " data-bs-toggle="modal"
+                                            data-bs-target="#ticket" title="Revisar">
+                                            <i class="fa-solid fa-eye"></i> Ver Tickets
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                `);
+                } 
+                
+            }
 
             function inputs() {
                 var proveedores = $("#proveedores").val();
@@ -126,25 +153,31 @@
                 for (i = 1; i <= proveedores; i++) {
                     $("#contenido").append(`
                     <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="">Nombre proveedor ${i}: </label>
                                     <input type="text" class="form-control" name="nombre_pro${i}" id="nombre_pro${i}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="">Numero de cajas ${i}: </label>
+                                    <input type="number" min="1" class="form-control" name="cartones${i}" id="cartones${i}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="">Enlace proveedor ${i}: </label>
                                     <input type="text" class="form-control" name="enlace${i}" id="enlace${i}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="">Contacto proveedor ${i}: </label>
                                     <input type="text" class="form-control" name="contacto${i}" id="contacto${i}">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Factura o proforma ${i}: </label>
                                     <input type="file" class="form-control" name="foto${i}" id="foto${i}">
@@ -199,17 +232,20 @@
                                     <li>${err_values}</li>
                                  `);
                             });
+                        } else {
+
+                            $("#class1").removeClass('alert alert-danger');
+                            $("#errores").html("");
+                            $("#proveedor_id").html("");
+                            Swal.fire(
+                                'Good job!',
+                                response.message,
+                                'success'
+                            )
+                            $('.formAsignar').find('input').val("");
+                            $("#agregarProveedor").modal("hide");
+                            proveedores();
                         }
-                        $("#class1").removeClass('alert alert-danger');
-                        $("#errores").html("");
-                        Swal.fire(
-                            'Good job!',
-                            response.message,
-                            'success'
-                        )
-                        $('.formAsignar').find('input').val("");
-                        $("#agregarProveedor").modal("hide");
-                        proveedores();
                     }
                 });
             });
@@ -219,6 +255,7 @@
                 $("#alerta").html("");
                 $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
                 var formData = new FormData(document.getElementById("crearProveedores"));
+                console.log(formData);
                 $.ajax({
                     type: "POST",
                     url: "{{ route('admin.guardarProveedor') }}",
@@ -228,16 +265,15 @@
                     processData: false,
                     dataType: "json",
                     success: function(response) {
+                        console.log(response);
                         if (response.status == 400) {
                             $("#alerta").addClass(
                                 "alert alert-danger alert-dismissible fade show");
                             $("#alerta").append(`
                                 <strong>Por favor complete todos los campos.</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             `);
                         } else {
-                            //$("#alerta").empty();
-                            $(".proveedores").remove();
+                            $("#crearProveedores").remove();
                             Swal.fire(
                                 'Good job!',
                                 response.message,

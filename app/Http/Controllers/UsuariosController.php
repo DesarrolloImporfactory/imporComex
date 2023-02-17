@@ -8,6 +8,7 @@ use App\Models\Idioma;
 use App\Models\Paises;
 use App\Models\Modalidades;
 use App\Notifications\SendPassword;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades;
@@ -28,7 +29,7 @@ class UsuariosController extends Controller
         $idioma=Idioma::get();
         $datos=[
             'usuarios'=>$usuario,
-            'idiomas'=>$idioma
+            'idiomas'=>$idioma,
         ];
 
         return view('admin.usuarios.index',$datos);
@@ -107,6 +108,7 @@ class UsuariosController extends Controller
             'cedula'=>$request->input('cedula'),
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
+            'estado'=>1,
             'password'=>Hash::make($password1),
         ])->assignRole($request->input('roles')); 
         

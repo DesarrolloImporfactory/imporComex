@@ -12,6 +12,8 @@ class Validacion extends Model
         'nombre_pro',
         'contacto',
         'enlace',
+        'total_cartones',
+        'proveedores',
         'foto',
         'cotizacion_id',
     ];

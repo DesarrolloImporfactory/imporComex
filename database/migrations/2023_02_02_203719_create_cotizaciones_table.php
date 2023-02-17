@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('barcode');
             $table->string('estado')->nullable();
+            $table->dateTime('time')->nullable();
             $table->bigInteger('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
 
@@ -53,7 +54,8 @@ return new class extends Migration
             // $table->string('ciudad_entrega')->nullable();
             $table->string('cantidad_proveedores')->nullable();
             $table->string('cantidad_productos')->nullable();
-            $table->string('total_fob')->nullable();
+            $table->float('total_fob')->nullable();
+            $table->float('ISD')->nullable();
             $table->float('total_logistica')->nullable();
             $table->float('total_impuesto')->nullable();
             $table->float('total_compra')->nullable();

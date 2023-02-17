@@ -18,9 +18,7 @@
         
     @endphp
     <br>
-
     <div class="card">
-
         <div class="card-body">
             <x-adminlte-datatable :heads="$heads" head-theme="dark" id="table">
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Notifications\SendPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\UserResetPassword;
 use App\Notifications\VerifyEmails;
+use Illuminate\Support\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -26,6 +26,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function impuesto(){
         return $this->hasMany(cotizacion_impuesto::class,'usuario_id','id');
+    }
+    public function getSessionAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getCreatedAtAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getUpdatedAtAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getVerifiedAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d H');
     }
 
     protected $fillable = [
