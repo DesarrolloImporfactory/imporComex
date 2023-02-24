@@ -17,7 +17,7 @@ use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\CotizacionesController;
 use Illuminate\Routing\RouteGroup;
 use App\Http\Controllers\ContenedoresController;
-use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\SearcherController;
 use App\Http\Controllers\CotizacionIndividualController;
 use App\Http\Controllers\CotizacionProductosController;
 use App\Http\Controllers\DashboardController;
@@ -98,5 +98,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('admin/divisas', DivisaController::class)->names('admin.divisas');
     Route::put('update/proveedor/{id}', [ProveedoresController:: class, 'asignarProveedor'])->name('update.proveedor');
     Route::get('admin/showProv/{id}', [ProveedoresController:: class, 'showProv'])->name('admin.showProv');
-    
-});
+
+    Route::resource('admin/searcher', SearcherController::class)->names('admin.searcher');
+    Route::get('search/descripcion', [SearcherController::class, 'searchDescripcion'])->name('search.descripcion');
+    Route::get('search/partida', [SearcherController::class, 'searchPartida'])->name('search.partida');
+}); Route::get('search/prueba', [SearcherController::class, 'searchPrueba'])->name('search.prueba');

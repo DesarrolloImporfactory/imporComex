@@ -63,12 +63,12 @@ return [
     |
     */
     //brand-image
-    'logo' =>'',
+    'logo' => '',
     'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     'logo_img_class' => 'brand-image-xl ',
     'logo_img_xl' => 'vendor/adminlte/dist/img/logo.png',
-    'logo_img_xl_class' =>'brand-image-xl ',
-    'logo_img_alt' =>null,
+    'logo_img_xl_class' => 'brand-image-xl ',
+    'logo_img_alt' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -174,7 +174,7 @@ return [
     'classes_auth_icon' => '',
     'classes_auth_btn' => 'btn-flat btn-primary',
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | Admin Panel Classes
@@ -291,7 +291,7 @@ return [
         [
             'type'         => 'navbar-search',
             'text'         => 'Busqueda',
-            'search'=>true,
+            'search' => true,
             'topnav_right' => true,
         ],
         [
@@ -300,28 +300,28 @@ return [
             'icon'         => 'fas fa-bell',
             'url'          => 'home',
             'topnav_right' => true,
-            
+
         ],
         [
-            
+
             'text' => 'Home',
             'route'  => 'home',
             'topnav' => true,
             'can' => '',
-            
+
         ],
-        
+
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => false,
         ],
-        
+
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-       
+
         // [
         //     'text'        => 'pages',
         //     'url'         => 'admin/pages',
@@ -331,138 +331,111 @@ return [
         // ],
         ['header' => 'CONFIGURACION DE CUENTA'],
         [
-            
-            'text' => 'Usuarios',
-            'route'  => 'admin.usuarios.index',
-            'icon'=>'fa fa-fw fa-users',
-            'can' => 'admin.usuarios.index',
-            
-        ],
-        [
             'key' => 'Dashboard',
             'text' => 'Dashboard',
             'route'  => 'home',
-            'icon'=>'nav-icon fas fa-tachometer-alt',
+            'icon' => 'nav-icon fas fa-tachometer-alt',
             'classes'  => 'text-left'
-            
+
         ],
-        
         [
-            
-            'text' => 'Calculadora',
+
+            'text' => 'Usuarios',
+            'route'  => 'admin.usuarios.index',
+            'icon' => 'fa fa-fw fa-users',
+            'can' => 'admin.usuarios.index',
+
+        ],
+        [
+
+            'text' => 'Cotizador',
             'route'  => 'admin.calculadoras.index',
-            'icon'=>'fa fa-fw fa-calculator',
-            'can'=>'admin.calculadoras.index',
-            
+            'icon' => 'fa fa-fw fa-calculator',
+            'can' => 'admin.calculadoras.index',
+
         ],
         [
-            
+
+            'text' => 'Mis Busquedas',
+            'route'  => 'admin.searcher.index',
+            'icon' => 'fa fa-brands fa-searchengin',
+
+        ],
+        // <i class="fa-brands fa-searchengin"></i>
+        [
+
             'text' => 'Gestionar Idiomas',
             'route'  => 'idiomas',
             'icon' => 'fas fa-fw fa-language',
             'can' => 'admin.idiomas.index',
         ],
         [
-            
+
             'text' => 'Listado de roles',
             'route'  => 'admin.roles.index',
             'icon' => 'fas fa-users-cog fa-fw',
-            'can'=>'admin.roles.index',
+            'can' => 'admin.roles.index',
         ],
-        
         [
-            
+
             'text' => 'Cargas/Tarifas',
             'route'  => 'cargas',
             'icon' => 'fas fa-fw fa-truck',
-            'can'=>'admin.cargas.index',
-            
+            'can' => 'admin.cargas.index',
+
         ],
         [
-            
-            'text' => 'Gestionar Paises',
-            'route'  => 'paises',
-            'icon' => 'fas fa-fw fa-passport',
-            'can' => 'admin.paises.index',
-        ],
-        [
-            
+
             'text' => 'Contenedores',
             'route'  => 'admin.contenedores.index',
             'icon' => 'fas fa-brands fa-docker',
-            'can'=>'admin.contenedores.index',
-            
-        ],
-        [
-            
-            'text' => 'Gestion General',
-            'route'  => 'modalidades',
-            'icon' => 'fas fa-fw fa-inbox',
-            'can'=>'admin.modalidades.index',
-            
-        ],
-        [
-            
-            'text' => 'Impuestos',
-            'route'  => 'admin.impuestos.index',
-            'icon' => 'fas fa-solid fa-money-bill-transfer'
-            
-        ],
+            'can' => 'admin.contenedores.index',
 
+        ],
         [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text'    => 'Gestion de procesos',
+            'icon'    => 'fas fa-fw fa-inbox',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => '1. Gestionar Paises',
+                    'route'  => 'paises',
+                    'icon' => 'fas fa-fw fa-passport',
+                    'can' => 'admin.paises.index',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+
+                    'text' => '2. Gestion General',
+                    'route'  => 'modalidades',
+                    'icon' => 'fas fa-fw fa-inbox',
+                    'can' => 'admin.modalidades.index',
+
                 ],
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+
+                    'text' => '3. Impuestos',
+                    'route'  => 'admin.impuestos.index',
+                    'icon' => 'fas fa-solid fa-money-bill-transfer'
+
                 ],
             ],
         ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        
+        // ['header' => 'labels'],
+        // [
+        //     'text'       => 'important',
+        //     'icon_color' => 'red',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url'        => '#',
+        // ],
     ],
 
     /*
@@ -527,7 +500,7 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
-                    
+
                 ],
                 [
                     'type' => 'js',
@@ -541,7 +514,7 @@ return [
                 ],
             ],
         ],
-        
+
         'Select2' => [
             'active' => true,
             'files' => [
@@ -560,7 +533,7 @@ return [
                     'asset' => true,
                     'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
                 ],
-                
+
             ],
         ],
         'Chartjs' => [

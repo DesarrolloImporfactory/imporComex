@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TarifaSeeder::class);
         $this->call(ImpuestoSeeder::class);
         $this->call(DivisaSeeder::class);
-        //$this->call(CiudadSeeder::class);
+        $this->call(EstadoDeclaracionSeeder::class);
     }
 }

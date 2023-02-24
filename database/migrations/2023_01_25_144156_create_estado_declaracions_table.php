@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('estado_declaracions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_estado');
+            $table->string('cd_id');
             $table->timestamps();
         });
     }

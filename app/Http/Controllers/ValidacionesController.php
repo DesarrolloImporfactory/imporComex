@@ -148,7 +148,7 @@ class ValidacionesController extends Controller
                 "total_fob" => $request->input('total_fob'),
                 "ISD" => $request->input('total_fob') * $divisa->tarifa,
                 "cantidad_productos" => $request->input('cantidad_productos'),
-                "total" => $logistica + $request->input('impuestos') + $request->input('compra')
+                "total" =>$request->input('total_fob') * $divisa->tarifa+ $logistica + $request->input('impuestos') + $request->input('compra')
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);

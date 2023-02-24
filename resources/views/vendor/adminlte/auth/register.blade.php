@@ -198,9 +198,7 @@
                 $.ajax({
                     url: "{{ route('search.idioma') }}",
                     dataType: 'json',
-                    data: {
-                        temp: request.temp
-                    },
+                    data: {temp: request.temp},
                     success: function(data) {
                         response(data)
                     }

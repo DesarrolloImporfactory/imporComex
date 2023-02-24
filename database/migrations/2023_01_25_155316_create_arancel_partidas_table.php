@@ -17,10 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('capitulo');
             $table->string('codigo_suplementario');
-            $table->date('fecha');
             $table->string('descripcion');
-            $table->string('partida_clave');
-            $table->string('partida');
             $table->string('subpartida');
             $table->string('tipo_elemento');
             $table->timestamps();

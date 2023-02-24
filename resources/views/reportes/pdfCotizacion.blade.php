@@ -209,6 +209,10 @@
                         <td>{{ $cotizacion->total_impuesto }}$</td>
                     </tr>
                     <tr>
+                        <td><b>ISD. </b></td>
+                        <td>{{ $cotizacion->ISD }}$</td>
+                    </tr>
+                    <tr>
                         <td><b>Gtos. TOTAL A PAGAR: </b></td>
                         <td>{{ $cotizacion->total }}$</td>
                     </tr>

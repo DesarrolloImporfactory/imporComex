@@ -106,10 +106,9 @@
                                 <td>{{ number_format($item->Impuestos / $item->cantidad, 2) }}</td>
                                 <td>{{ number_format($cotizacion->total_logistica / $cotizacion->cantidad_productos, 2) }}
                                 </td>
-                                
                                 <td>{{ number_format($item->divisas / $item->cantidad, 2) }}
                                 </td>
-                                <td>{{ number_format($item->Impuestos / $item->cantidad +$cotizacion->total_logistica / $cotizacion->cantidad_productos+$item->divisas / $item->cantidad, 2) }}
+                                <td>{{ number_format($item->precio+$item->Impuestos / $item->cantidad +$cotizacion->total_logistica / $cotizacion->cantidad_productos+$item->divisas / $item->cantidad, 2) }}
                                 </td>
                             </tr>
                         @endforeach
