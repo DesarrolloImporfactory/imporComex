@@ -354,14 +354,13 @@ return [
             'can' => 'admin.calculadoras.index',
 
         ],
-        [
+        // [
 
-            'text' => 'Mis Busquedas',
-            'route'  => 'admin.searcher.index',
-            'icon' => 'fa fa-brands fa-searchengin',
+        //     'text' => 'Mis Busquedas',
+        //     'route'  => 'admin.searcher.index',
+        //     'icon' => 'fa fa-brands fa-searchengin',
 
-        ],
-        // <i class="fa-brands fa-searchengin"></i>
+        // ],
         [
 
             'text' => 'Gestionar Idiomas',
@@ -419,23 +418,6 @@ return [
                 ],
             ],
         ],
-        
-        // ['header' => 'labels'],
-        // [
-        //     'text'       => 'important',
-        //     'icon_color' => 'red',
-        //     'url'        => '#',
-        // ],
-        // [
-        //     'text'       => 'warning',
-        //     'icon_color' => 'yellow',
-        //     'url'        => '#',
-        // ],
-        // [
-        //     'text'       => 'information',
-        //     'icon_color' => 'cyan',
-        //     'url'        => '#',
-        // ],
     ],
 
     /*

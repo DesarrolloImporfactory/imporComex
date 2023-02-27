@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('arancel_secctions', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
+            $table->string('codigo_seccion');
             $table->string('seccion_nombre');
             $table->string('subpartida');
             $table->string('tipo_elemento');
