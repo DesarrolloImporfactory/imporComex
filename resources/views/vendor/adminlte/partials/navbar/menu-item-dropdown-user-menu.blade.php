@@ -24,14 +24,14 @@
         @endif
             
             <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
-                {{ Auth::user()->email }} - <b>{{ Auth::user()->name }}</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                {{ Auth::user()->email }}&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
         
     </a>
    
 
     {{-- User menu dropdown --}}
-    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+    <ul class="dropdown-menu dropdown-menu-end">
 
         {{-- User menu header --}}
         @if(!View::hasSection('usermenu_header') && config('adminlte.usermenu_header'))
@@ -71,10 +71,10 @@
                     {{ __('adminlte::menu.profile') }}
                 </a>
             @endif
-            <a class="btn btn-default btn-flat float-right @if(!$profile_url) btn-block @endif"
+            <a class="btn btn-danger float-right @if(!$profile_url) btn-block @endif"
                href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fa fa-fw fa-power-off text-red"></i>
-                {{ __('adminlte::adminlte.log_out') }}
+                <i class="fa fa-fw fa-power-off "></i>
+                Cerrar Sesión
             </a>
             <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
                 @if(config('adminlte.logout_method'))

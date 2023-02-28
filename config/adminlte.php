@@ -130,11 +130,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-secondary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -321,14 +321,6 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-
-        // [
-        //     'text'        => 'pages',
-        //     'url'         => 'admin/pages',
-        //     'icon'        => 'far fa-fw fa-file',
-        //     'label'       => 4,
-        //     'label_color' => 'success',
-        // ],
         ['header' => 'CONFIGURACION DE CUENTA'],
         [
             'key' => 'Dashboard',

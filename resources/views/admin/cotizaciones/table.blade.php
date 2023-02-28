@@ -18,9 +18,15 @@
         <tbody>
             @foreach ($listadoCotizaciones as $cotizacion)
                 <tr>
-                    
+
                     <th scope="row">{{ $cotizacion->id }}</th>
-                    <td>{{ $cotizacion->estado }}</td>
+                    <td>
+                        @if ($cotizacion->estado == 'Pendiente')
+                            <span class="badge bg-danger rounded-pill">{{ $cotizacion->estado }}</span>
+                        @else
+                            <span class="badge bg-teal rounded-pill">{{ $cotizacion->estado }}</span>
+                        @endif
+                    </td>
                     <td>{{ $cotizacion->usuario->name }}</td>
                     <td>{!! $cotizacion->especialista->name !!}</td>
                     <td>{{ $cotizacion->pais->nombre_pais }}</td>
@@ -34,7 +40,7 @@
                         </a>
                         <ul class="dropdown-menu ">
                             <li>
-                                
+
                                 @include('admin.cotizaciones.delete')
                             </li>
                             <li>
@@ -56,8 +62,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('ticket.pdf', $cotizacion->id) }}"
-                                    class="dropdown-item   text-info " title="Details">
+                                <a href="{{ route('ticket.pdf', $cotizacion->id) }}" class="dropdown-item   text-info "
+                                    title="Details">
                                     <i class="fa-solid fa-ticket"></i> Ticket
                                 </a>
                             </li>

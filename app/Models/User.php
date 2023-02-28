@@ -16,6 +16,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+
+     
     
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'usuario_id','id');
@@ -73,4 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmails);
     }
+    public function adminlte_profile_url()
+     {
+         return 'admin/perfil';
+     }
 }

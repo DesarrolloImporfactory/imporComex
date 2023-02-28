@@ -1,6 +1,4 @@
 <x-adminlte-card title="Gestionar cotizaciones asignadas" theme="dark" icon="fa-solid fa-handshake-angle">
-
-
     <x-table>
         <thead class="text-center">
             <tr>
@@ -21,7 +19,13 @@
             @foreach ($listadoCotizaciones as $cotizacion)
                 <tr>
                     <th scope="row">{{ $cotizacion->id }}</th>
-                    <td>{{ $cotizacion->estado }}</td>
+                    <td>
+                        @if ($cotizacion->estado == 'Pendiente')
+                            <span class="badge bg-danger rounded-pill">{{ $cotizacion->estado }}</span>
+                        @else
+                            <span class="badge bg-teal rounded-pill">{{ $cotizacion->estado }}</span>
+                        @endif
+                    </td>
                     <td>{{ $cotizacion->usuario->name }}</td>
                     <td>{!! $cotizacion->especialista->name !!}</td>
                     <td>{{ $cotizacion->pais->nombre_pais }}</td>

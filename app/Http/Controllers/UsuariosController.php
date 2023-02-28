@@ -12,8 +12,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ChangPasswordRequest;
 
 class UsuariosController extends Controller
 {
@@ -123,12 +125,53 @@ class UsuariosController extends Controller
         return view('admin.usuarios.formEdit',compact('user','rol','idiomas'));
     }
     //asignar roles al usuario
-    public function show(Request $request, $user)
+    public function showPerfil()
     {
-    
+        $id = Auth::user()->id;
+        $usuario = User::find($id);
+        return view('admin.usuarios.perfil',compact('usuario'));
     }
 
- 
+    public function updatePerfil(Request $request, $id){
+        $request->validate([
+            'name'=>['required'],
+            'telefono' => ['required'],
+            'ruc'=>['required'],
+            'cedula' => ['required'],
+            'email' => ['required'],  
+         ]);
+        $users=User::findOrFail($id);
+        $datos=array(
+            'name'=>$request->input('name'),
+            'telefono'=>$request->input('telefono'),
+            'cedula'=>$request->input('cedula'),
+            'ruc'=>$request->input('ruc'),
+            'email'=>$request->input('email'),
+        );
+        User::whereid($id)->update($datos);
+
+        return redirect('admin/perfil')->with('mensaje','Usuario Actualizado');
+    }
+
+    public function changePassword(Request $request, $id){
+         $request->validate([
+             'contraseña_actual'=>['required','string','min:8'],
+             'nueva_contraseña' => ['required','string','min:8'],
+             'confirmar_contraseña'=>['required','same:nueva_contraseña','string','min:8'], 
+          ]);
+         $usuario = User::find($id);
+         $password = $usuario->password;
+         if (Hash::check($request->input('contraseña_actual'), $password)) {
+            $datos=array(
+                'password'=>Hash::make($request->input('nueva_contraseña')),
+            );
+            User::whereid($id)->update($datos);
+            return redirect('admin/perfil')->with('mensaje','Contraseña actualizada!');
+        }else{
+            return redirect('admin/perfil')->with('mensaje','Contraseña actual incorrecta');
+        }
+    }
+    
     public function update(Request $request, $user)
     {
         $request->validate([
@@ -168,5 +211,11 @@ class UsuariosController extends Controller
     {
         User::destroy($id);
         return redirect('usuarios')->with('mensaje','Usuario Eliminado');
+    }
+    public function destroyUser($id)
+    {
+        User::destroy($id);
+        return redirect('usuarios')->with('mensaje','Adios!');
+        Auth::logout();
     }
 }

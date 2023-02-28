@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'idioma'=>'Ingles',
             'estado'=>'1',
             'email'=>'victor.robles@gmail.com',
-            'password'=>bcrypt('12345678'),
+            'password'=>Hash::make('12345678'),
         ])->assignRole('Client');  
 
         User::create([
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             'idioma'=>'Ingles',
             'estado'=>'1',
             'email'=>'pedro.trujillo@gmail.com',
-            'password'=>bcrypt('12345678'),
+            'password'=>Hash::make('12345678'),
         ])->assignRole('Especialista');  
         User::create([
             'name'=>'Daniel Bonilla',
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'idioma'=>'Ingles',
             'estado'=>'1',
             'email'=>'danielbonilla522@gmail.com',
-            'password'=>bcrypt('12345678'),
+            'password'=>Hash::make('12345678'),
         ])->assignRole('Admin'); 
 
         User::create([
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
             'estado'=>'1',
             // 'email_verified_at'=>'2023-01-17 16:30:44',
             'email'=>'ariel.12isaias@gmail.com',
-            'password'=>bcrypt('12345678'),
+            'password'=>Hash::make('12345678'),
         ])->assignRole('Admin');  
     }
 }

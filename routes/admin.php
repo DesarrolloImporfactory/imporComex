@@ -102,4 +102,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('admin/searcher', SearcherController::class)->names('admin.searcher');
     Route::get('search/descripcion', [SearcherController::class, 'searchDescripcion'])->name('search.descripcion');
     Route::get('search/partida', [SearcherController::class, 'searchPartida'])->name('search.partida');
-}); Route::get('search/prueba', [SearcherController::class, 'searchPrueba'])->name('search.prueba');
+    Route::get('search/prueba', [SearcherController::class, 'searchPrueba'])->name('search.prueba');
+
+    Route::get('admin/perfil', [UsuariosController::class, 'showPerfil'])->name('admin.perfil');
+    Route::patch('admin/perfil/update/{id}', [UsuariosController::class, 'updatePerfil'])->name('admin.perfil.update');
+    Route::patch('admin/password/{id}', [UsuariosController::class, 'changePassword'])->name('admin.password');
+    Route::delete('admin/destroyUser/{id}', [UsuariosController::class, 'destroyUser'])->name('admin.destroyUser');
+}); 

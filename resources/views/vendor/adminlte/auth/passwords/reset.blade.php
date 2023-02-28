@@ -20,7 +20,6 @@
 @section('auth_body')
     <form action="{{ $password_reset_url }}" method="post">
         @csrf
-
         {{-- Token field --}}
         <input type="hidden" name="token" value="{{ $token }}">
 
