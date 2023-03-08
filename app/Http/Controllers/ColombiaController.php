@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Modalidades;
 use App\Models\Paises;
-use App\Models\tipo_cargas;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Validacion;
@@ -13,7 +12,6 @@ use App\Models\Cotizaciones;
 use Illuminate\Support\Facades\Validator;
 use App\Models\tarifaGruapl;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Mail\EmailEspecialista;
 use App\Models\Producto;
@@ -31,32 +29,32 @@ class ColombiaController extends Controller
     {
         $insumos = Insumo::all();
         return response()->json([
-            'status'=>200,
-            'insumos'=>$insumos,
+            'status' => 200,
+            'insumos' => $insumos,
         ]);
     }
 
     public function saveProduct(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'nombreInsumo'=>'required',
-            'porcentajeInsumo'=>'required | numeric| min:1',
+        $validator = Validator::make($request->all(), [
+            'nombreInsumo' => 'required',
+            'porcentajeInsumo' => 'required | numeric| min:1',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'status'=>400,
-                'message'=>$validator->messages(),
+                'status' => 400,
+                'message' => $validator->messages(),
             ]);
-        }else{
+        } else {
             $producto = new Insumo();
             $producto->nombre = $request->input('nombreInsumo');
             $producto->porcentaje = $request->input('porcentajeInsumo');
             $producto->save();
             return response()->json([
-                'status'=>200,
-                'message'=>'Producto creado!',
+                'status' => 200,
+                'message' => 'Producto creado!',
             ]);
-        }    
+        }
     }
 
     public function save(Request $request)
@@ -139,7 +137,7 @@ class ColombiaController extends Controller
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
                 'tiene_bateria' => ['required'],
-                'cantidad_proveedores' => ['required','numeric','min:1','max:6'],
+                'cantidad_proveedores' => ['required', 'numeric', 'min:1', 'max:6'],
                 'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
@@ -151,7 +149,7 @@ class ColombiaController extends Controller
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
                 'tiene_bateria' => ['required'],
-                'cantidad_proveedores' => ['required','numeric','min:1','max:6'],
+                'cantidad_proveedores' => ['required', 'numeric', 'min:1', 'max:6'],
                 'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
@@ -270,7 +268,7 @@ class ColombiaController extends Controller
         Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
         $proveedores = $request->input('cantidad_proveedores');
-        
+
         $grupal->barcode = $barcode;
         $peso = $request->input('peso') . 'kg';
         $grupal->usuario_id = $cliente;
@@ -290,12 +288,36 @@ class ColombiaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $grupal->total_logistica = $resultado + (($proveedores*50)-50);
+        $grupal->total_logistica = $resultado + (($proveedores * 50) - 50) + $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
 
         return redirect()->route('admin.colombia.edit', $data);
+    }
+
+    public function ciudadEntrega($ciudadEntrega, $peso)
+    {
+
+        $ciudad = Ciudad::findOrFail($ciudadEntrega);
+        $provincia = $ciudad->provincia;
+        $tarifa = $ciudad->tarifa;
+        $kilo = $ciudad->kilo_adicional;
+
+        if ($provincia == "PICHINCHA") {
+            return $costo = 10;
+        } else if ($provincia == "GUAYAS") {
+            $tipo = $ciudad->tipo_trayecto;
+            if ($tipo != "ESPECIAL") {
+                return $costo = 10;
+            } else {
+                $costo = ($tarifa + $kilo) * $peso;
+                return $costo;
+            }
+        } else {
+            $costo = ($tarifa + $kilo) * $peso;
+            return $costo;
+        }
     }
 
 
@@ -340,10 +362,10 @@ class ColombiaController extends Controller
         ]);
 
         $datos = [
-            'inflamable'=> $request->input('inflamable'),
+            'inflamable' => $request->input('inflamable'),
             'tiene_bateria' => $request->input('tiene_bateria'),
             'liquidos' => $request->input('liquidos'),
-            'cargas_id'=>$request->input('cargas_id'),
+            'cargas_id' => $request->input('cargas_id'),
             'peso' => $request->input('peso'),
             'cantidad_proveedores' => $request->input('cantidad_proveedores'),
             'volumen' => $request->input('volumen'),

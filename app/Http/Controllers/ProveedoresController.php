@@ -78,7 +78,8 @@ class ProveedoresController extends Controller
 
     public function edit($id)
     {
-        //
+        $proveedor = ProductoInsumo::with(['proveedor','insumo'])->findOrFail($id);
+        return response()->json($proveedor);
     }
 
 

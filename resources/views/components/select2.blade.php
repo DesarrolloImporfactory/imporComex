@@ -1,4 +1,4 @@
-<select class="form-control select2 " style="width: 100%;" name="modalidad" >
+<select class="form-control select2 " style="width: 100%;" >
     {{$slot}}
 </select>
 <script>

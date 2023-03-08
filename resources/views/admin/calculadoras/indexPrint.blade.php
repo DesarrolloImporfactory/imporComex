@@ -133,7 +133,7 @@
                         </tr>
                         <tr>
                             <td><b>Lugar de entrega: </b></td>
-                            <td>{{ $cotizacion->ciudad->nombre_provincia }} - {{ $cotizacion->ciudad->nombre_canton }} -
+                            <td>{{ $cotizacion->ciudad->provincia }} - {{ $cotizacion->ciudad->canton }} -
                                 {{ $cotizacion->direccion }}
                             </td>
                         </tr>

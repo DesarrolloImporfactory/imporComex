@@ -21,17 +21,6 @@
             })
         </script>
     @endif
-    {{-- @if (Session::has('mensaje'))
-        <script>
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: '{{ Session::get('mensaje') }}',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        </script>
-    @endif --}}
     @if (Session::has('mensaje'))
         <div class="alert alert-danger">
             {{ Session::get('mensaje') }}

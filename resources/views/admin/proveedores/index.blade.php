@@ -51,13 +51,11 @@
 
                                 </div>
                             </form>
-                        @else
-                            <div></div>
-                            <div class="row " id="ver">
-                                <input type="hidden" id="prov"  value="{{ $proveedores }}">
-                            </div>
                         @endif
 
+                        <div class="row " id="ver">
+                            <input type="hidden" id="prov" value="{{ $proveedores }}">
+                        </div>
                     </div>
                 </div><br>
                 <x-table class="table table-striped">
@@ -104,10 +102,11 @@
                             @csrf
                             <input type="hidden" id="cotizacion" name="cotizacion" value="{{ $cotizacion->id }}">
                             <input type="hidden" id="id" name="id">
+                            <input type="text" id="product" class="form-control" readonly>
                             <div class="form-group formAsignar">
                                 <label for="">Seleccionar proveedor: </label>
-                                <select class="form-control" name="proveedor_id" id="proveedor_id">
-                                </select>
+                                <x-adminlte-select2 name="proveedor_id" id="proveedor_id">
+                                </x-adminlte-select2>
                             </div>
                         </form>
                     </div>
@@ -119,7 +118,11 @@
             </div>
         </div>
     </div>
-
+    <style>
+        .select2-container--open .select2-dropdown {
+            z-index: 1070;
+        }
+    </style>
     <script>
         $(document).ready(function() {
 
@@ -131,20 +134,19 @@
                 var proveedores = $("#prov").val();
                 if (proveedores == 0) {
                     $("#ver").append(`
-                <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="alert alert-success" role="alert">
                                         Excelente, ahora solo debemos asignar los proveedores a cada producto.
-                                        <a class="btn btn-xs btn-default text-teal mx-1 shadow float-right " data-bs-toggle="modal"
-                                            data-bs-target="#ticket" title="Revisar">
-                                            <i class="fa-solid fa-eye"></i> Ver Tickets
-                                        </a>
+                                        
                                     </div>
                                 </div>
-                                <div class="col-md-1"></div>
+                                <div class="col-md-2"><a class="btn btn-xs btn-default text-teal mx-1 shadow  mt-2" data-bs-toggle="modal"
+                                            data-bs-target="#ticket" title="Revisar">
+                                            <i class="fa-solid fa-eye"></i> Ver Tickets
+                                        </a></div>
                 `);
-                } 
-                
+                }
+
             }
 
             function inputs() {
@@ -155,25 +157,25 @@
                     <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="">Nombre proveedor ${i}: </label>
-                                    <input type="text" class="form-control" name="nombre_pro${i}" id="nombre_pro${i}">
+                                    <label for="">Proveedor ${i}: </label>
+                                    <input type="text" placeholder="Nombre" class="form-control" name="nombre_pro${i}" id="nombre_pro${i}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="">Numero de cajas ${i}: </label>
-                                    <input type="number" min="1" class="form-control" name="cartones${i}" id="cartones${i}">
+                                    <label for="">Cajas ${i}: </label>
+                                    <input type="number" placeholder="cantidad" min="1" class="form-control" name="cartones${i}" id="cartones${i}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="">Enlace proveedor ${i}: </label>
+                                    <label for="">Enlace ${i}: </label>
                                     <input type="text" class="form-control" name="enlace${i}" id="enlace${i}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="">Contacto proveedor ${i}: </label>
+                                    <label for="">Contacto  ${i}: </label>
                                     <input type="text" class="form-control" name="contacto${i}" id="contacto${i}">
                                 </div>
                             </div>
@@ -209,9 +211,28 @@
 
             $(document).on('click', '.agregarProveedor', function(e) {
                 e.preventDefault();
+                //limpiar y volver a llenar
+                $("#proveedor_id").html("");
+                proveedores();
+                //fin
                 var id = $(this).attr("value");
                 $("#agregarProveedor").modal("show");
+                console.log(id);
                 $("#id").val(id);
+                $.ajax({
+                    type: "GET",
+                    url: "../../admin/proveedor/" + id + "/edit",
+                    success: function(response) {
+                        if (response.status == 400) {
+
+                        } else {
+                            $("#product").val(response.insumo.nombre);
+                            $("#proveedor_id").val(response.proveedor.id).trigger("change");
+                            // $("#proveedor_id option[value='" + response.proveedor.id + "']")
+                            //     .attr("selected", true);
+                        }
+                    }
+                });
             });
 
             $("#formAsignar").submit(function(e) {
@@ -245,6 +266,7 @@
                             $('.formAsignar').find('input').val("");
                             $("#agregarProveedor").modal("hide");
                             proveedores();
+                            //mostrarTicket();
                         }
                     }
                 });
@@ -253,6 +275,7 @@
             $("#crearProveedores").submit(function(e) {
                 e.preventDefault();
                 $("#alerta").html("");
+                $("#proveedor_id").html("");
                 $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
                 var formData = new FormData(document.getElementById("crearProveedores"));
                 console.log(formData);
@@ -279,6 +302,9 @@
                                 response.message,
                                 'success'
                             )
+                            $("#prov").val(0);
+                            proveedores();
+                            mostrarTicket();
                         }
                     }
                 });

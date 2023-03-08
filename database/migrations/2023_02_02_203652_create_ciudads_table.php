@@ -6,28 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('ciudads', function (Blueprint $table) {
             $table->id();
-            $table->string('cod_provincia');
-            $table->string('cod_canton');
-            $table->string('nombre_provincia');
-            $table->string('nombre_canton');
-            $table->timestamps();
+            $table->string('provincia');
+            $table->string('canton');
+            $table->float('tarifa',8,2);
+            $table->float('kilo_adicional',8,2);
+            $table->string('tipo_trayecto');
+            $table->string('tiemp_guayaquil');
+            $table->string('tiemp_quito');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+   
     public function down()
     {
         Schema::dropIfExists('ciudads');

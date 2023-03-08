@@ -20,7 +20,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>Cotizador {{ $paises->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $paises->nombre_pais }}</b></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -100,11 +100,16 @@
                                     <input type="hidden" name="cargas_id" id="" value="1">
                                     <x-adminlte-select2 name="cantidad_proveedores" enable-old-support>
                                         <option value="">Selecciona una opción....</option>
-                                        <option value="1"{{ old('cantidad_proveedores') == '1' ? 'selected' : '' }}>1</option>
-                                        <option value="2"{{ old('cantidad_proveedores') == '2' ? 'selected' : '' }}>2</option>
-                                        <option value="3"{{ old('cantidad_proveedores') == '3' ? 'selected' : '' }}>3</option>
-                                        <option value="4"{{ old('cantidad_proveedores') == '4' ? 'selected' : '' }}>4</option>
-                                        <option value="5"{{ old('cantidad_proveedores') == '5' ? 'selected' : '' }}>5</option>
+                                        <option value="1"{{ old('cantidad_proveedores') == '1' ? 'selected' : '' }}>1
+                                        </option>
+                                        <option value="2"{{ old('cantidad_proveedores') == '2' ? 'selected' : '' }}>2
+                                        </option>
+                                        <option value="3"{{ old('cantidad_proveedores') == '3' ? 'selected' : '' }}>3
+                                        </option>
+                                        <option value="4"{{ old('cantidad_proveedores') == '4' ? 'selected' : '' }}>4
+                                        </option>
+                                        <option value="5"{{ old('cantidad_proveedores') == '5' ? 'selected' : '' }}>5
+                                        </option>
                                     </x-adminlte-select2>
 
                                 </div>
@@ -173,8 +178,8 @@
                                 <x-adminlte-select2 name="ciudad_entrega" enable-old-support>
                                     <option value="">Selecciona una opción....</option>
                                     @foreach ($ciudades as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre_provincia }} -
-                                            {{ $item->nombre_canton }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->provincia }} -
+                                            {{ $item->canton }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
@@ -187,7 +192,6 @@
                                     <x-adminlte-select2 name="cliente" id="cliente" enable-old-support>
 
                                     </x-adminlte-select2>
-                                    {{-- @livewire('clientes-list') --}}
                                 </div>
                             @endcan
 
@@ -227,9 +231,10 @@
                     cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
                     cancelButtonAriaLabel: 'Thumbs down'
                 })
-
-                $('#liquidos').val($('#liquidos > option:first').val());
+                //setear un select
+                $("#liquidos").val("").trigger("change");
             }
+
 
         }
 
@@ -251,7 +256,8 @@
                     cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
                     cancelButtonAriaLabel: 'Thumbs down'
                 })
-                $('#inflamable').val($('#inflamable > option:first').val());
+                 //setear un select
+                 $("#inflamable").val("").trigger("change");
             }
         }
 
@@ -261,19 +267,19 @@
 
             if (valor == 'si') {
                 Swal.fire({
-                    title: '<strong><u>lo sentimos mucho</u></strong>',
+                    title: '<strong><u>CARGA PELIGROSA</u></strong>',
                     icon: 'error',
-                    html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
-                        '<a href="{{ route('admin.individual.create') }}" >Cotizacion invididual</a> ',
+                    html: 'Para cargas con bateria, necesitamos que solicites el certificado MSDS y lo adjunte en la cotizacion.',
                     showCloseButton: false,
                     showCancelButton: false,
                     focusConfirm: false,
-                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+                    confirmButtonText: '<i class="fa-solid fa-circle-exclamation"></i> OK!',
                     confirmButtonAriaLabel: 'Thumbs up, great!',
                     cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
                     cancelButtonAriaLabel: 'Thumbs down'
                 })
-                $('#bateria').val($('#bateria > option:first').val());
+                 //setear un select
+                 $("#bateria").val("").trigger("change");
             }
         }
 
