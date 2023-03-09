@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Porcentaje: </label>
-                        <input type="number" min="1" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo" placeholder="Valor porcentual">
+                        <input type="number" min="0" class="form-control" id="porcentajeInsumo" name="porcentajeInsumo" placeholder="Valor porcentual">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,7 +82,7 @@
                     }else{
                         $("#crearProducto").text("Agregando....");
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'success',
                             title: response.message,
                             showConfirmButton: false,
@@ -91,6 +91,7 @@
                         $(".formulario").find('input').val("");
                         $("#modalProducto").modal('hide');
                         $("#insumos").html("");
+                        $('#exampleModal').find('input').val("");
                         productos();
                     }
                 }

@@ -32,48 +32,65 @@
 
         @include('components.ticket')
         <div class="col-md-12">
-            <x-adminlte-card title="Visualizar detalles de tu cotizacion" theme="dark">
-                <div class="proveedores">
-                    <div class="" id="alerta" role="alert">
-
+            <div class="row " id="ver">
+                <input type="hidden" id="prov" value="{{ $proveedores }}">
+            </div>
+            @if ($proveedores > 0)
+                <div class="card cardProv">
+                    <div class="card-header">
+                        <b>Registro de proveedores</b>
                     </div>
-                    <div class="">
-                        @if ($proveedores > 0)
-                            <form action="" id="crearProveedores" enctype="multipart/form-data" method="POST">
-                                @csrf
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-warning">Agregar</button>
+                    <div class="card-body">
+                        <div class="proveedores">
+                            <div class="" id="alerta" role="alert">
+                            </div>
+                            <div class="">
+                                <form action="" id="crearProveedores" enctype="multipart/form-data" method="POST">
+                                    @csrf
+
+                                    <input type="hidden" id="proveedores" name="proveedores" value="{{ $proveedores }}">
+                                    <input type="hidden" id="cotizacion_id" name="cotizacion_id"
+                                        value="{{ $cotizacion->id }}">
+                                    <div id="contenido">
+
                                     </div>
-                                </div>
-                                <input type="hidden" id="proveedores" name="proveedores" value="{{ $proveedores }}">
-                                <input type="hidden" id="cotizacion_id" name="cotizacion_id" value="{{ $cotizacion->id }}">
-                                <div id="contenido">
+                                </form>
 
-                                </div>
-                            </form>
-                        @endif
-
-                        <div class="row " id="ver">
-                            <input type="hidden" id="prov" value="{{ $proveedores }}">
+                            </div>
                         </div>
                     </div>
-                </div><br>
-                <table class="table table-bordered">
-                    <thead >
-                        <tr>
-                            <th>#</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productos" class="text-center">
+                    <div class="card-footer">
 
-                    </tbody>
-                </table>
-            </x-adminlte-card>
+                        <button type="submit" form="crearProveedores" class="btn btn-warning">Agregar</button>
+
+                    </div>
+                </div>
+            @endif
+            <div class="card">
+                <div class="card-header">
+                    <b>Asignar proveedores</b>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Proveedor</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productos">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <li>Recuerda que para cada producto registrado deberas asignar un proveedor.</li>
+                </div>
+            </div>
         </div>
 
         <div class="modal fade" id="agregarProveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,19 +147,37 @@
                     dataType: "json",
                     success: function(response) {
                         if (response.status == 200) {
+                            $('#productos').html("");
                             console.log(response.productos);
                             $.each(response.productos, function(key, producto) {
-                                $("#productos").append(`
-                                 <tr>
-                                <td>${producto.insumo.id}</td>
-                                <td>${producto.insumo.nombre}</td>
-                                <td>${producto.cantidad}</td>
-                                <td>${producto.precio}</td>
-                                </td>
-                                <td><a href="" type="button" class="btn btn-info agregarProveedor"
-                                        value="${producto.id}">+</a></td>
-                            </tr>
+                                if (producto.proveedor_id == null) {
+                                    $("#productos").append(`
+                                        <tr>
+                                            <td>${producto.insumo.id}</td>
+                                            <td>${producto.insumo.nombre}</td>
+                                            <td>${producto.cantidad}</td>
+                                            <td>${producto.precio}</td>
+                                            <td><i class="fa-solid fa-ban text-danger"></i></td>
+                                            </td>
+                                            <td><a href="" type="button" class="btn btn-light agregarProveedor"
+                                                value="${producto.id}"><i class="fa-solid fa-handshake"></i> Asignar</a></td>
+                                        </tr>
                                  `);
+                                } else {
+                                    $("#productos").append(`
+                                        <tr>
+                                            <td>${producto.insumo.id}</td>
+                                            <td>${producto.insumo.nombre}</td>
+                                            <td><span class="badge bg-primary rounded-pill">${producto.cantidad}</span></td>
+                                            <td>${producto.precio}$</td>
+                                            <td>${producto.proveedor.nombre_pro}</td>
+                                            </td>
+                                            <td><a href="" type="button" class="btn btn-light agregarProveedor"
+                                                value="${producto.id}"><i class="fa-solid fa-handshake"></i> Asignar</a></td>
+                                        </tr>
+                                 `);
+                                }
+
                             });
                         }
                     }
@@ -284,6 +319,8 @@
                             )
                             $('.formAsignar').find('input').val("");
                             $("#agregarProveedor").modal("hide");
+                            $('#productos').html("");
+                            productos();
                             proveedores();
                             //mostrarTicket();
                         }
@@ -316,6 +353,7 @@
                             `);
                         } else {
                             $("#crearProveedores").remove();
+                            $(".cardProv").remove();
                             Swal.fire(
                                 'Good job!',
                                 response.message,

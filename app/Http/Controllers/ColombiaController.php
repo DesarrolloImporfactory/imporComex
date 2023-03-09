@@ -38,7 +38,7 @@ class ColombiaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombreInsumo' => 'required',
-            'porcentajeInsumo' => 'required | numeric| min:1',
+            'porcentajeInsumo' => 'required | numeric| min:0',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -372,10 +372,12 @@ class ColombiaController extends Controller
             'direccion' => $request->input('direccion'),
             'ciudad_id' => $request->input('ciudad_entrega')
         ];
+
         Cotizaciones::where('id', $id)->update($datos);
         $validacion = Validacion::where('cotizacion_id', $id)->get();
         if (count($validacion) > 0) {
-            return redirect()->route('editar.paso2', $id);
+            return redirect()->route('admin.colombia.edit', $id);
+            // return redirect()->route('editar.paso2', $id);
         } else {
             return redirect()->route('admin.colombia.edit', $id)->with('mensaje', 'Completemos la cotizacion!');
         }

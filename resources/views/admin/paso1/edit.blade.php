@@ -8,7 +8,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>Cotizador {{ $datos->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $datos->pais->nombre_pais }}</b></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -149,8 +149,8 @@
                                 <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="ciudad_entrega"
                                     enable-old-support>
                                     @foreach ($ciudades as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre_provincia }} -
-                                            {{ $item->nombre_canton }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->provincia }} -
+                                            {{ $item->canton }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>

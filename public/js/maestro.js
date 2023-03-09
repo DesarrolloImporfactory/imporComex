@@ -88,7 +88,7 @@ $(document).ready(function() {
             url: "../../admin/relacion/" + $id_cotizacion,
             dataType: "json",
             success: function(response) {
-                console.log(response);
+                //console.log(response);
                 $('#body').html("");
                 $.each(response.productos, function(key, producto) {
                     $('#body').append(`
@@ -148,7 +148,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.status == 400) {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'center',
                         icon: 'error',
                         title: response.message,
                         showConfirmButton: false,
@@ -175,7 +175,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.status == 400) {
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'center',
                         icon: 'error',
                         title: response.message,
                         showConfirmButton: false,
@@ -272,7 +272,7 @@ $(document).ready(function() {
                     url: "../../admin/relacion/" + relacion_id,
                     success: function(response) {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'success',
                             title: response.message,
                             showConfirmButton: false,
@@ -324,7 +324,7 @@ $(document).ready(function() {
                     $("#class1").removeClass('alert alert-danger');
                     $("#errores").html("");
                     Swal.fire(
-                        'Good job!',
+                        'Buen Trabajo!',
                         response.message,
                         'success'
                     )

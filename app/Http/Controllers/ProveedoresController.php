@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Validator;
 class ProveedoresController extends Controller
 {
 
-
-    public function create(Request $request)
+    public function productos($id)
     {
+        $productos = ProductoInsumo::wherecotizacion_id($id)->with(['insumo','proveedor'])->get();
+        return response()->json([
+            'status'=>200,
+            'productos'=>$productos
+        ]);
     }
     public function showProv($id)
     {
@@ -26,7 +30,7 @@ class ProveedoresController extends Controller
         } else {
             $proveedores = $cotizacion->cantidad_proveedores;
         }
-        return view('admin.proveedores.index',compact('proveedores','cotizacion','productos'));
+        return view('admin.proveedores.prov',compact('proveedores','cotizacion','productos'));
     }
 
     public function store(Request $request)

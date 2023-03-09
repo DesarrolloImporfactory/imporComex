@@ -15,11 +15,15 @@
             })
         </script>
     @endif
-    <h3>Cotizacion Individual</h3>
+   
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right" type="sumbit"
+            <div class="alert alert-light " role="alert">
+                <b>COTIZACION INDIVIDUAL</b>
+                <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right " type="sumbit"
                 form="form" />
+              </div>
+            
         </div>
     </div>
 @stop
@@ -87,22 +91,35 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Valor de la factura: </label>
-                        <input type="text" name="valor" id="" class="form-control">
+                        <input type="text" name="valor" id="" class="form-control @error('valor') is-invalid @enderror">
                         @error('valor')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="">Peso bruto: </label>
-                    <input type="text" name="peso" id="" class="form-control">
-                    @error('peso')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                    <div class="form-group">
+                        <label for="">Peso bruto</label>
+                        <div class="input-group">
+                            <input type="text" id="peso"
+                                class="form-control @error('peso') is-invalid @enderror" name="peso"
+                                value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
+                                        class="fa-brands fa-google"></i></span>
+                            </div>
+                        </div>
+                        @error('peso')
+                            <small style="color: #d80e22ed">
+                                <p>En caso de no disponer ingresar N/A</p>
+                                <b>{{ $message }}</b>
+                            </small>
+                        @enderror
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <label for="">Productos: </label>
-                    <input type="text" name="productos" id="" class="form-control">
+                    <input type="text" name="productos" id="" class="form-control @error('productos') is-invalid @enderror">
                     @error('productos')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -110,19 +127,25 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="">Dimensiones/Volumen</label>
-                    <div class="input-group mb-3">
-                        <input type="text" name="volumen" id="" class="form-control"
-                            placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
-                            aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button title="Calculadora" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                class="fa-solid fa-question"></i></button>
+                    <div class="form-group">
+                        <label for="">Dimensiones/Volumen</label>
+                        <div class="input-group mb-3">
+                            <input type="text" name="volumen" id="volumen"
+                                class="form-control decimal @error('volumen') is-invalid @enderror"
+                                value="{{ old('volumen') }}" placeholder="Ingresar en CBM, mas informacion"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button title="Calculadora" class="btn btn-outline-secondary" type="button"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                        class="fa-solid fa-calculator"></i></button>
+                            </div>
                         </div>
+                        @error('volumen')
+                            <small style="color:#d80e22ed">
+                                <b>{{ $message }}</b>
+                            </small>
+                        @enderror
                     </div>
-                    @error('volumen')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
                 </div>
                 <div class="col-md-4">
                     <div class="newData">
@@ -131,7 +154,7 @@
                 </div>
             </div>
         </form>
-        @include('admin.calculadoraCBM.calculadora')
+        @include('admin.calculadoraCBM.calculadoraPrueba')
     </x-adminlte-card>
 
     <script type="text/javascript">

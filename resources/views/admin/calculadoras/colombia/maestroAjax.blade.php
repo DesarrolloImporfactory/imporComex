@@ -184,7 +184,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="CALCULEMOS TUS IMPUESTOS" theme="dark" icon="fas fa-lg fa-calculator">
+            <x-adminlte-card title="CALCULEMOS TUS IMPUESTOS" theme="light" icon="fas fa-lg fa-calculator">
                 <div id="class1">
                     <ul id="errores">
 
@@ -203,29 +203,29 @@
                         <div class="col-md-2 mt-4">
                             @include('admin.productos.index')
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1 text-center">
                             <label for="">Cantidad</label>
                             <input type="number" min="0" name="cantidad" id="cantidad"
                                 class="form-control @error('cantidad') is-invalid @enderror"
                                 value="{{ old('cantidad') }}">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-center">
                             <label for="">Precio</label>
                             <input type="number" min="0" name="" id="precio" class="form-control"
                                 value="{{ old('precio') }}">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-center">
                             <label for="">Porcentaje</label>
                             <input type="number" min="0" name="" id="porcentaje" class="form-control"
                                 value="{{ old('porcentaje') }}" readonly>
                         </div>
-                        <div class="form-group col-md-1 mt-4">
-                            <button type="button" class="btn btn-primary crear mt-2">Agregar</button>
+                        <div class="form-group col-md-2 mt-4 text-center">
+                            <button type="button" class="btn btn-warning crear mt-2 "><i class="fa-solid fa-cart-shopping"></i> Agregar</button>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <table class="table table-striped text-center">
+                    <table class="table table-bordered text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>ID</th>
