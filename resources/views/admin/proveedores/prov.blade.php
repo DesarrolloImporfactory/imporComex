@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-
-                        <button type="submit" form="crearProveedores" class="btn btn-warning">Agregar</button>
+                        <button type="button" form="crearProveedores" class="btn btn-secondary">Limpiar Campos</button>
+                        <button type="submit" form="crearProveedores" class="btn btn-primary">Agregar</button>
 
                     </div>
                 </div>

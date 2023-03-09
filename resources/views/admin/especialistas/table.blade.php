@@ -58,7 +58,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('editar.paso2', $cotizacion->id) }}"
+                                <a href="{{ route('admin.colombia.edit', $cotizacion->id) }}"
                                     class="dropdown-item   text-warning " title="Details">
                                     <i class="fa-solid fa-circle"></i> Reg. provedores
                                 </a>
