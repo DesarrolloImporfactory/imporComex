@@ -9,6 +9,7 @@ use App\Http\Controllers\ModalidadesController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CalculadorasController;
+use App\Http\Controllers\CiudadesController;
 use App\Http\Controllers\EspecialistasController;
 use App\Http\Controllers\ColombiaController;
 use App\Http\Controllers\ValidacionesController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisaController;
 use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
+use App\Http\Controllers\Lcl\CargaSueltaController;
 
 //Route::get('admin',[HomeController::class, 'index']);
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -93,11 +95,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin/save/producto', [ColombiaController::class, 'saveProduct'])->name('admin.save.producto');
 
     Route::resource('admin/proveedor', ProveedoresController::class)->names('admin.proveedor');
-    Route::post('admin/guardarProveedor', [ValidacionesController:: class, 'guardarProveedor'])->name('admin.guardarProveedor');
+    Route::post('admin/guardarProveedor', [ValidacionesController::class, 'guardarProveedor'])->name('admin.guardarProveedor');
     Route::resource('admin/relacion', CotizacionProductosController::class)->names('admin.relacion');
     Route::resource('admin/divisas', DivisaController::class)->names('admin.divisas');
-    Route::put('update/proveedor/{id}', [ProveedoresController:: class, 'asignarProveedor'])->name('update.proveedor');
-    Route::get('admin/showProv/{id}', [ProveedoresController:: class, 'showProv'])->name('admin.showProv');
+    Route::put('update/proveedor/{id}', [ProveedoresController::class, 'asignarProveedor'])->name('update.proveedor');
+    Route::get('admin/showProv/{id}', [ProveedoresController::class, 'showProv'])->name('admin.showProv');
 
     Route::resource('admin/searcher', SearcherController::class)->names('admin.searcher');
     Route::get('search/descripcion', [SearcherController::class, 'searchDescripcion'])->name('search.descripcion');
@@ -109,4 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('admin/password/{id}', [UsuariosController::class, 'changePassword'])->name('admin.password');
     Route::delete('admin/destroyUser/{id}', [UsuariosController::class, 'destroyUser'])->name('admin.destroyUser');
     Route::get('productos/{id}', [ProveedoresController::class, 'productos']);
-}); 
+
+    Route::resource('admin/cargaSuelta', CargaSueltaController::class)->names('admin.cargaSuelta');
+    Route::resource('ciudades/tarifas', CiudadesController::class)->names('ciudades.tarifas');
+});

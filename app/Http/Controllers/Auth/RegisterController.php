@@ -48,7 +48,7 @@ class RegisterController extends Controller
         ]);
     }
 
-   
+//    Hash::make()
     protected function create(array $data)
     {
         return User::create([
@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'importacion' => $data['importacion'],
             'idioma' => $data['idioma'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => md5($data['password']),
         ])->assignRole('client');
     }
 }

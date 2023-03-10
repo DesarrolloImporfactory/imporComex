@@ -155,21 +155,22 @@ class UsuariosController extends Controller
 
     public function changePassword(Request $request, $id){
          $request->validate([
-             'contraseña_actual'=>['required','string','min:8'],
-             'nueva_contraseña' => ['required','string','min:8'],
-             'confirmar_contraseña'=>['required','same:nueva_contraseña','string','min:8'], 
+             'contraseña_actual'=>['required','min:8','string'],
+            //  'nueva_contraseña' => ['required','min:8','string'],
+            //  'confirmar_contraseña'=>['required','min:8','same:nueva_contraseña','string'], 
           ]);
          $usuario = User::find($id);
          $password = $usuario->password;
-         if (Hash::check($request->input('contraseña_actual'), $password)) {
-            $datos=array(
-                'password'=>Hash::make($request->input('nueva_contraseña')),
-            );
+        
+         if(md5($request->input('contraseña_actual'))==$password){
+            $datos = [
+                'password'=>md5($request->input('nueva_contraseña')),
+            ];
             User::whereid($id)->update($datos);
             return redirect('admin/perfil')->with('mensaje','Contraseña actualizada!');
-        }else{
+         }else{
             return redirect('admin/perfil')->with('mensaje','Contraseña actual incorrecta');
-        }
+         }
     }
     
     public function update(Request $request, $user)

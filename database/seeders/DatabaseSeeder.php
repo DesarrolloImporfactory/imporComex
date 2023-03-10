@@ -7,11 +7,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
+    
     public function run()
     {
         $this->call(RoleSeeder::class);
@@ -27,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ImpuestoSeeder::class);
         $this->call(DivisaSeeder::class);
         $this->call(EstadoDeclaracionSeeder::class);
+        $this->call(VariablesSeeder::class);
     }
 }

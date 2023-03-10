@@ -119,13 +119,11 @@ class ColombiaController extends Controller
             'ciudades' => $ciudades
 
         ];
-        if ($modalidad->id == "3") {
-            return view('admin.calculadoras.colombia.grupal.create', $mensajes);
-        } elseif ($modalidad->id == "1") {
-            return view('admin.calculadoras.colombia.fcl', $mensajes);
+        if ($modalidad->id == "1") {
+            return "Seguimos trabajando";
         } else {
-            return view('admin.calculadoras.colombia.lcl', $mensajes);
-        }
+            return view('admin.calculadoras.colombia.grupal.create', $mensajes);
+        } 
     }
 
     public function store(Request $request)

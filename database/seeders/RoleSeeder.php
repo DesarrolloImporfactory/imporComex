@@ -19,8 +19,9 @@ class RoleSeeder extends Seeder
         $role=Role::create(['name'=>'Admin']);
         $role2=Role::create(['name'=>'Client']);
         $role3=Role::create(['name'=>'Especialista']);
+        $role4=Role::create(['name'=>'Alumno']);
 
-        Permission::create(['name'=>'home','description'=>'Ver modulo de dashboard'])->syncRoles([$role,$role3]);
+        Permission::create(['name'=>'home','description'=>'Ver modulo de dashboard'])->syncRoles([$role,$role3,$role4]);
 
         Permission::create(['name'=>'admin.usuarios.index','description'=>'Ver modulo de usuarios'])->syncRoles([$role]);
         Permission::create(['name'=>'admin.usuarios.edit','description'=>'Editar usuarios'])->syncRoles([$role]);
@@ -52,7 +53,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.roles.edit','description'=>'Editar roles'])->syncRoles($role);
         // Permission::create(['name'=>'admin.roles.destroy','description'=>'Eliminar roles'])->syncRoles($role);
 
-        Permission::create(['name'=>'admin.calculadoras.index','description'=>'Calculadoras'])->syncRoles([$role, $role3,$role2]);
+        Permission::create(['name'=>'admin.calculadoras.index','description'=>'Calculadoras'])->syncRoles([$role, $role3,$role2,$role4]);
         Permission::create(['name'=>'admin.calculadoras.cliente','description'=>'listado de clientes'])->syncRoles([$role, $role3]);
         
         // Permission::create(['name'=>'admin.colombia.create','description'=>'Ver cotizador'])->syncRoles([$role]);
@@ -70,7 +71,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.estados.edit','description'=>'Editar estados'])->syncRoles([$role]);
         // Permission::create(['name'=>'admin.estados.destroy','description'=>'Eliminar estados'])->syncRoles([$role]);
 
-        Permission::create(['name'=>'admin.cotizaciones.show','description'=>'Ver cotizaciones'])->syncRoles([$role, $role3,$role2]);
+        Permission::create(['name'=>'admin.cotizaciones.show','description'=>'Ver cotizaciones'])->syncRoles([$role, $role3,$role2,$role4]);
         // Permission::create(['name'=>'admin.cotizaciones.destroy','description'=>'Eliminar cotizaciones'])->syncRoles([$role]);
 
         Permission::create(['name'=>'admin.especialistas.show','description'=>'Dashboar Especialistas'])->syncRoles([$role, $role3]);

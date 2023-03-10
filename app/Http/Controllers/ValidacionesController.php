@@ -34,7 +34,7 @@ class ValidacionesController extends Controller
         if ($relacion == 1) {
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad'])->first();
             $carbon = new \Carbon\Carbon();
-            $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo','proveedor'])->get();
+            $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
             $barcode = $cotizacion->barcode;
             $inBackground = true;
@@ -69,9 +69,9 @@ class ValidacionesController extends Controller
 
         if ($contador == 0) {
             for ($i = 1; $i <= $cantidad; $i++) {
-                if($request->file('foto' . $i)){
-                    $foto =$request->file('foto' . $i)->store('docs', 'public');
-                }else{
+                if ($request->file('foto' . $i)) {
+                    $foto = $request->file('foto' . $i)->store('docs', 'public');
+                } else {
                     $foto = "null";
                 }
                 Validacion::create([
@@ -80,10 +80,9 @@ class ValidacionesController extends Controller
                     'enlace' => $request->input('enlace' . $i),
                     'total_cartones' => $request->input('cartones' . $i),
                     'foto' => $foto,
-                    'cotizacion_id'=>$request->input('cotizacion_id'),
-                    'proveedores'=>$request->input('proveedores'),
+                    'cotizacion_id' => $request->input('cotizacion_id'),
+                    'proveedores' => $request->input('proveedores'),
                 ]);
-                
             }
             return response()->json([
                 'status' => 200,
@@ -148,7 +147,7 @@ class ValidacionesController extends Controller
                 "total_fob" => $request->input('total_fob'),
                 "ISD" => $request->input('total_fob') * $divisa->tarifa,
                 "cantidad_productos" => $request->input('cantidad_productos'),
-                "total" =>$request->input('total_fob') * $divisa->tarifa+ $logistica + $request->input('impuestos') + $request->input('compra')
+                "total" => $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra')
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);

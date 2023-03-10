@@ -10,11 +10,11 @@ use Carbon\Carbon;
 
 class LoginController extends Controller
 {
-    
+
 
     use AuthenticatesUsers;
 
-    
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -22,21 +22,25 @@ class LoginController extends Controller
 
     public function redirectPath()
     {
-        
+
         $id = auth()->user()->id;
         $usuarioRol = User::with('roles')->findOrFail($id);
-         $newDate = Carbon::now();
-         User::where('id',$id)->update(['session'=>$newDate]);
+        $newDate = Carbon::now();
+
+        User::where('id', $id)->update(['session' => $newDate]);
         //foreach para mapear la consulta anidada
         foreach ($usuarioRol->roles as $rol) {
             $usuario = $rol->name;
         }
-        if($usuario == "Admin"){
-            
-            return '/home';
-        }else{
+        if ($usuario == "Alumno") {
+            User::where('id', $id)->update(['email_verified_at' => $newDate]);
             return '/home';
         }
+        if ($usuario == "Admin") {
 
+            return '/home';
+        } else {
+            return '/home';
+        }
     }
 }

@@ -346,19 +346,21 @@ return [
             'can' => 'admin.calculadoras.index',
 
         ],
-        // [
-
-        //     'text' => 'Mis Busquedas',
-        //     'route'  => 'admin.searcher.index',
-        //     'icon' => 'fa fa-brands fa-searchengin',
-
-        // ],
         [
 
             'text' => 'Gestionar Idiomas',
             'route'  => 'idiomas',
             'icon' => 'fas fa-fw fa-language',
             'can' => 'admin.idiomas.index',
+        ],
+        
+        [
+
+            'text' => 'Tarifas Ciudades',
+            'route'  => 'ciudades.tarifas.index',
+            'icon' => 'fas fa-solid fa-truck-front',
+            'can' => 'admin.idiomas.index',
+            'label' => 'new'
         ],
         [
 

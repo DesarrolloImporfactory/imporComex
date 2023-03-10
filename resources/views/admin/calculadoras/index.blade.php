@@ -3,31 +3,23 @@
 @section('title', 'Cauculadoras')
 
 @section('content_header')
-    <div class="text-center">
-        <br>
+    <div class="row text-center mt-3">
         <h1><b>SELECCIONA TU PAÍS</b></h1>
     </div>
-   
 @stop
 
 @section('content')
-    <br><br>
-
-
-    <div class="row ">
+    <div class="row mt-5">
         @foreach ($paises as $pais)
             @if ($pais->nombre_pais == 'ECUADOR')
                 <div class="col-md-4 ">
-
                     <div class="card text-center" style="border-radius: 20px;" width="150px">
 
                         <div class="card-body">
                             {{-- <h5>{{ $pais->nombre_pais }}</h5> --}}
                             <img src="{{asset('imagenes/ecuador.jpg')}}" width="150px" alt=""
                                 style="border-radius: 20px;">
-
                         </div>
-
                         <div>
                             <form action="{{ route('admin.colombia.create') }}">
 
@@ -79,7 +71,6 @@
                 <div class="col-md-4 centro">
                     <div class="card text-center " style="border-radius: 20px;">
                         <div class="card-body">
-                            {{-- <h5 class="">{{ $pais->nombre_pais }}</h5> --}}
                             <img src="{{asset('imagenes/eeuu.jpg')}}" width="150px" alt=""
                                 style="border-radius: 20px; opacity: 0.5;">
 
@@ -104,11 +95,10 @@
             @endif
         @endforeach
 
-    </div><br><br><br><br><br><br><br><br>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            
-            <a class="btn btn-outline-dark " href="{{ route('admin.individual.create') }}" target="_blank">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</a>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12 text-center mt-5">
+            <a class="btn btn-outline-dark mt-5" href="{{ route('admin.individual.create') }}" target="_blank">SI TU PAÍS NO ESTA EN LA LISTA SELECCIONA AQUÍ</a>
         </div>
     </div>
 @stop
@@ -118,9 +108,7 @@
         .card {
             background: #E3E3E3 !important;
             position: relative !important;
-           
         }
-
         .content-wrapper {
             min-height: 100vh;
             background-image: url({{asset('imagenes/elemento-1.png')}}) !important;

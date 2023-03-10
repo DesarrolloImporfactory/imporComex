@@ -143,7 +143,9 @@
     </div>
     <!-- ---------------FIN MODAL----------------- -->
     <script>
+       
         $(document).ready(function() {
+
             divisas();
 
             function divisas() {
@@ -197,7 +199,6 @@
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
                         if (response.status == 400) {
                             $.each(response.errors, function(key, error) {
                                 $("." + key).html("");
