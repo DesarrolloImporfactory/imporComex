@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailEspecialista;
 use App\Models\Ciudad;
 use App\Models\Variables;
+use App\Models\Categoria;
+use App\Models\Insumo;
 
 class CargaSueltaController extends Controller
 {
@@ -126,24 +128,19 @@ class CargaSueltaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
+        //gastos_origen
         $grupal->total_logistica = $this->volumen($request->input('volumen')) ;
 
         $gastosOrigen = $this->volumen($request->input('volumen'));
         $collect = ($this->volumen($request->input('volumen'))) * 0.0425;
         $totalPagar = ($this->gastosLocales($request->input('volumen'))) + $collect;
-        $gastosLocales = $totalPagar+($totalPagar * 0.12);
+        //gastos locales
+        $grupal->gastos_exw = $totalPagar+($totalPagar * 0.12);
         // + $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso')
-        $newData = [
-            'grupal' => $grupal,
-            'gastosOrigen' =>$gastosOrigen,
-            'collect' => $collect,
-            'gastos Locales' => $gastosLocales
-        ];
-        return ($newData);
-        // $grupal->save();
-        // $data = Cotizaciones::latest('id')->first();
+        $grupal->save();
+        $data = Cotizaciones::latest('id')->first();
 
-        // return redirect()->route('admin.colombia.edit', $data);
+        return redirect()->route('admin.cargaSuelta.edit', $data);
     }
 
     public function ciudadEntrega($ciudadEntrega, $peso)
@@ -219,7 +216,17 @@ class CargaSueltaController extends Controller
     
     public function edit($id)
     {
-        //
+        $categoria = Categoria::all();
+        $insumo = Insumo::all();
+        $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad'])->first();
+        $mensaje = "true";
+        $data = [
+            'categoria' => $categoria,
+            'insumo' => $insumo,
+            'cotizacion' => $cotizacion,
+            'mensaje' => $mensaje
+        ];
+        return view('admin.cargaSuelta.index', $data);
     }
 
    

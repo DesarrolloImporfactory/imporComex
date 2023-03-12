@@ -47,6 +47,11 @@ class VariablesSeeder extends Seeder
                 'valor'=>'10',
                 'minimo'=>'50'
             ],
+            [
+                'nombre'=>'Agente aduana',
+                'valor'=>'270',
+                'minimo'=>'0'
+            ],
         ];
         DB::table('variables')->insert($tarifas);
     }
