@@ -128,7 +128,7 @@
                     value="{{ $cotizacion->total_logistica }}" disabled>
 
                 <div class="card-footer">
-
+                    @include('admin.cargaSuelta.detalles')
                     <form action="{{ route('validacion.store') }}" method="POST" id="formularioCotizacion">
                         @csrf
                         <div class="row">
@@ -137,7 +137,17 @@
                                 <div class="form-group">
                                     <div class="logistica">
                                     </div>
-                                    <input name="logistica" id="logistica" type="text" class="form-control" readonly>
+                                    <div class="input-group">
+                                        <input name="logistica" id="logistica" type="text" class="form-control"
+                                            readonly>
+                                        @if ($cotizacion->modalidad_id == 2)
+                                            <div class="input-group-append">
+                                                <button title="Detalles" class="btn btn-outline-success" type="button"
+                                                    data-bs-toggle="modal" data-bs-target="#viewLCL"><i
+                                                        class="fa-solid fa-eye text-teal"></i></button>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -220,7 +230,8 @@
                                 value="{{ old('porcentaje') }}" readonly>
                         </div>
                         <div class="form-group col-md-2 mt-4 text-center">
-                            <button type="button" class="btn btn-warning crear mt-2 "><i class="fa-solid fa-cart-shopping"></i> Agregar</button>
+                            <button type="button" class="btn btn-warning crear mt-2 "><i
+                                    class="fa-solid fa-cart-shopping"></i> Agregar</button>
                         </div>
                     </div>
                 </div>
@@ -251,5 +262,13 @@
     </div>
 @stop
 @section('js')
-    <script src="{{asset('js/maestro.js')}}"></script>
+    <script src="{{ asset('js/maestro.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            var modalidad = {{ $cotizacion->modalidad_id }}
+            if (modalidad == 2) {
+                $("#viewLCL").modal('show');
+            }
+        });
+    </script>
 @stop

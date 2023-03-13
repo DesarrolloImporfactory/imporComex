@@ -112,6 +112,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('admin/destroyUser/{id}', [UsuariosController::class, 'destroyUser'])->name('admin.destroyUser');
     Route::get('productos/{id}', [ProveedoresController::class, 'productos']);
 
-    Route::resource('admin/cargaSuelta', CargaSueltaController::class)->names('admin.cargaSuelta');
+    Route::resource('cargaSuelta', CargaSueltaController::class)->names('cargaSuelta');
     Route::resource('ciudades/tarifas', CiudadesController::class)->names('ciudades.tarifas');
 });

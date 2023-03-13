@@ -52,7 +52,7 @@
             <!-- /.card-header -->
             <x-adminlte-card title="TIPO DE CARGA {{ $modalidad->modalidad }}" theme="dark">
                 @if ($modalidad->modalidad == 'LCL')
-                    <form action="{{ route('admin.cargaSuelta.store') }}" method="post" id="formCreate">
+                    <form action="{{ route('cargaSuelta.store') }}" method="post" id="formCreate">
                     @else
                         <form action="{{ route('admin.colombia.store') }}" method="post" id="formCreate">
                 @endif

@@ -44,7 +44,6 @@ return new class extends Migration
             $table->bigInteger('ciudad_id')->unsigned()->nullable();
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade');
 
-            $table->string('gastos_exw')->nullable();
             $table->boolean('seguro')->nullable();
             $table->integer('proceso')->nullable();
             $table->string('origen')->nullable();
@@ -54,6 +53,12 @@ return new class extends Migration
             // $table->string('ciudad_entrega')->nullable();
             $table->string('cantidad_proveedores')->nullable();
             $table->string('cantidad_productos')->nullable();
+
+            $table->string('flete_maritimo')->nullable();
+            $table->string('gastos_origen')->nullable();
+            $table->string('gastos_local')->nullable();
+            $table->string('otros_gastos')->nullable();
+
             $table->float('total_fob')->nullable();
             $table->float('ISD')->nullable();
             $table->float('total_logistica')->nullable();

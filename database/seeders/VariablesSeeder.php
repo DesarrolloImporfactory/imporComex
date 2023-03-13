@@ -52,6 +52,11 @@ class VariablesSeeder extends Seeder
                 'valor'=>'270',
                 'minimo'=>'0'
             ],
+            [
+                'nombre'=>'Bodegaje',
+                'valor'=>'350',
+                'minimo'=>'0'
+            ],
         ];
         DB::table('variables')->insert($tarifas);
     }

@@ -19,7 +19,7 @@ use App\Models\Insumo;
 
 class CargaSueltaController extends Controller
 {
-    
+
     public function index()
     {
         //
@@ -30,7 +30,7 @@ class CargaSueltaController extends Controller
         //
     }
 
-    
+
     public function store(Request $request)
     {
         if ($request->input('existe')) {
@@ -60,7 +60,7 @@ class CargaSueltaController extends Controller
             ]);
         }
 
-        
+
         if ($request->input('cliente')) {
 
             $cliente = $request->input('cliente');
@@ -69,7 +69,7 @@ class CargaSueltaController extends Controller
         }
 
         $grupal = new Cotizaciones();
-        
+
 
         $barcode = IdGenerator::generate(['table' => 'cotizaciones', 'field' => 'barcode', 'length' => 6, 'prefix' => date('y')]);
 
@@ -128,92 +128,98 @@ class CargaSueltaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        //gastos_origen
-        $grupal->total_logistica = $this->volumen($request->input('volumen')) ;
-
-        $gastosOrigen = $this->volumen($request->input('volumen'));
-        $collect = ($this->volumen($request->input('volumen'))) * 0.0425;
+        $gastos_origen = $this->gastosOrigen();
+        $grupal->gastos_origen = $gastos_origen;
+        $fleteMaritimo = $this->naviera($request->input('volumen'));
+        $grupal->flete_maritimo = $fleteMaritimo;
+        $collect = ($this->gastosOrigen()) * 0.0425;
         $totalPagar = ($this->gastosLocales($request->input('volumen'))) + $collect;
-        //gastos locales
-        $grupal->gastos_exw = $totalPagar+($totalPagar * 0.12);
-        // + $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso')
+        $gastosLocales = ($totalPagar + ($totalPagar * 0.12)) + $this->gastosOrigen();
+        $grupal->gastos_local = $gastosLocales;
+        $otrosGastos = $this->otrosGastos($request->input('ciudad_entrega'), $request->input('peso'));
+        $grupal->otros_gastos = $otrosGastos;
+        $grupal->total_logistica = $otrosGastos + $fleteMaritimo + $gastosLocales;
+
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
-
-        return redirect()->route('admin.cargaSuelta.edit', $data);
+        return redirect()->route('cargaSuelta.edit', $data);
     }
 
-    public function ciudadEntrega($ciudadEntrega, $peso)
+    public function naviera($volumen)
+    {
+        $tasa = Variables::findOrFail(1);
+        $tasaValor = $tasa->valor;
+        $total = $tasaValor * $volumen;
+        return $total;
+    }
+    public function gastosOrigen()
+    {
+        $baf = Variables::findOrFail(2);
+        $aduana = Variables::findOrFail(3);
+        $bafValor = $baf->valor;
+        $aduanaValor = $aduana->valor;
+        $total_gastos_origen = $bafValor + $aduanaValor;
+        return $total_gastos_origen;
+    }
+
+    public function gastosLocales($volumen)
     {
 
+        $cargo = Variables::findOrFail(4);
+        $transmicion = Variables::findOrFail(5);
+        $administracion = Variables::findOrFail(6);
+        $portuario = Variables::findOrFail(7);
+
+        $transmicionValor = ($transmicion->valor) * 1;
+        $administracionValor = ($administracion->valor) * 1;
+
+        if (($cargo->valor) * $volumen <= $cargo->minimo) {
+            $valorLogistico = $cargo->minimo;
+        } else {
+            $valorLogistico = ($cargo->valor) * $volumen;
+        }
+
+        if (($portuario->valor) * $volumen < $portuario->minimo) {
+            $portuarioValor = $portuario->minimo;
+        } else {
+            $portuarioValor = ($portuario->valor) * $volumen;
+        }
+
+        $total = $transmicionValor + $administracionValor + $valorLogistico + $portuarioValor;
+        return $total;
+    }
+
+    public function otrosGastos($ciudadEntrega, $peso)
+    {
+        $agente = Variables::findOrFail(8);
+        $bodegaje = Variables::findOrFail(9);
         $ciudad = Ciudad::findOrFail($ciudadEntrega);
         $provincia = $ciudad->provincia;
         $tarifa = $ciudad->tarifa;
         $kilo = $ciudad->kilo_adicional;
 
         if ($provincia == "PICHINCHA") {
-            return $costo = 10;
+            $costo = 10;
         } else if ($provincia == "GUAYAS") {
             $tipo = $ciudad->tipo_trayecto;
             if ($tipo != "ESPECIAL") {
-                return $costo = 10;
+                $costo = 10;
             } else {
                 $costo = ($tarifa + $kilo) * $peso;
-                return $costo;
             }
         } else {
             $costo = ($tarifa + $kilo) * $peso;
-            return $costo;
         }
-    }
-
-    public function volumen($volumen){
-        $tasa = Variables::findOrFail(1);
-        $baf = Variables::findOrFail(2);
-        $aduana = Variables::findOrFail(3);
-        $tasaValor = $tasa->valor;
-        $bafValor = $baf->valor;
-        $aduanaValor = $aduana->valor;
-
-        $total_gastos_origen = ($tasaValor*$volumen)+$bafValor+$aduanaValor;
-
-        return $total_gastos_origen;
-
-    }
-
-    public function gastosLocales($volumen){
-        
-        $cargo = Variables::findOrFail(4);
-        $transmicion = Variables::findOrFail(5);
-        $administracion = Variables::findOrFail(6);
-        $portuario = Variables::findOrFail(7);
-        
-        $transmicionValor = ($transmicion->valor)*1;
-        $administracionValor = ($administracion->valor)*1;
-
-        if(($cargo->valor)*$volumen <= $cargo->minimo){
-            $valorLogistico = $cargo->minimo;
-        }else{
-            $valorLogistico = ($cargo->valor)*$volumen;
-        }
-
-        if(($portuario->valor)*$volumen < $portuario->minimo){
-            $portuarioValor = $portuario->minimo;
-        }else{
-            $portuarioValor = ($portuario->valor)*$volumen;
-        }
-
-        $total = $transmicionValor+$administracionValor+$valorLogistico+$portuarioValor;
+        $total = $agente->valor + $costo + $bodegaje->valor;
         return $total;
     }
 
-    
     public function show($id)
     {
         //
     }
 
-    
+
     public function edit($id)
     {
         $categoria = Categoria::all();
@@ -226,16 +232,16 @@ class CargaSueltaController extends Controller
             'cotizacion' => $cotizacion,
             'mensaje' => $mensaje
         ];
-        return view('admin.cargaSuelta.index', $data);
+        return view('admin.calculadoras.colombia.maestroAjax', $data);
     }
 
-   
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    
+
     public function destroy($id)
     {
         //

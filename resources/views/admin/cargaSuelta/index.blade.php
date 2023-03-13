@@ -8,7 +8,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR d{{ $cotizacion->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $cotizacion->pais->nombre_pais }}</b></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>
@@ -137,7 +137,12 @@
                                 <div class="form-group">
                                     <div class="logistica">
                                     </div>
-                                    <input name="logistica" id="logistica" type="text" class="form-control" readonly>
+                                    <div class="input-group">
+                                        <input name="logistica" id="logistica" type="text" class="form-control" readonly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa-solid fa-eye"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-2">

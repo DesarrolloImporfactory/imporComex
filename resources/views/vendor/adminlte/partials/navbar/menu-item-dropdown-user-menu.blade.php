@@ -12,79 +12,52 @@
     @php( $profile_url = $profile_url ? url($profile_url) : '' )
     @php( $logout_url = $logout_url ? url($logout_url) : '' )
 @endif
-
-<li class="nav-item dropdown user-menu">
-
-    {{-- User menu toggler --}}
-    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-        @if(config('adminlte.usermenu_image'))
-            <img src="{{ Auth::user()->adminlte_image() }}"
-                 class="user-image img-circle elevation-2"
-                 alt="{{ Auth::user()->name }}">
-        @endif
-            
-            <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
-                {{ Auth::user()->email }}&nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-        
+<li class="nav-item dropdown">
+    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        {{ Auth::user()->email }}
     </a>
-   
 
-    {{-- User menu dropdown --}}
-    <ul class="dropdown-menu dropdown-menu-end">
-
-        {{-- User menu header --}}
-        @if(!View::hasSection('usermenu_header') && config('adminlte.usermenu_header'))
-            <li class="user-header {{ config('adminlte.usermenu_header_class', 'bg-primary') }}
-                @if(!config('adminlte.usermenu_image')) h-auto @endif">
-                @if(config('adminlte.usermenu_image'))
-                    <img src="{{ Auth::user()->adminlte_image() }}"
-                         class="img-circle elevation-2"
-                         alt="{{ Auth::user()->name }}">
-                @endif
-                <p class="@if(!config('adminlte.usermenu_image')) mt-0 @endif">
-                    {{ Auth::user()->name }}
-                    @if(config('adminlte.usermenu_desc'))
-                        <small>{{ Auth::user()->adminlte_desc() }}</small>
-                    @endif
-                </p>
-            </li>
-        @else
-            @yield('usermenu_header')
-        @endif
-
-        {{-- Configured user menu links --}}
-        @each('adminlte::partials.navbar.dropdown-item', $adminlte->menu("navbar-user"), 'item')
-
-        {{-- User menu body --}}
-        @hasSection('usermenu_body')
-            <li class="user-body">
-                @yield('usermenu_body')
-            </li>
-        @endif
-
-        {{-- User menu footer --}}
-        <li class="user-footer">
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+        <li>
+            <a class="dropdown-item" href="#">
+                <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar avatar-online">
+                            <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                class="w-px-40 h-auto rounded-circle" />
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <div class="dropdown-divider"></div>
+        </li>
+        <li>
             @if($profile_url)
-                <a href="{{ $profile_url }}" class="btn btn-default btn-flat">
-                    <i class="fa fa-fw fa-user text-lightblue"></i>
-                    {{ __('adminlte::menu.profile') }}
+                <a href="{{ $profile_url }}" class="dropdown-item">
+                    <i class="fa fa-fw fa-user text-primary"></i>
+                    <span class="align-middle">My Profile</span>
                 </a>
             @endif
-            <a class="btn btn-danger float-right @if(!$profile_url) btn-block @endif"
-               href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fa fa-fw fa-power-off "></i>
-                Cerrar Sesión
+        </li>
+        <li>
+            <div class="dropdown-divider"></div>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+                <i class="fa-solid fa-door-open text-danger"></i>
+                <span class="align-middle"> Log Out</span>
             </a>
-            <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
-                @if(config('adminlte.logout_method'))
-                    {{ method_field(config('adminlte.logout_method')) }}
-                @endif
-                {{ csrf_field() }}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
             </form>
         </li>
-
     </ul>
-
 </li>
-
