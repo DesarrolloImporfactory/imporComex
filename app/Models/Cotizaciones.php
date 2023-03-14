@@ -14,7 +14,9 @@ class Cotizaciones extends Model
     public function modalidad(){
         return $this->belongsTo(Modalidades::class,'modalidad_id','id');
     }
-
+    public function puerto(){
+        return $this->belongsTo(Puerto::class,'puerto_id','id');
+    }
     
     public function ciudad(){
         return $this->belongsTo(Ciudad::class,'ciudad_id','id');

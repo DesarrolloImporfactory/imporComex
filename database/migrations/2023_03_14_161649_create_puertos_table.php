@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('prueba', function (Blueprint $table) {
+        Schema::create('puertos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('puerto_salida');
+            $table->string('via')->nullable();
+            $table->string('por_code')->nullable();
+            $table->double('cont_20',8,2);
+            $table->double('cont_40',8,2);
+            $table->double('hdc',8,2);
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prueba');
+        Schema::dropIfExists('puertos');
     }
 };

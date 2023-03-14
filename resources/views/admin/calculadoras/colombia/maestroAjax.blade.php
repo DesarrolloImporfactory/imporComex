@@ -140,7 +140,7 @@
                                     <div class="input-group">
                                         <input name="logistica" id="logistica" type="text" class="form-control"
                                             readonly>
-                                        @if ($cotizacion->modalidad_id == 2)
+                                        @if ($cotizacion->modalidad_id != 3)
                                             <div class="input-group-append">
                                                 <button title="Detalles" class="btn btn-outline-success" type="button"
                                                     data-bs-toggle="modal" data-bs-target="#viewLCL"><i
@@ -266,7 +266,7 @@
     <script>
         $(document).ready(function() {
             var modalidad = {{ $cotizacion->modalidad_id }}
-            if (modalidad == 2) {
+            if (modalidad != 3) {
                 $("#viewLCL").modal('show');
             }
         });

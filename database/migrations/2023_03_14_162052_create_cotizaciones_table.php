@@ -44,6 +44,9 @@ return new class extends Migration
             $table->bigInteger('ciudad_id')->unsigned()->nullable();
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade');
 
+            $table->bigInteger('puerto_id')->unsigned()->nullable();
+            $table->foreign('puerto_id')->references('id')->on('puertos');
+
             $table->boolean('seguro')->nullable();
             $table->integer('proceso')->nullable();
             $table->string('origen')->nullable();

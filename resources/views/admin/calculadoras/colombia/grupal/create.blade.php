@@ -19,7 +19,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $paises->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $paises->nombre_pais }} </b><span class="badge rounded-pill text-bg-warning">{{ $modalidad->modalidad }}</span></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -50,7 +50,7 @@
 
             </div>
             <!-- /.card-header -->
-            <x-adminlte-card title="TIPO DE CARGA {{ $modalidad->modalidad }}" theme="dark">
+            <x-adminlte-card title="{{ $modalidad->descripcion }}" theme="dark">
                 @if ($modalidad->modalidad == 'LCL')
                     <form action="{{ route('cargaSuelta.store') }}" method="post" id="formCreate">
                     @else

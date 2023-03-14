@@ -19,6 +19,7 @@ use App\Models\Insumo;
 use App\Models\Categoria;
 use App\Models\Ciudad;
 use App\Models\ProductoInsumo;
+use App\Models\Puerto;
 use Carbon\Carbon;
 
 class ColombiaController extends Controller
@@ -105,6 +106,7 @@ class ColombiaController extends Controller
     {
         $ciudades = Ciudad::all();
         $idModalidad = $request->input('modalidad');
+        $puertos = Puerto::all();
         $modalidad = Modalidades::findOrFail($idModalidad);
         $idPais = $request->input('pais');
         $pais = Paises::findOrFail($idPais);
@@ -116,11 +118,11 @@ class ColombiaController extends Controller
             'modalidad' => $modalidad,
             'paises' => $pais,
             'clientes' => $clientes,
-            'ciudades' => $ciudades
-
+            'ciudades' => $ciudades,
+            'puertos' => $puertos
         ];
         if ($modalidad->id == "1") {
-            return "Seguimos trabajando";
+            return view('admin.cargaCompleta.index', $mensajes);
         } else {
             return view('admin.calculadoras.colombia.grupal.create', $mensajes);
         } 

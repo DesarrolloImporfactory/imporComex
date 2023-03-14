@@ -34,7 +34,7 @@ class VariablesSeeder extends Seeder
             ],
             [
                 'nombre'=>'Transmicion Ecuapass',
-                'valor'=>'50',
+                'valor'=>'75',
                 'minimo'=>'50'
             ],
             [
@@ -55,6 +55,11 @@ class VariablesSeeder extends Seeder
             [
                 'nombre'=>'Bodegaje',
                 'valor'=>'350',
+                'minimo'=>'0'
+            ],
+            [
+                'nombre'=>'Gastos locales',
+                'valor'=>'475',
                 'minimo'=>'0'
             ],
         ];
