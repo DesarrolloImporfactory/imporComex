@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->double('valor',8,2);
-            $table->double('minimo',8,2);
+            $table->double('minimo',8,2)->nullable();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CabeceraTransaccion;
 use Illuminate\Http\Request;
 use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
@@ -155,8 +156,19 @@ class ValidacionesController extends Controller
                 'cotizacion_id' => $cotizacion_id,
                 'contenedor_id' => $contenedor,
             ]);
+            $saldo = $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra');
+            $this->cabecera($cotizacion_id, $saldo);
             return redirect()->route('validacion.print', $cotizacion_id);
         }
+    }
+
+    public function cabecera($id, $saldo){
+        $data = new CabeceraTransaccion();
+        $data->cotizacion_id = $id;
+        $data->fecha_cotizacion = Carbon::now();
+        $data->estado = 1;
+        $data->saldo = $saldo;
+        $data->save();
     }
 
     public function guardar(Request $request, $id)

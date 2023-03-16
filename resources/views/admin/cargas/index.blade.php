@@ -3,7 +3,6 @@
 
 @section('content_header')
 
-
 @stop
 
 @section('content')
@@ -23,13 +22,36 @@
 
                 </div>
             </div>
-            <div class="card">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    Gestion de Variables
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover" id="table_variables">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>VARIABLE</th>
+                                <th>VALOR</th>
+                                <th>OTRO</th>
+                                <th>EDIT</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     Gestionar Tipo de Cargas
-                    <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
-                        data-bs-target="#crearCarga">
-                        Agregar Carga
-                    </button>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
+                            data-bs-target="#crearCarga">
+                            Agregar Carga
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <x-adminlte-datatable :heads="$heads2" head-theme="dark" id="table">
@@ -66,7 +88,7 @@
                     </x-adminlte-datatable>
                 </div>
             </div>
-
+            
         </div>
         <div class="col-md-6">
             <div class="card">
@@ -141,12 +163,136 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="editarVariable" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Variable</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="" id="alertVariables" role="alert">
+                        <ul id="erroresVariables">
+
+                        </ul>
+                    </div>
+                    <form action="" id="formVariable">
+                        @csrf
+                        <input type="hidden" id="idVar">
+                        <div class="form-group">
+                            <p>Nombre de Variable</p>
+                            <input type="text" class="form-control" id="variable" name="variable">
+                        </div>
+                        <div class="form-group">
+                            <p>Valor de Variable</p>
+                            <input type="number" min="1" class="form-control" id="valor" name="valor">
+                        </div>
+                        <div class="form-group">
+                            <p>Valor extra</p>
+                            <input type="number" placeholder="Valor opcional" value="0" class="form-control" id="minimo"
+                                name="minimo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit " form="formVariable" class="btn btn-primary btnVariable">Guardar
+                        Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- ---------------FIN MODAL----------------- -->
     <script>
-       
         $(document).ready(function() {
 
             divisas();
+
+            variables = $('#table_variables').DataTable({
+                responsive: true,
+                autoWidth: false,
+                ajax: 'variables/create',
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'nombre'
+                    },
+                    {
+                        data: 'valor'
+                    },
+                    {
+                        data: 'minimo'
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+
+            $(document).on('click', '.editVariable', function(e) {
+                e.preventDefault();
+                $(".btnVariable").text("Guardar Cambios");
+                $("#alertVariables").removeClass("alert alert-danger");
+                $("#erroresVariables").html("");
+                var id = $(this).attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: "variables/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status == 400) {
+                            console.log('error');
+                        } else {
+                            console.log(response.variable);
+                            $("#editarVariable").modal("show");
+                            $("#variable").val(response.variable.nombre);
+                            $("#valor").val(response.variable.valor);
+                            $("#minimo").val(response.variable.minimo);
+                            $("#idVar").val(response.variable.id);
+                        }
+                    }
+                });
+            });
+
+            $("#formVariable").submit(function(e) {
+                e.preventDefault();
+                var id = $("#idVar").val();
+                var data = $(this).serialize();
+                $.ajax({
+                    type: "PUT",
+                    url: "variables/" + id,
+                    data: data,
+                    dataType: "json",
+                    success: function(response) {
+                        $("#alertVariables").removeClass("alert alert-danger");
+                        $("#erroresVariables").html("");
+                        if (response.status == 400) {
+                            $("#alertVariables").addClass("alert alert-danger");
+                            $.each(response.errors, function(key, error) {
+                                $("#erroresVariables").append(`
+                                     <li class="text-danger">${error}</li>
+                                `);
+                            });
+                        } else {
+                            $(".btnVariable").text("Actualizando...");
+                            $("#editarVariable").modal("hide");
+                            variables.ajax.reload(null, false);
+                            Swal.fire(
+                                'Buen Trabajo!',
+                                response.message,
+                                'success'
+                            )
+                        }
+                    }
+                });
+            });
 
             function divisas() {
                 $.ajax({

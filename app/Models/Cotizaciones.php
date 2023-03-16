@@ -17,7 +17,9 @@ class Cotizaciones extends Model
     public function puerto(){
         return $this->belongsTo(Puerto::class,'puerto_id','id');
     }
-    
+    public function cabecera(){
+        return $this->hasMany(CabeceraTransaccion::class,'cotizacion_id','id');
+    }
     public function ciudad(){
         return $this->belongsTo(Ciudad::class,'ciudad_id','id');
     }

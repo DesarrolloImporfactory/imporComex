@@ -21,12 +21,14 @@ use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\SearcherController;
 use App\Http\Controllers\CotizacionIndividualController;
 use App\Http\Controllers\CotizacionProductosController;
+use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisaController;
 use App\Http\Controllers\Fcl\ContenedorCompletoController;
 use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
+use App\Http\Controllers\VariablesController;
 
 //Route::get('admin',[HomeController::class, 'index']);
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -116,4 +118,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('cargaSuelta', CargaSueltaController::class)->names('cargaSuelta');
     Route::resource('ciudades/tarifas', CiudadesController::class)->names('ciudades.tarifas');
     Route::resource('contenedorCompleto', ContenedorCompletoController::class)->names('contenedorCompleto');
+    Route::resource('variables', VariablesController::class)->names('variables');
+    Route::resource('admin/cuentas', CuentasController::class)->names('admin.cuentas');
 });

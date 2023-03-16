@@ -371,9 +371,17 @@ return [
         ],
         [
 
-            'text' => 'Cargas/Tarifas',
+            'text' => 'Tarifas/Variables',
             'route'  => 'cargas',
             'icon' => 'fas fa-fw fa-truck',
+            'can' => 'admin.cargas.index',
+
+        ],
+        [
+
+            'text' => 'Cuentas por cobrar',
+            'route'  => 'admin.cuentas.index',
+            'icon' => 'fas fa-regular fa-sack-dollar',
             'can' => 'admin.cargas.index',
 
         ],

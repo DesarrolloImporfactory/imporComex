@@ -104,13 +104,11 @@
     </style>
     <script>
         $(document).ready(function() {
-            // ciudades();
-
 
             tablaUsuarios = $('#example').DataTable({
                 responsive: true,
                 autoWidth: false,
-                ajax: 'tarifas/create',
+                ajax: 'admin/cuentas/create',
                 columns: [{
                         data: 'id'
                     },
