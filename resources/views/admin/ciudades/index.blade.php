@@ -108,7 +108,7 @@
             tablaUsuarios = $('#example').DataTable({
                 responsive: true,
                 autoWidth: false,
-                ajax: 'admin/cuentas/create',
+                ajax: 'tarifas/create',
                 columns: [{
                         data: 'id'
                     },

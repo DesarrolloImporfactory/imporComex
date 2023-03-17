@@ -38,7 +38,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.paises.update','description'=>'Editar paises']);
         // Permission::create(['name'=>'admin.paises.destroy','description'=>'Eliminar paises']);
 
-        Permission::create(['name'=>'admin.cargas.index','description'=>'Ver modulo de cargas'])->syncRoles([$role]);
+        Permission::create(['name'=>'admin.cargas.index','description'=>'Ver modulo de cargas'])->syncRoles([$role,$role3]);
         // Permission::create(['name'=>'admin.cargas.store','description'=>'Crear cargas']);
         // Permission::create(['name'=>'admin.cargas.update','description'=>'Editar cargas']);
         // Permission::create(['name'=>'admin.cargas.destroy','description'=>'Eliminar cargas']);
@@ -75,6 +75,9 @@ class RoleSeeder extends Seeder
         // Permission::create(['name'=>'admin.cotizaciones.destroy','description'=>'Eliminar cotizaciones'])->syncRoles([$role]);
 
         Permission::create(['name'=>'admin.especialistas.show','description'=>'Dashboar Especialistas'])->syncRoles([$role, $role3]);
+        Permission::create(['name'=>'ciudades.tarifas.index','description'=>'Tarifas ciudades'])->syncRoles([$role, $role3]);
+        
+        Permission::create(['name'=>'admin.cuentas.index','description'=>'Cuentas por cobrar'])->syncRoles([$role, $role3]);
         // Permission::create(['name'=>'admin.especialistas.edit','description'=>'Editar cotizacion'])->syncRoles([$role]);
         // Permission::create(['name'=>'admin.especialistas.update','description'=>'Actualizar cotizacion'])->syncRoles([$role]);
 

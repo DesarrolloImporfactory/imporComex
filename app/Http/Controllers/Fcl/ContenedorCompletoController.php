@@ -188,10 +188,10 @@ class ContenedorCompletoController extends Controller
             if ($tipo != "ESPECIAL") {
                 $costo = 10;
             } else {
-                $costo = ($tarifa + $kilo) * $peso;
+                $costo = $tarifa + ($kilo * $peso);
             }
         } else {
-            $costo = ($tarifa + $kilo) * $peso;
+            $costo = $tarifa + ($kilo * $peso);
         }
         $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
         return $total;

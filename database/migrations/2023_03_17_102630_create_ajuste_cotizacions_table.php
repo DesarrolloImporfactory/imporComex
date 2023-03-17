@@ -6,17 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
+   
     public function up()
     {
-        Schema::create('cabecera_transaccions', function (Blueprint $table) {
+        Schema::create('ajuste_cotizacions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
             $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
-            $table->date('fecha_cotizacion')->nullable();
-            $table->date('fecha_maxima')->nullable();
-            $table->boolean('estado')->nullable();
-            $table->double('saldo',8,2)->nullable();
+            $table->double('valor',8,2);
+            $table->string('motivo');
             $table->timestamps();
         });
     }
@@ -24,6 +22,6 @@ return new class extends Migration
     
     public function down()
     {
-        Schema::dropIfExists('cabecera_transaccions');
+        Schema::dropIfExists('ajuste_cotizacions');
     }
 };

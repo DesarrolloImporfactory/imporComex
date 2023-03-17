@@ -53,7 +53,9 @@ class Cotizaciones extends Model
     public function accion(){
         return $this->hasMany(Accion::class,'cotizacion_id','id');
     }
-
+    public function ajustes(){
+        return $this->hasMany(AjusteCotizacion::class,'cotizacion_id','id');
+    }
     public function impuesto(){
         return $this->hasMany(cotizacion_impuesto::class,'cotizacion_id','id');
     }

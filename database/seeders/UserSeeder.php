@@ -71,5 +71,41 @@ class UserSeeder extends Seeder
             'email'=>'elizabeth.herrera@gmail.com',
             'password'=>md5('12345678'),
         ])->assignRole('Especialista');  
+
+        User::create([
+            'name'=>'Cristhian Talavera',
+            'telefono'=>'0963607750',
+            'date'=>'01/05/1998',
+            'importacion'=>'12',
+            'idioma'=>'Ingles',
+            'estado'=>'1',
+            //'email_verified_at'=>'2023-01-17 16:30:44',
+            'email'=>'aduanas@imporcomexcorp.com',
+            'password'=>md5('12345678'),
+        ])->assignRole('Especialista');  
+
+        User::create([
+            'name'=>'Natalia Cruz',
+            'telefono'=>'0963607750',
+            'date'=>'01/05/1998',
+            'importacion'=>'12',
+            'idioma'=>'Ingles',
+            'estado'=>'1',
+            //'email_verified_at'=>'2023-01-17 16:30:44',
+            'email'=>'n.cruz@imporcomexcorp.com',
+            'password'=>md5('12345678'),
+        ])->assignRole('Especialista');  
+        User::create([
+            'name'=>'Karen Condor',
+            'telefono'=>'0963607750',
+            'date'=>'01/05/1998',
+            'importacion'=>'12',
+            'idioma'=>'Ingles',
+            'estado'=>'1',
+            //'email_verified_at'=>'2023-01-17 16:30:44',
+            'email'=>'k.condor@imporfactory.app',
+            'password'=>md5('12345678'),
+        ])->assignRole('Especialista');  
+
     }
 }

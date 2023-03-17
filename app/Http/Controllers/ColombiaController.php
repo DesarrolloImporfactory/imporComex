@@ -311,11 +311,11 @@ class ColombiaController extends Controller
             if ($tipo != "ESPECIAL") {
                 return $costo = 10;
             } else {
-                $costo = ($tarifa + $kilo) * $peso;
+                $costo = $tarifa + ($kilo * $peso);
                 return $costo;
             }
         } else {
-            $costo = ($tarifa + $kilo) * $peso;
+            $costo = $tarifa + ($kilo * $peso);
             return $costo;
         }
     }

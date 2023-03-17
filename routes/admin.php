@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjustesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IdiomasController;
@@ -120,4 +121,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('contenedorCompleto', ContenedorCompletoController::class)->names('contenedorCompleto');
     Route::resource('variables', VariablesController::class)->names('variables');
     Route::resource('admin/cuentas', CuentasController::class)->names('admin.cuentas');
+    Route::resource('admin/ajustes', AjustesController::class)->names('admin.ajustes');
 });

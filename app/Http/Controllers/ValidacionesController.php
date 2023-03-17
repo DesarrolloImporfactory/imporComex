@@ -166,7 +166,7 @@ class ValidacionesController extends Controller
         $data = new CabeceraTransaccion();
         $data->cotizacion_id = $id;
         $data->fecha_cotizacion = Carbon::now();
-        $data->estado = 1;
+        $data->estado = 0;
         $data->saldo = $saldo;
         $data->save();
     }

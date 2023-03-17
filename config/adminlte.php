@@ -359,7 +359,7 @@ return [
             'text' => 'Tarifas Ciudades',
             'route'  => 'ciudades.tarifas.index',
             'icon' => 'fas fa-solid fa-truck-front',
-            'can' => 'admin.idiomas.index',
+            'can' => 'ciudades.tarifas.index',
             'label' => 'new'
         ],
         [
@@ -382,7 +382,8 @@ return [
             'text' => 'Cuentas por cobrar',
             'route'  => 'admin.cuentas.index',
             'icon' => 'fas fa-regular fa-sack-dollar',
-            'can' => 'admin.cargas.index',
+            'can' => 'admin.cuentas.index',
+            'label' => 'new'
 
         ],
         [
