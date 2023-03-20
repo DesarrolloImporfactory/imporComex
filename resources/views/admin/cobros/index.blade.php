@@ -60,7 +60,7 @@
     <div class="container-fluid ">
         <div class="row">
             <div class="col-md-12 ">
-                <div class="card card-danger card-outline">
+                <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">CUENTAS POR COBRAR</h3>
                     </div>
@@ -78,45 +78,6 @@
                                     <th>OPCIONES</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($cuentas as $cuenta)
-                                    <tr>
-                                        <td>{{ $cuenta->id }}</td>
-                                        <td>{{ $cuenta->cotizacion_id }}</td>
-                                        <td>{{ $cuenta->cotizacion->usuario->name }}</td>
-                                        <td>{{ $cuenta->fecha_cotizacion }}</td>
-                                        <td>
-                                            @if ($cuenta->estado == 1)
-                                                Pagado
-                                            @else
-                                                Pendiente
-                                            @endif
-                                        </td>
-                                        <td>${{ $cuenta->cotizacion->total }}</td>
-                                        <td>${{ $cuenta->saldo }}</td>
-                                        <td>
-                                            <a class="" href="#" role="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="fa-solid fa-bars"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item edit" href="#"><i
-                                                            class="bi bi-pencil-square"></i>
-                                                        Editar
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item "
-                                                        href="{{ route('admin.cuentas.edit', $cuenta->id) }}"><i
-                                                            class="fa-solid fa-wallet"></i> Abonos</a>
-                                                </li>
-                                            </ul>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -126,24 +87,54 @@
 
     <script>
         $(document).ready(function() {
-            var table = $('#tableCobros').DataTable({
+
+            tabla = $('#tableCobros').DataTable({
                 responsive: true,
                 autoWidth: false,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                }
+                ajax: 'cuentas/create',
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'cotizacion_id'
+                    },
+                    {
+                        data: 'name'
+                    },
+                    {
+                        data: 'fecha_cotizacion'
+                    },
+                    {
+                        data: 'estado'
+                    },
+                    {
+                        data: 'total'
+                    },
+                    {
+                        data: 'saldo'
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
             });
 
-            table.on('click', '.edit', function() {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-                console.log(data);
-                $('#cotizacion').val(data[5]);
-                $('#id_cotizacion').val(data[1]);
-                $('#editModal').modal('show');
+            $(document).on('click', '.edit', function(e) {
+                e.preventDefault();
+                var id = $(this).attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: "ajustes/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                        $('#cotizacion').val(response.data.total);
+                        $('#id_cotizacion').val(response.data.id);
+                        $('#editModal').modal('show');
+                    }
+                });
+
             })
 
             $("#editForm").submit(function(e) {
@@ -165,18 +156,43 @@
                                 `);
                             });
                         } else {
-                            setInterval("location.reload()",1000);
                             Swal.fire(
                                 'Buen Trabajo!',
                                 response.message,
                                 'success'
                             )
-                            
-                             $("#editModal").modal("hide");
-                            // table.ajax.reload(null, false);
+
+                            $("#editModal").modal("hide");
+                            tabla.ajax.reload(null, false);
                         }
                     }
                 });
+            });
+
+            $(document).on('click', '.abonos', function(e) {
+                e.preventDefault();
+                var id = $(this).attr('value');
+                var url = "cuentas/" + id + "/edit";
+                $(location).attr('href', url);
+            });
+
+            $(document).on('click', '.notificar', function(e) {
+                e.preventDefault();
+                Swal.fire(
+                    'Buen Trabajo!',
+                    'Email Enviado con exito!',
+                    'success'
+                )
+                var id = $(this).attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: "../notificar/cuentas/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+
             });
         });
     </script>

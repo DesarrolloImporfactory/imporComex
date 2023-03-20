@@ -122,4 +122,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('variables', VariablesController::class)->names('variables');
     Route::resource('admin/cuentas', CuentasController::class)->names('admin.cuentas');
     Route::resource('admin/ajustes', AjustesController::class)->names('admin.ajustes');
+    Route::get('notificar/cuentas/{id}', [CuentasController::class, 'notificar'])->name('notificar.cuentas');
+    Route::get('editAbono/{id}', [CuentasController::class, 'editAbono'])->name('editAbono');
 });

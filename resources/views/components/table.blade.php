@@ -4,13 +4,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#table2').DataTable({
-                responsive: true,
-                autoWidth: false,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                }
-            });
+            $('#table2').DataTable();
         });
     </script>
 @stop

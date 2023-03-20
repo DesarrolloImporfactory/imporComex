@@ -38,8 +38,8 @@ class EventServiceProvider extends ServiceProvider
                 'text' => 'Especialistas',
                 'url'  => route('admin.especialistas.show',$usuario->id),
                 'icon'=>'fa fa-fw fa-headset',
-                'label'=>'new',
-                'label_color'=>'primary',
+                // 'label'=>'new',
+                // 'label_color'=>'primary',
                 'can'=>'admin.especialistas.show',
             ],
             [
@@ -47,8 +47,8 @@ class EventServiceProvider extends ServiceProvider
                 'text' => 'Cotizaciones',
                 'url'  => route('admin.cotizaciones.show',$usuario->id),
                 'icon'=>'fa fa-solid fa-coins',
-                'label'=>'new',
-                'label_color'=>'primary',
+                // 'label'=>'new',
+                // 'label_color'=>'primary',
                 'can'=>'admin.cotizaciones.show',
             ]
         );

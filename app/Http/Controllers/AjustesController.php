@@ -31,7 +31,11 @@ class AjustesController extends Controller
 
     public function show($id)
     {
-        //
+        $data = Cotizaciones::findOrFail($id);
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ]);
     }
 
     public function edit($id)
