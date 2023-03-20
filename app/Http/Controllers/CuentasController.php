@@ -99,9 +99,17 @@ class CuentasController extends Controller
     {
         $data = CabeceraTransaccion::findOrFail($id);
         $saldo = $data->saldo;
+        
         $newSaldo = $saldo - $valor;
+        if ($newSaldo <= 0) {
+            $estado = 1;
+        }else
+        {
+            $estado = 0;
+        }
         CabeceraTransaccion::where('id', $id)->update([
-            'saldo' => $newSaldo
+            'saldo' => $newSaldo,
+            'estado' =>$estado
         ]);
     }
 
@@ -202,8 +210,15 @@ class CuentasController extends Controller
         $saldo = $data->saldo;
 
         $newSaldo = ($saldo + $valorOld)-$valore;
+        if ($newSaldo <= 0) {
+            $estado = 1;
+        }else
+        {
+            $estado = 0;
+        }
          CabeceraTransaccion::where('id', $id_cabecera)->update([
-             'saldo' => $newSaldo
+             'saldo' => $newSaldo,
+             'estado' => $estado
          ]);
         //return ("valor antiguo".$valorOld. "/ saldo :".$saldo. "/valor nuevo: ".$valore."/ nuevosaldo = ".$newSaldo);
     }

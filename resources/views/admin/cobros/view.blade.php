@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label for="">Abono</label>
                                 {{-- <input type="hidden" id="" name="" value="{{ $cuentas->saldo }}"> --}}
-                                <input type="number" class="form-control" name="valor" id="valor"
+                                <input type="text" class="form-control" name="valor" id="valor"
                                     placeholder="Ingrese un valor">
                             </div>
                             <div class="form-group">
@@ -129,7 +129,7 @@
                         <div class="inputs">
                             <div class="form-group">
                                 <label for="">Abono</label>
-                                <input type="number" class="form-control" name="edit_valor" id="edit_valor"
+                                <input type="text" class="form-control" name="edit_valor" id="edit_valor"
                                     placeholder="Ingrese un valor">
                             </div>
                             <div class="form-group">
