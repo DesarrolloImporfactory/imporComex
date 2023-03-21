@@ -39,10 +39,10 @@
                             <i class="fa-solid fa-bars"></i>
                         </a>
                         <ul class="dropdown-menu ">
-                            <li>
+                            <!-- <li>
 
                                 @include('admin.cotizaciones.delete')
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="{{ route('admin.especialistas.edit', $cotizacion->id) }}"
                                     class="dropdown-item   text-primary " title="Details">
