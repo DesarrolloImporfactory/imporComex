@@ -125,7 +125,7 @@ class ColombiaController extends Controller
             return view('admin.cargaCompleta.index', $mensajes);
         } else {
             return view('admin.calculadoras.colombia.grupal.create', $mensajes);
-        } 
+        }
     }
 
     public function store(Request $request)
@@ -162,73 +162,6 @@ class ColombiaController extends Controller
             $cliente = $request->input('cliente');
         } else {
             $cliente = $request->input('usuario_id');
-        }
-
-
-        $grupal = new Cotizaciones();
-        $volumen = $request->input('volumen');
-
-        switch ($volumen) {
-            case ($volumen > 0 && $volumen < 1):
-
-                $datos = tarifaGruapl::findOrFail(1);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 1 && $volumen < 2):
-
-                $datos = tarifaGruapl::findOrFail(2);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 2 && $volumen < 3):
-
-                $datos = tarifaGruapl::findOrFail(3);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 3 && $volumen < 4):
-
-                $datos = tarifaGruapl::findOrFail(4);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 4 && $volumen < 5):
-
-                $datos = tarifaGruapl::findOrFail(5);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 5 && $volumen < 6):
-
-                $datos = tarifaGruapl::findOrFail(6);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen >= 6 && $volumen < 7):
-
-                $datos = tarifaGruapl::findOrFail(7);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen > 7 && $volumen <= 9):
-
-                $datos = tarifaGruapl::findOrFail(8);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen > 9 && $volumen <= 12):
-
-                $datos = tarifaGruapl::findOrFail(9);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
-            case ($volumen > 12 && $volumen <= 15):
-
-                $datos = tarifaGruapl::findOrFail(14);
-                $resultado = ($volumen * $datos->vxcbm) / 1;
-
-                break;
         }
 
         $barcode = IdGenerator::generate(['table' => 'cotizaciones', 'field' => 'barcode', 'length' => 6, 'prefix' => date('y')]);
@@ -268,9 +201,9 @@ class ColombiaController extends Controller
         Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
         $proveedores = $request->input('cantidad_proveedores');
-
+        $grupal = new Cotizaciones();
         $grupal->barcode = $barcode;
-        $peso = $request->input('peso') . 'kg';
+        $peso = $request->input('peso');
         $grupal->usuario_id = $cliente;
         $grupal->pais_id = $request->input('pais');
         $grupal->modalidad_id = $request->input('modalidad');
@@ -288,11 +221,11 @@ class ColombiaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $gastosOrigen = $resultado + (($proveedores * 50) - 50);
+        $gastosOrigen = $this->volumen($request->input('volumen')) + (($proveedores * 50) - 50);
         $grupal->gastos_origen = $gastosOrigen;
         $flete = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
         $grupal->flete_maritimo = $flete;
-        $grupal->total_logistica =$gastosOrigen  + $flete;
+        $grupal->total_logistica = $gastosOrigen  + $flete;
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
@@ -300,9 +233,62 @@ class ColombiaController extends Controller
         return redirect()->route('admin.colombia.edit', $data);
     }
 
+    public function volumen($volumen){
+        switch ($volumen) {
+            case ($volumen > 0 && $volumen < 1):
+
+                $datos = tarifaGruapl::findOrFail(1);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 1 && $volumen < 2):
+
+                $datos = tarifaGruapl::findOrFail(2);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 2 && $volumen < 3):
+
+                $datos = tarifaGruapl::findOrFail(3);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 3 && $volumen < 4):
+
+                $datos = tarifaGruapl::findOrFail(4);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 4 && $volumen < 5):
+
+                $datos = tarifaGruapl::findOrFail(5);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 5 && $volumen < 6):
+
+                $datos = tarifaGruapl::findOrFail(6);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen >= 6 && $volumen < 7):
+
+                $datos = tarifaGruapl::findOrFail(7);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen > 7 && $volumen <= 9):
+
+                $datos = tarifaGruapl::findOrFail(8);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen > 9 && $volumen <= 12):
+                $datos = tarifaGruapl::findOrFail(9);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+            case ($volumen > 12 && $volumen <= 15):
+
+                $datos = tarifaGruapl::findOrFail(14);
+                return $resultado = ($volumen * $datos->vxcbm) / 1;
+                break;
+        }
+    }
+
     public function ciudadEntrega($ciudadEntrega, $peso)
     {
-
         $ciudad = Ciudad::findOrFail($ciudadEntrega);
         $provincia = $ciudad->provincia;
         $tarifa = $ciudad->tarifa;
@@ -364,7 +350,10 @@ class ColombiaController extends Controller
             'volumen' => ['required', 'min:0', 'max:15', 'numeric:0'],
             'ciudad_entrega' => ['required'],
         ]);
-
+        $proveedores = $request->input('cantidad_proveedores');
+        $gastosOrigen = $this->volumen($request->input('volumen')) + (($proveedores * 50) - 50);
+        $flete = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        
         $datos = [
             'inflamable' => $request->input('inflamable'),
             'tiene_bateria' => $request->input('tiene_bateria'),
@@ -374,14 +363,16 @@ class ColombiaController extends Controller
             'cantidad_proveedores' => $request->input('cantidad_proveedores'),
             'volumen' => $request->input('volumen'),
             'direccion' => $request->input('direccion'),
-            'ciudad_id' => $request->input('ciudad_entrega')
+            'ciudad_id' => $request->input('ciudad_entrega'),
+            'gastos_origen' => $gastosOrigen,
+            'flete_maritimo' => $flete,
+            'total_logistica' => $gastosOrigen  + $flete
         ];
 
         Cotizaciones::where('id', $id)->update($datos);
         $validacion = Validacion::where('cotizacion_id', $id)->get();
         if (count($validacion) > 0) {
             return redirect()->route('admin.colombia.edit', $id);
-            // return redirect()->route('editar.paso2', $id);
         } else {
             return redirect()->route('admin.colombia.edit', $id)->with('mensaje', 'Completemos la cotizacion!');
         }

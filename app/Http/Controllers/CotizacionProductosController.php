@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cotizaciones;
 use App\Models\Divisa;
 use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
@@ -34,10 +35,36 @@ class CotizacionProductosController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-            $divisa = Divisa::first();
+
+            $productos = ProductoInsumo::where('cotizacion_id', $request->input('cotizacion_id'))->get();
+            $baseFlete = $this->fleteBase($request->input('cotizacion_id'));
+            $fob_antiguo = $request->input('total_fob');
             $fob = $request->input('cantidad') * $request->input('precio');
+            $total_fob = $fob_antiguo + $fob;
             $seguro = $fob * 0.01;
-            $flete = $fob / 5;
+            $flete = $fob * ($baseFlete / $total_fob);
+            if (count($productos) > 0) {
+                foreach ($productos as $producto) {
+                    $flete_bucle = $producto->fob * ($baseFlete / $total_fob);
+                    $cif_bucle = $flete_bucle + $producto->fob + $producto->seguro;
+                    $adv_bucle = $cif_bucle * ($producto->porcentaje / 100);
+                    $fodi_bucle = $cif_bucle * 0.005;
+                    $iva_bucle = ($cif_bucle + $adv_bucle + $fodi_bucle) * (12 / 100);
+                    $imp_bucle = $adv_bucle + $fodi_bucle + $iva_bucle;
+                    ProductoInsumo::where('id', $producto->id)->update([
+                        'flete' => $flete_bucle,
+                        'cif' => $cif_bucle,
+                        'advalorem' => $adv_bucle,
+                        'fodinfa' => $fodi_bucle,
+                        'iva' => $iva_bucle,
+                        'impuestos' => $imp_bucle,
+                        'total' => ($producto->cantidad * $producto->precio) + $imp_bucle
+                    ]);
+                }
+            }
+
+            $divisa = Divisa::first();
+
             $cif = $fob + $seguro + $flete;
             $advalorem = $cif * ($request->input('porcentaje') / 100);
             $fodinfa = $cif * 0.005;
@@ -67,11 +94,18 @@ class CotizacionProductosController extends Controller
         }
     }
 
+    public function fleteBase($id)
+    {
+        $cotizacion = Cotizaciones::findOrFail($id);
+        $volumen = $cotizacion->volumen;
+        $fleteBase = 250 * $volumen;
+        return $fleteBase;
+    }
 
     public function show($id)
     {
         $productos = ProductoInsumo::with('insumo')->where('cotizacion_id', $id)->get();
-        $totalProducto=0;
+        $totalProducto = 0;
         $totalFob = 0;
         $totalSeguro = 0;
         $totalFlete = 0;

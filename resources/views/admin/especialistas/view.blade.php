@@ -13,32 +13,26 @@
                 form="formCreate" />
         </div>
     </div>
-
-
 @stop
 
 @section('content')
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <x-adminlte-card title="Gestionar cotizaciones asignadas" theme="dark" icon="fa-solid fa-handshake-angle">
                 <form action="{{ route('admin.especialistas.update', $cotizacion->id) }}" method="post" id="formCreate">
                     {{ method_field('PATCH') }}
                     @csrf
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="">BarCode:</label>
-
-                                {!! DNS1D::getBarcodeHTML("$cotizacion->barcode", 'C128A') !!}
-                                <div class="text-center">
-                                    {{ $cotizacion->barcode }}
-                                </div>
+                                <label for="">BarCode: {{ $cotizacion->barcode }}</label>
+                                {!! DNS1D::getBarcodeHTML("$cotizacion->barcode", 'C128A') !!}   
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col">
                             <label for="">Estado:</label>
                             <div class="form-group">
-                                <select name="estado" class="selectpicker " data-style="btn-primary">
+                                <select name="estado" class="selectpicker" data-width="100%" data-style="btn-primary">
                                     @if ($cotizacion->estado == 'Aprobado')
                                         <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
                                         <option value="Pendiente">Pendiente</option>
@@ -57,14 +51,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col">
                             <div class="form-group">
                                 <label for="">Usuario:</label>
                                 <input type="text" name="estado" class="form-control"
                                     value="{{ $cotizacion->usuario->name }}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col">
                             <div class="form-group">
                                 <label for="">Especialista Asignado:</label>
                                 <input type="text" name="usuario_id" class="form-control"

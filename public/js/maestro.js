@@ -297,8 +297,9 @@ $(document).ready(function() {
             'precio': $('#precio').val(),
             'porcentaje': $('#porcentaje').val(),
             'cotizacion_id': $('#cotizacion_id').val(),
+            'total_fob':$("#fob_total").val(),
         }
-
+        
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -337,147 +338,5 @@ $(document).ready(function() {
         });
     });
 
-    // $(document).on("click", ".crearProveedor", function(e) {
-    //     e.preventDefault();
-    //     var foto = $('#foto').prop('files')[0];
-    //     var nombre_proveedor = $("#nombre_proveedor").val();
-    //     var formData = new FormData();
-    //     formData.append('foto', foto);
-    //     formData.append('factura', $('#factura').prop('files')[0]);
-    //     formData.append('nombre_proveedor', nombre_proveedor);
-    //     formData.append('cantidad_cartones', $("#cantidad_cartones").val());
-    //     formData.append('enlace', $("#enlace").val());
-    //     formData.append('contacto', $("#contacto").val());
-    //     formData.append('cotizacion_id', $('#cotizacion_id').val());
-    //     console.log(foto);
-    //     $.ajaxSetup({
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         }
-    //     });
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "../../admin/proveedor",
-    //         data: formData,
-    //         cache: false,
-    //         contentType: false,
-    //         processData: false,
-    //         dataType: 'json',
-    //         success: function(response) {
-    //             console.log(response);
-    //             if (response.status == 400) {
-    //                 $("#errores_proveedor").html("");
-    //                 $("#class2").addClass('alert alert-danger');
-    //                 $.each(response.errors, function(key, err_values) {
-    //                     $("#errores_proveedor").append(`
-//                         <li>${err_values}</li>
-//                      `);
-    //                 });
-    //                 $.each(response.errores, function(key, err_values) {
-    //                     $("#errores_proveedor").append(`
-//                         <li>${err_values}</li>
-//                      `);
-    //                 });
-    //                 $(".crearProveedor").text("Intentar");
-    //             } else {
-    //                 $(".crearProveedor").text("Agregando.....");
-    //                 Swal.fire({
-    //                     position: 'top-end',
-    //                     icon: 'success',
-    //                     title: response.message,
-    //                     showConfirmButton: false,
-    //                     timer: 1500
-    //                 })
-    //                 $("#class2").removeClass('alert alert-danger');
-    //                 $("#errores_proveedor").html("");
-    //                 $("#formulario-proveedor").find('input').val("");
-    //                 $(".crearProveedor").text("Agregar");
-    //                 proveedores();
-    //             }
-    //         }
-    //     });
-    // });
-
-    // function proveedores() {
-    //     var id_cotizacion = $('#cotizacion_id').val();
-    //     console.log(id_cotizacion);
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "../../admin/proveedor/" + id_cotizacion,
-    //         dataType: "json",
-    //         success: function(response) {
-    //             console.log(response);
-    //             $("#bodyProveedores").html("");
-    //             $.each(response.proveedores, function(key, proveedor) {
-    //                 $("#bodyProveedores").append(`
-//                 <tr>
-//                     <td>${proveedor.id}</td>   
-//                     <td>${proveedor.nombre_pro}</td>   
-//                     <td>${proveedor.total_cartones}</td>   
-//                     <td>
-//                         <a type="button" class="btn-sm" value="${proveedor.factura}" id="btn-ver">
-//                             <i class="fa-sharp fa-solid fa-eye text-teal" title="ver archivo"></i>
-//                         </a>    
-//                     </td>   
-//                     <td><img src="../../storage/${proveedor.foto}" width="35px" alt=""></td>   
-//                     <td>${proveedor.enlace}</td> 
-//                     <td>${proveedor.contacto}</td>  
-//                     <<td>
-//                             <a type="button" value="${proveedor.id}" id="eliminar" class=" btn-sm"><i class="fa-solid fa-trash text-danger"></i></a>
-
-//                     </td> 
-//                 </tr>
-//             `);
-
-    //             });
-    //         }
-    //     });
-    // }
-
-    // $(document).on('click', '#btn-ver', function(e) {
-    //     e.preventDefault();
-    //     $(".verArchivo").html("");
-    //     var ruta = $(this).attr('value');
-    //     $("#ver").modal('show');
-    //     $(".verArchivo").append(`
-//         <embed src="../../storage/${ruta}" type="application/pdf" width="100%" height="100%">
-//     `);
-    // });
-
-    // $(document).on('click', '#eliminar', function(e) {
-    //     e.preventDefault();
-    //     var id = $(this).attr('value');
-    //     Swal.fire({
-    //         title: 'Estas seguro?',
-    //         text: "¡No podrás revertir esto!",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         cancelButtonText: 'Cancelar',
-    //         confirmButtonText: 'Si, Eliminalo!'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             $.ajaxSetup({
-    //                 headers: {
-    //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                 }
-    //             });
-    //             $.ajax({
-    //                 type: "DELETE",
-    //                 url: "../../admin/proveedor/" + id,
-    //                 success: function(response) {
-    //                     Swal.fire({
-    //                         position: 'top-end',
-    //                         icon: 'success',
-    //                         title: response.message,
-    //                         showConfirmButton: false,
-    //                         timer: 1500
-    //                     })
-    //                     proveedores();
-    //                 }
-    //             });
-    //         }
-    //     })
-    // });
+   
 });
