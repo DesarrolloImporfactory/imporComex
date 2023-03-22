@@ -124,4 +124,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('admin/ajustes', AjustesController::class)->names('admin.ajustes');
     Route::get('notificar/cuentas/{id}', [CuentasController::class, 'notificar'])->name('notificar.cuentas');
     Route::get('editAbono/{id}', [CuentasController::class, 'editAbono'])->name('editAbono');
+    Route::patch('update/flete/{id}', [ValidacionesController::class, 'updateFlete'])->name('update.flete');
+
 });

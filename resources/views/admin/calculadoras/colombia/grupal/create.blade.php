@@ -296,7 +296,7 @@
                     $("#alerta").addClass("alert alert-warning alert-dismissible fade show");
                     console.log(valor);
                     $("#alerta").append(`
-                        <strong>Advertencia!</strong> El valor del peso bruto es igual o mayor a 4000kg y puede aplicar recargos.
+                        <strong>Advertencia!</strong> El valor del peso bruto es igual o mayor a 400kg y puede aplicar recargos.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     `);
                 }

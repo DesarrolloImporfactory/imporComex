@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('cabecera_transaccions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
-            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
+            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade')->onDelete('cascade');
             $table->date('fecha_cotizacion')->nullable();
             $table->date('fecha_maxima')->nullable();
             $table->boolean('estado')->nullable();

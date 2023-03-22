@@ -6,21 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('producto_insumos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('insumo_id')->unsigned()->nullable();
-            $table->foreign('insumo_id')->references('id')->on('insumos')->onUpdate('cascade');
+            $table->foreign('insumo_id')->references('id')->on('insumos')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
-            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
+            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('proveedor_id')->unsigned()->nullable();
-            $table->foreign('proveedor_id')->references('id')->on('validacions')->onUpdate('cascade');
+            $table->foreign('proveedor_id')->references('id')->on('validacions')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('cantidad');
             $table->float('precio',8,2);
             $table->float('divisas',8,2)->nullable();;
@@ -38,11 +34,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+   
     public function down()
     {
         Schema::dropIfExists('producto_insumos');

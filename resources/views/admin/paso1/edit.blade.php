@@ -8,7 +8,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $datos->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $datos->pais->nombre_pais }} </b><span
+                        class="badge rounded-pill text-bg-warning">{{ $datos->modalidad->modalidad }}</span></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -28,9 +29,8 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-
             <!-- /.card-header -->
-            <x-adminlte-card title="TIPO DE CARGA {{ $datos->modalidad->modalidad }}" theme="dark">
+            <x-adminlte-card title="{{ $datos->modalidad->descripcion }}" theme="dark">
                 <form action="{{ route('actualizar.paso1', $datos->id) }}" method="post" id="formCreate">
                     {{ method_field('PATCH') }}
                     @csrf

@@ -162,7 +162,8 @@ class ValidacionesController extends Controller
         }
     }
 
-    public function cabecera($id, $saldo){
+    public function cabecera($id, $saldo)
+    {
         $data = new CabeceraTransaccion();
         $data->cotizacion_id = $id;
         $data->fecha_cotizacion = Carbon::now();
@@ -205,7 +206,15 @@ class ValidacionesController extends Controller
         return view('admin.calculadoras.colombia.grupal.formulario', $data);
     }
 
-
+    public function updateFlete(Request $request, $id)
+    {
+        Cotizaciones::where('id',$id)->update([
+            'flete_maritimo' => $request->input('flete'),
+            'gastos_origen' => $request->input('gastos'),
+            'total_logistica' => $request->input('flete') + $request->input('gastos')
+        ]);
+        return redirect()->route('admin.colombia.edit', $id)->with('message', 'Flete modificado!');
+    }
 
     public function update(Request $request, $id)
     {

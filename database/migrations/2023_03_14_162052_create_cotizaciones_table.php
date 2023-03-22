@@ -15,37 +15,35 @@ return new class extends Migration
             $table->string('estado')->nullable();
             $table->dateTime('time')->nullable();
             $table->bigInteger('usuario_id')->unsigned()->nullable();
-            $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('especialista_id')->unsigned()->nullable();
-            $table->foreign('especialista_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('especialista_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('pais_id')->unsigned()->nullable();
-            $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade');
+            $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('modalidad_id')->unsigned()->nullable();
-            $table->foreign('modalidad_id')->references('id')->on('modalidades')->onUpdate('cascade');
+            $table->foreign('modalidad_id')->references('id')->on('modalidades')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('cargas_id')->unsigned()->nullable();
-            $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade');
+            $table->foreign('cargas_id')->references('id')->on('tipo_cargas')->onUpdate('cascade')->onDelete('cascade');
 
-            // $table->string('producto')->nullable();
             $table->string('tiene_bateria')->nullable();
             $table->string('liquidos');
             $table->string('inflamable');
-            // $table->string('precio_china')->nullable();
 
             $table->bigInteger('incoterms_id')->unsigned()->nullable();
-            $table->foreign('incoterms_id')->references('id')->on('incoterms')->onUpdate('cascade');
+            $table->foreign('incoterms_id')->references('id')->on('incoterms')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('tarifa_id')->unsigned()->nullable();
-            $table->foreign('tarifa_id')->references('id')->on('tarifa_gruapls')->onUpdate('cascade');
+            $table->foreign('tarifa_id')->references('id')->on('tarifa_gruapls')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('ciudad_id')->unsigned()->nullable();
-            $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade');
+            $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('puerto_id')->unsigned()->nullable();
-            $table->foreign('puerto_id')->references('id')->on('puertos');
+            $table->foreign('puerto_id')->references('id')->on('puertos')->onDelete('cascade');
 
             $table->boolean('seguro')->nullable();
             $table->integer('proceso')->nullable();
@@ -53,7 +51,6 @@ return new class extends Migration
             $table->string('peso')->nullable();
             $table->string('volumen')->nullable();
             $table->string('direccion')->nullable();
-            // $table->string('ciudad_entrega')->nullable();
             $table->string('cantidad_proveedores')->nullable();
             $table->string('cantidad_productos')->nullable();
 
@@ -72,11 +69,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('cotizaciones');

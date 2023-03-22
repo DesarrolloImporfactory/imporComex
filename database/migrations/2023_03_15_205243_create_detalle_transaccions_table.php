@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('transaccion_id')->unsigned()->nullable();
             $table->foreign('transaccion_id')->references('id')->on('transaccions')->onUpdate('cascade');
             $table->bigInteger('cabecera_id')->unsigned()->nullable();
-            $table->foreign('cabecera_id')->references('id')->on('cabecera_transaccions')->onUpdate('cascade');
+            $table->foreign('cabecera_id')->references('id')->on('cabecera_transaccions')->onUpdate('cascade')->onDelete('cascade');
             $table->double('valor',8,2);
             $table->date('fecha_vencimiento');
             $table->timestamps();

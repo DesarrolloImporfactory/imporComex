@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('impuesto');
             $table->string('contacto_prov');
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
-            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
+            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

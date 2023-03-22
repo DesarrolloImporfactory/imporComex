@@ -288,7 +288,11 @@ class ColombiaController extends Controller
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $grupal->total_logistica = $resultado + (($proveedores * 50) - 50) + $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $gastosOrigen = $resultado + (($proveedores * 50) - 50);
+        $grupal->gastos_origen = $gastosOrigen;
+        $flete = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $grupal->flete_maritimo = $flete;
+        $grupal->total_logistica =$gastosOrigen  + $flete;
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();

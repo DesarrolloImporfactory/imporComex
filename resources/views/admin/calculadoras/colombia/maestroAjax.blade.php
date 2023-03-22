@@ -25,7 +25,6 @@
         <script>
             Swal.fire({
                 position: 'center',
-                icon: 'error',
                 title: '{{ Session::get('message') }}',
                 showConfirmButton: false,
                 timer: 1500
@@ -34,6 +33,8 @@
     @endif
     <div class="row">
         <div class="col-md-12">
+            {{-- <x-adminlte-button label="Siguiente" theme="primary" icon="fa-solid fa-arrow-right" class="float-left"
+                form="formularioCotizacion" type="sumbit" /> --}}
             <x-adminlte-button label="Siguiente" theme="dark" icon="fa-solid fa-arrow-right" class="float-right"
                 form="formularioCotizacion" type="sumbit" />
         </div>
@@ -102,7 +103,8 @@
                     </div>
                     <div class="form-group mt-3">
                         <label for="">FODINFA</label>
-                        <input type="number" min="1" class="form-control" name="fodinfa" id="edit_fodinfa" readonly>
+                        <input type="number" min="1" class="form-control" name="fodinfa" id="edit_fodinfa"
+                            readonly>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">IVA</label>
@@ -129,6 +131,7 @@
 
                 <div class="card-footer">
                     @include('admin.cargaSuelta.detalles')
+                    @include('admin.calculadoras.editFlete')
                     <form action="{{ route('validacion.store') }}" method="POST" id="formularioCotizacion">
                         @csrf
                         <div class="row">
@@ -144,12 +147,22 @@
                                             <div class="input-group-append">
                                                 <button title="Detalles" class="btn btn-outline-success" type="button"
                                                     data-bs-toggle="modal" data-bs-target="#viewLCL"><i
-                                                        class="fa-solid fa-eye text-teal"></i></button>
+                                                        class="fa-solid fa-eye fa-bounce"
+                                                        style="color: #20941e;"></i></button>
                                             </div>
+                                        @else
+                                            @can('admin.calculadoras.cliente')
+                                                <div class="input-group-append">
+                                                    <button title="Detalles" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#editFlete"
+                                                        type="button"><i class="fa-solid fa-pen-to-square fa-beat"
+                                                            style="color: #d71d1d;"></i></button>
+                                                </div>
+                                            @endcan
                                         @endif
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-md-2">
                                 <div class="form-group ">
                                     <div class="impuestos"></div>

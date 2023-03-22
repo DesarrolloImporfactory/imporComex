@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('cotizacion_impuestos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('cotizacion_id')->unsigned()->nullable();
-            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onUpdate('cascade');
+            $table->foreign('cotizacion_id')->references('id')->on('cotizaciones')->onDelete('cascade')->onUpdate('cascade');
 
             $table->bigInteger('impuesto_id')->unsigned()->nullable();
-            $table->foreign('impuesto_id')->references('id')->on('impuestos')->onUpdate('cascade');
+            $table->foreign('impuesto_id')->references('id')->on('impuestos')->onDelete('cascade')->onUpdate('cascade');
 
             $table->bigInteger('usuario_id')->unsigned()->nullable();
-            $table->foreign('usuario_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('valor')->nullable();
             $table->timestamps();
