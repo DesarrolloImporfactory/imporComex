@@ -18,15 +18,16 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', function () {
-    Auth::logout(); 
+    Auth::logout();
     return view('welcome');
 });
 
-Auth::routes(['verify'=>true]);
+Auth::routes(['verify' => true]);
 
 
-Route::get('/register',[IdiomasController::class,'register'])->name('register');
-Route::get('/search/idioma',[IdiomasController::class,'search'])->name('search.idioma');
+Route::get('/register', [IdiomasController::class, 'register'])->name('register');
+Route::get('/search/idioma', [IdiomasController::class, 'search'])->name('search.idioma');
+
 
 
 

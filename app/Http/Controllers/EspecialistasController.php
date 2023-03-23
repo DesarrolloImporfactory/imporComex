@@ -61,17 +61,17 @@ class EspecialistasController extends Controller
             $usuario = $rol->name;
         }
         if ($usuario == "Admin") {
-            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->get();
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista','ciudad'])->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         } else if ($usuario == "Especialista") {
-            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereespecialista_id($id)->get();
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista','ciudad'])->whereespecialista_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         } else {
-            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
+            $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista','ciudad'])->whereusuario_id($id)->get();
             $cotizaciones = Cotizaciones::count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
@@ -98,7 +98,7 @@ class EspecialistasController extends Controller
             $proveedores = 'false';
         }
 
-        $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereid($id)->first();
+        $cotizacion = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista','ciudad'])->whereid($id)->first();
         //return $proveedor;
         return view('admin.especialistas.view', compact('cotizacion', 'proveedor', 'proveedores'));
     }

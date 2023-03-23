@@ -2,172 +2,214 @@
 @section('title', 'View')
 
 @section('content_header')
-    <x-adminlte-small-box title="Ver Detalles de {{ $cotizacion->usuario->name }}"
+
+    {{-- <x-adminlte-small-box title="Ver Detalles de {{ $cotizacion->usuario->name }}"
         text="Especialista asignado: {{ $cotizacion->especialista->name }} " icon="fas fa-eye text-dark" theme="teal"
-        url="{{ route('admin.especialistas.show', $cotizacion->usuario_id) }}" url-text="Volver a las gestion" />
+        url="{{ route('admin.especialistas.show', $cotizacion->usuario_id) }}" url-text="Volver a las gestion" /> --}}
 
     <div class="row">
 
         <div class="col-md-12">
-            <x-adminlte-button label="Guardar Usuario" theme="dark" icon="fas fa-lg fa-save" class="float-right" type="sumbit"
-                form="formCreate" />
+
         </div>
     </div>
 @stop
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            <x-adminlte-card title="Gestionar cotizaciones asignadas" theme="dark" icon="fa-solid fa-handshake-angle">
-                <form action="{{ route('admin.especialistas.update', $cotizacion->id) }}" method="post" id="formCreate">
-                    {{ method_field('PATCH') }}
-                    @csrf
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">BarCode: {{ $cotizacion->barcode }}</label>
-                                {!! DNS1D::getBarcodeHTML("$cotizacion->barcode", 'C128A') !!}   
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label for="">Estado:</label>
-                            <div class="form-group">
-                                <select name="estado" class="selectpicker" data-width="100%" data-style="btn-primary">
-                                    @if ($cotizacion->estado == 'Aprobado')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="Finalizado">Finalizado</option>
-                                    @endif
-                                    @if ($cotizacion->estado == 'Pendiente')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Aprobado">Aprobado</option>
-                                        <option value="Finalizado">Finalizado</option>
-                                    @endif
-                                    @if ($cotizacion->estado == 'Finalizado')
-                                        <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                        <option value="Aprobado">Aprobado</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">Usuario:</label>
-                                <input type="text" name="estado" class="form-control"
-                                    value="{{ $cotizacion->usuario->name }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">Especialista Asignado:</label>
-                                <input type="text" name="usuario_id" class="form-control"
-                                    value="{{ $cotizacion->especialista->name }}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Pais de cotizacion:</label>
-                                <input type="text" name="pais_id" class="form-control"
-                                    value="{{ $cotizacion->pais->nombre_pais }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Tipo de Modalidad:</label>
-                                <input type="text" name="modalidad_id" class="form-control"
-                                    value="{{ $cotizacion->modalidad->modalidad }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Tipo de Carga:</label>
-                                <input type="text" name="cargas_id" class="form-control"
-                                    value="{{ $cotizacion->carga->tipoCarga }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Nombre del Producto:</label>
-                                <input type="text" name="producto" class="form-control"
-                                    value="{{ $cotizacion->producto }}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Precio China:</label>
-                                <input type="text" name="precio_china" class="form-control"
-                                    value="{{ $cotizacion->precio_china }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Pais de Origen:</label>
-                                <input type="text" name="origen" class="form-control" value="{{ $cotizacion->origen }}"
-                                    disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Peso de Exportacion:</label>
-                                <input type="text" name="peso" class="form-control" value="{{ $cotizacion->peso }}"
-                                    disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Volumen de Exportacion:</label>
-                                <input type="text" name="volumen" class="form-control"
-                                    value="{{ $cotizacion->volumen }}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Ciudad y dir. de entrega:</label>
-                                <input type="text" name="estado" class="form-control"
-                                    value="{{ $cotizacion->ciudad_entrega }} - {{ $cotizacion->direccion }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Costo total:</label>
-                                <input type="text" name="total" class="form-control"
-                                    value="{{ $cotizacion->total }}" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            @if ($proveedor == 'false' && $proveedores == 'false')
-                                <div class="alert alert-danger">
-                                    No existe informacion de proveedores
-                                </div>
-                            @else
-                                <div class="form-group">
-                                    <label for="">Cantidad de proveedores: </label>
-                                    <input type="text" name="total" class="form-control"
-                                        value="{{ $proveedores->proveedores }}" disabled>
-                                </div>
-                            @endif
-
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
-
-            </x-adminlte-card>
-        </div>
         <div class="col-md-3">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="card-title">Informacion del cliente</h5>
+                </div>
+                <div class="card-body">
 
+                    <p class="card-text"><i class="fa-solid fa-user"></i> Nombre: {{ $cotizacion->usuario->name }}</p>
+                    <p class="card-text"><i class="fa-solid fa-envelope"></i> Email: {{ $cotizacion->usuario->email }}</p>
+                    <p class="card-text"><i class="fa-solid fa-phone-volume"></i> Telefono:
+                        {{ $cotizacion->usuario->telefono }}</p>
+                    <p class="card-text"><i class="fa-solid fa-calendar"></i> Fecha de cotizacion: {{ $cotizacion->time }}
+                    </p>
+                    <p class="card-text"><i class="fa-solid fa-passport"></i> Cedula: {{ $cotizacion->usuario->cedula }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    Gestionar cotizaciones asignadas
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.especialistas.update', $cotizacion->id) }}" method="post"
+                        id="formCreate">
+                        {{ method_field('PATCH') }}
+                        @csrf
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">BarCode: {{ $cotizacion->barcode }}</label>
+                                    {!! DNS1D::getBarcodeHTML("$cotizacion->barcode", 'C128A') !!}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="">Estado:</label>
+                                <div class="form-group">
+                                    <select name="estado" class="selectpicker" data-width="100%" data-style="btn-primary">
+                                        @if ($cotizacion->estado == 'Aprobado')
+                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                            <option value="Finalizado">Finalizado</option>
+                                        @endif
+                                        @if ($cotizacion->estado == 'Pendiente')
+                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
+                                            <option value="Aprobado">Aprobado</option>
+                                            <option value="Finalizado">Finalizado</option>
+                                        @endif
+                                        @if ($cotizacion->estado == 'Finalizado')
+                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
+                                            <option value="Aprobado">Aprobado</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Especialista Asignado:</label>
+                                    <input type="text" name="usuario_id" class="form-control"
+                                        value="{{ $cotizacion->especialista->name }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Tipo de Modalidad:</label>
+                                    <input type="text" name="modalidad_id" class="form-control"
+                                        value="{{ $cotizacion->modalidad->modalidad }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Pais de cotizacion:</label>
+                                    <input type="text" name="pais_id" class="form-control"
+                                        value="{{ $cotizacion->pais->nombre_pais }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Tipo de Carga:</label>
+                                    <input type="text" name="cargas_id" class="form-control"
+                                        value="{{ $cotizacion->carga->tipoCarga }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Peso de Exportacion:</label>
+                                    <input type="text" name="peso" class="form-control"
+                                        value="{{ $cotizacion->peso }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Volumen de Exportacion:</label>
+                                    <input type="text" name="volumen" class="form-control"
+                                        value="{{ $cotizacion->volumen }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Pais de Origen:</label>
+                                    <input type="text" name="origen" class="form-control"
+                                        value="{{ $cotizacion->origen }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Direccion de entrega:</label>
+                                    <input type="text" name="estado" class="form-control"
+                                        value="{{ $cotizacion->direccion }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Ciudad de entrega:</label>
+                                    <input type="text" name="estado" class="form-control"
+                                        value="{{ $cotizacion->ciudad->provincia }} - {{ $cotizacion->ciudad->canton }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+                            <div class="col">
+                                <div class="form-group">
+                                    @if ($proveedor == 'false' && $proveedores == 'false')
+                                        <div class="alert alert-danger">
+                                            No existe informacion de proveedores
+                                        </div>
+                                    @else
+                                        <div class="form-group">
+                                            <label for="">Cantidad de proveedores: </label>
+                                            <input type="text" name="total" class="form-control"
+                                                value="{{ $proveedores->proveedores }}">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">¿Es inflamable?</label>
+                                    <input type="text" class="form-control" name="inflamable"
+                                        value="{{ $cotizacion->inflamable }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">¿Tiene bateria?</label>
+                                    <input type="text" class="form-control" name="bateria"
+                                        value="{{ $cotizacion->tiene_bateria }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">¿Tiene liquidos?</label>
+                                    <input type="text" class="form-control" name="liquido"
+                                        value="{{ $cotizacion->liquidos }}">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Valor del flete:</label>
+                                    <input type="text" name="total" class="form-control"
+                                        value="{{ $cotizacion->flete_maritimo }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Costo logistico:</label>
+                                    <input type="text" name="total" class="form-control"
+                                        value="{{ $cotizacion->total_logistica }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="">Costo total:</label>
+                                    <input type="text" name="total" class="form-control"
+                                        value="{{ $cotizacion->total }}">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <x-adminlte-button label="Guardar Cambios" theme="warning" icon="fas fa-lg fa-save" class="float-right"
+                    type="sumbit" form="formCreate" />
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

@@ -33,11 +33,6 @@
         </script>
     @endif
 
-    {{-- <div class="row ">
-        <x-adminlte-info-box title="Progreso de tu Importación" text="{{ $cotizacion->proceso }}/4"
-            icon="fas fa-lg fa-tasks text-orange" theme="warning" icon-theme="dark" progress=50 progress-theme="dark"
-            description="50% para completa tu solicitud" />
-    </div> --}}
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">

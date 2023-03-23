@@ -21,6 +21,7 @@ use App\Models\Ciudad;
 use App\Models\ProductoInsumo;
 use App\Models\Puerto;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class ColombiaController extends Controller
 {
@@ -233,7 +234,8 @@ class ColombiaController extends Controller
         return redirect()->route('admin.colombia.edit', $data);
     }
 
-    public function volumen($volumen){
+    public function volumen($volumen)
+    {
         switch ($volumen) {
             case ($volumen > 0 && $volumen < 1):
 
@@ -334,7 +336,18 @@ class ColombiaController extends Controller
             'cotizacion' => $cotizacion,
             'mensaje' => $mensaje
         ];
+
+        Session::put('tasks', request()->fullUrl());
+        // echo Session::get('tasks');
+
         return view('admin.calculadoras.colombia.maestroAjax', $data);
+    }
+
+    public function back()
+    {
+        if (session('tasks')) {
+            return redirect(session('tasks'));
+        }
     }
 
     public function actualizarPaso1(Request $request, $id)
@@ -353,7 +366,7 @@ class ColombiaController extends Controller
         $proveedores = $request->input('cantidad_proveedores');
         $gastosOrigen = $this->volumen($request->input('volumen')) + (($proveedores * 50) - 50);
         $flete = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
-        
+
         $datos = [
             'inflamable' => $request->input('inflamable'),
             'tiene_bateria' => $request->input('tiene_bateria'),

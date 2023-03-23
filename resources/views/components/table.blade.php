@@ -1,4 +1,4 @@
-<table class="table table-striped" id="table2">
+<table class="table table-bordered table-striped text-center" id="table2">
     {{$slot}}
 </table>
 @section('js')

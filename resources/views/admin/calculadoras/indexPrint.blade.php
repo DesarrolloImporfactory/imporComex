@@ -4,10 +4,10 @@
 
 @section('content_header')
     <div class="row">
-        <div class="col-md-3"></div>
+        <div class="col-md-3"><a class="btn btn-danger float-left btn-sm" href="{{ route('back') }}"><i class="fa-solid fa-arrow-left"></i> Regresar</a></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>Cotizador {{ $cotizacion->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $cotizacion->pais->nombre_pais }}</b></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>

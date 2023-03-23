@@ -39,12 +39,14 @@ class ValidacionesController extends Controller
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
             $barcode = $cotizacion->barcode;
             $inBackground = true;
+            
             return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground', 'proveedores']));
         } else {
             return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message', 'Completemos la cotizacion!');
         }
     }
 
+    
 
     public function create()
     {
@@ -197,13 +199,13 @@ class ValidacionesController extends Controller
 
     public function edit($data)
     {
-        $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad'])->first();
-        $mensaje = "false";
-        $data = [
-            'cotizacion' => $cotizacion,
-            'mensaje' => $mensaje
-        ];
-        return view('admin.calculadoras.colombia.grupal.formulario', $data);
+        // $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad'])->first();
+        // $mensaje = "false";
+        // $data = [
+        //     'cotizacion' => $cotizacion,
+        //     'mensaje' => $mensaje
+        // ];
+        // return view('admin.calculadoras.colombia.grupal.formulario', $data);
     }
 
     public function updateFlete(Request $request, $id)

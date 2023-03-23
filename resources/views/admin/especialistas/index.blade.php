@@ -5,15 +5,15 @@
 <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}">
     <div class="row">
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizaciones }}" text="Total de Cotizaciones: " icon="fas fa-star" url="#"
+            <x-adminlte-small-box title="{{ $cotizaciones }}" text="COTIZACIONES" icon="fas fa-star" url="#"
                 url-text="View details" id="cotizaciones" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizacionesAprobadas }}" text="Cotizaciones Aprobadas: " icon="fas fa-chart-bar"
+            <x-adminlte-small-box title="{{ $cotizacionesAprobadas }}" text="COTIZACIONES APROBADAS" icon="fas fa-chart-bar"
                 theme="info" url="#" url-text="More info" id="aprobadas" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="{{ $cotizacionesPendientes }}" text="Cotizaciones Pendientes: "
+            <x-adminlte-small-box title="{{ $cotizacionesPendientes }}" text="COTIZACIONES PENDIENTES"
                 icon="fas fa-eye text-dark" theme="teal" url="#" url-text="View details" id="pendientes" />
         </div>
     </div>
@@ -62,7 +62,7 @@
 
                     let rep = respuesta;
                     let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                    let text = 'total de Cotizaciones ' + [idx];
+                    let text = 'COTIZACIONES;
                     let icon = 'fas fa-star' + ['text-dark', 'text-light', 'text-warning'][idx];
 
                     let data = {
@@ -93,7 +93,7 @@
 
                     let rep = respuesta;
                     let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                    let text = 'Cotizaciones Aprobadas' + [idx];
+                    let text = 'COTIZACIONES APROBADAS';
                     let data = {
                         text,
                         title: rep
@@ -121,7 +121,7 @@
 
                     let rep = respuesta;
                     let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                    let text = 'Cotizaciones Pendientes' + [idx];
+                    let text = 'COTIZACIONES PENDIENTES';
                     let data = {
                         text,
                         title: rep

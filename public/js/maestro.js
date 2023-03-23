@@ -17,64 +17,64 @@ $(document).ready(function() {
         var logistica = $("#logistica").val();
         if (logistica > 0) {
             $(".logistica").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total logistica : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total logistica : </label>
+    `);
         } else {
             $(".logistica").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total logistica : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total logistica : </label>
+    `);
         }
         var impuestos = $("#impuestos").val();
         if (impuestos > 0) {
             $(".impuestos").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total impuestos : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total impuestos : </label>
+    `);
         } else {
             $(".impuestos").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total impuestos : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total impuestos : </label>
+    `);
         }
         var compra = $("#compra").val();
         if (compra > 0) {
             $(".compra").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total compra : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total compra : </label>
+    `);
         } else {
             $(".compra").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total compra : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total compra : </label>
+    `);
         }
         var cotizacion_total = $("#cotizacion_total").val();
         if (cotizacion_total > 0) {
             $(".cotizacion_total").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total : </label>
+    `);
         } else {
             $(".cotizacion_total").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total : </label>
+    `);
         }
         var productos_total = $("#productos_total").val();
         if (productos_total > 0) {
             $(".productos_total").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total productos : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total productos : </label>
+    `);
         } else {
             $(".productos_total").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total productos : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total productos : </label>
+    `);
         }
         var fob_total = $("#fob_total").val();
         if (fob_total > 0) {
             $(".fob_total").prepend(`
-            <i class="fa-solid fa-check text-teal"></i> <label for="">Total FOB : </label>
-            `);
+    <i class="fa-solid fa-check text-teal"></i> <label for="">Total FOB : </label>
+    `);
         } else {
             $(".fob_total").prepend(`
-            <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total FOB : </label>
-            `);
+    <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total FOB : </label>
+    `);
         }
-        
+
     }
 
 
@@ -92,34 +92,36 @@ $(document).ready(function() {
                 $('#body').html("");
                 $.each(response.productos, function(key, producto) {
                     $('#body').append(`
-                        <tr>
-                            <td>${(producto.id)}</td>
-                            <td>${producto.insumo.nombre}</td>
-                            <td>${(producto.precio).toFixed(2)}</td>
-                            <td>${(producto.cantidad).toFixed(2)}</td>
-                            <td>${(producto.fob).toFixed(2)}</td>
-                            <td>${(producto.Impuestos).toFixed(2)}</td>
-                            <td>${(producto.total).toFixed(2)}</td>
-                            <td>
-                                <a type="button" value="${producto.id}" id="btn-eliminar" class=" btn-sm"><i class="fa-solid fa-trash "></i></a>
-                                <a type="button" value="${producto.id}" id="btn-edit" class="btn-sm"><i class="fa-solid fa-pen-to-square "></i></a>
-                                <a type="button" value="${producto.id}" id="btn-ver" class="btn-sm"><i class="fa-solid fa-eye text-teal"></i></a>
-                            </td>
-                        </tr>
-                     `);
+                <tr>
+                    <td>${(producto.id)}</td>
+                    <td>${producto.insumo.nombre}</td>
+                    <td>${(producto.precio).toFixed(2)}</td>
+                    <td>${(producto.cantidad).toFixed(2)}</td>
+                    <td>${(producto.fob).toFixed(2)}</td>
+                    <td>${(producto.flete).toFixed(2)}</td>
+                    <td>${(producto.Impuestos).toFixed(2)}</td>
+                    <td>${(producto.total).toFixed(2)}</td>
+                    <td>
+                        <a type="button" value="${producto.id}" id="btn-eliminar" class=" btn-sm"><i class="fa-solid fa-trash "></i></a>
+                        <a type="button" value="${producto.id}" id="btn-edit" class="btn-sm"><i class="fa-solid fa-pen-to-square "></i></a>
+                        <a type="button" value="${producto.id}" id="btn-ver" class="btn-sm"><i class="fa-solid fa-eye text-teal"></i></a>
+                    </td>
+                </tr>
+             `);
                 });
                 $("#bodyTotal").append(`
-                 <tr>
-                         <td><b>Total:</b></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td><b>${(response.totalFob).toFixed(2)}</b></td>
-                         <td><b>${(response.totalImpuestos).toFixed(2)}</b></td>
-                         <td><b>${(response.totalTotal).toFixed(2)}</b></td>
-                         <td></td>
-                     </tr>
-                 `);
+         <tr>
+                 <td><b>Total:</b></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td><b>${(response.totalFob).toFixed(2)}</b></td>
+                 <td><b>${(response.totalFlete).toFixed(2)}</b></td>
+                 <td><b>${(response.totalImpuestos).toFixed(2)}</b></td>
+                 <td><b>${(response.totalTotal).toFixed(2)}</b></td>
+                 <td></td>
+             </tr>
+         `);
                 $("#compra").val((response.totalFob).toFixed(2));
                 $("#impuestos").val((response.totalImpuestos).toFixed(2));
                 $("#fob_total").val((response.totalFob).toFixed(2));
@@ -220,8 +222,8 @@ $(document).ready(function() {
                     $('#errores_formEdit').addClass('alert alert-success');
                     $.each(response.errors, function(key, err_values) {
                         $('#errores_formEdit').append(`
-                            <li>${err_values}</li>
-                         `);
+                    <li>${err_values}</li>
+                 `);
                     });
                     $(".actualizar").text("Volver a intentar");
                 } else if (response.status == 404) {
@@ -297,9 +299,9 @@ $(document).ready(function() {
             'precio': $('#precio').val(),
             'porcentaje': $('#porcentaje').val(),
             'cotizacion_id': $('#cotizacion_id').val(),
-            'total_fob':$("#fob_total").val(),
+            'total_fob': $("#fob_total").val(),
         }
-        
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -318,8 +320,8 @@ $(document).ready(function() {
                     $('#class1').addClass('alert alert-danger');
                     $.each(response.errors, function(key, err_values) {
                         $('#errores').append(`
-                            <li>${err_values}</li>
-                         `);
+                    <li>${err_values}</li>
+                 `);
                     });
                 } else {
                     $("#class1").removeClass('alert alert-danger');
@@ -338,5 +340,5 @@ $(document).ready(function() {
         });
     });
 
-   
+
 });

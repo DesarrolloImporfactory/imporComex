@@ -30,9 +30,10 @@ use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
 use App\Http\Controllers\VariablesController;
+use Illuminate\Support\Facades\Session;
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
@@ -125,5 +126,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('notificar/cuentas/{id}', [CuentasController::class, 'notificar'])->name('notificar.cuentas');
     Route::get('editAbono/{id}', [CuentasController::class, 'editAbono'])->name('editAbono');
     Route::patch('update/flete/{id}', [ValidacionesController::class, 'updateFlete'])->name('update.flete');
-
+    Route::get('back', [ColombiaController::class, 'back'])->name('back');
 });
