@@ -114,6 +114,7 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('admin/perfil', [UsuariosController::class, 'showPerfil'])->name('admin.perfil');
     Route::patch('admin/perfil/update/{id}', [UsuariosController::class, 'updatePerfil'])->name('admin.perfil.update');
     Route::patch('admin/password/{id}', [UsuariosController::class, 'changePassword'])->name('admin.password');
+    Route::patch('admin/resetPassword/{id}', [UsuariosController::class, 'resetPassword'])->name('admin.resetPassword');
     Route::delete('admin/destroyUser/{id}', [UsuariosController::class, 'destroyUser'])->name('admin.destroyUser');
     Route::get('productos/{id}', [ProveedoresController::class, 'productos']);
 

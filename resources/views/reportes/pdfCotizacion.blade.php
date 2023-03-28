@@ -87,7 +87,7 @@
 
 <footer>
 
-    <p><b>Dirección: </b> Barrio la Merced, Calles: Calixto Pino y Sánchez de Orellana - <b>Cel. </b> 09999999999 &copy;
+    <p><b>Dirección: </b> Edificio el Cisne, Colon y Quito 170522 - <b>Cel. </b> +593 998818724 &copy;
         <?php echo date('Y'); ?> </p>
 </footer>
 
@@ -163,7 +163,7 @@
                         <td><b>Nombre de producto: </b></td>
                         <td>
                             @foreach ($productos as $item)
-                                <li>{{$item->insumo->nombre}}</li>
+                                <li>{{ $item->insumo->nombre }}</li>
                             @endforeach
                         </td>
                     </tr>
@@ -177,7 +177,8 @@
                     </tr>
                     <tr>
                         <td><b>Lugar de entrega: </b></td>
-                        <td>{{ $cotizacion->ciudad->nombre_provincia }} - {{ $cotizacion->ciudad->nombre_canton }}</td>
+                        <td>{{ $cotizacion->ciudad->nombre_provincia }} - {{ $cotizacion->ciudad->nombre_canton }}
+                        </td>
                     </tr>
 
                 </tbody>
@@ -201,12 +202,23 @@
                         <td>{{ $cotizacion->total_logistica }}$</td>
                     </tr>
                     <tr>
+                        <td><b>Impuestos apróximados </b></td>
+                        <td>{{ $cotizacion->total_impuesto }}$</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th>PAGO PROVEEDOR</th>
+                        <th>PRECIO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
                         <td><b>Valor de compra. </b></td>
                         <td>{{ $cotizacion->total_fob }}$</td>
-                    </tr>
-                    <tr>
-                        <td><b>Impuestos apróx. </b></td>
-                        <td>{{ $cotizacion->total_impuesto }}$</td>
                     </tr>
                     <tr>
                         <td><b>ISD. </b></td>
@@ -216,10 +228,8 @@
                         <td><b>Gtos. TOTAL A PAGAR: </b></td>
                         <td>{{ $cotizacion->total }}$</td>
                     </tr>
-
                 </tbody>
             </table>
-
         </div>
 
         <div class="condiciones">

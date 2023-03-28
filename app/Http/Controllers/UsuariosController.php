@@ -58,7 +58,7 @@ class UsuariosController extends Controller
                 'telefono'=>$request->input('telefono'),
                 'ruc'=>$request->input('ruc'),
                 'email'=>$request->input('email'),
-                'password'=>Hash::make($request->input('password')),
+                'password'=>md5($request->input('password')),
             ])->assignRole('Client');
             Notification::route('mail', $request->input('email'))->notify(new SendPassword($password));
             return response()->json([
@@ -111,7 +111,7 @@ class UsuariosController extends Controller
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
             'estado'=>1,
-            'password'=>Hash::make($password1),
+            'password'=>md5($password1),
         ])->assignRole($request->input('roles')); 
         
         return redirect('admin/usuarios')->with('mensaje','Usuario registrado');
@@ -121,8 +121,9 @@ class UsuariosController extends Controller
     {
         $user=User::findOrFail($id);
         $rol = Role::all();
+        $usuario=User::findOrFail($id);
         $idiomas=Idioma::get();
-        return view('admin.usuarios.formEdit',compact('user','rol','idiomas'));
+        return view('admin.usuarios.formEdit',compact('user','rol','idiomas','usuario'));
     }
     //asignar roles al usuario
     public function showPerfil()
@@ -172,6 +173,26 @@ class UsuariosController extends Controller
             return redirect('admin/perfil')->with('mensaje','Contraseña actual incorrecta');
          }
     }
+
+    public function resetPassword(Request $request, $id){
+        $request->validate([
+            'contraseña_actual'=>['required','min:8','string'],
+           //  'nueva_contraseña' => ['required','min:8','string'],
+           //  'confirmar_contraseña'=>['required','min:8','same:nueva_contraseña','string'], 
+         ]);
+        $usuario = User::find($id);
+        $password = $usuario->password;
+       
+        if(md5($request->input('contraseña_actual'))==$password){
+           $datos = [
+               'password'=>md5($request->input('nueva_contraseña')),
+           ];
+           User::whereid($id)->update($datos);
+           return redirect('admin/usuarios')->with('mensaje','Contraseña actualizada!');
+        }else{
+            return redirect()->route('admin.usuarios.edit',$id)->with('mensaje','Contraseña actual incorrecta');
+        }
+   }
     
     public function update(Request $request, $user)
     {
@@ -185,7 +206,6 @@ class UsuariosController extends Controller
             'ruc'=>['required'],
             'cedula' => ['required'],
             'email' => ['required'],
-            'password' => ['required'],
             'roles'=>['required'],
                
          ]);

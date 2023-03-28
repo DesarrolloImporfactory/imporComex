@@ -22,6 +22,7 @@ use App\Models\ProductoInsumo;
 use App\Models\Puerto;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class ColombiaController extends Controller
 {
@@ -166,34 +167,46 @@ class ColombiaController extends Controller
         }
 
         $barcode = IdGenerator::generate(['table' => 'cotizaciones', 'field' => 'barcode', 'length' => 6, 'prefix' => date('y')]);
+        //abajo hay codigo!!!! de referencia
+        $data = User::whereHas("roles", function ($q) {
+            $q->where("name", "Especialista");
+        })->get();
 
-        //codigo para traer el ultimo especialista creado dentro de User
-        $data = User::latest('created_at')->whereHas("roles", function ($q) {
+        $usr = User::where('id', Auth::user()->id)->whereHas("roles", function ($q) {
             $q->where("name", "Especialista");
         })->first();
 
-        if (isset($data)) {
-            $idEspecialistaNuevo = $data->id;
-        }
-
-        //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
         $query = "Select count(id) as cotizaciones, especialista_id from cotizaciones where estado='aprobado' or estado='pendiente' group by especialista_id";
-
         $consulta = DB::select($query);
-        //condicion para saber si existe cotizaciones asignadas
-        if (count($consulta) > 0) {
 
-            $id = min($consulta);
-
-            $idEspecialistaExistente = $id->especialista_id;
-            if ($idEspecialistaNuevo != $idEspecialistaExistente) {
-                $especialista = $idEspecialistaNuevo;
-            } else {
-                $especialista = $idEspecialistaExistente;
-            }
+        if (isset($usr)) {
+            $especialista = Auth::user()->id;
         } else {
 
-            $especialista = $idEspecialistaNuevo;
+            if (count($consulta) == 0) {
+                $aleatorio = User::orderByRaw("RAND()")->whereHas("roles", function ($q) {
+                    $q->where("name", "Especialista");
+                })->first();
+
+                $especialista = $aleatorio->id;
+            } else {
+                if (count($data) == count($consulta)) {
+                    $id = min($consulta);
+                    $especialista = $id->especialista_id;
+                } else {
+
+                    foreach ($consulta as $item) {
+                        $especialistas = User::whereHas("roles", function ($q) {
+                            $q->where("name", "Especialista");
+                        })->get();
+
+                        $aleatorio = $especialistas->random();
+                        if ($aleatorio->id != $item->especialista_id) {
+                            $especialista = $aleatorio->id;
+                        }
+                    }
+                }
+            }
         }
         ////Envio de correo electronico al especialista
         $datosEspecialista = User::findOrFail($especialista);
@@ -409,3 +422,37 @@ class ColombiaController extends Controller
         //
     }
 }
+//codigo para traer el ultimo especialista creado dentro de User
+        // $data = User::latest('created_at')->whereHas("roles", function ($q) {
+        //     $q->where("name", "Especialista");
+        // })->first();
+
+        // $data = User::orderByRaw("RAND()")->first();
+
+        // $data = User::orderByRaw("RAND()")->whereHas("roles", function ($q) {
+        //     $q->where("name", "Especialista");
+        // })->first();
+
+        // if (isset($data)) {
+        //     $idEspecialistaNuevo = $data->id;
+        // }
+
+        // //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
+        // $query = "Select count(id) as cotizaciones, especialista_id from cotizaciones where estado='aprobado' or estado='pendiente' group by especialista_id";
+
+        // $consulta = DB::select($query);
+        // //condicion para saber si existe cotizaciones asignadas
+        // if (count($consulta) > 1) {
+
+        //     $id = min($consulta);
+
+        //     $idEspecialistaExistente = $id->especialista_id;
+        //     if ($idEspecialistaNuevo != $idEspecialistaExistente) {
+        //         $especialista = $idEspecialistaNuevo;
+        //     } else {
+        //         $especialista = $idEspecialistaExistente;
+        //     }
+        // } else {
+
+        //     $especialista = $idEspecialistaNuevo;
+        // }

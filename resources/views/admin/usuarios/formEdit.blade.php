@@ -2,13 +2,11 @@
 @section('title', 'Registrar Usuarios')
 
 @section('content_header')
-    <x-adminlte-info-box title="528" text="Editar Usuario" icon="fas fa-lg fa-user-plus text-primary"
-        theme="gradient-primary" icon-theme="white" />
+
 
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-button label="Editar Usuario" theme="dark" icon="fas fa-lg fa-save" class="float-right" type="sumbit"
-                form="formCreate" />
+
         </div>
     </div>
 @stop
@@ -16,8 +14,16 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card theme="dark" theme-mode="outline">
-                {!! Form::model($user, ['route'=>['admin.usuarios.update',$user->id], 'method'=>'put', 'id'=>'formCreate']) !!}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    Editar Usuario
+                </div>
+                <div class="card-body">
+                    {!! Form::model($user, [
+                        'route' => ['admin.usuarios.update', $user->id],
+                        'method' => 'put',
+                        'id' => 'formCreate',
+                    ]) !!}
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -35,10 +41,9 @@
                                 <x-adminlte-select2 name="idioma">
                                     <option value="{{ $user->idioma }}">{{ $user->idioma }}</option>
                                     @foreach ($idiomas as $idioma)
-                                    @if ($user->idioma!=$idioma->nombre )
-                                    <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
-                                    @endif
-                                        
+                                        @if ($user->idioma != $idioma->nombre)
+                                            <option value="{{ $idioma->nombre }}">{{ $idioma->nombre }}</option>
+                                        @endif
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
@@ -47,7 +52,7 @@
                             <div class="form-group">
                                 <label for="">Telefono: </label>
                                 <input type="number" class="form-control" placeholder="02-2956862" name="telefono"
-                                    value="{{ $user->telefono}}">
+                                    value="{{ $user->telefono }}">
                                 @error('telefono')
                                     <small style="color: red">{{ $message }}</small>
                                 @enderror
@@ -132,7 +137,7 @@
                                     <div class="form-group">
                                         <label for="">Password: </label>
                                         <input type="password" class="form-control" name="password" placeholder=""
-                                            value="{{ $user->password }}">
+                                            value="{{ $user->password }}" readonly>
                                         @error('password')
                                             <small style="color: red">{{ $message }}</small>
                                         @enderror
@@ -143,24 +148,71 @@
                         </div>
                         <div class="col-md-4">
                             <label for="" style="color: red">Asignación de roles</label>
-                        @foreach($rol as $roles)
-                        <div>
-                            <label>
-                                {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1']) !!}
-                                {{$roles->name}}
-                            </label>
-                        </div>
-                        @endforeach
-                        
-                    
-
-
+                            @foreach ($rol as $roles)
+                                <div>
+                                    <label>
+                                        {!! Form::checkbox('roles[]', $roles->id, null, ['class' => 'mr-1']) !!}
+                                        {{ $roles->name }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
 
                     </div>
 
                     {!! Form::close() !!}
-            </x-adminlte-card>
+                </div>
+                <div class="card-footer">
+                    <x-adminlte-button label="Editar Usuario" theme="dark" icon="fas fa-lg fa-save"
+                        class="float-right" type="sumbit" form="formCreate" />
+                </div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-header">
+                    ACTUALIZAR CONTRASEÑA
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.resetPassword', $usuario->id) }}" method="POST" id="changePassword">
+                        {{ method_field('PATCH') }}
+                        @csrf
+                        <div class="form-group">
+                            <p>Contraseña actual</p>
+                            <input type="password" class="form-control @error('contraseña_actual') is-invalid @enderror"
+                                name="contraseña_actual">
+                            @error('contraseña_actual')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <p>Nueva contraseña</p>
+                            <input type="password" class="form-control @error('nueva_contraseña') is-invalid @enderror"
+                                name="nueva_contraseña">
+                            @error('nueva_contraseña')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <p>Confirmar contrseña</p>
+                            <input type="password"
+                                class="form-control @error('confirmar_contraseña') is-invalid @enderror"
+                                name="confirmar_contraseña">
+                            @error('confirmar_contraseña')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-dark float-right" form="changePassword"><i
+                            class="fa-solid fa-rotate"></i> Actualizar</button>
+                </div>
+            </div>
         </div>
     </div>
     <script>

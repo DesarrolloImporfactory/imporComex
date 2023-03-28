@@ -13,6 +13,17 @@
 @stop
 
 @section('content')
+@if (Session::has('mensaje'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ Session::get('mensaje') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
     @php
         $heads = ['ID', 'Nombre', 'Telefono', 'Fecha', 'Importacion', 'Idioma', 'Estado', 'Cedula', 'Ruc', 'Email', 'Rol' ,'Acciones'];
         
