@@ -23,7 +23,7 @@
     @yield('adminlte_css_pre')
 
     {{-- Base Stylesheets --}}
-    <link rel="stylesheet" href="{{asset('vendor/jquery-ui/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('vendor/jquery-ui/jquery-ui.min.css') }}">
     {{-- <link rel="stylesheet" href="{{asset('css/theme-default.css')}}"> --}}
     {{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -80,7 +80,7 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @endif
-
+   
 </head>
 {{-- estilos para login y register --}}
 <style>
@@ -93,11 +93,11 @@
     }
 
     .register-page {
-        background-image: url({{asset('imagenes/fondo-2.png')}});
+        background-image: url({{ asset('imagenes/fondo-2.png') }});
     }
 
     .login-page {
-        background-image: url({{asset('imagenes/fondo-2.png')}});
+        background-image: url({{ asset('imagenes/fondo-2.png') }});
     }
 </style>
 
@@ -119,23 +119,23 @@
     @else
         <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
     @endif
-    
+
     {{-- Livewire Script --}}
     @if (config('adminlte.livewire'))
         @if (app()->version() >= 7)
-        @livewire('livewire-ui-modal')
+            @livewire('livewire-ui-modal')
             @livewireScripts
         @else
-        @livewire('livewire-ui-modal')
+            @livewire('livewire-ui-modal')
             <livewire:scripts />
         @endif
     @endif
-    
+
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
-  
-    
+
+
 
 </body>
 
