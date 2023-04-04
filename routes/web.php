@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IdiomasController;
@@ -17,10 +18,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::get('/', function () {
-    Auth::logout();
-    return view('welcome');
-});
+Route::get('/', [LoginController::class, 'showLoginForm']);
 
 Auth::routes(['verify' => true]);
 
