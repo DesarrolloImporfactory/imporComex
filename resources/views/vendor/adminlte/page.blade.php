@@ -23,8 +23,8 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/reportes.css')}}" /> --}}
     <link rel="stylesheet" href="{{ asset('css/invoices.css') }}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{{ asset('storage/build/css/demo.css') }}">
-    <link rel="stylesheet" href="{{ asset('storage/build/css/intlTelInput.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('storage/build/css/demo.css') }}">
+    <link rel="stylesheet" href="{{ asset('storage/build/css/intlTelInput.css') }}"> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
