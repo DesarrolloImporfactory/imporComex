@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="card-body">
-            <x-table>
+            <table class="table" id="tableIdioma">
                 <thead>
                     <tr class="table-dark">
                         <th>ID</th>
@@ -70,7 +70,7 @@
                         <!-- Modal editar -->
                     @endforeach
                 </tbody>
-            </x-table>
+            </table>
         </div>
 
     </div>
@@ -78,4 +78,9 @@
     <!-- ---------------MODAL-------------------- -->
     @include('admin.idiomas.formCreate')
     <!-- ---------------FIN MODAL----------------- -->
+    <script>
+        $(document).ready(function() {
+            $('#tableIdioma').DataTable();
+        });
+    </script>
 @stop

@@ -34,7 +34,7 @@ class UsuariosController extends Controller
             'idiomas'=>$idioma,
         ];
 
-        return view('admin.usuarios.index',$datos);
+        return view('admin.usuarios.view',$datos);
     }
 
     public function createUserFast(Request $request){
@@ -89,11 +89,6 @@ class UsuariosController extends Controller
 
         $request->validate([
             'name'=>['required'],
-            'idioma' => ['required'],
-            'telefono' => ['required'],
-            'date'=>['required'],
-            'ruc'=>['required'],
-            'cedula' => ['required','min:9','max:10'],
             'email' => ['required','email'],
             'password' => ['required'],
             'roles'=>['required'],
@@ -231,8 +226,9 @@ class UsuariosController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect('usuarios')->with('mensaje','Usuario Eliminado');
+        return redirect('admin/usuarios')->with('mensaje','Usuario Eliminado');
     }
+
     public function destroyUser($id)
     {
         User::destroy($id);
