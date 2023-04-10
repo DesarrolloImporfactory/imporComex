@@ -53,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'cedula',
         'ruc',
         'password',
+        'email_verified_at',
     ];
 
     

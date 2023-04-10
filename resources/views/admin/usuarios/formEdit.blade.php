@@ -147,15 +147,15 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="" style="color: red">Asignación de roles</label>
-                            @foreach ($rol as $roles)
-                                <div>
-                                    <label>
-                                        {!! Form::checkbox('roles[]', $roles->id, null, ['class' => 'mr-1']) !!}
-                                        {{ $roles->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                            <label for="">Seleccione un rol</label>
+                            <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="roles" enable-old-support>
+                                @foreach ($user->roles as $role)
+                                    @foreach ($rol as $item)
+                                    <option value="{{ $item->id}}"{{ $role->id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                    @endforeach
+                                @endforeach
+                            </x-adminlte-select2>
+
                         </div>
 
                     </div>

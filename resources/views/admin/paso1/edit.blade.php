@@ -149,7 +149,7 @@
                                 <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="ciudad_entrega"
                                     enable-old-support>
                                     @foreach ($ciudades as $item)
-                                        <option value="{{ $item->id }}">{{ $item->provincia }} -
+                                        <option value="{{ $item->id }}"{{ $datos->ciudad_id == $item->id ? 'selected' : '' }}>{{ $item->provincia }} -
                                             {{ $item->canton }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
