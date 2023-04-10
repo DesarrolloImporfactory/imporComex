@@ -34,9 +34,15 @@
 @section('auth_footer')
     <div class="text-center">
         <p class="my-0">
-            <a href="{{url('/')}} " >
-                Regresar
+        <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+                <i class="fa-solid fa-door-open text-danger"></i>
+                <span class="align-middle"> Regresar</span>
             </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </p>
     </div>
 @stop
