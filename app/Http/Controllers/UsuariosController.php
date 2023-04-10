@@ -89,13 +89,16 @@ class UsuariosController extends Controller
 
         $request->validate([
             'name'=>['required'],
-            'email' => ['required','email'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required'],
             'roles'=>['required'],
                
          ]);
-
-        $estado = $request->input('estado');
+        if ($request->input('verificar') == 1) {
+            $verificar = Carbon:: now();
+        }else{
+            $verificar = NULL;
+        }
         $password1=$request->input('password');
         User::create([
             'name'=>$request->input('name'),
@@ -106,9 +109,10 @@ class UsuariosController extends Controller
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
             'estado'=>1,
+            'email_verified_at'=>$verificar,
             'password'=>md5($password1),
         ])->assignRole($request->input('roles')); 
-        
+        Notification::route('mail', $request->input('email'))->notify(new SendPassword($password1));
         return redirect('admin/usuarios')->with('mensaje','Usuario registrado');
     }
    
@@ -116,7 +120,8 @@ class UsuariosController extends Controller
     {
         $user=User::findOrFail($id);
         $rol = Role::all();
-        $usuario=User::findOrFail($id);
+        // $usuario=User::findOrFail($id);
+        $usuario = User::with('roles')->findOrFail($id);
         $idiomas=Idioma::get();
         return view('admin.usuarios.formEdit',compact('user','rol','idiomas','usuario'));
     }
@@ -152,8 +157,6 @@ class UsuariosController extends Controller
     public function changePassword(Request $request, $id){
          $request->validate([
              'contraseña_actual'=>['required','min:8','string'],
-            //  'nueva_contraseña' => ['required','min:8','string'],
-            //  'confirmar_contraseña'=>['required','min:8','same:nueva_contraseña','string'], 
           ]);
          $usuario = User::find($id);
          $password = $usuario->password;
@@ -164,6 +167,7 @@ class UsuariosController extends Controller
             ];
             User::whereid($id)->update($datos);
             return redirect('admin/perfil')->with('mensaje','Contraseña actualizada!');
+            Notification::route('mail', $usuario->email)->notify(new SendPassword($request->input('contraseña_actual')));
          }else{
             return redirect('admin/perfil')->with('mensaje','Contraseña actual incorrecta');
          }
@@ -172,8 +176,6 @@ class UsuariosController extends Controller
     public function resetPassword(Request $request, $id){
         $request->validate([
             'contraseña_actual'=>['required','min:8','string'],
-           //  'nueva_contraseña' => ['required','min:8','string'],
-           //  'confirmar_contraseña'=>['required','min:8','same:nueva_contraseña','string'], 
          ]);
         $usuario = User::find($id);
         $password = $usuario->password;
@@ -183,6 +185,7 @@ class UsuariosController extends Controller
                'password'=>md5($request->input('nueva_contraseña')),
            ];
            User::whereid($id)->update($datos);
+           Notification::route('mail', $usuario->email)->notify(new SendPassword($request->input('contraseña_actual')));
            return redirect('admin/usuarios')->with('mensaje','Contraseña actualizada!');
         }else{
             return redirect()->route('admin.usuarios.edit',$id)->with('mensaje','Contraseña actual incorrecta');
@@ -193,14 +196,8 @@ class UsuariosController extends Controller
     {
         $request->validate([
             'name'=>['required'],
-            'idioma' => ['required'],
-            'telefono' => ['required'],
-            'date'=>['required'],
-            'importacion' => ['required'],
-            'estado' => ['required'],
-            'ruc'=>['required'],
-            'cedula' => ['required'],
-            'email' => ['required'],
+            'email' => ['required','email'],
+            'password' => ['required'],
             'roles'=>['required'],
                
          ]);
@@ -216,6 +213,7 @@ class UsuariosController extends Controller
             'ruc'=>$request->input('ruc'),
             'email'=>$request->input('email'),
         );
+        
         User::whereid($user)->update($datos);
         $users->roles()->sync($request->roles);
         //User::whereid($user)->update($datos);

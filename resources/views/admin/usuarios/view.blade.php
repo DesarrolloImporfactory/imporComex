@@ -43,7 +43,12 @@
                         @else
                             <td><i class="fa-regular fa-circle-xmark"></i></td>
                         @endif
-                        <td>{!! $usuario->cedula !!}</td>
+                        @if (isset($usuario->cedula))
+                            <td>{!! $usuario->cedula !!}</td>
+                        @else
+                            <td>{!! $usuario->ruc !!}</td>
+                        @endif
+
                         @if (isset($usuario->ruc))
                             <td><i class="fa-regular fa-circle-check text-teal"></i></td>
                         @else
@@ -68,7 +73,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <form action="{{ route('admin.usuarios.destroy', $usuario->id) }}" method="post" class="btn-delete">
+                                    <form action="{{ route('admin.usuarios.destroy', $usuario->id) }}" method="post"
+                                        class="btn-delete">
                                         @csrf
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="dropdown-item"><i class="bi bi-trash"></i>
