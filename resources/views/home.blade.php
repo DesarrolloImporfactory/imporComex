@@ -122,7 +122,7 @@
                     success: function(response) {
                         let rep = response.usuarios;
                         let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
-                        let text = 'Usuarios' + [idx];
+                        let text = 'Usuarios';
                         let data = {
                             text,
                             title: rep
@@ -150,7 +150,7 @@
 
                     let rep = res.cotizaciones;
                     let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
-                    let text = 'Cotizaciones' + [idx];
+                    let text = 'Cotizaciones';
                     let data = {
                         text,
                         title: rep
@@ -177,7 +177,7 @@
 
                     let rep = res.pendientes;
                     let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
-                    let text = 'Pendientes' + [idx];
+                    let text = 'Pendientes';
                     let data = {
                         text,
                         title: rep
