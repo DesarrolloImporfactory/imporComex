@@ -282,7 +282,7 @@
                     cancelButtonAriaLabel: 'Thumbs down'
                 })
                 //setear un select
-                $("#bateria").val("").trigger("change");
+                // $("#bateria").val("").trigger("change");
             }
         }
 

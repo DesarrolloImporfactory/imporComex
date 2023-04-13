@@ -137,7 +137,7 @@
                                     <div class="form-group">
                                         <label for="">Password: </label>
                                         <input type="password" class="form-control" name="password" placeholder=""
-                                            value="{{ $user->password }}" readonly>
+                                            value="{{ $user->password }}" >
                                         @error('password')
                                             <small style="color: red">{{ $message }}</small>
                                         @enderror
