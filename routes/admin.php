@@ -13,6 +13,7 @@ use App\Http\Controllers\CalculadorasController;
 use App\Http\Controllers\CiudadesController;
 use App\Http\Controllers\EspecialistasController;
 use App\Http\Controllers\ColombiaController;
+use App\Http\Controllers\ComisionController;
 use App\Http\Controllers\ValidacionesController;
 use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\ReportesController;
@@ -128,4 +129,6 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('editAbono/{id}', [CuentasController::class, 'editAbono'])->name('editAbono');
     Route::patch('update/flete/{id}', [ValidacionesController::class, 'updateFlete'])->name('update.flete');
     Route::get('back', [ColombiaController::class, 'back'])->name('back');
+    Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
+    Route::resource('comision', ComisionController::class)->names('comision');
 });

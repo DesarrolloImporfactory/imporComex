@@ -18,48 +18,68 @@ class CargasController extends Controller
 
     public function index()
     {
-        $carga=tipo_cargas::get();
-        $tarifa=tarifaGruapl::get();
-        $datos = array(
-            'cargas'=>$carga,
-            'tarifas'=>$tarifa
-        );
-        return view('admin.cargas.index',$datos);
+        $carga = tipo_cargas::get();
+        $tarifa = tarifaGruapl::get();
+        $datos = [
+            'cargas' => $carga,
+            'tarifas' => $tarifa
+        ];
+        return view('admin.cargas.index', $datos);
     }
-    
+
+    public function storeTarifa(Request $request)
+    {
+        $data = new tarifaGruapl();
+
+        $data->m3 = $request->input('m3');
+        $data->vxcbm = $request->input('vxcbm');
+        $data->tcbm = $request->input('tcbm');
+        $data->valor_min = $request->input('valor_min');
+        $data->valor_max = $request->input('valor_max');
+
+        $data->save();
+        return redirect('cargas')->with('mensaje', 'Tarifa Registrada');
+    }
+
     public function store(Request $request)
     {
-        $datosCarga= new tipo_cargas();
-        $datosCarga->tipoCarga=$request->input('tipoCarga');
+        $datosCarga = new tipo_cargas();
+        $datosCarga->tipoCarga = $request->input('tipoCarga');
         $datosCarga->save();
-        return redirect('cargas')->with('mensaje','Carga Registrada');
+        return redirect('cargas')->with('mensaje', 'Carga Registrada');
     }
-   
+
     public function updateTarifa(Request $request, $id)
     {
-        $datos=array(
-            "m3"=>$request->input('m3'),
-            "vxcbm"=>$request->input('vxcbm'),
-            "tcbm"=>$request->input('tcbm')
-        );
+        $datos = [
+            "m3" => $request->input('m3'),
+            "vxcbm" => $request->input('vxcbm'),
+            "tcbm" => $request->input('tcbm'),
+            "valor_min" => $request->input('valor_min'),
+            "valor_max" => $request->input('valor_max')
+        ];
         tarifaGruapl::whereid($id)->update($datos);
-        return redirect('cargas')->with('mensaje','Tarifa Actualizada');
+        return redirect('cargas')->with('mensaje', 'Tarifa Actualizada');
     }
 
-    
+
     public function update(Request $request, $id)
     {
-        $datos=array(
-            "tipoCarga"=>$request->input('tipoCarga')
+        $datos = array(
+            "tipoCarga" => $request->input('tipoCarga')
         );
         tipo_cargas::whereid($id)->update($datos);
-        return redirect('cargas')->with('mensaje','Carga Actualizada');
+        return redirect('cargas')->with('mensaje', 'Carga Actualizada');
     }
 
-   
+
     public function destroy($id)
     {
         tipo_cargas::destroy($id);
-        return redirect('cargas')->with('mensaje','Carga Eliminada');
+        return redirect('cargas')->with('mensaje', 'Carga Eliminada');
     }
+
+    
+
+   
 }
