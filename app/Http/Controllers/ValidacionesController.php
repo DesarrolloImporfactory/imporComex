@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CabeceraTransaccion;
+use App\Models\Comision;
 use Illuminate\Http\Request;
 use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
@@ -39,14 +40,14 @@ class ValidacionesController extends Controller
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
             $barcode = $cotizacion->barcode;
             $inBackground = true;
-            
+
             return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground', 'proveedores']));
         } else {
             return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message', 'Completemos la cotizacion!');
         }
     }
 
-    
+
 
     public function create()
     {
@@ -141,6 +142,7 @@ class ValidacionesController extends Controller
 
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->first();
             $logistica = $cotizacion->total_logistica;
+            $comision = $this->comision($request->input('total_fob'));
             $divisa = Divisa::first();
             $datos = [
                 "proceso" => '3',
@@ -150,7 +152,8 @@ class ValidacionesController extends Controller
                 "total_fob" => $request->input('total_fob'),
                 "ISD" => $request->input('total_fob') * $divisa->tarifa,
                 "cantidad_productos" => $request->input('cantidad_productos'),
-                "total" => $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra')
+                "comision" => $this->comision($request->input('total_fob')),
+                "total" =>$comision + $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra')
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);
@@ -162,6 +165,18 @@ class ValidacionesController extends Controller
             $this->cabecera($cotizacion_id, $saldo);
             return redirect()->route('validacion.print', $cotizacion_id);
         }
+    }
+
+    public function comision($fob)
+    {
+        $data = Comision::where('valor_min', '<', $fob)->where('valor_max', '>=', $fob)
+            ->first();
+        if (isset($data)) {
+            $resultado = $data->valor;
+        } else {
+            $resultado = 0;
+        }
+        return $resultado;
     }
 
     public function cabecera($id, $saldo)
@@ -210,7 +225,7 @@ class ValidacionesController extends Controller
 
     public function updateFlete(Request $request, $id)
     {
-        Cotizaciones::where('id',$id)->update([
+        Cotizaciones::where('id', $id)->update([
             'flete_maritimo' => $request->input('flete'),
             'gastos_origen' => $request->input('gastos'),
             'total_logistica' => $request->input('flete') + $request->input('gastos')

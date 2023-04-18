@@ -249,57 +249,17 @@ class ColombiaController extends Controller
 
     public function volumen($volumen)
     {
-        switch ($volumen) {
-            case ($volumen > 0 && $volumen < 1):
-
-                $datos = tarifaGruapl::findOrFail(1);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 1 && $volumen < 2):
-
-                $datos = tarifaGruapl::findOrFail(2);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 2 && $volumen < 3):
-
-                $datos = tarifaGruapl::findOrFail(3);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 3 && $volumen < 4):
-
-                $datos = tarifaGruapl::findOrFail(4);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 4 && $volumen < 5):
-
-                $datos = tarifaGruapl::findOrFail(5);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 5 && $volumen < 6):
-
-                $datos = tarifaGruapl::findOrFail(6);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen >= 6 && $volumen < 7):
-
-                $datos = tarifaGruapl::findOrFail(7);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen > 7 && $volumen <= 9):
-
-                $datos = tarifaGruapl::findOrFail(8);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen > 9 && $volumen <= 12):
-                $datos = tarifaGruapl::findOrFail(9);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
-            case ($volumen > 12 && $volumen <= 15):
-
-                $datos = tarifaGruapl::findOrFail(14);
-                return $resultado = ($volumen * $datos->vxcbm) / 1;
-                break;
+        $sql = "SELECT * FROM tarifa_gruapls WHERE valor_min <= " . "$volumen" . " AND valor_max >= " . "$volumen" . "LIMIT 1";
+        $query = DB::select($sql);
+        foreach ($query as $data) {
+            if (isset($data)) {
+                $resultado = ($volumen * $data->vxcbm) / 1;
+            } else {
+                $resultado = 0;
+            }
         }
+        
+        return $resultado;
     }
 
     public function ciudadEntrega($ciudadEntrega, $peso)

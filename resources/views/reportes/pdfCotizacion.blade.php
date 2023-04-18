@@ -225,6 +225,10 @@
                         <td>{{ $cotizacion->ISD }}$</td>
                     </tr>
                     <tr>
+                        <td><b>Comisión bancaria. </b></td>
+                        <td>{{ $cotizacion->comision }}$</td>
+                    </tr>
+                    <tr>
                         <td><b>Gtos. TOTAL A PAGAR: </b></td>
                         <td>{{ $cotizacion->total }}$</td>
                     </tr>

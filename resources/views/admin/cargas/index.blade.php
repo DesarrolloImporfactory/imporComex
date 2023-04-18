@@ -7,7 +7,7 @@
 
 @section('content')
     @php
-        $heads = ['ID', 'M3', 'VXCBM', 'TCBM', 'Acciones'];
+        $heads = ['ID', 'M3', 'VXCBM', 'TCBM', 'MIN', 'MAX', 'EDIT'];
         $heads2 = ['ID', 'Tipo de carga', 'Acciones'];
     @endphp
 
@@ -88,12 +88,17 @@
                     </x-adminlte-datatable>
                 </div>
             </div>
-            
+
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     Gestionar Tarifas Grupales
+                    <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
+                        data-bs-target="#createTarifa">
+                        Agregar tarifa
+                    </button>
+                    @include('admin.cargas.create')
                 </div>
                 <div class="card-body">
                     <x-adminlte-datatable :heads="$heads" head-theme="dark" id="table_id">
@@ -103,7 +108,8 @@
                                 <td>{!! $tarifa->m3 !!}</td>
                                 <td>{!! $tarifa->vxcbm !!}</td>
                                 <td>{!! $tarifa->tcbm !!}</td>
-
+                                <td>{!! $tarifa->valor_min !!}</td>
+                                <td>{!! $tarifa->valor_max !!}</td>
                                 <td>
                                     <a class="" href="#" role="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
@@ -117,9 +123,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <!-- Modal eliminar -->
-                                            @include('admin.cargas.formDelete')
-                                            <!-- Modal editar -->
+
                                         </li>
 
                                     </ul>
@@ -132,6 +136,7 @@
                     </x-adminlte-datatable>
                 </div>
             </div>
+            @include('admin.cargas.comision')
         </div>
     </div>
     <!-- ---------------MODAL-------------------- -->
@@ -190,8 +195,8 @@
                         </div>
                         <div class="form-group">
                             <p>Valor extra</p>
-                            <input type="number" placeholder="Valor opcional" value="0" class="form-control" id="minimo"
-                                name="minimo">
+                            <input type="number" placeholder="Valor opcional" value="0" class="form-control"
+                                id="minimo" name="minimo">
                         </div>
                     </form>
                 </div>
@@ -284,11 +289,13 @@
                             $(".btnVariable").text("Actualizando...");
                             $("#editarVariable").modal("hide");
                             variables.ajax.reload(null, false);
-                            Swal.fire(
-                                'Buen Trabajo!',
-                                response.message,
-                                'success'
-                            )
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                         }
                     }
                 });
