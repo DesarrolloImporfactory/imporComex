@@ -31,7 +31,7 @@
                     <td>{{ $cotizacion->usuario->name }}</td>
                     <td>{!! $cotizacion->especialista->name !!}</td>
                     <td>{!! $cotizacion->modalidad->modalidad !!}</td>
-                    <td>{{ $cotizacion->ciudad->canton }}/{{ $cotizacion->direccion }}</td>
+                    <td>{{ $cotizacion->ciudad->canton ?? $cotizacion->tarifa_id }}/{{ $cotizacion->direccion }}</td>
                     <td>{{ $cotizacion->flete_maritimo }}</td>
                     <td>{{ $cotizacion->total_logistica }}</td>
                     <td>{{ $cotizacion->total }}</td>

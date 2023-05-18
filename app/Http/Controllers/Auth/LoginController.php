@@ -32,15 +32,13 @@ class LoginController extends Controller
         foreach ($usuarioRol->roles as $rol) {
             $usuario = $rol->name;
         }
-        if ($usuario == "Alumno") {
-            User::where('id', $id)->update(['email_verified_at' => $newDate]);
-            return '/home';
-        }
+        User::where('id', $id)->update(['email_verified_at' => $newDate]);
+       
         if ($usuario == "Admin") {
 
             return '/home';
         } else {
-            return '/home';
+            return '/calculadoras';
         }
     }
 }

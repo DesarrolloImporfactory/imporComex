@@ -148,6 +148,7 @@ $(document).ready(function() {
             type: "GET",
             url: "../../admin/relacion/" + id + "/edit",
             success: function(response) {
+                console.log(response);
                 if (response.status == 400) {
                     Swal.fire({
                         position: 'center',

@@ -16,17 +16,17 @@
     <input type="hidden" id="id_user" value="{{ Auth::user()->id }}">
     <div class="row">
         <div class="col-md-4">
-            <x-adminlte-small-box title="Cotizaciones" text="total : {{ $cotizaciones }}" icon="fas fa-coins " theme="danger"
+            <x-adminlte-small-box title="Cotizaciones" text="{{ $cotizaciones }}" icon="fas fa-coins " theme="primary"
                 url="#" url-text="Reputation history" id="sbUpdatable" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="Aprobadas" text="total : {{ $aprobadas }}" icon="fas fa-face-smile "
-                theme="primary" url="{{ route('admin.cotizaciones.aprobadas', Auth::user()->id) }}" url-text="Ver detalles"
+            <x-adminlte-small-box title="Aprobadas" text="{{ $aprobadas }}" icon="fas fa-face-smile "
+                theme="teal" url="{{ route('admin.cotizaciones.aprobadas', Auth::user()->id) }}" url-text="Ver detalles"
                 id="aprobadas" />
         </div>
         <div class="col-md-4">
-            <x-adminlte-small-box title="Pendientes" text="total : {{ $pendientes }}" icon="fas fa-circle-exclamation"
-                theme="warning" url="#" url-text="Reputation history" id="pendientes" />
+            <x-adminlte-small-box title="Pendientes" text="{{ $pendientes }}" icon="fas fa-circle-exclamation"
+                theme="info" url="#" url-text="Reputation history" id="pendientes" />
         </div>
 
     @stop
@@ -93,7 +93,7 @@
 
                         let rep = 'Cotizaciones';
                         let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                        let text = 'total : ' + respuesta + ' - ' + ['Bajo', 'Medio', 'Alto'][idx];
+                        let text =  respuesta ;
                         let icon = 'fas fa-coins ' + ['text-dark', 'text-light', 'text-warning'][idx];
                         //let url = ['url1', 'url2', 'url3'][idx];
 
@@ -142,7 +142,7 @@
 
                         let rep = 'Aprobadas';
                         let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                        let text = 'total : ' + respuesta + ' - ' + ['Bajo', 'Medio', 'Alto'][idx];
+                        let text = respuesta;
                         let icon = 'fas fa-face-smile ' + ['text-dark', 'text-light', 'text-warning'][idx];
                         //let url = ['url1', 'url2', 'url3'][idx];
 
@@ -192,7 +192,7 @@
 
                         let rep = 'Pendientes';
                         let idx = respuesta < 10 ? 0 : (respuesta > 50 ? 2 : 1);
-                        let text = 'total : ' + respuesta + ' - ' + ['Bajo', 'Medio', 'Alto'][idx];
+                        let text = respuesta;
                         let icon = 'fas fa-triangle-exclamation' + ['text-dark', 'text-light',
                             'text-warning'
                         ][idx];

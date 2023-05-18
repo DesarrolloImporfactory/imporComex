@@ -32,7 +32,7 @@
                     <td>{{ $cotizacion->pais->nombre_pais }}</td>
                     <td>{!! $cotizacion->modalidad->modalidad !!}</td>
                     <td>{{ $cotizacion->origen }}</td>
-                    <td>{{ $cotizacion->direccion }}/{{ $cotizacion->ciudad_entrega }}</td>
+                    <td>{{ $cotizacion->direccion }}</td>
                     <td>{{ $cotizacion->total }}</td>
                     <td>
                         <a class="" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

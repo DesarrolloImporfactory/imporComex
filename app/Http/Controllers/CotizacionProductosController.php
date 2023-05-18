@@ -98,8 +98,13 @@ class CotizacionProductosController extends Controller
     {
         $cotizacion = Cotizaciones::findOrFail($id);
         $volumen = $cotizacion->volumen;
-        $fleteBase = 250 * $volumen;
-        return $fleteBase;
+        if ($volumen < 1) {
+            $fleteBase = 250;
+            return $fleteBase;
+        } else {
+            $fleteBase = 250 * $volumen;
+            return $fleteBase;
+        }
     }
 
     public function show($id)
@@ -174,37 +179,45 @@ class CotizacionProductosController extends Controller
             ]);
         } else {
             $datos = ProductoInsumo::find($id);
-            if ($datos) {
+            ProductoInsumo::where('id', $id)->update([
+                'cantidad' => $request->input('cantidad'),
+                'precio' => $request->input('precio'),
+                'porcentaje' => $request->input('porcentaje'),
+            ]);
+            $this->cotizador($datos->cotizacion_id);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Valor actualizado exitosamente!'
+            ]);
+        }
+    }
 
-                $fob = $request->input('cantidad') * $request->input('precio');
+    public function cotizador($cotizacion_id)
+    {
+        $productos = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->get();
+        if ($productos) {
+            $baseFlete = $this->fleteBase($cotizacion_id);
+            $fob_total = 0;
+            foreach ($productos as $producto) {
+                $fob_total = $fob_total + $producto->fob;
+            }
+            foreach ($productos as $product) {
+                $fob = $product->precio * $product->cantidad;
                 $seguro = $fob * 0.01;
-                $flete = $fob / 5;
-                $cif = $fob + $seguro + $flete;
-                $advalorem = $cif * ($request->input('cantidad') / 100);
-                $fodinfa = $cif * 0.005;
-                $iva = ($cif + $advalorem + $fodinfa) * (12 / 100);
-                $Impuestos = $advalorem + $fodinfa + $iva;
-
-                $datos->cantidad = $request->input('cantidad');
-                $datos->precio = $request->input('precio');
-                $datos->fob = $fob;
-                $datos->seguro = $seguro;
-                $datos->flete = $flete;
-                $datos->cif = $cif;
-                $datos->advalorem = $advalorem;
-                $datos->fodinfa = $fodinfa;
-                $datos->iva = $iva;
-                $datos->impuestos = $Impuestos;
-                $datos->total = ($request->input('cantidad') * $request->input('precio')) + $Impuestos;
-                $datos->update();
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Valor actualizado exitosamente!'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'El valore seleccionado no existe'
+                $flete_bucle = $product->fob * ($baseFlete / $fob_total);
+                $cif_bucle = $flete_bucle + $product->fob + $product->seguro;
+                $adv_bucle = $cif_bucle * ($product->porcentaje / 100);
+                $fodi_bucle = $cif_bucle * 0.005;
+                $iva_bucle = ($cif_bucle + $adv_bucle + $fodi_bucle) * (12 / 100);
+                $imp_bucle = $adv_bucle + $fodi_bucle + $iva_bucle;
+                ProductoInsumo::where('id', $product->id)->update([
+                    'flete' => $flete_bucle,
+                    'cif' => $cif_bucle,
+                    'advalorem' => $adv_bucle,
+                    'fodinfa' => $fodi_bucle,
+                    'iva' => $iva_bucle,
+                    'impuestos' => $imp_bucle,
+                    'total' => ($product->cantidad * $product->precio) + $imp_bucle
                 ]);
             }
         }
@@ -213,7 +226,12 @@ class CotizacionProductosController extends Controller
 
     public function destroy($id)
     {
+        $datos = ProductoInsumo::find($id);
+        $cotizacion_id = $datos->cotizacion_id;
         ProductoInsumo::destroy($id);
+
+        $this->cotizador($datos->cotizacion_id);
+
         return response()->json([
             'status' => 200,
             'message' => 'Seccion eliminada!'

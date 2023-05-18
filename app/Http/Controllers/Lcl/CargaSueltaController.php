@@ -110,7 +110,7 @@ class CargaSueltaController extends Controller
         $proveedores = $request->input('cantidad_proveedores');
 
         $grupal->barcode = $barcode;
-        $peso = $request->input('peso') . 'kg';
+        $peso = $request->input('peso');
         $grupal->usuario_id = $cliente;
         $grupal->pais_id = $request->input('pais');
         $grupal->modalidad_id = $request->input('modalidad');
@@ -131,18 +131,41 @@ class CargaSueltaController extends Controller
         $gastos_origen = $this->gastosOrigen();
         $grupal->gastos_origen = $gastos_origen;
         $fleteMaritimo = $this->naviera($request->input('volumen'));
-        $grupal->flete_maritimo = $fleteMaritimo;
-        $collect = ($this->gastosOrigen()) * 0.0425;
+        $grupal->flete_maritimo =$fleteMaritimo;
+        $grupal->flete =  $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $collect = $fleteMaritimo * 0.0425;
         $totalPagar = ($this->gastosLocales($request->input('volumen'))) + $collect;
-        $gastosLocales = ($totalPagar + ($totalPagar * 0.12)) + $this->gastosOrigen();
+        $gastosLocales = ($totalPagar + ($totalPagar * 0.12));
         $grupal->gastos_local = $gastosLocales;
         $otrosGastos = $this->otrosGastos($request->input('ciudad_entrega'), $request->input('peso'));
         $grupal->otros_gastos = $otrosGastos;
-        $grupal->total_logistica = $otrosGastos + $fleteMaritimo + $gastosLocales;
+        $grupal->total_logistica = $otrosGastos + $fleteMaritimo + $gastosLocales +$gastos_origen;
 
         $grupal->save();
         $data = Cotizaciones::latest('id')->first();
         return redirect()->route('cargaSuelta.edit', $data);
+    }
+    public function ciudadEntrega($ciudadEntrega, $peso)
+    {
+        $ciudad = Ciudad::findOrFail($ciudadEntrega);
+        $provincia = $ciudad->provincia;
+        $tarifa = $ciudad->tarifa;
+        $kilo = $ciudad->kilo_adicional;
+
+        if ($provincia == "PICHINCHA") {
+            return $costo = 10;
+        } else if ($provincia == "GUAYAS") {
+            $tipo = $ciudad->tipo_trayecto;
+            if ($tipo != "ESPECIAL") {
+                return $costo = 10;
+            } else {
+                $costo = $tarifa + ($kilo * $peso);
+                return $costo;
+            }
+        } else {
+            $costo = $tarifa + ($kilo * $peso);
+            return $costo;
+        }
     }
 
     public function naviera($volumen)
@@ -210,7 +233,7 @@ class CargaSueltaController extends Controller
         } else {
             $costo = $tarifa + ($kilo * $peso);
         }
-        $total = $agente->valor + $costo + $bodegaje->valor;
+        $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
         return $total;
     }
 
@@ -224,13 +247,15 @@ class CargaSueltaController extends Controller
     {
         $categoria = Categoria::all();
         $insumo = Insumo::all();
+        $variables = Variables::findOrFail(9);
         $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad'])->first();
         $mensaje = "true";
         $data = [
             'categoria' => $categoria,
             'insumo' => $insumo,
             'cotizacion' => $cotizacion,
-            'mensaje' => $mensaje
+            'mensaje' => $mensaje,
+            'variables' =>$variables
         ];
         return view('admin.calculadoras.colombia.maestroAjax', $data);
     }

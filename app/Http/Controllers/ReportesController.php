@@ -107,25 +107,6 @@ class ReportesController extends Controller
              $total1 = $total1 + $valor;
          }
         }
-        // for ($i = 1; $i <= $contador; $i++) {
-        //     if ($request->input('impuesto' . $i)) {
-        //         $id_inpuesto = $request->input('impuesto' . $i);
-        //     } else {
-        //         $id_inpuesto = null;
-        //     }
-        //     if ($request->input('valor' . $i)) {
-        //         $valor = $request->input('valor' . $i);
-        //     } else {
-        //         $valor = null;
-        //     }
-        //     DB::table('cotizacion_impuestos')->insert([
-        //         'cotizacion_id' => $id,
-        //         'impuesto_id' => $id_inpuesto,
-        //         'usuario_id' => $usuario_id,
-        //         'valor' => $valor,
-        //     ]);
-        //     $total1 = $total1 + $valor;
-        // }
          $totalCotizacion = Cotizaciones::whereid($id)->first();
          $valorTotal = $totalCotizacion->total_logistica;
          $datos = array(

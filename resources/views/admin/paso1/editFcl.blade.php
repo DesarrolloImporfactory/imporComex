@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Calculadora colombia')
+@section('title', 'Calculadora FCL')
 
 @section('content_header')
 
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="row">
                                 <div class="form-group">
                                     <label for="">Cantidad de proveedores: </label>
@@ -88,29 +88,32 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Dimensiones/Volumen</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="volumen" id="volumen"
-                                        class="form-control decimal @error('volumen') is-invalid @enderror"
-                                        value="{{ isset($datos->volumen) ? $datos->volumen : old('volumen') }}"
-                                        placeholder="Ingresar en CBM, mas informacion" aria-label="Recipient's username"
-                                        aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button title="Calculadora" class="btn btn-outline-secondary" type="button"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                                class="fa-solid fa-calculator"></i></button>
-                                    </div>
-                                </div>
-                                @error('volumen')
-                                    <small style="color: red">
-                                        {{ $message }}
-                                    </small>
-                                @enderror
+                                <label for="">Puerto Salida: </label>
+                                <x-adminlte-select2 name="puerto_id" id="puerto_id" onchange="asignar()" enable-old-support>
+                                    <option value="">Selecciona el puerto....</option>
+                                    @foreach ($puertos as $item)
+                                        <option
+                                            value="{{ $item->id }}"{{ $datos->puerto->id == $item->id ? 'selected' : '' }}
+                                            cont_20="{{ $item->cont_20 }}" cont_40="{{ $item->cont_40 }}">
+                                            {{ $item->puerto_salida }}</option>
+                                    @endforeach
+                                </x-adminlte-select2>
                             </div>
+
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Tipo contenedor: </label>
+                                
+                                <x-adminlte-select2 name="volumen" id="volumen" enable-old-support>
+                                    <option value="{{ $datos->flete_maritimo}}">{{ $datos->flete_maritimo }}</option>
+                                </x-adminlte-select2>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Peso bruto</label>
                                 <div class="input-group">
@@ -149,7 +152,9 @@
                                 <x-adminlte-select2 value="{{ old('ciudad_entrega') }}" name="ciudad_entrega"
                                     enable-old-support>
                                     @foreach ($ciudades as $item)
-                                        <option value="{{ $item->id }}"{{ $datos->ciudad_id == $item->id ? 'selected' : '' }}>{{ $item->provincia }} -
+                                        <option
+                                            value="{{ $item->id }}"{{ $datos->ciudad_id == $item->id ? 'selected' : '' }}>
+                                            {{ $item->provincia }} -
                                             {{ $item->canton }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
@@ -189,6 +194,16 @@
         });
     </script>
     <script>
+        function asignar() {
+            $("#volumen").html("");
+            var cont_20 = $("#puerto_id option:selected").attr("cont_20");
+            var cont_40 = $("#puerto_id option:selected").attr("cont_40");
+            $("#volumen").append(`
+                    <option value="${cont_20}">20´ - ${cont_20} </option>
+                    <option value="${cont_40}">40´ - ${cont_40} </option>
+            `);
+        }
+
         function accion1(valor) {
 
             valor = $("#liquidos").val();

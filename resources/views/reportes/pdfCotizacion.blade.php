@@ -39,8 +39,8 @@
 
         .content-table {
             border-collapse: collapse;
-            margin: 5px 0;
-            font-size: 1em;
+            margin: 3px 0;
+            font-size: 1rem;
             font-family: sans-serif;
             min-width: 450px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -54,7 +54,7 @@
 
         .content-table th,
         .content-table td {
-            padding: 12px 15px;
+            padding: 6px 9px;
         }
 
         .content-table tbody tr {
@@ -78,6 +78,7 @@
             text-align: justify;
         }
     </style>
+    
     <link rel="stylesheet" href="{{ asset('css/invoices.css') }}">
     {{-- <link rel="stylesheet" href="{{ public_path('css/invoices.css')}}" type="text/css" /> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -229,7 +230,11 @@
                         <td>{{ $cotizacion->comision }}$</td>
                     </tr>
                     <tr>
-                        <td><b>Gtos. TOTAL A PAGAR: </b></td>
+                        <td><b>TOTAL PAGO A PROVEEDOR: </b></td>
+                        <td>{{ $cotizacion->total_fob  +  $cotizacion->ISD + $cotizacion->comision}}$</td>
+                    </tr>
+                    <tr>
+                        <td><b>TOTAL INVERSIÓN: </b></td>
                         <td>{{ $cotizacion->total }}$</td>
                     </tr>
                 </tbody>
@@ -238,7 +243,7 @@
 
         <div class="condiciones">
             <b class="termino">TERMINOS Y CONDICIONES</b>
-            <p>
+            <p style="font-size: 10px; font-weight: bold;">
                 **Debido a la inestabilidad en los servicios en todo el MUNDO: precios y espacios están sujeto a
                 confirmación
                 por parte de las compañías navieras/aerolíneas, NO podemos asegurar las salidas de los navíos/aviones

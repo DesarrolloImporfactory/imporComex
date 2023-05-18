@@ -16,37 +16,7 @@
         <div class="col-md-3">
         </div>
     </div>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <a href="https://walink.co/e40e8e" title="Deseas que un experto de ayude a calcular tus impuestos?" class="float"
-        target="_blank">
-        <i class="fa fa-whatsapp my-float"></i>
-    </a>
-    <style>
-        .float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-        }
-
-        .float:hover {
-            text-decoration: none;
-            color: #25d366;
-            background-color: #fff;
-        }
-
-        .my-float {
-            margin-top: 16px;
-        }
-    </style>
+    
 @stop
 
 @section('content')
@@ -83,7 +53,7 @@
                         </div>
                     </div>
                 </div><br>
-                <table class="table table-striped">
+                <table class="table table-bordered text-center table-striped">
                     <thead class="table-warning">
                         <tr>
                             <th>#</th>
@@ -103,8 +73,8 @@
                                 <td>{{ $item->insumo->nombre }}</td>
                                 <td>{{ $item->cantidad }}</td>
                                 <td>{{ $item->precio }}</td>
-                                <td>{{ number_format($item->Impuestos / $item->cantidad, 2) }}</td>
-                                <td>{{ number_format($cotizacion->total_logistica / $cotizacion->cantidad_productos, 2) }}
+                                <td>{{ number_format($item->Impuestos / $item->cantidad , 2) }}</td>
+                                <td>{{ number_format((($cotizacion->total_logistica * $item->Impuestos)/$cotizacion->total_impuesto)/$item->cantidad , 2) }}
                                 </td>
                                 <td>{{ number_format($item->divisas / $item->cantidad, 2) }}
                                 </td>

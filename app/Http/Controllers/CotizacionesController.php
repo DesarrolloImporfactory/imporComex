@@ -46,7 +46,7 @@ class CotizacionesController extends Controller
         foreach ($usuarioRol->roles as $rol) {
             $usuario = $rol->name;
         }
-
+        
         if ($usuario == "Admin") {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->get();
             $cotizacionIndividual = CoIndividual::with(['origen', 'destino', 'incoter', 'usuario', 'especialista'])->get();
@@ -62,7 +62,7 @@ class CotizacionesController extends Controller
         } else {
             $listadoCotizaciones = Cotizaciones::with(['modalidad', 'pais', 'carga', 'usuario', 'especialista'])->whereusuario_id($id)->get();
             $cotizacionIndividual = CoIndividual::with(['origen', 'destino', 'incoter', 'usuario', 'especialista'])->whereusuario_id($id)->get();
-            $cotizaciones = Cotizaciones::where('id',$id)->count();
+            $cotizaciones = Cotizaciones::where('usuario_id',$id)->count();
             $cotizacionesAprobadas = Cotizaciones::whereestado('aprobado')->count();
             $cotizacionesPendientes = Cotizaciones::whereestado('pendiente')->count();
         }

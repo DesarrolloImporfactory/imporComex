@@ -42,7 +42,7 @@ class Cotizaciones extends Model
         return $this->belongsToMany(Contenedores::class);
     }
     public function tarifa(){
-        return $this->belongsTo(tarifaGruapl::class,'tarifa_id','id');
+        return $this->belongsTo(Tarifario::class,'tarifa_id','id');
     }
     public function incoterms(){
         return $this->belongsTo(Incoterms::class,'incoterms_id','id');

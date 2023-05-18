@@ -176,9 +176,9 @@
                                 <label for="">Ciudad de entrega</label>
                                 <x-adminlte-select2 name="ciudad_entrega" enable-old-support>
                                     <option value="">Selecciona una opción....</option>
-                                    @foreach ($ciudades as $item)
-                                        <option value="{{ $item->id }}">{{ $item->provincia }} -
-                                            {{ $item->canton }}</option>
+                                    @foreach ($tarifarios as $item)
+                                        <option value="{{ $item->id }}">{{ $item->destino }} -
+                                            {{ $item->transporte }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
