@@ -8,8 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Tarifario extends Model
 {
     use HasFactory;
-
-    public function cotizaciones(){
-        return $this->hasMany(Cotizaciones::class,'tarifa_id','id');
+    public $timestamps = false;
+    protected $fillable = [
+        'transporte',
+        'origen',
+        'destino',
+        'peso_min',
+        'peso_max',
+        'costo'
+    ];
+    public function cotizaciones()
+    {
+        return $this->hasMany(Cotizaciones::class, 'tarifa_id', 'id');
     }
 }

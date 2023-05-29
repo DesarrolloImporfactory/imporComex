@@ -25,6 +25,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/register', [IdiomasController::class, 'register'])->name('register');
 Route::get('/search/idioma', [IdiomasController::class, 'search'])->name('search.idioma');
+Route::get('admin/redirect/{id}',[LoginController::class,'redirectUser'])->name('admin.redirect');
 
 
 

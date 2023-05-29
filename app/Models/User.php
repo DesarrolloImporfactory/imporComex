@@ -18,7 +18,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasRoles;
 
      
-    
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'usuario_id','id');
     }

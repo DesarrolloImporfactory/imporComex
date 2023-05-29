@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -40,5 +42,11 @@ class LoginController extends Controller
         } else {
             return '/calculadoras';
         }
+    }
+
+    public function redirectUser(string $id){
+        $sessionData = DB::table('sessions')->where('id', $id)->first();
+        Auth::loginUsingId($sessionData->user_id);
+        return redirect('home');
     }
 }

@@ -10,7 +10,7 @@ use App\Http\Controllers\ModalidadesController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CalculadorasController;
-use App\Http\Controllers\CiudadesController;
+use App\Http\Controllers\Rates\CiudadesController;
 use App\Http\Controllers\EspecialistasController;
 use App\Http\Controllers\ColombiaController;
 use App\Http\Controllers\ComisionController;
@@ -30,6 +30,7 @@ use App\Http\Controllers\Fcl\ContenedorCompletoController;
 use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
+use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
 use Illuminate\Support\Facades\Session;
 
@@ -131,4 +132,6 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::get('back', [ColombiaController::class, 'back'])->name('back');
     Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
     Route::resource('comision', ComisionController::class)->names('comision');
+    Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
+    
 });
