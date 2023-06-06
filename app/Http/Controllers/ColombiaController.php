@@ -288,6 +288,14 @@ class ColombiaController extends Controller
             return $costo;
         }
     }
+    public function otrosGastos( $costo)
+    {
+        $agente = Variables::findOrFail(8);
+        $bodegaje = Variables::findOrFail(9);
+        
+        $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
+        return $total;
+    }
 
 
     public function editpaso1($id)
@@ -388,7 +396,7 @@ class ColombiaController extends Controller
         $collect = $fleteMaritimo * 0.0425;
         $totalPagar = ($this->gastosLocales($request['volumen'])) + $collect;
         $gastosLocales = ($totalPagar + ($totalPagar * 0.12));
-        $otrosGastos = $this->otrosGastos($request['ciudad_entrega'], $request['peso']);
+        $otrosGastos = $this->otrosGastos($flete);
         $datos = [
             'inflamable' => $request['inflamable'],
             'tiene_bateria' => $request['tiene_bateria'],
@@ -519,31 +527,6 @@ class ColombiaController extends Controller
         }
 
         $total = $transmicionValor + $administracionValor + $valorLogistico + $portuarioValor;
-        return $total;
-    }
-
-    public function otrosGastos($ciudadEntrega, $peso)
-    {
-        $agente = Variables::findOrFail(8);
-        $bodegaje = Variables::findOrFail(9);
-        $ciudad = Ciudad::findOrFail($ciudadEntrega);
-        $provincia = $ciudad->provincia;
-        $tarifa = $ciudad->tarifa;
-        $kilo = $ciudad->kilo_adicional;
-
-        if ($provincia == "PICHINCHA") {
-            $costo = 10;
-        } else if ($provincia == "GUAYAS") {
-            $tipo = $ciudad->tipo_trayecto;
-            if ($tipo != "ESPECIAL") {
-                $costo = 10;
-            } else {
-                $costo = $tarifa + ($kilo * $peso);
-            }
-        } else {
-            $costo = $tarifa + ($kilo * $peso);
-        }
-        $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
         return $total;
     }
     public function otrosGastosFcl($ciudadEntrega, $peso)

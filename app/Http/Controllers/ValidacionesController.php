@@ -9,7 +9,7 @@ use App\Models\Validacion;
 use \Milon\Barcode\DNS1D;
 use App\Models\Cotizaciones;
 use App\Models\Contenedores;
-use App\Models\Impuesto;
+use App\Models\Variables;
 use App\Models\cotizacion_impuesto;
 use App\Models\Divisa;
 use App\Models\ProductoInsumo;
@@ -221,6 +221,25 @@ class ValidacionesController extends Controller
         //     'mensaje' => $mensaje
         // ];
         // return view('admin.calculadoras.colombia.grupal.formulario', $data);
+        
+    }
+    public function otrosGastos( $costo)
+    {
+        $agente = Variables::findOrFail(8);
+        $bodegaje = Variables::findOrFail(9);
+        
+        $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
+        return $total;
+    }
+    public function updateFleteLCL(Request $request, $id)
+    {
+        $cotizacion = Cotizaciones::find($id);
+        Cotizaciones::where('id', $id)->update([
+            'flete' => $request->input('flete'),
+            'otros_gastos' => $this->otrosGastos($request->input('flete')),
+            'total_logistica' => $this->otrosGastos($request->input('flete')) + ($cotizacion->total_logistica - $cotizacion->otros_gastos)
+        ]);
+        return redirect()->route('admin.colombia.edit', $id)->with('message', 'Flete modificado!');
     }
 
     public function updateFlete(Request $request, $id)
