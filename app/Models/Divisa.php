@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Divisa extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 }

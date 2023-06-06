@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Incoterm extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 
     public function cotizaciones(){
         return $this->hasMany(Cotizaciones::class,'incoterms_id','id');

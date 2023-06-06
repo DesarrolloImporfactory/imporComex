@@ -303,14 +303,17 @@ return [
 
         ],
         [
-
             'text' => 'Home',
             'route'  => 'home',
             'topnav' => true,
             'can' => '',
-
         ],
-
+        [
+            'text' => 'Impor-Situ',
+            'url'  => 'suit',
+            'topnav' => true,
+            'icon' => 'nav-icon fas fa-toolbox',
+        ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => false,

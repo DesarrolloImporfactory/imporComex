@@ -7,6 +7,9 @@ use App\Models\Tarifario;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class RatesController extends Controller
 {
@@ -16,7 +19,13 @@ class RatesController extends Controller
         //
     }
 
-
+    public function redirectSuit()
+    {
+        if (Auth::check()) {
+            $otherAppUrl = 'http://194.163.183.231:8085/';
+            return Redirect::away($otherAppUrl);
+        }
+    }
     public function create()
     {
         $tarifas = Tarifario::all();

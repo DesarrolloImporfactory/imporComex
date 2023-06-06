@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AjustesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IdiomasController;
 use App\Http\Controllers\CargasController;
 use App\Http\Controllers\PaisesController;
@@ -18,7 +17,6 @@ use App\Http\Controllers\ValidacionesController;
 use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\CotizacionesController;
-use Illuminate\Routing\RouteGroup;
 use App\Http\Controllers\ContenedoresController;
 use App\Http\Controllers\SearcherController;
 use App\Http\Controllers\CotizacionIndividualController;
@@ -32,10 +30,9 @@ use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
 use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
-use Illuminate\Support\Facades\Session;
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware(['auth', 'verified',])->group(function () {
+Route::middleware(['auth', 'verified','cotizador'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
@@ -133,5 +130,6 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
     Route::resource('comision', ComisionController::class)->names('comision');
     Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
-    
+   
+    Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
 });

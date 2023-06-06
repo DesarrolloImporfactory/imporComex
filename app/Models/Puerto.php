@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Puerto extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 
     public function cotizaciones()
     {

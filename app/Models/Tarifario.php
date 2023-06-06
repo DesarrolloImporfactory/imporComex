@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tarifario extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public $timestamps = false;
     protected $fillable = [
         'transporte',

@@ -30,7 +30,6 @@
             <x-adminlte-card theme="" theme-mode="outline">
                 <div id="chart"></div>
             </x-adminlte-card>
-
         </div>
         <div class="col-md-6">
             <x-adminlte-card theme="" theme-mode="outline">
@@ -242,7 +241,7 @@
 
                     let rep = res.contenedores;
                     let idx = rep < 10 ? 0 : (rep > 50 ? 2 : 1);
-                    let text = 'Contenedores' + [idx];
+                    let text = 'Contenedores';
                     let icon = 'fa-brands fa-docker ';
                     let data = {
                         text,

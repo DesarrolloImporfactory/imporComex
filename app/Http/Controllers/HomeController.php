@@ -30,12 +30,12 @@ class HomeController extends Controller
         $query = "
         SELECT count(*) as cotizaciones, users.name as usuario from cotizaciones inner join users on cotizaciones.especialista_id= users.id GROUP BY(users.name)
         ";
-        $consultas = DB::select($query);
+        $consultas = DB::connection('imporcomex')->select($query);
 
         $query2 = "
         SELECT COUNT(*) AS cotizaciones, users.name AS user FROM cotizaciones INNER JOIN users ON cotizaciones.usuario_id = users.id GROUP BY users.name ORDER BY cotizaciones DESC LIMIT 5;
         ";
-        $consultas2 = DB::select($query2);
+        $consultas2 = DB::connection('imporcomex')->select($query2);
         foreach ($consultas as $consulta) {
             $data[] = [
                 'name' => $consulta->usuario,

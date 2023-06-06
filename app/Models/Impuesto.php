@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Impuesto extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
+    
     public function impuesto(){
         return $this->hasMany(Impuesto::class,'impuesto_id','id');
     }

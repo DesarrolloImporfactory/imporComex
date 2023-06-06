@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     protected $fillable = ['nombre', 'categoria_id', 'cantidad', 'precio'];
 }

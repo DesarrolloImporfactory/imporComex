@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contenedores extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
    
     public function cotizaciones(){
         return $this->belongsToMany(Cotizaciones::class);

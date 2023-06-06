@@ -19,11 +19,7 @@ class RolesController extends Controller
     public function index()
     {
         $roles= Role::get();
-        $permissions= Permission::all();
-        // $data=[
-        //     'roles'=>$datos,
-        //     'permisos'=>$datos1
-        // ];
+        $permissions= Permission::where('sistema_id','1')->get();
         return view('admin.roles.index',compact('roles','permissions'));
     }
 
@@ -57,7 +53,7 @@ class RolesController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        $permissions= Permission::all();
+        $permissions= Permission::where('sistema_id','1')->get();
 
         return view('admin.roles.edit',compact('role','permissions'));
         
@@ -71,7 +67,7 @@ class RolesController extends Controller
         ]);
         $role->update($request->all());
         $role->permissions()->sync($request->permissions);
-        $permisos= Permission::all();
+        $permisos= Permission::where('sistema_id','1')->get();;
         $data=[
             'role'=>$role,
             'permisos'=>$permisos

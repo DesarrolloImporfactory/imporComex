@@ -85,7 +85,7 @@ class CargaSueltaController extends Controller
         //codigo para traer el especialista con menor cantidad de cotizaciones asignadas
         $query = "Select count(id) as cotizaciones, especialista_id from cotizaciones where estado='aprobado' or estado='pendiente' group by especialista_id";
 
-        $consulta = DB::select($query);
+        $consulta = DB::connection('imporcomex')->select($query);
         //condicion para saber si existe cotizaciones asignadas
         if (count($consulta) > 0) {
 

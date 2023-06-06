@@ -254,7 +254,7 @@ class ColombiaController extends Controller
     public function volumen($volumen)
     {
         $sql = "SELECT * FROM tarifa_gruapls WHERE valor_min <= " . "$volumen" . " AND valor_max >= " . "$volumen" . " LIMIT 1";
-        $query = DB::select($sql);
+        $query = DB::connection('imporcomex')->select($sql);
         foreach ($query as $data) {
             if (isset($data)) {
                 $resultado = ($volumen * $data->vxcbm) / 1;

@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class tarifaGruapl extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     
 }

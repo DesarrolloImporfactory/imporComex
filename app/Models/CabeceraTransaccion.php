@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CabeceraTransaccion extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     // protected $fillable = [
     //     'cotizacion_id',
     //     'fecha_cotizacion',

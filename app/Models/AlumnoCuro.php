@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AlumnoCuro extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 }

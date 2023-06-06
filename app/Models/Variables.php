@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Variables extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public $timestamps = false;
 }

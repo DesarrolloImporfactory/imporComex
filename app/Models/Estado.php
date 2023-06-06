@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Estado extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public function contenedor(){
         return $this->hasMany(Contenedores::class,'estado_id','id');
     }

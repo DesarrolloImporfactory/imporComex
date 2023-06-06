@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\JsonResponse;
 
 class LoginController extends Controller
 {
@@ -35,7 +37,7 @@ class LoginController extends Controller
             $usuario = $rol->name;
         }
         User::where('id', $id)->update(['email_verified_at' => $newDate]);
-       
+
         if ($usuario == "Admin") {
 
             return '/home';
@@ -44,9 +46,28 @@ class LoginController extends Controller
         }
     }
 
-    public function redirectUser(string $id){
+    public function redirectUser(string $id)
+    {
         $sessionData = DB::table('sessions')->where('id', $id)->first();
         Auth::loginUsingId($sessionData->user_id);
         return redirect('home');
+    }
+
+    public function logout(Request $request)
+    {
+        $otherAppUrl = 'http://194.163.183.231:8085/';
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : Redirect::away($otherAppUrl);
     }
 }

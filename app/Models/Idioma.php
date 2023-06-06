@@ -9,6 +9,6 @@ class Idioma extends Model
 {
     use HasFactory;
 
- 
+    protected $connection = 'imporcomex';
 
 }

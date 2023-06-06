@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaccion extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public function detalle(){
         return $this->hasMany(DetalleTransaccion::class,'transaccion_id','id');
     }

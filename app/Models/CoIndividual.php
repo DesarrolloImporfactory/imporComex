@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CoIndividual extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public function origen(){
         return $this->belongsTo(Paises::class,'origen_id','id');
     }

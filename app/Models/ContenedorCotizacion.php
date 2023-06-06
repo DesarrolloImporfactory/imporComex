@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ContenedorCotizacion extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 }

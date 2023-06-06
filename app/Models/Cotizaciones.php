@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 class Cotizaciones extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
 
     public function modalidad(){
         return $this->belongsTo(Modalidades::class,'modalidad_id','id');
@@ -50,9 +51,7 @@ class Cotizaciones extends Model
     public function validacions(){
         return $this->hasMany(Validacion::class,'cotizacion_id','id');
     }
-    public function accion(){
-        return $this->hasMany(Accion::class,'cotizacion_id','id');
-    }
+    
     public function ajustes(){
         return $this->hasMany(AjusteCotizacion::class,'cotizacion_id','id');
     }

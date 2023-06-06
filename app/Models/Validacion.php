@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Validacion extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     protected $fillable = [
         'nombre_pro',
         'contacto',

@@ -26,7 +26,7 @@ class ContenedoresController extends Controller
         $contenedores = Contenedores::with('estado')->get();
         $estados = Estado::get();
         $query = "select count(*) as total, contenedores.id, contenedores.name as contenedor, estados.name, salida, llegada, tipo, latitud, longitud from contenedores, contenedor_cotizacions, estados where contenedores.id=contenedor_cotizacions.contenedor_id and contenedores.estado_id=estados.id group by contenedores.name,id, estados.name, salida, llegada, contenedores.tipo, latitud, longitud";
-        $consulta = DB::select($query);
+        $consulta = DB::connection('imporcomex')->select($query);
 
         $data = [
             'contenedores' => $contenedores,

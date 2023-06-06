@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetalleTransaccion extends Model
 {
     use HasFactory;
+    protected $connection = 'imporcomex';
     public function cabecera(){
         return $this->belongsTo(CabeceraTransaccion::class,'cabecera_id','id');
     }
