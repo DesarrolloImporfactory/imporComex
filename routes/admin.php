@@ -133,5 +133,6 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
     Route::resource('comision', ComisionController::class)->names('comision');
     Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
+    Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
     
 });

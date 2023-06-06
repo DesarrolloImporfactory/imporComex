@@ -1,21 +1,19 @@
-<div class="modal fade" id="editFlete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editLcl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Valor GRUPAL</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Valor LCL</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('update.flete', $cotizacion->id) }}" method="post" id="myform">
+            <form action="{{ route('update.flete.lcl', $cotizacion->id) }}" method="post" id="formlcl">
                 {{ method_field('PATCH') }}
                 @csrf
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="">Valor del Flete:</label>
+                        <p for="">Valor del Flete:</p>
                         <input type="text" class="form-control" name="flete" id="flete"
-                            value="{{ $cotizacion->flete_maritimo }}">
-                        <input type="hidden" class="form-control" name="gastos" id="gastos"
-                            value="{{ $cotizacion->gastos_origen }}">
+                            value="{{ $cotizacion->flete }}">
                     </div>
 
                 </div>
@@ -38,7 +36,7 @@
 </style>
 <script>
     $(document).ready(function() {
-        $("#myform").validate({
+        $("#formlcl").validate({
             rules: {
                 flete: {
                     required: true,
