@@ -130,11 +130,8 @@ Route::middleware(['auth', 'verified','cotizador'])->group(function () {
     Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
     Route::resource('comision', ComisionController::class)->names('comision');
     Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
-<<<<<<< HEAD
    
     Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
-=======
     Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
     
->>>>>>> 87f94feed8a91de6b8a20f25dfd68457af245006
 });

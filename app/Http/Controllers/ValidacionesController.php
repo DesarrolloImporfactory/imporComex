@@ -34,7 +34,7 @@ class ValidacionesController extends Controller
         $relacion = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->exists();
         //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
         if ($relacion == 1) {
-            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad'])->first();
+            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad','tarifa'])->first();
             $carbon = new \Carbon\Carbon();
             $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
@@ -124,7 +124,7 @@ class ValidacionesController extends Controller
             $query = "
        select count(id) as cotizaciones, contenedor_id from contenedor_cotizacions group by contenedor_id";
 
-            $consulta = DB::select($query);
+            $consulta = DB::connection('imporcomex')->select($query);
 
             //condicion para saber si existe cotizaciones asignadas
             if (count($consulta) > 0) {
@@ -157,7 +157,7 @@ class ValidacionesController extends Controller
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);
-            DB::table('contenedor_cotizacions')->insert([
+            DB::connection('imporcomex')->table('contenedor_cotizacions')->insert([
                 'cotizacion_id' => $cotizacion_id,
                 'contenedor_id' => $contenedor,
             ]);

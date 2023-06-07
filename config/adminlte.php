@@ -391,15 +391,6 @@ return [
         ],
         [
 
-            'text' => 'Tarifas',
-            'route'  => 'admin.cuentas.index',
-            'icon' => 'fas fa-regular fa-sack-dollar',
-            'can' => 'admin.cuentas.index',
-            'label' => 'new'
-
-        ],
-        [
-
             'text' => 'Contenedores',
             'route'  => 'admin.contenedores.index',
             'icon' => 'fas fa-brands fa-docker',
