@@ -181,7 +181,7 @@ class ColombiaController extends Controller
         })->first();
 
         $query = "Select count(id) as cotizaciones, especialista_id from cotizaciones where estado='aprobado' or estado='pendiente' group by especialista_id";
-        $consulta = DB::select($query);
+        $consulta = DB::connection('imporcomex')->select($query);
 
         if (isset($usr)) {
             $especialista = Auth::user()->id;

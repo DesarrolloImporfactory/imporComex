@@ -76,7 +76,7 @@ class DashboardController extends Controller
         SELECT count(*) as cotizaciones, users.name as Usuario from cotizaciones inner join users on cotizaciones.especialista_id= users.id GROUP BY(users.name)
         ";
 
-        $consulta = DB::select($query);
+        $consulta = DB::connection('imporcomex')->select($query);
         return $consulta;
     }
 

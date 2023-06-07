@@ -21,7 +21,7 @@ class ConfirmUserCommand extends Command
         $newDate = Carbon::now()->subHour(1)->format('Y-m-d H');
         $usuarios = User::all();
         foreach ($usuarios as $usuario) {
-            if($usuario->verified == $newDate){
+            if($usuario->email_verified_at == $newDate){
                 Notification::route('mail', $usuario->email)->notify(new OnBoarding($usuario->name));
             }
         }

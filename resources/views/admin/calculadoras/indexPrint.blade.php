@@ -103,7 +103,7 @@
                         </tr>
                         <tr>
                             <td><b>Lugar de entrega: </b></td>
-                            <td>{{ $cotizacion->ciudad->provincia }} - {{ $cotizacion->ciudad->canton }} -
+                            <td>{{ $cotizacion->ciudad->provincia ?? '' }}  - {{ $cotizacion->ciudad->canton ?? $cotizacion->tarifa->destino }}  -
                                 {{ $cotizacion->direccion }}
                             </td>
                         </tr>
