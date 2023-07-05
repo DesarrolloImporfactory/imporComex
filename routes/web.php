@@ -14,7 +14,7 @@ Route::get('/', [LoginController::class, 'showLoginForm']);
 Auth::routes([
     "register" => false,
     "reset" => false,
-    'verify' => true
+    'verify' => false
 ]);
 
 
