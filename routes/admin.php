@@ -32,7 +32,7 @@ use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware(['auth', 'verified','cotizador'])->group(function () {
+Route::middleware(['auth','cotizador'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
