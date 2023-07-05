@@ -7,7 +7,7 @@
         <div class="col-md-3"><a class="btn btn-danger float-left btn-sm" href="{{ route('back') }}"><i class="fa-solid fa-arrow-left"></i> Regresar</a></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $cotizacion->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $cotizacion->pais }}</b></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>
@@ -34,8 +34,9 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-
-
+            <div class="alert alert-warning">
+                <p>NOTA: LOS VALORES MOSTRADOS EN ESTA TABLA SOIN UNA SIMULACION Y PUEDEN SER MODIFICADOS EN CUALQUIER MOMENTO.</p>
+            </div>
             <x-adminlte-card title="Visualizar detalles de tu cotizacion" theme="dark">
                 <div class="row">
                     <div class="col-md-12 text-center">

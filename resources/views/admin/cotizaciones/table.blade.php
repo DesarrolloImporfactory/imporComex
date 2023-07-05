@@ -3,15 +3,15 @@
         <thead class="text-center">
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Especialista</th>
-                <th scope="col">Pais</th>
-                <th scope="col">Modalidad</th>
-                <th scope="col">Origen</th>
-                <th scope="col">Ciudad entrega</th>
-                <th scope="col">Total</th>
-                <th scope="col">Acciones</th>
+                <th scope="col">ESTADO</th>
+                <th scope="col">CLIENTE</th>
+                <th scope="col">ESPECIALISTA</th>
+                <th scope="col">MODALIDAD</th>
+                <th scope="col">PESO</th>
+                <th scope="col">VOLUMEN</th>
+                <th scope="col">DIR.ENTREGA</th>
+                <th scope="col">TOTAL</th>
+                <th scope="col"></th>
 
             </tr>
         </thead>
@@ -29,9 +29,9 @@
                     </td>
                     <td>{{ $cotizacion->usuario->name }}</td>
                     <td>{!! $cotizacion->especialista->name !!}</td>
-                    <td>{{ $cotizacion->pais->nombre_pais }}</td>
                     <td>{!! $cotizacion->modalidad->modalidad !!}</td>
-                    <td>{{ $cotizacion->origen }}</td>
+                    <td>{{ $cotizacion->peso }}</td>
+                    <td>{{ $cotizacion->volumen }}</td>
                     <td>{{ $cotizacion->direccion }}</td>
                     <td>{{ $cotizacion->total }}</td>
                     <td>
@@ -40,7 +40,6 @@
                         </a>
                         <ul class="dropdown-menu ">
                             <li>
-
                                 @include('admin.cotizaciones.delete')
                             </li>
                             <li>

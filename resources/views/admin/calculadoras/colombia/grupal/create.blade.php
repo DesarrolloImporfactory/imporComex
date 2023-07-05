@@ -19,7 +19,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $paises->nombre_pais }} </b><span class="badge rounded-pill text-bg-warning">{{ $modalidad->modalidad }}</span></p>
+                <p><b>COTIZADOR {{ $pais }} </b><span
+                        class="badge rounded-pill text-bg-warning">{{ $modalidad->modalidad }}</span></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -30,7 +31,6 @@
 @stop
 
 @section('content')
-
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -59,47 +59,25 @@
 
                 @csrf
                 <input type="hidden" name="modalidad" value="{{ $modalidad->id }}">
-                <input type="hidden" name="pais" value="{{ $paises->id }}" id="">
+                <input type="hidden" name="pais" value="{{ $pais }}" id="">
                 <input type="hidden" name="origen" value="China" id="">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <input type="hidden" name="usuario_id" value="{{ Auth::user()->id }}" id="">
-                            <label for="">¿Es inflamable?</label>
-                            <x-adminlte-select2 name="inflamable" id="inflamable" onchange="accion3()">
+                            {{-- antiguamente campo inflamable --}}
+                            <label for="">Tipo de carga</label>
+                            <x-adminlte-select2 name="tipo_carga" id="tipo_carga" onchange="accion3()">
                                 <option value="">Selecciona una opción....</option>
-                                <option value="si"{{ old('inflamable') == 'si' ? 'selected' : '' }}>Si</option>
-                                <option value="no"{{ old('inflamable') == 'no' ? 'selected' : '' }}>No</option>
-                            </x-adminlte-select2>
-
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">¿Tiene bateria?</label>
-                            <x-adminlte-select2 name="tiene_bateria" id="bateria" onchange="accion2()">
-                                <option value="">Selecciona una opción....</option>
-                                <option value="si"{{ old('tiene_bateria') == 'si' ? 'selected' : '' }}>Si</option>
-                                <option value="no"{{ old('tiene_bateria') == 'no' ? 'selected' : '' }}>No</option>
+                                <option value="GENERAR"{{ old('tipo_carga') == 'GENERAR' ? 'selected' : '' }}>CARGA GENERAR ( PLÁSTICOS - TEXTILES - ETC)</option>
+                                <option value="PELIGROSA"{{ old('tipo_carga') == 'PELIGROSA' ? 'selected' : '' }}>CARGA PELIGROSA (CONTIENE BATERIAS, LIQUIDOS O ES INFLAMABLE) </option>
                             </x-adminlte-select2>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group" id="divLiquido">
-                            <label for="">¿Tiene liquidos?</label>
-                            <x-adminlte-select2 name="liquidos" id="liquidos" onchange="accion1()" class="liquidos">
-                                <option value="">Selecciona una opción....</option>
-                                <option value="si"{{ old('liquidos') == 'si' ? 'selected' : '' }}>Si</option>
-                                <option value="no"{{ old('liquidos') == 'no' ? 'selected' : '' }}>No</option>
-                            </x-adminlte-select2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-4">
                         <div class="row">
                             <div class="form-group">
-                                <label for="">Cantidad de proveedores: </label>
+                                <label for="">Cantidad de proveedores </label>
                                 <input type="hidden" name="cargas_id" id="" value="1">
                                 <x-adminlte-select2 name="cantidad_proveedores" enable-old-support>
                                     <option value="">Selecciona una opción....</option>
@@ -114,13 +92,12 @@
                                     <option value="5"{{ old('cantidad_proveedores') == '5' ? 'selected' : '' }}>5
                                     </option>
                                 </x-adminlte-select2>
-
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Dimensiones/Volumen</label>
+                            <label for="" class="text-danger">Dimensiones/Volumen *</label>
                             <div class="input-group mb-3">
                                 <input type="text" name="volumen" id="volumen"
                                     class="form-control decimal @error('volumen') is-invalid @enderror"
@@ -129,32 +106,11 @@
                                 <div class="input-group-append">
                                     <button title="Calculadora" class="btn btn-outline-secondary" type="button"
                                         data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-solid fa-calculator"></i></button>
+                                            class="fa-solid fa-calculator fa-bounce text-warning"></i></button>
                                 </div>
                             </div>
                             @error('volumen')
                                 <small style="color:#d80e22ed">
-                                    <b>{{ $message }}</b>
-                                </small>
-                            @enderror
-                        </div>
-
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Peso bruto</label>
-                            <div class="input-group">
-                                <input type="text" id="peso"
-                                    class="form-control @error('peso') is-invalid @enderror" name="peso"
-                                    value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
-                                            class="fa-brands fa-google"></i></span>
-                                </div>
-                            </div>
-                            @error('peso')
-                                <small style="color: #d80e22ed">
-                                    <p>En caso de no disponer ingresar N/A</p>
                                     <b>{{ $message }}</b>
                                 </small>
                             @enderror
@@ -188,6 +144,29 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Peso bruto</label>
+                            <div class="input-group">
+                                <input type="text" id="peso"
+                                    class="form-control @error('peso') is-invalid @enderror" name="peso"
+                                    value="{{ old('peso') }}" placeholder="Ingresar un valor o N/A">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa-sharp fa-solid fa-k"></i><i
+                                            class="fa-brands fa-google"></i></span>
+                                </div>
+                            </div>
+                            @error('peso')
+                                <small style="color: #d80e22ed">
+                                    <p>En caso de no disponer ingresar N/A</p>
+                                    <b>{{ $message }}</b>
+                                </small>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @include('admin.calculadoras.colombia.newrow')
+                    <div class="col-md-4">
                         @can('admin.calculadoras.cliente')
                             <input type="hidden" value="si" name="existe">
                             <div class="form-group">
@@ -200,9 +179,7 @@
 
                     </div>
                 </div>
-
                 </form>
-
                 @include('admin.calculadoraCBM.calculadoraPrueba')
 
             </x-adminlte-card>
@@ -217,30 +194,6 @@
     </script>
 
     <script>
-        function accion1(valor) {
-
-            valor = $("#liquidos").val();
-            if (valor == 'si') {
-                Swal.fire({
-                    title: '<strong><u>lo sentimos mucho</u></strong>',
-                    icon: 'error',
-                    html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
-                        '<a href="{{ route('admin.individual.create') }}" >Cotizacion invididual</a> ',
-                    showCloseButton: false,
-                    showCancelButton: false,
-                    focusConfirm: false,
-                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-                    confirmButtonAriaLabel: 'Thumbs up, great!',
-                    cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-                    cancelButtonAriaLabel: 'Thumbs down'
-                })
-                //setear un select
-                $("#liquidos").val("").trigger("change");
-            }
-
-
-        }
-
         function accion3() {
 
             let valor = $("#inflamable").val();
@@ -261,28 +214,6 @@
                 })
                 //setear un select
                 $("#inflamable").val("").trigger("change");
-            }
-        }
-
-        function accion2() {
-
-            let valor = $("#bateria").val();
-
-            if (valor == 'si') {
-                Swal.fire({
-                    title: '<strong><u>CARGA PELIGROSA</u></strong>',
-                    icon: 'error',
-                    html: 'Para cargas con bateria, necesitamos que solicites el certificado MSDS y lo adjunte en la cotizacion.',
-                    showCloseButton: false,
-                    showCancelButton: false,
-                    focusConfirm: false,
-                    confirmButtonText: '<i class="fa-solid fa-circle-exclamation"></i> OK!',
-                    confirmButtonAriaLabel: 'Thumbs up, great!',
-                    cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-                    cancelButtonAriaLabel: 'Thumbs down'
-                })
-                //setear un select
-                // $("#bateria").val("").trigger("change");
             }
         }
 

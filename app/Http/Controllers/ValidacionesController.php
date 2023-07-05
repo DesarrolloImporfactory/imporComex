@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CabeceraTransaccion;
+use App\Models\Categoria;
 use App\Models\Comision;
 use Illuminate\Http\Request;
 use App\Models\Validacion;
@@ -12,6 +13,7 @@ use App\Models\Contenedores;
 use App\Models\Variables;
 use App\Models\cotizacion_impuesto;
 use App\Models\Divisa;
+use App\Models\Insumo;
 use App\Models\ProductoInsumo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +36,7 @@ class ValidacionesController extends Controller
         $relacion = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->exists();
         //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
         if ($relacion == 1) {
-            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad','tarifa'])->first();
+            $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad', 'tarifa'])->first();
             $carbon = new \Carbon\Carbon();
             $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
             $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
@@ -47,7 +49,7 @@ class ValidacionesController extends Controller
         }
     }
 
-
+    
 
     public function create()
     {
@@ -153,7 +155,7 @@ class ValidacionesController extends Controller
                 "ISD" => $request->input('total_fob') * $divisa->tarifa,
                 "cantidad_productos" => $request->input('cantidad_productos'),
                 "comision" => $this->comision($request->input('total_fob')),
-                "total" =>$comision + $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra')
+                "total" => $comision + $request->input('total_fob') * $divisa->tarifa + $logistica + $request->input('impuestos') + $request->input('compra')
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);
@@ -221,13 +223,13 @@ class ValidacionesController extends Controller
         //     'mensaje' => $mensaje
         // ];
         // return view('admin.calculadoras.colombia.grupal.formulario', $data);
-        
+
     }
-    public function otrosGastos( $costo)
+    public function otrosGastos($costo)
     {
         $agente = Variables::findOrFail(8);
         $bodegaje = Variables::findOrFail(9);
-        
+
         $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
         return $total;
     }

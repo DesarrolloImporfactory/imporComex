@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Modalidades;
+use App\Models\PuertoChina;
 use Illuminate\Http\Request;
 use App\Models\tipo_cargas;
 use App\Models\tarifaGruapl;
@@ -22,7 +24,9 @@ class CargasController extends Controller
         $tarifa = tarifaGruapl::get();
         $datos = [
             'cargas' => $carga,
-            'tarifas' => $tarifa
+            'tarifas' => $tarifa,
+            'modalidades' => Modalidades::all(),
+            'operaciones' => PuertoChina::all(),
         ];
         return view('admin.cargas.index', $datos);
     }

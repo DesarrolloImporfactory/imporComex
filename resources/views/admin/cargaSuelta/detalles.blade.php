@@ -30,13 +30,10 @@
                             </tr>
                             <tr>
                                 <td><b>OTROS GASTOS:</b><br>
-                                    Agente aduana: 302.40$ <br>
-                                    Flete interno: {{ $cotizacion->flete}}$ <br>
-                                    @if ($cotizacion->modalidad_id == 2)
-                                        Bodegaje: {{ $variables->valor }}$
-                                    @else
-                                        Bodegaje: {{ $variables->minimo }}$
-                                    @endif
+                                    Flete interno: {{ $cotizacion->flete_maritimo }}$ <br>
+                                    @foreach ($variables as $item)
+                                        <p>{{ $item->nombre }}: {{ $item->valor }}$</p>
+                                    @endforeach
                                 </td>
                                 <td>{{ $cotizacion->otros_gastos }}$</td>
                             </tr>

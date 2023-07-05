@@ -14,7 +14,9 @@ use App\Models\Ciudad;
 use App\Models\Variables;
 use App\Models\Categoria;
 use App\Models\Insumo;
+use App\Models\PuertoChina;
 use App\Models\Tarifario;
+use App\Models\VariablesFcl;
 use Illuminate\Support\Facades\DB;
 
 class ContenedorCompletoController extends Controller
@@ -36,12 +38,11 @@ class ContenedorCompletoController extends Controller
         if ($request->input('existe')) {
             $request->validate([
                 'cliente' => ['required'],
-                'inflamable' => ['required'],
-                'peso' => ['required',],
+                'peso' => ['required'],
+                'tipo_carga' => ['required'],
+                'termino' => ['required'],
                 'cargas_id' => ['required'],
-                'tiene_bateria' => ['required'],
                 'cantidad_proveedores' => ['required', 'numeric', 'min:1', 'max:6'],
-                'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'volumen' => ['required', 'min:1', 'numeric:0'],
                 'puerto_id' => ['required'],
@@ -49,12 +50,11 @@ class ContenedorCompletoController extends Controller
             ]);
         } else {
             $request->validate([
-                'inflamable' => ['required'],
+                'tipo_carga' => ['required'],
                 'peso' => ['required',],
                 'cargas_id' => ['required'],
-                'tiene_bateria' => ['required'],
+                'termino' => ['required'],
                 'cantidad_proveedores' => ['required', 'numeric', 'min:1', 'max:6'],
-                'liquidos' => ['required'],
                 'direccion' => ['required', 'string', 'min:5'],
                 'puerto_id' => ['required'],
                 'volumen' => ['required', 'min:1', 'numeric:0'],
@@ -113,30 +113,32 @@ class ContenedorCompletoController extends Controller
         $grupal->barcode = $barcode;
         $peso = $request->input('peso');
         $grupal->usuario_id = $cliente;
-        $grupal->pais_id = $request->input('pais');
+        $grupal->pais = $request->input('pais');
         $grupal->modalidad_id = $request->input('modalidad');
-        $grupal->inflamable = $request->input('inflamable');
+        $grupal->tipo_carga = $request->input('tipo_carga');
         $grupal->peso = $peso;
         $grupal->estado = "Pendiente";
         $grupal->time = Carbon::now();
         $grupal->origen = $request->input('origen');
+        $grupal->termino = $request->input('termino');
         $grupal->puerto_id = $request->input('puerto_id');
-        $grupal->tiene_bateria = $request->input('tiene_bateria');
-        $grupal->liquidos = $request->input('liquidos');
         $grupal->cargas_id = $request->input('cargas_id');
         $grupal->direccion = $request->input('direccion');
         $grupal->cantidad_proveedores = $request->input('cantidad_proveedores');
         $grupal->especialista_id = $especialista;
         $grupal->tarifa_id = $request->input('ciudad_entrega');
         $grupal->proceso = '2';
-        $gastos_origen = $this->gastosOrigen();
+        $gastos_origen = $this->gastosOrigen($request->input('modalidad'));
         $grupal->gastos_origen = $gastos_origen;
-        $grupal->flete_maritimo = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $flete_maritimo = $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $grupal->flete_maritimo = $flete_maritimo;
         $grupal->flete = $request->input('volumen');
-        $collect = $request->input('volumen') * 0.05;
-        $gastosLocales = $this->fclocal($collect) + ($this->fclocal($collect) * 0.12);
+        $collect = $this->collect($request->input('volumen'),$request->input('modalidad'),$request->input('termino'));
+        $gastos_sin_iva = $this->fclocal($collect,$request->input('modalidad'));
+        $grupal->gastos_sin_iva = $gastos_sin_iva;
+        $gastosLocales = $this->fclocal($collect,$request->input('modalidad')) + ($this->fclocal($collect,$request->input('modalidad')) * 0.12);
         $grupal->gastos_local = $gastosLocales;
-        $otrosGastos = $this->otrosGastosFcl($request->input('ciudad_entrega'), $request->input('peso'));
+        $otrosGastos = $this->otrosGastosFcl($flete_maritimo, $request->input('modalidad'));
         $grupal->otros_gastos = $otrosGastos;
         $grupal->total_logistica = $otrosGastos + $request->input('volumen') + $gastos_origen + $gastosLocales;
 
@@ -144,6 +146,19 @@ class ContenedorCompletoController extends Controller
         $data = Cotizaciones::latest('id')->first();
         return redirect()->route('contenedorCompleto.edit', $data);
     }
+
+    public function collect($flete, $modalidad, $termino)
+    {
+        $termino_id = PuertoChina::where('name',$termino)->first();
+        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'COLLECT FEE')
+            ->where('operacion_id', $termino_id->id)->first();
+        $total = $flete * $variables->valor;
+        if ($total <= $variables->minimo) {
+            $total = $variables->minimo;
+        }
+        return $total;
+    }
+
     public function ciudadEntrega($ciudadEntrega, $peso)
     {
         $ciudad = Tarifario::findOrFail($ciudadEntrega);
@@ -159,84 +174,33 @@ class ContenedorCompletoController extends Controller
             }
         }
     }
-    public function otrosGastosFcl($ciudadEntrega, $peso)
+    public function otrosGastosFcl($flete, $modalidad)
     {
-        $agente = Variables::findOrFail(8);
-        $bodegaje = Variables::findOrFail(9);
-        $ciudad = Tarifario::findOrFail($ciudadEntrega);
-        $destino = $ciudad->destino;
-        $transporte = $ciudad->transporte;
-        $tarifas = Tarifario::where('transporte', $transporte)->where('destino', $destino)->get();
-        $pesoTonelada = $peso / 1000;
-        foreach ($tarifas as $tarifa) {
-            if ($pesoTonelada >= $tarifa->peso_min && $pesoTonelada <= $tarifa->peso_max) {
-                $costo = $tarifa->costo;
-            } else {
-                $costo = 0;
-            }
+        $acumulador = 0;
+        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'Otros gastos')->get();
+        foreach ($variables as $item) {
+            $acumulador = $acumulador + $item->valor;
         }
-        $total = ($agente->valor * 1.12) + $costo + $bodegaje->minimo;
-        return $total;
+        return $acumulador+$flete;
     }
-    public function fclocal($collect)
+    public function fclocal($collect,$modalidad)
     {
-        $tasa = Variables::findOrFail(10);
-        $transmicion = Variables::findOrFail(5);
-        return $tasa->valor + $transmicion->minimo + $collect;
-    }
-
-    public function naviera($volumen)
-    {
-        $tasa = Variables::findOrFail(1);
-        $tasaValor = $tasa->valor;
-        $total = $tasaValor * $volumen;
-        return $total;
-    }
-    public function gastosOrigen()
-    {
-        $baf = Variables::findOrFail(2);
-        $aduana = Variables::findOrFail(3);
-        $bafValor = $baf->valor;
-        $aduanaValor = $aduana->valor;
-        $total_gastos_origen = $bafValor + $aduanaValor;
-        return $total_gastos_origen;
-    }
-
-    public function gastosLocales($volumen)
-    {
-
-        $transmicion = Variables::findOrFail(5);
-        $locales = Variables::findOrFail(10);
-
-        $collect = $volumen * 0.05;
-        $suma = $transmicion->valor + $locales->valor + $collect;
-        $total = ($suma + ($suma * 0.12));
-        return $total;
-    }
-
-    public function otrosGastos($ciudadEntrega, $peso)
-    {
-        $agente = Variables::findOrFail(8);
-        $bodegaje = Variables::findOrFail(9);
-        $ciudad = Ciudad::findOrFail($ciudadEntrega);
-        $provincia = $ciudad->provincia;
-        $tarifa = $ciudad->tarifa;
-        $kilo = $ciudad->kilo_adicional;
-
-        if ($provincia == "PICHINCHA") {
-            $costo = 10;
-        } else if ($provincia == "GUAYAS") {
-            $tipo = $ciudad->tipo_trayecto;
-            if ($tipo != "ESPECIAL") {
-                $costo = 10;
-            } else {
-                $costo = $tarifa + ($kilo * $peso);
-            }
-        } else {
-            $costo = $tarifa + ($kilo * $peso);
+        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'Gastos locales simple')->get();
+        $acumulador = 0;
+        foreach ($variables as $item) {
+            $acumulador = $acumulador + $item->valor;
         }
-        $total = ($agente->valor * 1.12) + $costo + $bodegaje->valor;
-        return $total;
+        return $acumulador + $collect;
+    }
+
+    public function gastosOrigen($modalidad)
+    {
+        $acumulador = 0;
+        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'Gastos origen')->get();
+        foreach ($variables as $item) {
+            $acumulador = $acumulador + $item->valor;
+        }
+        return $acumulador;
     }
 
     public function show($id)
@@ -249,8 +213,9 @@ class ContenedorCompletoController extends Controller
     {
         $categoria = Categoria::all();
         $insumo = Insumo::all();
-        $variables = Variables::findOrFail(9);
         $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad'])->first();
+        $variables = Variables::where('modalidad_id',$cotizacion->modalidad_id)->where('tipo','Otros gastos')->get();
+        
         $mensaje = "true";
         $data = [
             'categoria' => $categoria,

@@ -2,7 +2,6 @@
 <button type="button" class="btn btn-primary mt-2" id="abrir" data-bs-toggle="modal" data-bs-target="#modalProducto">
     Agregar producto
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

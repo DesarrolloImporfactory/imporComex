@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cotizaciones;
 use App\Models\Divisa;
+use App\Models\Insumo;
 use App\Models\ProductoInsumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -87,6 +88,9 @@ class CotizacionProductosController extends Controller
             $producto->porcentaje = $request->input('porcentaje');
             $producto->cotizacion_id = $request->input('cotizacion_id');
             $producto->save();
+            Insumo::where('id', $request->input('insumo_id'))->update([
+                'porcentaje' => $request->input('porcentaje')
+            ]);
             return response()->json([
                 'status' => 200,
                 'message' => 'Producto creado!',

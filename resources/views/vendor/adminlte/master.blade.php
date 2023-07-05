@@ -84,7 +84,7 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @endif
-
+   
 </head>
 {{-- estilos para login y register --}}
 <style>
@@ -106,7 +106,6 @@
 </style>
 
 <body class="@yield('classes_body')" @yield('body_data')>
-
     {{-- Body Content --}}
     @yield('body')
 

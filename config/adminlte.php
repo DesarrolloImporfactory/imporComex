@@ -309,7 +309,7 @@ return [
             'can' => '',
         ],
         [
-            'text' => 'Impor-Situ',
+            'text' => 'Impor suit',
             'url'  => 'suit',
             'topnav' => true,
             'icon' => 'nav-icon fas fa-toolbox',
@@ -363,7 +363,7 @@ return [
             'route'  => 'ciudades.tarifas.index',
             'icon' => 'fas fa-solid fa-truck-front',
             'can' => 'ciudades.tarifas.index',
-            'label' => 'new'
+            // 'label' => 'new'
         ],
         [
 
@@ -386,7 +386,7 @@ return [
             'route'  => 'admin.cuentas.index',
             'icon' => 'fas fa-regular fa-sack-dollar',
             'can' => 'admin.cuentas.index',
-            'label' => 'new'
+            // 'label' => 'new'
 
         ],
         [
@@ -651,5 +651,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

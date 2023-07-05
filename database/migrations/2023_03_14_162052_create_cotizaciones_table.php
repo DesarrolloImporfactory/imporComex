@@ -20,8 +20,8 @@ return new class extends Migration
             $table->bigInteger('especialista_id')->unsigned()->nullable();
             $table->foreign('especialista_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->bigInteger('pais_id')->unsigned()->nullable();
-            $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade')->onDelete('cascade');
+            // $table->bigInteger('pais_id')->unsigned()->nullable();
+            // $table->foreign('pais_id')->references('id')->on('paises')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('modalidad_id')->unsigned()->nullable();
             $table->foreign('modalidad_id')->references('id')->on('modalidades')->onUpdate('cascade')->onDelete('cascade');

@@ -38,7 +38,42 @@
         </div>
     </div>
     <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}">
-
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">PRODUCTOS</h3>
+                </div>
+                <div class="card-body table-responsive">
+                    <x-table class="table table-striped table-valign-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NOMBRE</th>
+                                <th>PORCENTAJE</th>
+                                <th>CLIENTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($productos as $item)
+                                <tr>
+                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->nombre}}</td>
+                                    <td>{{$item->porcentaje}}</td>
+                                    <td>{{$item->usuario->name}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <x-adminlte-card theme="" theme-mode="outline">
+                <div id="chart3"></div>
+            </x-adminlte-card>
+        </div>
+    </div>
 @stop
 
 @section('css')
@@ -46,7 +81,6 @@
 @stop
 
 @push('js')
-    
     <script>
         Highcharts.chart('chart', {
             chart: {
@@ -135,6 +169,51 @@
                 name: 'Cotizaciones',
                 colorByPoint: true,
                 data: JSON.parse(`<?php echo $data2; ?>`)
+            }]
+        });
+
+        Highcharts.chart('chart3', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                align: 'left',
+                text: 'Top 5, usuarios con más productos'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: false
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Cuota de mercado porcentual total'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:.1f}%'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> del total<br/>'
+            },
+            series: [{
+                name: 'Cotizaciones',
+                colorByPoint: true,
+                data: JSON.parse(`<?php echo $data3; ?>`)
             }]
         });
     </script>

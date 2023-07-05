@@ -3,155 +3,269 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Calculadora de Metros Cubicos</h1>
-                <button type="button" onclick="agregarProducto()" class="btn btn-primary">Agregar</button><br>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Agregar
+                    Producto</button>
             </div>
             <div class="modal-body">
+                <form action="" id="create">
+                    <input type="hidden" name="cotizacion_id" value="{{ $datos->id }}">
+                    @csrf
+                    <div class="row formulario">
+                        <div class="form-group col-12 col-md-12  col-lg-4">
+                            <p for="">Producto</p>
+                            <x-adminlte-select2 name="insumo_id" id="productos" class="form-control form-control-sm">
+                            
+                            </x-adminlte-select2>
 
+                        </div>
+                        <div class="form-group col-3 col-md-3 col-lg-2">
+                            <p for="">Cartones</p>
+                            <input type="number" min="0" name="cartones" class="form-control form-control-sm">
+
+                        </div>
+                        <div class="form-group col-3 col-md-3 col-lg-2">
+                            <p for="">Largo</p>
+                            <input type="number" min="0" name="largo" class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group col-3 col-md-3 col-lg-2">
+                            <p for="">Ancho</p>
+                            <input type="number" name="ancho" min="0" id="ancho"
+                                class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group col-3 col-md-3 col-lg-2">
+                            <p for="">Alto</p>
+                            <input type="number" name="alto" min="0" id="altura"
+                                class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </form>
                 <div class="row">
-                    <div class="col-md-12">
-                        <from>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cartones</th>
+                                    <th>Longitud</th>
+                                    <th>Ancho</th>
+                                    <th>Altura</th>
+                                    <th>Total</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody id="calculos">
 
-                            <!-- Trigger the modal with a button -->
+                            </tbody>
 
-                            <input type="hidden" id="ListaPro" name="ListaPro" value="" required /><br>
-                            <table id="TablaPro" class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Cartones</th>
-                                        <th>Longitud</th>
-                                        <th>Anchura</th>
-                                        <th>Altura</th>
-                                        <th>Volumen</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ProSelected">
-                                    <!--Ingreso un id al tbody-->
-                                    <tr>
-
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="2">Volumen Total</td>
-
-                                        <td>&nbsp;</td>
-                                        <td><span id="total">0</span> <input class="form-control" type="hidden"
-                                                id="total_final" name="total_final" value="0" readonly /></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <!--Agregue un boton en caso de desear enviar los productos para ser procesados-->
-
-                        </from>
+                        </table>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-md-5">
+                        <input style="color: red" placeholder="Volumen total" type="button"
+                            class="form-control form-control-sm" name="total" id="total" readonly>
+                    </div>
+                    <div class="col-md-7">
+                        <button type="submit" class="btn btn-primary  btn-sm" form="create">Calcular</button>
+                        <button type="button" class="btn btn-success  btn-sm" id="agregar">Agregar</button>
+                        <button type="button" class="btn btn-secondary float-right btn-sm"
+                            data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Agregar producto</h1>
+            </div>
+            <form action="" method="post" id="formProducto">
+                @csrf
+                <div class="form-group">
+                    <input type="hidden" min="0" value="0" class="form-control" id="porcentajeInsumo"
+                        name="porcentajeInsumo" placeholder="Valor porcentual">
+                </div>
+                <div class="modal-body " id="formularioProducto">
+                    <div id="validaciones">
+                        <ul id="erroresProducto">
+
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre del producto: </label>
+                        <input type="text" class="form-control" name="nombreInsumo" id="nombreInsumo"
+                            placeholder="Nombre del producto">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModal"
+                        data-bs-toggle="modal">Regresar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="crearProducto">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .select2-container--open .select2-dropdown {
+        z-index: 1070;
+    }
+</style>
 <script>
-    function RefrescaProducto() {
-        var ip = [];
-        var i = 0;
-        $('#guardar').attr('disabled', 'disabled'); //Deshabilito el Boton Guardar
-        $('.iProduct').each(function(index, element) {
-            i++;
-            ip.push({
-                id_pro: $(this).val()
+    $(document).ready(function() {
+        table();
+        total();
+        productos();
+        function productos() {
+            $("#productos").append(`<option>Seleccione ...</option>`);
+            $.ajax({
+                type: "GET",
+                url: "{{ route('admin.colombia.index') }}",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response.insumos, function(key, insumo) {
+                        $("#productos").append(
+                            `<option value="${insumo.id}">${insumo.nombre}</option>`
+                        );
+                    });
+                }
+            });
+        }
+        
+        $("#formProducto").submit(function(e) {
+            e.preventDefault();
+            var data = $("#formProducto").serialize();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.save.producto') }}",
+                data: data,
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 400) {
+                        $("#erroresProducto").html("");
+                        $("#validaciones").addClass('alert alert-danger');
+                        $.each(response.message, function(key, error) {
+                            $("#erroresProducto").append(`
+                                <li>${error}</li>
+                             `);
+                        });
+                        $("#crearProducto").text("Volver a intentar");
+                    } else {
+                        $("#crearProducto").text("Agregando....");
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#formularioProducto").find('input').val("");
+                        $("#modalProducto").modal('hide');
+                        $("#productos").html("");
+                        productos();
+                    }
+                }
             });
         });
-        // Si la lista de Productos no es vacia Habilito el Boton Guardar
-        if (i > 0) {
-            $('#guardar').removeAttr('disabled', 'disabled');
-        }
-        var ipt = JSON.stringify(ip); //Convierto la Lista de Productos a un JSON para procesarlo en tu controlador
-        $('#ListaPro').val(encodeURIComponent(ipt));
-    }
-
-    function agregarProducto() {
-
-        var sel = '.'; //Capturo el Value del Producto
-        var text = '.'; //Capturo el Nombre del Producto- Texto dentro del Select
-
-
-        var sptext = text.split();
-
-        var newtr = '<tr class="item"  data-id="' + sel + '">';
-        newtr = newtr + '<td class="iProduct" >' + sel + '</td>';
-        newtr = newtr +
-            '<td><input class="form-control" type="text" id="cartones[]" name="lista[]" onChange="Calcular(this);" value="1" /></td><td><input class="form-control" type="text" id="cantidad[]" name="lista[]" onChange="Calcular(this);" value="1" /></td><td><input class="form-control" type="text" id="nose[]" name="lista[]" onChange="Calcular(this);" value="1" /></td><td><input class="form-control" type="text" id="precunit[]" name="lista[]" onChange="Calcular(this);" value="0"/></td><td><input class="form-control" type="text" id="totalitem[]" name="lista[]" readonly /></td>';
-        newtr = newtr +
-            '<td><button type="button" class="btn btn-danger btn-xs remove-item" ><i class="fa fa-times"></i></button></td></tr>';
-
-        $('#ProSelected').append(newtr); //Agrego el Producto al tbody de la Tabla con el id=ProSelected
-
-        RefrescaProducto(); //Refresco Productos
-
-        $('.remove-item').off().click(function(e) {
-            var total = document.getElementById("total");
-            total.innerHTML = parseFloat(total.innerHTML) - parseFloat(this.parentNode.parentNode.childNodes[5]
-                .childNodes[0].value);
-            $(this).parent('td').parent('tr').remove(); //En accion elimino el Producto de la Tabla
-            if ($('#ProSelected tr.item').length == 0)
-                $('#ProSelected .no-item').slideDown(300);
-            RefrescaProducto();
-
-            Calcular(e.target);
-        });
-        $('.iProduct').off().change(function(e) {
-            RefrescaProducto();
+        $('#create').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.ajustes.store') }}",
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 404) {
+                        alert('Completar los campos')
+                    } else {
+                        $('.formulario').find('input').val("");
+                        table();
+                        total();
+                    }
+                }
+            });
 
         });
-    }
 
-
-    function Calcular(ele) {
-        var cantidad = 0,
-            precunit = 0,
-            totalitem = 0,
-            nose = 0,
-            vol = 0,
-            cartones = 0;
-        var tr = ele.parentNode.parentNode;
-        var nodes = tr.childNodes;
-
-        for (var x = 0; x < nodes.length; x++) {
-            if (nodes[x].firstChild.id == 'cartones[]') {
-                cartones = parseFloat(nodes[x].firstChild.value, 10);
-            }
-
-            if (nodes[x].firstChild.id == 'cantidad[]') {
-                cantidad = parseFloat(nodes[x].firstChild.value, 10);
-            }
-            if (nodes[x].firstChild.id == 'nose[]') {
-                nose = parseFloat(nodes[x].firstChild.value, 10);
-            }
-            if (nodes[x].firstChild.id == 'precunit[]') {
-                precunit = parseFloat(nodes[x].firstChild.value, 10);
-            }
-            if (nodes[x].firstChild.id == 'totalitem[]') {
-                anterior = nodes[x].firstChild.value;
-                vol = (parseFloat(((precunit * cantidad * nose) / 1000000), 10)).toFixed(2);;
-                totalitem = vol * cartones
-                nodes[x].firstChild.value = totalitem;
-            }
+        function table() {
+            let id = '{{ $datos->id }}';
+            $.ajax({
+                type: "GET",
+                url: "../../admin/ajustes/" + id + "/edit",
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#calculos').html("");
+                        $.each(response.calculos, function(key, calculo) {
+                            $('#calculos').append(`
+                        <tr>
+                            <td>${(calculo.producto.nombre)}</td>
+                    <td>${calculo.cartones}</td>
+                    <td>${(calculo.largo)}</td>
+                    <td>${(calculo.ancho)}</td>
+                    <td>${(calculo.alto)}</td>
+                    <td>${(calculo.total)}</td>
+                    <td style="width: 5%;">
+                        <a type="button" value="${calculo.id}" id="delete" class="btn-sm"><i class="fa-regular fa-trash-can text-danger"></i></a>
+                    </td>
+                </tr>
+                        `);
+                        });
+                    } else {
+                        console.log('sin registros');
+                    }
+                }
+            });
         }
-        // Resultado final de cada fila ERROR, al editar o eliminar una fila
-        var total = document.getElementById("total");
-        
-        if (total.innerHTML == 'NaN') {
-            total.innerHTML = 0;
-            // 
+
+        function total() {
+            let id = '{{ $datos->id }}';
+            $.ajax({
+                type: "GET",
+                url: "../../total/" + id,
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 200) {
+                        $('#total').val((response.total).toFixed(2));
+
+                    }
+                }
+            });
         }
-        total.innerHTML = (parseFloat(total.innerHTML) + totalitem - anterior).toFixed(2);
-        document.getElementById('volumen').value = total.innerHTML;
 
-        
+        $(document).on('click', '#agregar', function() {
+            let valor = $('#total').val();
+            $('#volumen').val(valor);
+        });
 
-    }
+        $(document).on('click', '#delete', function(e) {
+            e.preventDefault();
+            let id = $(this).attr('value');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "DELETE",
+                url: "../../admin/ajustes/" + id,
+                success: function(response) {
+                    if (response.status == 200) {
+                        table();
+                        total();
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        });
+    });
 </script>

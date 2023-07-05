@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AjusteCotizacion;
 use App\Models\CabeceraTransaccion;
+use App\Models\Calculadora;
 use App\Models\Cotizaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,15 +20,60 @@ class AjustesController extends Controller
 
     public function create()
     {
-        //
+       
     }
 
 
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'insumo_id' => 'required',
+            'cartones' => 'required',
+            'largo' => 'required',
+            'ancho' => 'required',
+            'alto' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 404,
+                'message' => $validator->messages()
+            ]);
+        } else {
+            Calculadora::create([
+                'cotizacion_id' => $request->input('cotizacion_id'),
+                'insumo_id' => $request->input('insumo_id'),
+                'cartones' => $request->input('cartones'),
+                'largo' => $request->input('largo'),
+                'ancho' => $request->input('ancho'),
+                'alto' => $request->input('alto'),
+                'total' => (($request->input('largo') * $request->input('ancho') * $request->input('alto')) / 1000000) * $request->input('cartones'),
+            ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Registro actualizado exitosamente!',
+            ]);
+        }
     }
 
+    public function total($id)
+    {
+        try {
+            $calculos = Calculadora::where('cotizacion_id', $id)->get();
+            $total = 0;
+            foreach ($calculos as  $calculo) {
+                $total = $total + $calculo->total;
+            }
+            return response()->json([
+                'status' => 200,
+                'total' => $total
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 
     public function show($id)
     {
@@ -40,7 +86,18 @@ class AjustesController extends Controller
 
     public function edit($id)
     {
-        //
+        try {
+            $calculos = Calculadora::with('producto')->where('cotizacion_id', $id)->get();
+            return response()->json([
+                'status' => 200,
+                'calculos' => $calculos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
 
@@ -85,6 +142,16 @@ class AjustesController extends Controller
 
     public function destroy($id)
     {
-        //
+        try {
+            Calculadora::destroy($id);
+            return response()->json([
+                'status' => 200,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

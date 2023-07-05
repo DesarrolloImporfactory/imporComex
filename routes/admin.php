@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\AjustesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IdiomasController;
@@ -30,9 +31,10 @@ use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
 use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
+use App\Models\Country;
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware(['auth', 'verified','cotizador'])->group(function () {
+Route::middleware(['auth', 'verified', 'cotizador'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
@@ -56,6 +58,7 @@ Route::middleware(['auth', 'verified','cotizador'])->group(function () {
 
     Route::resource('calculadoras', CalculadorasController::class)->names('admin.calculadoras');
     Route::get('admin/calculadoras', [UsuariosController::class, 'createUserFast'])->name('create.user.fast');
+    Route::get('admin/total', [CalculadorasController::class, 'total'])->name('admin.calculadoras.total');
 
     Route::resource('colombia', ColombiaController::class)->names('admin.colombia');
 
@@ -65,6 +68,7 @@ Route::middleware(['auth', 'verified','cotizador'])->group(function () {
     Route::get('ticket/{id}/pdf', [ReportesController::class, 'pdfTicket'])->name('ticket.pdf');
     Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
     Route::get('cotizacion/{id}/download', [ReportesController::class, 'cotizacionDownload'])->name('cotizacion.download');
+    Route::get('cotizacion/{id}', [ReportesController::class, 'cotizacionPrint'])->name('print.cotizacion');
     Route::resource('admin/calcular/impuesto', ReportesController::class)->names('calcular.impuestos');
 
     Route::resource('admin/contenedores', ContenedoresController::class)->names('admin.contenedores');
@@ -121,8 +125,12 @@ Route::middleware(['auth', 'verified','cotizador'])->group(function () {
     Route::resource('ciudades/tarifas', CiudadesController::class)->names('ciudades.tarifas');
     Route::resource('contenedorCompleto', ContenedorCompletoController::class)->names('contenedorCompleto');
     Route::resource('variables', VariablesController::class)->names('variables');
+    Route::get('variables/fcl/create', [VariablesController::class, 'variables']);
+    Route::put('fcl/{id}', [VariablesController::class, 'updatefcl']);
     Route::resource('admin/cuentas', CuentasController::class)->names('admin.cuentas');
     Route::resource('admin/ajustes', AjustesController::class)->names('admin.ajustes');
+    Route::get('total/{id}', [AjustesController::class, 'total'])->name('total');
+
     Route::get('notificar/cuentas/{id}', [CuentasController::class, 'notificar'])->name('notificar.cuentas');
     Route::get('editAbono/{id}', [CuentasController::class, 'editAbono'])->name('editAbono');
     Route::patch('update/flete/{id}', [ValidacionesController::class, 'updateFlete'])->name('update.flete');
@@ -130,8 +138,15 @@ Route::middleware(['auth', 'verified','cotizador'])->group(function () {
     Route::post('tarfia/create', [CargasController::class, 'storeTarifa'])->name('tarifa.create');
     Route::resource('comision', ComisionController::class)->names('comision');
     Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
-   
+    Route::resource('client/dashboard', HomeController::class)->names('client.dashboard');
+
     Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
     Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
-    
+    Route::get('countrys', function () {
+
+        $countryAPI = new Country();
+        $countries = $countryAPI->getCountries();
+        return $countries->firs();
+        return view('country', compact('countries'));
+    });
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Cotizaciones;
+use App\Models\Insumo;
 
 class HomeController extends Controller
 {
@@ -25,8 +26,18 @@ class HomeController extends Controller
         $pendientes = Cotizaciones::whereestado('pendiente')->count();
         $contenedores = Contenedores::count();
 
+        $usuariosConMasInsumos = Insumo::select('users.name', DB::raw('count(*) as total'))
+            ->join('users', 'insumos.usuario_id', '=', 'users.id')
+            ->whereNotNull('insumos.usuario_id')
+            ->groupBy('users.name')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+        
+
         $data = [];
         $data2 = [];
+        $data3 = [];
         $query = "
         SELECT count(*) as cotizaciones, users.name as usuario from cotizaciones inner join users on cotizaciones.especialista_id= users.id GROUP BY(users.name)
         ";
@@ -50,16 +61,66 @@ class HomeController extends Controller
             ];
         }
 
+        foreach ($usuariosConMasInsumos as $item) {
+            $data3[] = [
+                'name' => $item->name,
+                'y' => $item->total
+            ];
+        }
+
         $datos = [
             'data' => $data = json_encode($data),
             'data2' => $data2 = json_encode($data2),
+            'data3' => $data3 = json_encode($data3),
             'usuarios' => $usuarios,
             'cotizaciones' => $cotizaciones,
             'pendientes' => $aprobadas,
             'aprobadas' => $pendientes,
-            'contenedores' => $contenedores
+            'contenedores' => $contenedores,
+            'productos' => Insumo::with('usuario')->whereNotNull('usuario_id')->get(),
         ];
 
-        return view('home', $datos);
+        $id = auth()->user()->id;
+        $usuarioRol = User::with('roles')->findOrFail($id);
+        foreach ($usuarioRol->roles as $rol) {
+            $usuario = $rol->name;
+        }
+
+        if ($usuario == "Admin"  || $usuario == "Especialista") {
+
+            return view('home', $datos);
+        } else {
+            return view('admin.dashboard.clientDashboard', $this->cliente($id));
+        }
+    }
+
+    public function cliente($id)
+    {
+        $cotizaciones = Cotizaciones::with('modalidad', 'especialista')->where('usuario_id', $id)->get();
+        $productos = Insumo::with('usuario')->where('usuario_id', $id)->get();
+        $data1 = [];
+        $cotizacionesModalidad = Cotizaciones::with('modalidad')
+            ->where('usuario_id', $id)
+            ->groupBy('modalidad_id')
+            ->select('modalidad_id', DB::raw('COUNT(*) as total'))
+            ->get();
+
+
+        foreach ($cotizacionesModalidad as $consulta) {
+            $data1[] = [
+                'name' => $consulta->modalidad->modalidad,
+                'y' => $consulta->total
+            ];
+        }
+
+        $datos = [
+            'data1' => $data1 = json_encode($data1),
+            'cotizacionesTotal' => $cotizaciones->count(),
+            'productosTotal' => $productos->count(),
+            'cotizaciones' => $cotizaciones,
+            'productos' => $productos
+        ];
+
+        return $datos;
     }
 }

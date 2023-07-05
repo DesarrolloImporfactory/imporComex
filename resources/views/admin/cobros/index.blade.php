@@ -2,7 +2,7 @@
 @section('title', 'Tarifas')
 
 @section('content_header')
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -29,11 +29,11 @@
                         </div>
                         <div class="form-group">
                             <label for="">Accion</label>
-                            <x-adminlte-select2 name="accion" id="accion" enable-old-suport>
+                            <select name="accion" id="accion" class="my-select" data-live-search="true" data-width="100%">
                                 <option value="">Seleccione una opcion.....</option>
                                 <option value="1">Agregar al valor</option>
                                 <option value="0">Restar al valor</option>
-                            </x-adminlte-select2>
+                            </select >
                         </div>
                         <div class="form-group">
                             <label for="">Detallar el motivo</label>
@@ -48,11 +48,11 @@
             </div>
         </div>
     </div>
-    <style>
+    {{-- <style>
         .select2-container--open .select2-dropdown {
             z-index: 1070;
         }
-    </style>
+    </style> --}}
 @stop
 
 @section('content')
@@ -123,6 +123,7 @@
 
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
+                
                 var id = $(this).attr('value');
                 $.ajax({
                     type: "GET",
@@ -131,6 +132,7 @@
                     success: function(response) {
                         $('#cotizacion').val(response.data.total);
                         $('#id_cotizacion').val(response.data.id);
+                        $('.my-select').selectpicker();
                         $('#editModal').modal('show');
                     }
                 });

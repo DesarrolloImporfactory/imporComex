@@ -63,4 +63,12 @@ class Cotizaciones extends Model
         return Carbon::parse($value)->format('Y-m-d');
     }
 
+    public function gastos(){
+        return $this->hasOne(Gasto::class,'cotizacion_id','id');
+    }
+
+    public function calculos(){
+        return $this->hasOne(Calculadora::class,'cotizacion_id','id');
+    }
+
 }

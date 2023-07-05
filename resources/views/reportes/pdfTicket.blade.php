@@ -92,7 +92,7 @@
                         <div class="div1"><span class="bold">SUPPLIER NAME :</span> {{ $proveedor->nombre_pro }}
                         </div><br>
                         <div class="div1"><span class="bold">SHIPPING MARK IMPORTCOMEXSAS-ECGLY
-                                :</span>{{ $cotizacion->pais->nombre_pais }}</div><br>
+                                :</span>{{ $cotizacion->pais }}</div><br>
 
                     </div>
                     <div class="mts"></div><br>

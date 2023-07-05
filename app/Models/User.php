@@ -41,6 +41,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return Carbon::parse($value)->format('Y-m-d H');
     }
 
+    public function calculos(){
+        return $this->hasOne(CalculadoraTemporal::class,'usuario_id','id');
+    }
+
     protected $fillable = [
         'name',
         'email',

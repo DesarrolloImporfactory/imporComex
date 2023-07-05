@@ -138,7 +138,7 @@
                 <thead>
                     <tr class="heading text-center">
                         <td><b>Origen: </b>{{ $cotizacion->origen }}</td>
-                        <td><b>Destino: </b>{{ $cotizacion->pais->nombre_pais }}</td>
+                        <td><b>Destino: </b>{{ $cotizacion->pais }}</td>
                         <td><b>Fecha: </b>{{ $carbon }}</td>
 
                     </tr>

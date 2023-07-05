@@ -6,14 +6,17 @@
 
     <div class="row">
         <div class="col-md-3">
-            @if ($cotizacion->modalidad->modalidad != 1)
+            @if ($cotizacion->modalidad->id != 2)
                 <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i
+                        class="fa-solid fa-arrow-left"></i> Regresar</a>
+            @else
+                <a class="btn btn-danger float-left btn-sm" href="{{ route('admin.colombia.show', $cotizacion->id) }}"><i
                         class="fa-solid fa-arrow-left"></i> Regresar</a>
             @endif
         </div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $cotizacion->pais->nombre_pais }} </b><span class="badge rounded-pill text-bg-warning">
+                <p><b>COTIZADOR {{ $cotizacion->pais }} </b><span class="badge rounded-pill text-bg-warning">
                         {{ $cotizacion->modalidad->modalidad }}</span></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
@@ -23,7 +26,6 @@
         <div class="col-md-3">
         </div>
     </div>
-
 @stop
 
 @section('content')
@@ -151,7 +153,7 @@
                                     <div class="logistica">
                                     </div>
                                     <div class="input-group">
-                                        <input name="logistica" id="logistica" type="text" class="form-control"
+                                        <input name="logistica" id="logistica" type="text" class="form-control form-control-sm"
                                             readonly>
                                         @if ($cotizacion->modalidad_id == 2)
                                             @can('admin.calculadoras.cliente')
@@ -164,14 +166,14 @@
                                             @endcan
                                         @endif
                                         @if ($cotizacion->modalidad_id == 3)
-                                        @can('admin.calculadoras.cliente')
-                                        <div class="input-group-append">
-                                            <button title="Detalles" class="btn btn-outline-danger"
-                                                data-bs-toggle="modal" data-bs-target="#editFlete" type="button"><i
-                                                    class="fa-solid fa-pen-to-square fa-beat"
-                                                    style="color: #d71d1d;"></i></button>
-                                        </div>
-                                    @endcan
+                                            @can('admin.calculadoras.cliente')
+                                                <div class="input-group-append">
+                                                    <button title="Detalles" class="btn btn-outline-danger"
+                                                        data-bs-toggle="modal" data-bs-target="#editFlete" type="button"><i
+                                                            class="fa-solid fa-pen-to-square fa-beat"
+                                                            style="color: #d71d1d;"></i></button>
+                                                </div>
+                                            @endcan
                                         @endif
                                     </div>
                                 </div>
@@ -180,14 +182,14 @@
                             <div class="col">
                                 <div class="form-group ">
                                     <div class="impuestos"></div>
-                                    <input name="impuestos" id="impuestos" type="text" class="form-control" readonly>
+                                    <input name="impuestos" id="impuestos" type="text" class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <div class="compra">
                                     </div>
-                                    <input name="compra" id="compra" type="text" class="form-control" readonly>
+                                    <input name="compra" id="compra" type="text" class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
 
@@ -195,7 +197,7 @@
                                 <div class="form-group">
                                     <div class="cotizacion_total"></div>
                                     <input type="text" name="cotizacion_total" id="cotizacion_total"
-                                        class="form-control" readonly>
+                                        class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                             <div class="col">
@@ -203,13 +205,13 @@
                                     <div class="productos_total">
                                     </div>
                                     <input type="text" name="cantidad_productos" id="productos_total"
-                                        class="form-control" readonly>
+                                        class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <div class="fob_total"></div>
-                                    <input type="text" name="total_fob" id="fob_total" class="form-control" readonly>
+                                    <input type="text" name="total_fob" id="fob_total" class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                         </div>
@@ -228,39 +230,43 @@
                     </ul>
                 </div>
                 <div class="row">
-
-                    <input type="hidden" name="cotizacion_id" id="cotizacion_id" value="{{ $cotizacion->id }}">
-                    <div class="row" id="exampleModal">
-                        <div class="form-group col-md-3">
-                            <label for="">Buscar referencia</label>
-                            <x-adminlte-select2 name="insumos" id="insumos" onchange="colocar()" enable-old-support>
-
-                            </x-adminlte-select2>
+                    <form action="" id="crearCalculo">
+                        @csrf
+                        <input type="hidden" name="cotizacion_id" id="cotizacion_id" value="{{ $cotizacion->id }}">
+                        <div class="row" id="exampleModal">
+                            <div class="form-group col-md-3">
+                                <label for="">Buscar referencia</label>
+                                <x-adminlte-select2 name="insumo_id" id="insumos" enable-old-support>
+                                    @foreach ($insumo as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    @endforeach
+                                </x-adminlte-select2>
+                            </div>
+                            <div class="col-md-2 mt-4">
+                                {{-- @include('admin.productos.index') --}}
+                            </div>
+                            <div class="col-md-1 text-center">
+                                <label for="">Cantidad</label>
+                                <input type="number" min="0" name="cantidad" id="cantidad"
+                                    class="form-control @error('cantidad') is-invalid @enderror"
+                                    value="{{ old('cantidad') }}">
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <label for="">Precio</label>
+                                <input type="number" min="0" name="precio" id="precio" class="form-control"
+                                    value="{{ old('precio') }}">
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <label for="">Porcentaje</label>
+                                <input type="number" min="0" name="porcentaje" id="porcentaje"
+                                    class="form-control" value="{{ old('porcentaje') }}">
+                            </div>
+                            <div class="form-group col-md-2 mt-4 text-center">
+                                <button type="submit" class="btn btn-warning mt-2 "><i
+                                        class="fa-solid fa-cart-shopping"></i> Agregar</button>
+                            </div>
                         </div>
-                        <div class="col-md-2 mt-4">
-                            @include('admin.productos.index')
-                        </div>
-                        <div class="col-md-1 text-center">
-                            <label for="">Cantidad</label>
-                            <input type="number" min="0" name="cantidad" id="cantidad"
-                                class="form-control @error('cantidad') is-invalid @enderror"
-                                value="{{ old('cantidad') }}">
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <label for="">Precio</label>
-                            <input type="number" min="0" name="" id="precio" class="form-control"
-                                value="{{ old('precio') }}">
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <label for="">Porcentaje</label>
-                            <input type="number" min="0" name="" id="porcentaje" class="form-control"
-                                value="{{ old('porcentaje') }}" readonly>
-                        </div>
-                        <div class="form-group col-md-2 mt-4 text-center">
-                            <button type="button" class="btn btn-warning crear mt-2 "><i
-                                    class="fa-solid fa-cart-shopping"></i> Agregar</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="row">
                     <div class="table-responsive-lg">
@@ -293,14 +299,7 @@
 @stop
 @section('js')
     <script>
-        function colocar() {
-            var porcentaje = $("#insumos option:selected").attr('porcentaje');
-            $("#porcentaje").val(porcentaje);
-        }
-
-
         $(document).ready(function() {
-
             function icono() {
                 $(".logistica").html('');
                 $(".impuestos").html('');
@@ -372,8 +371,6 @@
 
             }
 
-
-
             fetchProducts();
 
             function fetchProducts() {
@@ -383,7 +380,6 @@
                     url: "../../admin/relacion/" + $id_cotizacion,
                     dataType: "json",
                     success: function(response) {
-                        //console.log(response);
                         $('#body').html("");
                         $.each(response.productos, function(key, producto) {
                             $('#body').append(`
@@ -586,27 +582,10 @@
                 })
             });
 
-            //funcion para crear registro
-            $(document).on('click', '.crear', function(e) {
-
+            $('#crearCalculo').submit(function(e) {
                 e.preventDefault();
-
                 $("#bodyTotal").html("");
-                var data = {
-                    'insumo_id': $('#insumos').val(),
-                    'cantidad': $('#cantidad').val(),
-                    'precio': $('#precio').val(),
-                    'porcentaje': $('#porcentaje').val(),
-                    'cotizacion_id': $('#cotizacion_id').val(),
-                    'total_fob': $("#fob_total").val(),
-                }
-                console.log(data);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
+                var data = $(this).serialize();
                 $.ajax({
                     type: "POST",
                     url: "../../admin/relacion",
@@ -637,9 +616,8 @@
                         }
                     }
                 });
+
             });
-
-
         });
     </script>
     <script>

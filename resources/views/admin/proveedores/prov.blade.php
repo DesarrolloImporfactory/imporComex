@@ -7,7 +7,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $cotizacion->pais->nombre_pais }}</b></p>
+                <p><b>COTIZADOR {{ $cotizacion->pais }}</b></p>
                 {{-- <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p> --}}
                 <p>4 de 4 <strong> Completado</strong></p>
 
