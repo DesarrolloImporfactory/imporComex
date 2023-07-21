@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Categoria;
 use App\Models\Cotizaciones;
+use App\Models\Email;
 use App\Models\Insumo;
 use App\Models\PuertoChina;
 use App\Models\User;
@@ -40,8 +41,10 @@ class AprobarCotizacion extends Component
             if ($valor == 'Aprobado') {
                 $this->boton = true;
                 $pdfPath = $this->sendCotizacion($this->idCotizacion);
-                $emails = [$this->usuario->email,'cargas@imporfactoryusa.com','insidesales2@hacargo.com'];
-    
+                $emails = Email::pluck('email')->toArray();
+                $newEmail = $this->usuario->email;
+                // $emails = [$this->usuario->email,'cargas@imporfactoryusa.com','insidesales2@hacargo.com'];
+                $emails[] = $newEmail;
                 $notification = new EmailUsuario($pdfPath);
     
                 Notification::route('mail', $emails)->notify($notification);

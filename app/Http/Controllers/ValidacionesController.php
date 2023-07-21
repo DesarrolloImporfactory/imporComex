@@ -49,7 +49,7 @@ class ValidacionesController extends Controller
         }
     }
 
-    
+
 
     public function create()
     {
@@ -147,7 +147,7 @@ class ValidacionesController extends Controller
             $comision = $this->comision($request->input('total_fob'));
             $divisa = Divisa::first();
             $datos = [
-                "proceso" => '3',
+                "proceso" => '4',
                 "total_impuesto" => $request->input('impuestos'),
                 "total_compra" => $request->input('compra'),
                 "time" => Carbon::now(),
@@ -216,14 +216,6 @@ class ValidacionesController extends Controller
 
     public function edit($data)
     {
-        // $cotizacion = Cotizaciones::whereid($data)->with(['carga', 'pais', 'modalidad'])->first();
-        // $mensaje = "false";
-        // $data = [
-        //     'cotizacion' => $cotizacion,
-        //     'mensaje' => $mensaje
-        // ];
-        // return view('admin.calculadoras.colombia.grupal.formulario', $data);
-
     }
     public function otrosGastos($costo)
     {
@@ -234,6 +226,33 @@ class ValidacionesController extends Controller
         return $total;
     }
     public function updateFleteLCL(Request $request, $id)
+    {
+        $cotizacion = Cotizaciones::find($id);
+        Cotizaciones::where('id', $id)->update([
+            'flete' => $request->input('flete'),
+            'otros_gastos' => $this->otrosGastos($request->input('flete')),
+            'total_logistica' => $this->otrosGastos($request->input('flete')) + ($cotizacion->total_logistica - $cotizacion->otros_gastos)
+        ]);
+        return redirect()->route('admin.colombia.edit', $id)->with('message', 'Flete modificado!');
+    }
+
+    public function updateCostoLCL(Request $request, $id)
+    {
+        $cotizacion = Cotizaciones::find($id);
+        $gastos = $request->input('aduana') + $request->input('bodegaje') + $request->input('flete');
+        Cotizaciones::where('id', $id)->update([
+            'flete' => $request->input('flete'),
+            'bodegaje' => $request->input('bodegaje'),
+            'aduana' => $request->input('aduana'),
+            'otros_gastos' => $gastos,
+            'total_logistica' => $gastos + ($cotizacion->total_logistica - $cotizacion->otros_gastos)
+        ]);
+        return redirect()->route('cargaSuelta.show', $id)->with('message', 'Flete modificado!');
+    }
+
+
+
+    public function updateGastosLCL(Request $request, $id)
     {
         $cotizacion = Cotizaciones::find($id);
         Cotizaciones::where('id', $id)->update([

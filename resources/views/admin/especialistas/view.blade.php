@@ -55,21 +55,9 @@
                                 <label for="">Estado:</label>
                                 <div class="form-group">
                                     <select name="estado" class="selectpicker" data-width="100%" data-style="btn-primary">
-                                        @if ($cotizacion->estado == 'Aprobado')
-                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                            <option value="Pendiente">Pendiente</option>
-                                            <option value="Finalizado">Finalizado</option>
-                                        @endif
-                                        @if ($cotizacion->estado == 'Pendiente')
-                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                            <option value="Aprobado">Aprobado</option>
-                                            <option value="Finalizado">Finalizado</option>
-                                        @endif
-                                        @if ($cotizacion->estado == 'Finalizado')
-                                            <option value="{{ $cotizacion->estado }}">{{ $cotizacion->estado }}</option>
-                                            <option value="Aprobado">Aprobado</option>
-                                            <option value="Pendiente">Pendiente</option>
-                                        @endif
+                                        <option value="Aprobado" {{$cotizacion->estado == 'Aprobado' ? 'Selected' : ''}}>Aprobado</option>
+                                        <option value="Pendiente"{{$cotizacion->estado == 'Pendiente' ? 'Selected' : ''}}>Pendiente</option>
+                                        <option value="Finalizado"{{$cotizacion->estado == 'Finalizado' ? 'Selected' : ''}}>Finalizado</option>
                                     </select>
                                 </div>
                             </div>
@@ -93,14 +81,14 @@
                                 <div class="form-group">
                                     <label for="">Pais de cotizacion:</label>
                                     <input type="text" name="pais_id" class="form-control"
-                                        value="{{ $cotizacion->pais->nombre_pais }}">
+                                        value="{{ $cotizacion->pais }}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Tipo de Carga:</label>
                                     <input type="text" name="cargas_id" class="form-control"
-                                        value="{{ $cotizacion->carga->tipoCarga }}">
+                                        value="{{ $cotizacion->tipo_carga }}">
                                 </div>
                             </div>
                             <div class="col">
@@ -129,14 +117,14 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Direccion de entrega:</label>
-                                    <input type="text" name="estado" class="form-control"
+                                    <input type="text" name="direccion" class="form-control"
                                         value="{{ $cotizacion->direccion }}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="">Ciudad de entrega:</label>
-                                    <input type="text" name="estado" class="form-control"
+                                    <input type="text" name="ciudad" class="form-control"
                                         value="{{ $cotizacion->ciudad->provincia }} - {{ $cotizacion->ciudad->canton }}">
                                 </div>
                             </div>
@@ -157,28 +145,6 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="">¿Es inflamable?</label>
-                                    <input type="text" class="form-control" name="inflamable"
-                                        value="{{ $cotizacion->inflamable }}">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="">¿Tiene bateria?</label>
-                                    <input type="text" class="form-control" name="bateria"
-                                        value="{{ $cotizacion->tiene_bateria }}">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="">¿Tiene liquidos?</label>
-                                    <input type="text" class="form-control" name="liquido"
-                                        value="{{ $cotizacion->liquidos }}">
-                                </div>
-                            </div>
-
                         </div>
                         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3">
                             <div class="col">

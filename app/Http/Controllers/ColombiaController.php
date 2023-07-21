@@ -411,6 +411,12 @@ class ColombiaController extends Controller
 
     public function show($id)
     {
+        $datos = Cotizaciones::with(['carga', 'pais', 'modalidad', 'ciudad', 'puerto', 'incoterms'])->whereid($id)->first();
+        if (isset($datos->incoterms->puerto_id)) {
+            $puerto = PuertoChina::findOrFail($datos->incoterms->puerto_id);
+        } else {
+            $puerto = 'falso';
+        }
         $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad', 'gastos'])->first();
         $categoria = Categoria::all();
         $insumo = Insumo::all();
@@ -430,6 +436,7 @@ class ColombiaController extends Controller
             'gastoSimple' => $gastosLocaleSimple,
             'gastosCompuesta' => $gastosLocalesCompuesta,
             'productos' => $calculadoras->pluck('producto'),
+            'puerto' =>$puerto
         ];
         return view('admin.calculadoras.colombia.detallesLcl', $data);
     }
@@ -438,7 +445,8 @@ class ColombiaController extends Controller
     {
         $gastos_origen = $this->gastosOrigen($request['modalidad'], $request['termino']);
         $fleteMaritimo = $this->naviera($request['volumen'], $request['modalidad'], $request['termino']);
-        $flete = $this->ciudadEntrega($request['ciudad_entrega'], $request['peso']);
+        // $flete = $this->ciudadEntrega($request['ciudad_entrega'], $request['peso']);
+        $flete = 100;
         $collect = $this->collect($fleteMaritimo, $request['modalidad'], $request['termino']);
         $totalPagar = ($this->gastosLocales($request['volumen'], $id, $collect, $request['modalidad'], $request['termino'])) + $collect;
         $gastos_sin_iva = $totalPagar;
@@ -455,6 +463,8 @@ class ColombiaController extends Controller
             'incoterms_id' => $request['puerto'] ?? 'NULL',
             'flete_maritimo' => $fleteMaritimo,
             'flete' => $flete,
+            'bodegaje'=>302,
+            'proceso'=>3,
             'collect' => $collect,
             'gastos_sin_iva' => $gastos_sin_iva,
             'gastos_origen' => $gastos_origen,

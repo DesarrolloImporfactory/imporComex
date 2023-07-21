@@ -4,234 +4,260 @@
 
 @section('content_header')
     <div class="row">
-        <div class="col-md-2">
-            @if ($cotizacion->modalidad->modalidad != 1)
-                <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i
-                        class="fa-solid fa-arrow-left"></i> Regresar</a>
-            @endif
-        </div>
-        <div class="col-md-4 col-5 col-lg-3">
-            <div>
-                <p><b>COTIZADOR MODALIDAD </b><span class="badge rounded-pill text-bg-warning">
-                        {{ $cotizacion->modalidad->modalidad }}</span></p>
+        <div class="col-md-6 mx-auto">
+            <div class="text-center">
+                <p class="letter-spacing"><b>COTIZADOR {{ $cotizacion->pais }} </b><span
+                        class=" letter-spacing badge rounded-pill text-bg-warning">{{ $cotizacion->modalidad->modalidad }}</span></p>
+                <p>2 de 4 <strong> Completado</strong></p>
             </div>
+            <x-adminlte-progress theme="secondary" value=50 animated with-label />
         </div>
-        <div class="col-md-5 col-lg-5 col-4 text-center ">
-
-            <div class="progress mt-2" role="progressbar" aria-label="Animated striped example" aria-valuenow="100"
-                aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 50%">
-                    <div class="mt-3">
-                        <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('admin.colombia.edit', $cotizacion->id) }}" class="btn btn-dark float-right btn-sm"><i
-                    class="fa-solid fa-arrow-right"></i> Simular costeo</a>
-        </div>
-    </div>
-    <div class="row">
-        @livewire('aprobar-cotizacion', ['idCotizacion' => $cotizacion->id], key($cotizacion->id))
     </div>
 @stop
 
 @section('content')
-    <div class="card mt-2">
-        <div class="card-header">
-            Me permito a continuación detallar la cotización de servicios por usted requerida.
-            <a href="{{ route('print.cotizacion', $cotizacion->id) }}"
-                class="btn btn-xs btn-default text-danger mx-1 shadow" target="_blank" title="Descargar">
-                <i class="fa-solid fa-file-pdf"></i> Descargar Archivo
-            </a>
+    <div class="row">
+        <div class=" col-md-10 mx-auto mb-3">
+            @if ($cotizacion->modalidad->modalidad != 1)
+                <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i class="fa-solid fa-angles-left"></i> Regresar</a>
+            @endif
+            <a href="{{ route('admin.colombia.edit', $cotizacion->id) }}" class="btn btn-dark float-right"><i
+                    class="fa-solid fa-arrow-right"></i> Simular costeo</a>
         </div>
-        <div class="card-body">
-            <div class="">
-                <div class="table-responsive">
-
-                    <table class="table table-sm table-bordered">
-
-                        <tbody>
-                            <tr>
-                                <td class="table-active table-dark text-white">Port of Origin:</td>
-                                <td>{{ $cotizacion->incoterms->name }}</td>
-                                <td class="table-active table-dark text-white">Estimated Transit Time:</td>
-                                <td>30-35 días aprox</td>
-                            </tr>
-                            <tr>
-                                <td class="table-active table-dark text-white">Port of Destination:</td>
-                                <td>GUAYAQUIL</td>
-                                <td class="table-active table-dark text-white">Tipo de Carga:</td>
-                                <td>{{ $cotizacion->modalidad->modalidad }}</td>
-                            </tr>
-                            <tr>
-                                <td class="table-active table-dark text-white">Incoterm:</td>
-                                <td>FOB</td>
-                                <td class="table-active table-dark text-white">Cbm:</td>
-                                <td>{{ $cotizacion->volumen }}</td>
-                            </tr>
-                            <!-- Puedes agregar más filas según tus necesidades -->
-                        </tbody>
-                    </table>
-                    <div class="row col">
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table table-sm table-bordered">
-                            <thead>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <div class="label border p-2 bg-dark text-light rounded mb-2"><i
+                            class="fa-solid fa-money-bill-transfer"></i> DETALLES DE COTIZACIÓN.</div>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#origen" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    <div class="d-flex gap-2 w-100 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-0">FLETE MARITIMO:</h6>
+                                            <p class="mb-0 opacity-75">{{ $cotizacion->flete_maritimo }}$</p>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <div class="d-flex gap-2 w-100 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-0">GASTOS DE ORIGEN</h6>
+                                            <p class="mb-0 opacity-75">{{ $cotizacion->gastos_origen }}$.</p>
+                                        </div>
+                                        {{-- <small class="opacity-50 text-nowrap">Detalles</small> --}}
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <table class="table table-sm table-bordered table-sm">
+                                        <tbody>
+                                            @foreach ($gastosOrigen as $item)
+                                                <tr>
+                                                    <td>{{ $item->nombre }}</td>
+                                                    <td>{{ $item->valor }}$</td>
+                                                </tr>
+                                            @endforeach
+                                            <tr class="table-light">
+                                                <td>TOTAL</td>
+                                                <td>{{ $cotizacion->gastos_origen }}$</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                    aria-controls="flush-collapseTwo">
+                                    <div class="d-flex gap-2 w-100 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-0">GASTOS LOCALES</h6>
+                                            <p class="mb-0 opacity-75">{{ number_format($cotizacion->gastos_local), 2 }}$
+                                            </p>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <table class="table table-bordered example table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>GASTOS LOCALES</th>
+                                                <th>TARIFA</th>
+                                                <th>MINIMO</th>
+                                                <th>CALCULO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($gastoSimple as $item)
+                                                <tr>
+                                                    <td>{{ $item->nombre }}</td>
+                                                    <td>{{ $item->valor }}</td>
+                                                    <td>{{ $item->minimo }}</td>
+                                                    <td>{{ $item->valor }}$</td>
+                                                </tr>
+                                            @endforeach
+                                            @foreach ($gastosCompuesta as $item)
+                                                <tr>
+                                                    <td>{{ $item->nombre }}</td>
+                                                    <td>{{ $item->valor }}</td>
+                                                    <td>{{ $item->minimo }}</td>
+                                                    @if ($item->valor * $cotizacion->volumen <= $item->minimo)
+                                                        <td>{{ $item->minimo }}</td>
+                                                    @else
+                                                        <td>{{ $item->valor * $cotizacion->volumen }}</td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td>COLLECT FEE</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{ $cotizacion->collect }}$</td>
+                                            </tr>
+                                            <tr class="table-danger">
+                                                <td></td>
+                                                <td></td>
+                                                <td>GASTOS LOCALES</td>
+                                                <td>{{ $cotizacion->gastos_sin_iva }}$</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>IVA 12%</td>
+                                                <td>{{ number_format($cotizacion->gastos_sin_iva * 0.12), 2 }}$</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>TOTAL INCL IVA</td>
+                                                <td>{{ number_format($cotizacion->gastos_local), 2 }}$</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTree" aria-expanded="false"
+                                    aria-controls="flush-collapseTree">
+                                    <div class="d-flex gap-2 w-100 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-0 text-danger">LOGISTICA INTERNACIONAL:</h6>
+                                            <p class="mb-0 opacity-75">
+                                                {{ number_format($cotizacion->gastos_origen + $cotizacion->gastos_local + $cotizacion->flete_maritimo, 2) }}$
+                                            </p>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <table class="table table-sm table-bordered table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>GASTOS DE ORIGEN:</td>
+                                                <td>USD {{ $cotizacion->gastos_origen }}$</td>
+                                            </tr>
+                                            <tr class="table-light">
+                                                <td>GASTOS LOCALES</td>
+                                                <td>USD {{ $cotizacion->gastos_local }}$</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FLETE MARITIMO:</td>
+                                                <td>USD {{ $cotizacion->flete_maritimo }}$USD </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        <p class="text-justify">NOTA: RECUERDA QUE DEBES TOMAR EN CONSIDERACION, OTROS GASTOS COMO FLETE
+                            INTERNO -
+                            AGENTE DE ADUANA Y
+                            BODEGAJE.</p>
+                        <p class="mb-0 text-justify">ESTAS TARIFAS SON ENTREGADAS POR NUESTROS ALIADOS
+                            ALL TRANS CARGO: EMAIL.</p>
+                    </div>
+                    <div class="label border p-2 bg-dark text-light rounded mb-2"><i
+                            class="fa-solid fa-money-bill-transfer"></i> OTROS GASTOS</div>
+                    <div class="ml-2 mr-2">
+                        <table class="table table-sm table-borderless">
+                            <thead class="thead-light ">
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Producto</th>
+                                    <th>DESCRIPCIÓN</th>
+                                    <th>VALOR</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($productos as $item)
+                                <tr>
+                                    <td>Flete interno: </td>
+                                    <td>{{ number_format($cotizacion->flete, 2) }}$</td>
+                                    <td width="50">
+                                        <button title="Detalles" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            data-bs-target="#editGasto" type="button"><i
+                                                class="fa-solid fa-pen-to-square fa-beat"
+                                                style="color: #d71d1d;"></i></button>
+                                    </td>
+                                </tr>
+                                @if ($cotizacion->bodegaje > 0 || $cotizacion->aduana > 0)
                                     <tr>
-                                        <td>{{ $i++ }}</td>
-                                        <td>{{ $item->nombre }}</td>
+                                        <td>Bodegaje : </td>
+                                        <td>{{ $cotizacion->bodegaje }}$</td>
                                     </tr>
-                                @endforeach
+                                    <tr>
+                                        <td>Agente de aduana : </td>
+                                        <td>{{ $cotizacion->aduana }}$</td>
+                                    </tr>
+                                @else
+                                    @foreach ($otrosGastos as $item)
+                                        <tr>
+                                            <td>{{ $item->nombre }} : </td>
+                                            <td>{{ $item->valor }}$</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                <tr class="table-danger">
+                                    <td><b>TOTAL OTROS GASTOS:</b></td>
+                                    <td>{{ $cotizacion->otros_gastos }}$</td>
+                                </tr>
+                                {{-- <tr class="table-danger">
+                                    <td><b>TOTAL COTIZACION FINAL:</b></td>
+                                    <td>{{ $cotizacion->total_logistica }}$</td>
+                                </tr> --}}
                             </tbody>
                         </table>
+                        <div class="label border p-2 bg-success text-light rounded mb-2"><i
+                                class="fa-solid fa-money-bill-transfer"></i> LOGISTICA INTERNACIONAL MÁS OTROS GASTOS:
+                            {{ $cotizacion->total_logistica }}$</div>
                     </div>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td><b>FLETE MARITIMO:</b></td>
-                                <td>{{ $cotizacion->flete_maritimo }}$</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <table class="table table-sm table-bordered table-sm">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th colspan="2">GASTOS DE ORIGEN</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($gastosOrigen as $item)
-                                        <tr>
-                                            <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->valor }}$</td>
-                                        </tr>
-                                    @endforeach
-                                    <tr class="table-light">
-                                        <td>TOTAL</td>
-                                        <td>{{ $cotizacion->gastos_origen }}$</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-8">
-                            <table class="table table-bordered example table-sm">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>GASTOS LOCALES</th>
-                                        <th>TARIFA</th>
-                                        <th>MINIMO</th>
-                                        <th>CALCULO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($gastoSimple as $item)
-                                        <tr>
-                                            <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->valor }}</td>
-                                            <td>{{ $item->minimo }}</td>
-                                            <td>{{ $item->valor }}$</td>
-                                        </tr>
-                                    @endforeach
-                                    @foreach ($gastosCompuesta as $item)
-                                        <tr>
-                                            <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->valor }}</td>
-                                            <td>{{ $item->minimo }}</td>
-                                            @if ($item->valor * $cotizacion->volumen <= $item->minimo)
-                                                <td>{{ $item->minimo }}</td>
-                                            @else
-                                                <td>{{ $item->valor * $cotizacion->volumen }}</td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                    <tr>
-                                        <td>COLLECT FEE</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ $cotizacion->collect }}$</td>
-                                    </tr>
-                                    <tr class="table-danger">
-                                        <td></td>
-                                        <td></td>
-                                        <td>GASTOS LOCALES</td>
-                                        <td>{{ $cotizacion->gastos_sin_iva }}$</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>IVA 12%</td>
-                                        <td>{{ number_format($cotizacion->gastos_sin_iva * 0.12), 2 }}$</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>TOTAL INCL IVA</td>
-                                        <td>{{ number_format($cotizacion->gastos_local), 2 }}$</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="aler alert-light mb-3">
-                        <b>LOGISTICA INTERNACIONAL:
-                            {{ number_format($cotizacion->otros_gastos + $cotizacion->gastos_local, 2) }}$</b>
-
-                    </div>
-                    <table class="table table-sm table-bordered">
-                        <thead class="thead-light ">
-                            <tr>
-                                <th>DESCRIPCIÓN</th>
-                                <th>VALOR</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @foreach ($otrosGastos as $item)
-                                        <p>{{ $item->nombre }} : {{ $item->valor }}$</p>
-                                    @endforeach
-                                    <p>Flete interno: {{ $cotizacion->flete }}$</p>
-                                </td>
-                                <td>{{ $cotizacion->otros_gastos }}$</td>
-                            </tr>
-                            <tr class="table-danger">
-                                <td><b>TOTAL COTIZACION FINAL:</b></td>
-                                <td>{{ $cotizacion->total_logistica }}$</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
                 </div>
             </div>
-
         </div>
-        <div class="card-footer">
-            <div class="alert alert-warning">
-                <p class="text-justify">NOTA: RECUERDA QUE DEBES TOMAR EN CONSIDERACION, OTROS GASTOS COMO FLETE INTERNO -
-                    AGENTE DE ADUANA Y
-                    BODEGAJE.</p>
-
-                <p class="text-justify">ESTAS TARIFAS SON ENTREGADAS POR NUESTROS ALIADOS
-                    ALL TRANS CARGO: EMAIL</p>
-
-            </div>
-        </div>
-    </div>
-
-@stop
-@section('js')
-
-
-@stop
+        @include('admin.calculadoras.editLocales')
+    @stop
+    @section('js')
+    @stop

@@ -125,6 +125,8 @@
     </script>
     <script>
         Livewire.on('alert', message => {
+            $('#editTermino').modal('hide');
+            $('#createTermino').modal('hide');
             Swal.fire({
                 position: 'center',
                 icon: 'success',

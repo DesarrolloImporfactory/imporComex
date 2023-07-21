@@ -64,7 +64,7 @@
                                 <label for="">Tipo de carga</label>
                                 <x-adminlte-select2 name="tipo_carga" id="tipo_carga">
                                     <option value="">Selecciona una opción....</option>
-                                    <option value="GENERAR"{{ old('tipo_carga') == 'GENERAR' ? 'selected' : '' }}>CARGA
+                                    <option value="GENERAL"{{ old('tipo_carga') == 'GENERAL' ? 'selected' : '' }}>CARGA
                                         GENERAR ( PLÁSTICOS - TEXTILES - ETC)</option>
                                     <option value="PELIGROSA"{{ old('tipo_carga') == 'PELIGROSA' ? 'selected' : '' }}>CARGA
                                         PELIGROSA (CONTIENE BATERIAS, LIQUIDOS O ES INFLAMABLE) </option>

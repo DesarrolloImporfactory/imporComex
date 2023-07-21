@@ -159,7 +159,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Puerto de origen {{ $datos->incoterms->name }}</label>
+                                    <label for="">Puerto de origen </label>
                                     <x-adminlte-select2 name="puerto" id="puerto" enable-old-support>
 
                                     </x-adminlte-select2>

@@ -6,42 +6,42 @@
     <div class="container">
         <div class="row">
             <div class="row text-center mb-3 mt-4">
-                <h1><b>SELECCIONA TU PAÍS</b></h1>
+                <h1 style="white-space: nowrap;"><b><i class="fa-solid fa-earth-americas"></i> SELECCIONA TU PAÍS</b></h1>
             </div>
             @foreach ($countries as $index => $country)
-                <div class="col-12 col-md-6 col-lg-6">
+                <div class="col-6 col-md-4 col-lg-4">
                     <div class="p-4 bg-body-tertiary rounded-3 mt-4">
                         <form action="{{ route('admin.colombia.create') }}">
 
                             @csrf
                             <div class="container-fluid">
                                 <div class="row">
-                                    <span class="m-1 letter-spacing text-center" style="white-space: nowrap;"><i
-                                            class="fa-solid fa-earth-americas"></i> {{ $country['name']['common'] }}</span>
+                                    <span class="m-1 letter-spacing text-center" style="white-space: nowrap;">
+                                        {{ $country['name']['common'] }}</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <img style="height: 150px;" src="{{ $country['flags']['svg'] }}" alt="logo4"
-                                            class="rounded-3">
-
+                                            class="rounded-3 {{ $country['name']['common'] == 'Ecuador' ? '' : 'myImagen' }}">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-center mt-3">
                                         <input type="hidden" name="pais" value="{{ $country['name']['common'] }}">
-
                                         <div class="form-group">
                                             <select class="selectpicker" id="tipo" name="modalidad" data-style=""
                                                 data-width="60%" title="SELECCIONA TU TIPO DE CARGA" required>
-                                                <option value="1">FCL</option>
-                                                <option value="2">LCL</option>
+                                                <option value="1" data-subtext="CONTAINER">FCL</option>
+                                                <option value="2" data-subtext="CARGA SUELTA">LCL</option>
                                             </select>
                                         </div>
                                         @error('tipo')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <button type="submit" class="btn btn-dark mt-4"><i
-                                                class="fa-solid fa-arrow-right"></i> EMPEZAR</button>
+                                        <button type="submit" class="btn btn-dark mt-4"
+                                            {{ $country['name']['common'] == 'Ecuador' ? '' : 'disabled' }}><i
+                                                class="fa-solid fa-arrow-right"></i>
+                                            {{ $country['name']['common'] == 'Ecuador' ? 'EMPEZAR' : 'PROXIMAMENTE' }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,6 @@
         </div>
         {{-- @livewire('country.list-country') --}}
     </div>
-
 @stop
 
 @section('content')
@@ -71,8 +70,8 @@
             position: relative !important;
         }
 
-        .letter-spacing {
-            letter-spacing: 0.1em;
+        .myImagen {
+            filter: grayscale(100%);
         }
 
         .content-wrapper {

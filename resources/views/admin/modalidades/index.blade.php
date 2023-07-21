@@ -15,10 +15,10 @@
     @endphp
     <div class="row">
         <div class="col-md-8">
+            @livewire('email.admin-emails')
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-
                         <div class="card-header">
                             <h3 class="card-title">Listado de Modalidades</h3>
                             <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal"
@@ -73,6 +73,11 @@
             <div class="row">
                 <div class="col-md-12">
                     @include('admin.modalidades.estados.table')
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @livewire('termino.admin-terminos')
                 </div>
             </div>
         </div>

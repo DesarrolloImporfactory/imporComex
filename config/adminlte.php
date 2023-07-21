@@ -309,10 +309,10 @@ return [
             'can' => '',
         ],
         [
-            'text' => 'Impor suit',
+            'text' => 'Suit',
             'url'  => 'suit',
             'topnav' => true,
-            'icon' => 'nav-icon fas fa-toolbox',
+            'icon' => 'fas fa-fw fa-angles-left',
         ],
         [
             'type'         => 'fullscreen-widget',
@@ -349,14 +349,7 @@ return [
             'can' => 'admin.calculadoras.index',
 
         ],
-        [
 
-            'text' => 'Gestionar Idiomas',
-            'route'  => 'idiomas',
-            'icon' => 'fas fa-fw fa-language',
-            'can' => 'admin.idiomas.index',
-        ],
-        
         [
 
             'text' => 'Tarifas Ciudades',
@@ -391,6 +384,14 @@ return [
         ],
         [
 
+            'text' => 'Productos',
+            'route'  => 'admin.productos',
+            'icon' => 'fas fa-regular fa-boxes-stacked',
+            'can' => 'admin.cuentas.index',
+            'label' => 'new'
+        ],
+        [
+
             'text' => 'Contenedores',
             'route'  => 'admin.contenedores.index',
             'icon' => 'fas fa-brands fa-docker',
@@ -421,6 +422,13 @@ return [
                     'route'  => 'admin.impuestos.index',
                     'icon' => 'fas fa-solid fa-money-bill-transfer'
 
+                ],
+                [
+
+                    'text' => 'Gestionar Idiomas',
+                    'route'  => 'idiomas',
+                    'icon' => 'fas fa-fw fa-language',
+                    'can' => 'admin.idiomas.index',
                 ],
             ],
         ],

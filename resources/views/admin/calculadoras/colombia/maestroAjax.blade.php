@@ -16,12 +16,13 @@
         </div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $cotizacion->pais }} </b><span class="badge rounded-pill text-bg-warning">
+                <p class="letter-spacing"><b>COTIZADOR {{ $cotizacion->pais }} </b><span
+                        class="letter-spacing badge rounded-pill text-bg-warning">
                         {{ $cotizacion->modalidad->modalidad }}</span></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>
-            <x-adminlte-progress theme="secondary" value=50 animated with-label />
+            <x-adminlte-progress theme="secondary" value='75' animated with-label />
         </div>
         <div class="col-md-3">
         </div>
@@ -130,11 +131,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    @if ($cotizacion->modalidad_id != 3)
+                    {{-- @if ($cotizacion->modalidad_id != 3)
                         <button title="Detalles" class="btn btn-outline-success float-righ btn-sm" type="button"
                             data-bs-toggle="modal" data-bs-target="#viewLCL">Ver detalles <i
                                 class="fa-solid fa-eye fa-bounce" style="color: #20941e;"></i></button>
-                    @endif
+                    @endif --}}
                     DETALLES DE COTIZACIÓN
                 </div>
 
@@ -153,8 +154,8 @@
                                     <div class="logistica">
                                     </div>
                                     <div class="input-group">
-                                        <input name="logistica" id="logistica" type="text" class="form-control form-control-sm"
-                                            readonly>
+                                        <input name="logistica" id="logistica" type="text"
+                                            class="form-control form-control-sm" readonly>
                                         @if ($cotizacion->modalidad_id == 2)
                                             @can('admin.calculadoras.cliente')
                                                 <div class="input-group-append">
@@ -182,14 +183,16 @@
                             <div class="col">
                                 <div class="form-group ">
                                     <div class="impuestos"></div>
-                                    <input name="impuestos" id="impuestos" type="text" class="form-control form-control-sm" readonly>
+                                    <input name="impuestos" id="impuestos" type="text"
+                                        class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <div class="compra">
                                     </div>
-                                    <input name="compra" id="compra" type="text" class="form-control form-control-sm" readonly>
+                                    <input name="compra" id="compra" type="text"
+                                        class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
 
@@ -211,7 +214,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <div class="fob_total"></div>
-                                    <input type="text" name="total_fob" id="fob_total" class="form-control form-control-sm" readonly>
+                                    <input type="text" name="total_fob" id="fob_total"
+                                        class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
                         </div>
@@ -223,18 +227,19 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="CALCULEMOS TUS IMPUESTOS" theme="light" icon="fas fa-lg fa-calculator">
+
+            <x-adminlte-card title="CALCULEMOS TUS IMPUESTOS" class="mt-2" theme="light"
+                icon="fas fa-lg fa-calculator">
                 <div id="class1">
                     <ul id="errores">
-
                     </ul>
                 </div>
-                <div class="row">
+                <div class="container-fluid">
                     <form action="" id="crearCalculo">
                         @csrf
                         <input type="hidden" name="cotizacion_id" id="cotizacion_id" value="{{ $cotizacion->id }}">
-                        <div class="row" id="exampleModal">
-                            <div class="form-group col-md-3">
+                        <div class="d-flex">
+                            <div class="mt-2 flex-grow-1">
                                 <label for="">Buscar referencia</label>
                                 <x-adminlte-select2 name="insumo_id" id="insumos" enable-old-support>
                                     @foreach ($insumo as $item)
@@ -242,28 +247,28 @@
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
-                            <div class="col-md-2 mt-4">
-                                {{-- @include('admin.productos.index') --}}
+                            <div class="mt-3  ml-2 flex-grow-1">
+                                @include('admin.productos.index')
                             </div>
-                            <div class="col-md-1 text-center">
+                            <div class="mt-2 ml-3 flex-grow-1">
                                 <label for="">Cantidad</label>
                                 <input type="number" min="0" name="cantidad" id="cantidad"
                                     class="form-control @error('cantidad') is-invalid @enderror"
                                     value="{{ old('cantidad') }}">
                             </div>
-                            <div class="col-md-2 text-center">
+                            <div class="mt-2 ml-3 flex-grow-1">
                                 <label for="">Precio</label>
                                 <input type="number" min="0" name="precio" id="precio" class="form-control"
                                     value="{{ old('precio') }}">
                             </div>
-                            <div class="col-md-2 text-center">
+                            <div class="mt-2 ml-3  flex-grow-1">
                                 <label for="">Porcentaje</label>
                                 <input type="number" min="0" name="porcentaje" id="porcentaje"
                                     class="form-control" value="{{ old('porcentaje') }}">
                             </div>
-                            <div class="form-group col-md-2 mt-4 text-center">
-                                <button type="submit" class="btn btn-warning mt-2 "><i
-                                        class="fa-solid fa-cart-shopping"></i> Agregar</button>
+                            <div class="mt-3 ml-3 flex-grow-1">
+                                <button type="submit" class="btn btn-primary float-right rounded-circle mt-4 "><i
+                                        class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
                     </form>
@@ -368,9 +373,7 @@
     <i class="fa-regular fa-circle-xmark text-danger"></i> <label for="">Total FOB : </label>
     `);
                 }
-
             }
-
             fetchProducts();
 
             function fetchProducts() {
@@ -500,7 +503,6 @@
                     'precio': $('#edit_precio').val(),
                     'porcentaje': $('#edit_porcentaje').val(),
                 }
-                console.log(datos);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -621,11 +623,11 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            var modalidad = {{ $cotizacion->modalidad_id }};
-            if (modalidad != 3) {
-                $("#viewLCL").modal('show');
-            }
-        });
+        // $(document).ready(function() {
+        //     var modalidad = {{ $cotizacion->modalidad_id }};
+        //     if (modalidad != 3) {
+        //         $("#viewLCL").modal('show');
+        //     }
+        // });
     </script>
 @stop

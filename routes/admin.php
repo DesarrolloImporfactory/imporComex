@@ -31,6 +31,7 @@ use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
 use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
+use App\Http\Livewire\Productos\AdminProductos;
 use App\Models\Country;
 
 //Route::get('admin',[HomeController::class, 'index']);
@@ -142,6 +143,7 @@ Route::middleware(['auth','cotizador'])->group(function () {
 
     Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
     Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
+    Route::patch('update/costo/{id}', [ValidacionesController::class, 'updateCostoLCL'])->name('update.costo.lcl');
     Route::get('countrys', function () {
 
         $countryAPI = new Country();
@@ -149,4 +151,5 @@ Route::middleware(['auth','cotizador'])->group(function () {
         return $countries->firs();
         return view('country', compact('countries'));
     });
+    Route::get('admin/productos', AdminProductos::class)->name('admin.productos');
 });

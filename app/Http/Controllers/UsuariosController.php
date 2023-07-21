@@ -53,19 +53,26 @@ class UsuariosController extends Controller
                 'messages' => $validator->messages()
             ]);
         } else {
-            $password = $request->input('password');
-            User::create([
-                'name' => $request->input('nombre'),
-                'telefono' => $request->input('telefono'),
-                'ruc' => $request->input('ruc'),
-                'email' => $request->input('email'),
-                'password' => md5($request->input('password')),
-            ])->assignRole('Client');
-            Notification::route('mail', $request->input('email'))->notify(new SendPassword($password));
-            return response()->json([
-                'status' => 200,
-                'messages' => 'Cliente creado con exito'
-            ]);
+            try {
+                $password = $request->input('password');
+                User::create([
+                    'name' => $request->input('nombre'),
+                    'telefono' => $request->input('telefono'),
+                    'ruc' => $request->input('ruc'),
+                    'email' => $request->input('email'),
+                    'password' => md5($request->input('password')),
+                ])->assignRole('Client');
+                Notification::route('mail', $request->input('email'))->notify(new SendPassword($password));
+                return response()->json([
+                    'status' => 200,
+                    'messages' => 'Cliente creado con exito'
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 202,
+                    'messages' => $e->getMessage()
+                ]);
+            }
         }
     }
 

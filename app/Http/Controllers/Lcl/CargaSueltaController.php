@@ -103,6 +103,17 @@ class CargaSueltaController extends Controller
         Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
         $proveedores = $request->input('cantidad_proveedores');
+        // $bodegaje = 0;
+        // $aduana = 0;
+        $variables = Variables::where('modalidad_id', $request->input('modalidad'))->where('tipo', 'Otros gastos')
+            ->where('operacion_id', $request->input('termino'))->get();
+        if ($variables->count() >= 1) {
+            $bodegaje = $variables[0]->valor;
+        }
+
+        if ($variables->count() >= 2) {
+            $aduana = $variables[1]->valor;
+        }
 
         $grupal->barcode = $barcode;
         $peso = $request->input('peso');
@@ -111,6 +122,8 @@ class CargaSueltaController extends Controller
         $grupal->modalidad_id = $request->input('modalidad');
         $grupal->tipo_carga = $request->input('tipo_carga');
         $grupal->peso = $peso;
+        $grupal->bodegaje = $bodegaje;
+        $grupal->aduana = $aduana;
         $grupal->estado = "Pendiente";
         $grupal->time = Carbon::now();
         $grupal->origen = $request->input('origen');
@@ -121,12 +134,13 @@ class CargaSueltaController extends Controller
         $grupal->especialista_id = $especialista;
         $grupal->volumen = $request->input('volumen');
         $grupal->ciudad_id = $request->input('ciudad_entrega');
-        $grupal->proceso = '2';
+        $grupal->proceso = '3';
         $gastos_origen = $this->gastosOrigen($request->input('modalidad'), $request->input('termino'));
         $grupal->gastos_origen = $gastos_origen;
         $fleteMaritimo = $this->naviera($request->input('volumen'), $request->input('modalidad'), $request->input('termino'));
         $grupal->flete_maritimo = $fleteMaritimo;
-        $flete =  $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        // $flete =  $this->ciudadEntrega($request->input('ciudad_entrega'), $request->input('peso'));
+        $flete =  100;
         $grupal->flete =  $flete;
         $collect = $this->collect($fleteMaritimo, $request->input('modalidad'), $request->input('termino'));
         $grupal->collect =  $collect;
@@ -152,7 +166,7 @@ class CargaSueltaController extends Controller
             $total = $flete * $variables->valor;
             if ($total <= $variables->minimo) {
                 $total = $variables->minimo;
-            } 
+            }
             return $total;
         } else {
             return 0;

@@ -19,8 +19,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center ">
             <div>
-                <p><b>COTIZADOR {{ $pais }} </b><span
-                        class="badge rounded-pill text-bg-warning">{{ $modalidad->modalidad }}</span></p>
+                <p class="letter-spacing"><b>COTIZADOR {{ $pais }} </b><span
+                        class="letter-spacing badge rounded-pill text-bg-warning">{{ $modalidad->modalidad }}</span></p>
                 <p>1 de 4 <strong> Completado</strong></p>
             </div>
             <x-adminlte-progress theme="secondary" value=25 animated with-label />
@@ -69,8 +69,10 @@
                             <label for="">Tipo de carga</label>
                             <x-adminlte-select2 name="tipo_carga" id="tipo_carga" onchange="accion3()">
                                 <option value="">Selecciona una opción....</option>
-                                <option value="GENERAR"{{ old('tipo_carga') == 'GENERAR' ? 'selected' : '' }}>CARGA GENERAR ( PLÁSTICOS - TEXTILES - ETC)</option>
-                                <option value="PELIGROSA"{{ old('tipo_carga') == 'PELIGROSA' ? 'selected' : '' }}>CARGA PELIGROSA (CONTIENE BATERIAS, LIQUIDOS O ES INFLAMABLE) </option>
+                                <option value="GENERAL"{{ old('tipo_carga') == 'GENERAL' ? 'selected' : '' }} >CARGA GENERAL
+                                    ( PLÁSTICOS - TEXTILES - ETC)</option>
+                                <option value="PELIGROSA"{{ old('tipo_carga') == 'PELIGROSA' ? 'selected' : '' }}>CARGA
+                                    PELIGROSA (CONTIENE BATERIAS, LIQUIDOS O ES INFLAMABLE) </option>
                             </x-adminlte-select2>
                         </div>
                     </div>
@@ -184,7 +186,22 @@
 
             </x-adminlte-card>
         </div>
-        {{-- $cotizaciones --}}
+        <div class="modal fade" id="alertaModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">ALERTA!</h4>
+                            <p class="text-justyfi">SI TU CARGA TIENE BATERIAS O ES CONSIDERADA CARGA PELIGROSA, NECESITAS SOLICITAR CERTIFICADO MSDS AL PROVEEDOR; PARA QUE TU CARGA SEA ACEPTADA POR LA NAVIERA.</p>
+                          </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Seguir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-1"></div>
     </div>
     <script>
@@ -196,22 +213,10 @@
     <script>
         function accion3() {
 
-            let valor = $("#inflamable").val();
+            let valor = $("#tipo_carga").val();
 
-            if (valor == 'si') {
-                Swal.fire({
-                    title: '<strong><u>lo sentimos mucho</u></strong>',
-                    icon: 'error',
-                    html: 'En carga GRUPAL no se puede cargar este tipo de producto. Dirigete al siguiente enlace para realizar una cotizacion invidual:</b>  ' +
-                        '<a href="{{ route('admin.individual.create') }}" >Cotizacion invididual</a> ',
-                    showCloseButton: false,
-                    showCancelButton: false,
-                    focusConfirm: false,
-                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-                    confirmButtonAriaLabel: 'Thumbs up, great!',
-                    cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
-                    cancelButtonAriaLabel: 'Thumbs down'
-                })
+            if (valor == 'PELIGROSA') {
+                $('#alertaModal').modal('show');
                 //setear un select
                 $("#inflamable").val("").trigger("change");
             }
@@ -223,11 +228,11 @@
                 var valor = $(this).val();
                 $("#alerta").html("");
                 $("#alerta").removeClass("alert alert-warning alert-dismissible fade show");
-                if (valor >= 400) {
+                if (valor >= 2000) {
                     $("#alerta").addClass("alert alert-warning alert-dismissible fade show");
                     console.log(valor);
                     $("#alerta").append(`
-                        <strong>Advertencia!</strong> El valor del peso bruto es igual o mayor a 400kg y puede aplicar recargos.
+                        <strong>Advertencia!</strong> El valor del peso bruto es igual o mayor a 2000kg y puede aplicar recargos.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     `);
                 }

@@ -106,7 +106,6 @@ class EspecialistasController extends Controller
 
     public function update(Request $request, $idCotiz)
     {
-
         $datos = array(
             "estado" => $request->input('estado')
         );

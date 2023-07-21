@@ -84,12 +84,16 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @endif
-   
+
 </head>
 {{-- estilos para login y register --}}
 <style>
     .login-logo {
         display: none;
+    }
+
+    .letter-spacing {
+        letter-spacing: 0.1em;
     }
 
     .register-logo {

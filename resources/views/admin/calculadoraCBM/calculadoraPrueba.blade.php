@@ -139,6 +139,7 @@
         $("#formProducto").submit(function(e) {
             e.preventDefault();
             var data = $("#formProducto").serialize();
+            $("#crearProducto").text("Agregando....");
             $.ajax({
                 type: "POST",
                 url: "{{ route('admin.save.producto') }}",
@@ -155,7 +156,7 @@
                         });
                         $("#crearProducto").text("Volver a intentar");
                     } else {
-                        $("#crearProducto").text("Agregando....");
+                        $("#crearProducto").text("Agregar");
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -164,7 +165,8 @@
                             timer: 1500
                         })
                         $("#formularioProducto").find('input').val("");
-                        $("#modalProducto").modal('hide');
+                        $("#exampleModalToggle2").modal('hide');
+                        $("#exampleModal").modal('show');
                         $("#insumos").html("");
                         productos();
                     }

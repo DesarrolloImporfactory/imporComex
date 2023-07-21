@@ -4,19 +4,20 @@
 
 @section('content_header')
     <div class="row">
-        <div class="col-md-3"><a class="btn btn-danger float-left btn-sm" href="{{ route('back') }}"><i class="fa-solid fa-arrow-left"></i> Regresar</a></div>
+        <div class="col-md-3"><a class="btn btn-danger float-left btn-sm" href="{{ route('back') }}"><i
+                    class="fa-solid fa-arrow-left"></i> Regresar</a></div>
         <div class="col-md-6 text-center ">
             <div>
                 <p><b>COTIZADOR {{ $cotizacion->pais }}</b></p>
                 <p>{{ $cotizacion->proceso }} de 4 <strong> Completado</strong></p>
 
             </div>
-            <x-adminlte-progress theme="warning" value=75 animated with-label />
+            <x-adminlte-progress theme="warning" value=100 animated with-label />
         </div>
         <div class="col-md-3">
         </div>
     </div>
-    
+
 @stop
 
 @section('content')
@@ -35,13 +36,20 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="alert alert-warning">
-                <p>NOTA: LOS VALORES MOSTRADOS EN ESTA TABLA SOIN UNA SIMULACION Y PUEDEN SER MODIFICADOS EN CUALQUIER MOMENTO.</p>
+                <p>NOTA: LOS VALORES MOSTRADOS EN ESTA TABLA SOIN UNA SIMULACION Y PUEDEN SER MODIFICADOS EN CUALQUIER
+                    MOMENTO.</p>
             </div>
-            <x-adminlte-card title="Visualizar detalles de tu cotizacion" theme="dark">
+            <x-adminlte-card title=" DETALLES DE TU SIMULACIÓN " theme="dark">
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="btn-group">
+                            @livewire('aprobar-cotizacion', ['idCotizacion' => $cotizacion->id], key($cotizacion->id))
 
+                            <a href="{{ route('print.cotizacion', $cotizacion->id) }}"
+                                class="btn btn-xs btn-default text-danger mx-1 shadow float-left" target="_blank"
+                                title="Descargar">
+                                <i class="fa-solid fa-file-pdf"></i> Descargar Cotización
+                            </a>
                             <a href="{{ route('cotizacion.download', $cotizacion->id) }}"
                                 class="btn btn-xs btn-default text-danger mx-1 shadow" title="Descargar">
                                 <i class="fa-solid fa-file-pdf"></i> Descargar Archivo
@@ -50,7 +58,7 @@
                                 data-bs-target="#PDF" title="Revisar">
                                 <i class="fa-solid fa-eye"></i> Ver Archivo
                             </a>
-                            
+
                         </div>
                     </div>
                 </div><br>
@@ -74,12 +82,12 @@
                                 <td>{{ $item->insumo->nombre }}</td>
                                 <td>{{ $item->cantidad }}</td>
                                 <td>{{ $item->precio }}</td>
-                                <td>{{ number_format($item->Impuestos / $item->cantidad , 2) }}</td>
-                                <td>{{ number_format((($cotizacion->total_logistica * $item->Impuestos)/$cotizacion->total_impuesto)/$item->cantidad , 2) }}
+                                <td>{{ number_format($item->Impuestos / $item->cantidad, 2) }}</td>
+                                <td>{{ number_format(($cotizacion->total_logistica * $item->Impuestos) / $cotizacion->total_impuesto / $item->cantidad, 2) }}
                                 </td>
                                 <td>{{ number_format($item->divisas / $item->cantidad, 2) }}
                                 </td>
-                                <td>{{ number_format($item->precio+$item->Impuestos / $item->cantidad +$cotizacion->total_logistica / $cotizacion->cantidad_productos+$item->divisas / $item->cantidad, 2) }}
+                                <td>{{ number_format($item->precio + $item->Impuestos / $item->cantidad + $cotizacion->total_logistica / $cotizacion->cantidad_productos + $item->divisas / $item->cantidad, 2) }}
                                 </td>
                             </tr>
                         @endforeach
@@ -104,7 +112,8 @@
                         </tr>
                         <tr>
                             <td><b>Lugar de entrega: </b></td>
-                            <td>{{ $cotizacion->ciudad->provincia ?? '' }}  - {{ $cotizacion->ciudad->canton ?? $cotizacion->tarifa->destino }}  -
+                            <td>{{ $cotizacion->ciudad->provincia ?? '' }} -
+                                {{ $cotizacion->ciudad->canton ?? $cotizacion->tarifa->destino }} -
                                 {{ $cotizacion->direccion }}
                             </td>
                         </tr>
@@ -133,11 +142,11 @@
                         </tr>
                         <tr>
                             <td><b>ISD. </b></td>
-                            <td>{{ $cotizacion->ISD}}$</td>
+                            <td>{{ $cotizacion->ISD }}$</td>
                         </tr>
                         <tr>
                             <td><b>Comisión bancaria. </b></td>
-                            <td>{{ $cotizacion->comision}}$</td>
+                            <td>{{ $cotizacion->comision }}$</td>
                         </tr>
                         <tr>
                             <td><b>Gtos. TOTAL A PAGAR: </b></td>
@@ -183,7 +192,7 @@
     </div>
 
     @include('components.cotizacion')
-    
+
 
 
 @stop

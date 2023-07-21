@@ -9,7 +9,7 @@ class Insumo extends Model
 {
     use HasFactory;
     protected $connection = 'imporcomex';
-    protected $fillable = ['nombre', 'cantidad', 'precio','porcentaje'];
+    protected $fillable = ['nombre', 'cantidad', 'precio','porcentaje','usuario_id'];
 
     public function productoInsumo(){
         return $this->hasMany(ProductoInsumo::class,'insumo_id','id');

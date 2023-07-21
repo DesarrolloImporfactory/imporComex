@@ -18,7 +18,7 @@ class Country extends Model
     $response = $client->get("https://restcountries.com/v3.1/all");
     $countries = json_decode($response->getBody(), true);
 
-    $desiredCountries = ['Ecuador', 'Peru'];
+    $desiredCountries = ['Ecuador', 'Peru','Colombia'];
     $filteredCountries = [];
 
     foreach ($countries as $country) {
