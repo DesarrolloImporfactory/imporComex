@@ -70,5 +70,7 @@ class Cotizaciones extends Model
     public function calculos(){
         return $this->hasOne(Calculadora::class,'cotizacion_id','id');
     }
-
+    public function calcAero(){
+        return $this->hasOne(Aereo::class,'cotizacion_id','id');
+    }
 }

@@ -1,7 +1,7 @@
 <div>
     @section('title', 'Productos')
     @include('admin.productos.edit')
-
+    @include('admin.productos.calculadora')
     <div class="content-header">
         <div class="card">
             <div class="card-header">
@@ -66,8 +66,8 @@
         <script>
             $(document).ready(function() {
                 $('.my-select').selectpicker();
-                $('#usuario_id').on('change', function(e) {
-                    @this.set('usuario_id', e.target.value);
+                $('#usuario').on('change', function(e) {
+                    @this.set('usuario', e.target.value);
                 });
                 $('#paginate').on('change', function(e) {
                     @this.set('paginate', e.target.value);

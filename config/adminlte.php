@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Routing\Route;
+
 return [
 
     /*
@@ -347,7 +349,6 @@ return [
             'route'  => 'admin.calculadoras.index',
             'icon' => 'fa fa-fw fa-calculator',
             'can' => 'admin.calculadoras.index',
-
         ],
 
         [

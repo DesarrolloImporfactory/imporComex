@@ -29,13 +29,17 @@ use App\Http\Controllers\Fcl\ContenedorCompletoController;
 use App\Http\Controllers\ImpuestosController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\Lcl\CargaSueltaController;
+use App\Http\Controllers\Rates\AereosController;
 use App\Http\Controllers\Rates\RatesController;
 use App\Http\Controllers\VariablesController;
+use App\Http\Livewire\Aerea\AdminAereas;
+use App\Http\Livewire\Aerea\EditAerea;
 use App\Http\Livewire\Productos\AdminProductos;
 use App\Models\Country;
+use App\Models\Insumo;
 
 //Route::get('admin',[HomeController::class, 'index']);
-Route::middleware(['auth','cotizador'])->group(function () {
+Route::middleware(['auth', 'cotizador'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('idiomas', [IdiomasController::class, 'index'])->name('idiomas');
     Route::resource('admin/idiomas', IdiomasController::class)->names('admin.idiomas');
@@ -70,6 +74,7 @@ Route::middleware(['auth','cotizador'])->group(function () {
     Route::get('cotizacion/{id}/pdf', [ReportesController::class, 'pdfCotizacion'])->name('cotizacion.pdf');
     Route::get('cotizacion/{id}/download', [ReportesController::class, 'cotizacionDownload'])->name('cotizacion.download');
     Route::get('cotizacion/{id}', [ReportesController::class, 'cotizacionPrint'])->name('print.cotizacion');
+    Route::get('reporte/aerea/{id}', [ReportesController::class, 'cotizacionAerea'])->name('reporte.aerea');
     Route::resource('admin/calcular/impuesto', ReportesController::class)->names('calcular.impuestos');
 
     Route::resource('admin/contenedores', ContenedoresController::class)->names('admin.contenedores');
@@ -144,12 +149,12 @@ Route::middleware(['auth','cotizador'])->group(function () {
     Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
     Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
     Route::patch('update/costo/{id}', [ValidacionesController::class, 'updateCostoLCL'])->name('update.costo.lcl');
-    Route::get('countrys', function () {
-
-        $countryAPI = new Country();
-        $countries = $countryAPI->getCountries();
-        return $countries->firs();
-        return view('country', compact('countries'));
-    });
+    Route::resource('cotizacion/aerea', AereosController::class)->names('cotizacion.aerea');
     Route::get('admin/productos', AdminProductos::class)->name('admin.productos');
+    Route::get('cotizador/aerea/{pais}', AdminAereas::class)->name('cotizador.aerea');
+    Route::get('/edit/aerea/{cotizacion_id}', EditAerea::class)->name('edit.aerea');
+    Route::get('prueba', function () {
+        $productos = Insumo::with('usuario', 'calculos')->get();
+        return ($productos);
+    });
 });

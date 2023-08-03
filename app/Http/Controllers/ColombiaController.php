@@ -49,6 +49,8 @@ class ColombiaController extends Controller
         $validator = Validator::make($request->all(), [
             'nombreInsumo' => 'required',
             'porcentajeInsumo' => 'required | numeric| min:0',
+            'adicional' => 'required | numeric| min:0.1',
+            'variable' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -56,9 +58,21 @@ class ColombiaController extends Controller
                 'message' => $validator->messages(),
             ]);
         } else {
+            if ($request->input('variable') == 'unidad') {
+                $resultado = $request->input('adicional') * 6;
+            }
+            if ($request->input('variable') == 'porcentual') {
+                $resultado = $request->input('adicional') * 0.1;
+            }
+            if ($request->input('variable') == 'kilogramos') {
+                $resultado = $request->input('adicional') * 5.50;
+            }
             $producto = new Insumo();
             $producto->nombre = $request->input('nombreInsumo');
             $producto->porcentaje = $request->input('porcentajeInsumo');
+            $producto->adicional = $request->input('adicional');
+            $producto->variable = $request->input('variable');
+            $producto->total = $resultado;
             $producto->usuario_id = auth()->user()->id;
             $producto->save();
             return response()->json([
@@ -138,6 +152,8 @@ class ColombiaController extends Controller
         ];
         if ($modalidad->id == "1") {
             return view('admin.cargaCompleta.index', $mensajes);
+        } else if ($modalidad->id == "4") {
+            return redirect()->to("cotizador/aerea/{$pais}");
         } else {
             return view('admin.calculadoras.colombia.grupal.create', $mensajes);
         }
@@ -436,7 +452,7 @@ class ColombiaController extends Controller
             'gastoSimple' => $gastosLocaleSimple,
             'gastosCompuesta' => $gastosLocalesCompuesta,
             'productos' => $calculadoras->pluck('producto'),
-            'puerto' =>$puerto
+            'puerto' => $puerto
         ];
         return view('admin.calculadoras.colombia.detallesLcl', $data);
     }
@@ -463,8 +479,8 @@ class ColombiaController extends Controller
             'incoterms_id' => $request['puerto'] ?? 'NULL',
             'flete_maritimo' => $fleteMaritimo,
             'flete' => $flete,
-            'bodegaje'=>302,
-            'proceso'=>3,
+            'bodegaje' => 302,
+            'proceso' => 3,
             'collect' => $collect,
             'gastos_sin_iva' => $gastos_sin_iva,
             'gastos_origen' => $gastos_origen,
@@ -483,7 +499,7 @@ class ColombiaController extends Controller
             $total = $flete * $variables->valor;
             if ($total <= $variables->minimo) {
                 $total = $variables->minimo;
-            } 
+            }
             return $total;
         } else {
             return 0;

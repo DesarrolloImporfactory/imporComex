@@ -6,12 +6,17 @@
 
     <div class="row">
         <div class="col-md-3">
-            @if ($cotizacion->modalidad->id != 2)
-                <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i
-                        class="fa-solid fa-arrow-left"></i> Regresar</a>
+            @if ($cotizacion->modalidad->id == 4)
+            <a class="btn btn-danger float-left btn-sm" href="{{ url('cotizacion/aerea/'. $cotizacion->id) }}"><i
+                class="fa-solid fa-arrow-left"></i> Regresar</a>
             @else
-                <a class="btn btn-danger float-left btn-sm" href="{{ route('admin.colombia.show', $cotizacion->id) }}"><i
-                        class="fa-solid fa-arrow-left"></i> Regresar</a>
+                @if ($cotizacion->modalidad->id != 2)
+                    <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i
+                            class="fa-solid fa-arrow-left"></i> Regresar</a>
+                @else
+                    <a class="btn btn-danger float-left btn-sm" href="{{ route('admin.colombia.show', $cotizacion->id) }}"><i
+                            class="fa-solid fa-arrow-left"></i> Regresar</a>
+                @endif
             @endif
         </div>
         <div class="col-md-6 text-center ">
@@ -258,7 +263,7 @@
                             </div>
                             <div class="mt-2 ml-3 flex-grow-1">
                                 <label for="">Precio</label>
-                                <input type="number" min="0" name="precio" id="precio" class="form-control"
+                                <input type="text" name="precio" id="precio" class="form-control"
                                     value="{{ old('precio') }}">
                             </div>
                             <div class="mt-2 ml-3  flex-grow-1">
@@ -304,6 +309,9 @@
 @stop
 @section('js')
     <script>
+        $('#precio').on('input', function() {
+            this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
+        });
         $(document).ready(function() {
             function icono() {
                 $(".logistica").html('');

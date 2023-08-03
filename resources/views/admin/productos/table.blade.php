@@ -26,6 +26,11 @@
                 </th>
                 <th>PORCENTAJE</th>
                 <th>CLIENTE</th>
+                <th>ADICIONAL</th>
+                <th>VARIABLE</th>
+                <th>TOTAL</th>
+                <th>DIMENSIONES</th>
+                <th>VOLUMEN</th>
                 <th>OPTION</th>
             </tr>
         </thead>
@@ -37,6 +42,15 @@
                         <td>{{ $item->nombre }}</td>
                         <td>{{ $item->porcentaje }}</td>
                         <td>{{ $item->usuario->name ?? '' }}</td>
+                        <td>{{ $item->adicional ?? '' }}</td>
+                        <td>{{ $item->variable ?? '' }}</td>
+                        <td>{{ $item->total ?? '' }}</td>
+                        <td>
+                            @if ($item->largo)
+                                {{ $item->largo . '/' . $item->ancho . '/' . $item->alto }}
+                            @endif
+                        </td>
+                        <td>{{ $item->volumen ?? '' }}</td>
                         <td style="width: 100px;">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <button class="btn btn-xs btn-default text-primary mx-1 shadow"

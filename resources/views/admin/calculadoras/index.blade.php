@@ -22,7 +22,7 @@
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <img style="height: 150px;" src="{{ $country['flags']['svg'] }}" alt="logo4"
-                                            class="rounded-3 {{ $country['name']['common'] == 'Ecuador' ? '' : 'myImagen' }}">
+                                            class="rounded-3 {{ $country['name']['common'] == 'Peru' ? 'myImagen' : '' }}">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -31,17 +31,21 @@
                                         <div class="form-group">
                                             <select class="selectpicker" id="tipo" name="modalidad" data-style=""
                                                 data-width="60%" title="SELECCIONA TU TIPO DE CARGA" required>
-                                                <option value="1" data-subtext="CONTAINER">FCL</option>
-                                                <option value="2" data-subtext="CARGA SUELTA">LCL</option>
+                                                @foreach ($modalidades as $item)
+                                                    @if ($item->id != 3)
+                                                        <option value="{{ $item->id }}" data-subtext="{{ $item->descripcion }}">
+                                                            {{ $item->modalidad }}</option>
+                                                    @endif
+                                                @endforeach
                                             </select>
                                         </div>
                                         @error('tipo')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                         <button type="submit" class="btn btn-dark mt-4"
-                                            {{ $country['name']['common'] == 'Ecuador' ? '' : 'disabled' }}><i
+                                            {{ $country['name']['common'] == 'Peru' ? 'disabled' : '' }}><i
                                                 class="fa-solid fa-arrow-right"></i>
-                                            {{ $country['name']['common'] == 'Ecuador' ? 'EMPEZAR' : 'PROXIMAMENTE' }}</button>
+                                            {{ $country['name']['common'] == 'Peru' ? 'PROXIMAMENTE' : 'EMPEZAR' }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +61,8 @@
 @section('content')
     <div class="row mt-2">
         <div class="col-md-12 text-center mt-3 mb-3">
-            <a class="btn btn-outline-dark mt-3" href="{{ route('admin.individual.create') }}" target="_blank">SI TU PAÍS NO
+            <a class="btn btn-outline-dark mt-3" href="{{ route('admin.individual.create') }}" target="_blank">SI TU PAÍS
+                NO
                 ESTA EN LA LISTA SELECCIONA AQUÍ</a>
         </div>
     </div>

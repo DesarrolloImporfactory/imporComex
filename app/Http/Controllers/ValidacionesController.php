@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aereo;
 use App\Models\CabeceraTransaccion;
 use App\Models\Categoria;
 use App\Models\Comision;
@@ -37,19 +38,23 @@ class ValidacionesController extends Controller
         //$validacion = Validacion::where('cotizacion_id', $cotizacion_id)->exists();
         if ($relacion == 1) {
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad', 'tarifa'])->first();
-            $carbon = new \Carbon\Carbon();
-            $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
-            $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
-            $barcode = $cotizacion->barcode;
-            $inBackground = true;
+            if ($cotizacion->modalidad_id == 4) {
+                $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
+                $aereo = Aereo::where('cotizacion_id',$cotizacion_id)->get();                
+                return view('admin.calculadoras.infoAereo', compact(['cotizacion', 'productos','aereo']));
+            } else {
+                $carbon = new \Carbon\Carbon();
+                $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
+                $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
+                $barcode = $cotizacion->barcode;
+                $inBackground = true;
 
-            return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground', 'proveedores']));
+                return view('admin.calculadoras.indexPrint', compact(['cotizacion', 'carbon', 'barcode', 'productos', 'inBackground', 'proveedores']));
+            }
         } else {
             return redirect()->route('admin.colombia.edit', $cotizacion_id)->with('message', 'Completemos la cotizacion!');
         }
     }
-
-
 
     public function create()
     {
@@ -101,7 +106,6 @@ class ValidacionesController extends Controller
             ]);
         }
     }
-
 
     public function store(Request $request)
     {
@@ -208,7 +212,12 @@ class ValidacionesController extends Controller
                 'cotizacion' => $cotizacion,
                 'validaciones' => $validaciones
             ];
-            return view('admin.paso2.edit', $datos);
+            if ($cotizacion->modalidad->id == 4) {
+                return redirect()->route('edit.aerea',$cotizacion->id);
+            } else {
+                return view('admin.paso2.edit', $datos);
+            }
+            
         } else {
             return redirect()->route('admin.colombia.edit', $data)->with('mensaje', 'Completemos la cotizacion!');
         }

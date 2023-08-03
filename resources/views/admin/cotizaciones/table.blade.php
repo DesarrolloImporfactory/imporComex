@@ -49,10 +49,17 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('editar.paso1', $cotizacion->id) }}"
-                                    class="dropdown-item   text-warning " title="Details">
-                                    <i class="fa-solid fa-circle"></i> Inf. cotizacion
-                                </a>
+                                @if ($cotizacion->modalidad->id == 4)
+                                    <a href="{{ route('edit.aerea', $cotizacion->id) }}"
+                                        class="dropdown-item   text-warning " title="Details">
+                                        <i class="fa-solid fa-circle"></i> Formulario
+                                    </a>
+                                @else
+                                    <a href="{{ route('editar.paso1', $cotizacion->id) }}"
+                                        class="dropdown-item   text-warning " title="Details">
+                                        <i class="fa-solid fa-circle"></i> Inf. cotizacion
+                                    </a>
+                                @endif
                             </li>
                             <li>
                                 <a href="{{ route('editar.paso2', $cotizacion->id) }}"

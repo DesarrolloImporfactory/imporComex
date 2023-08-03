@@ -30,16 +30,74 @@
                     <div class="form-group">
                         <p>Cliente:</p>
                         <div wire:ignore class="mt-2 mr-2">
-                            <select name="" class="my-select" data-width="100%" id="usuario_id"
+                            <select name="" class="my-select" data-width="100%" id="usuario"
                                 data-live-search="true" title="Seleccionar.." data-style="btn-primary">
                                 @foreach ($clientes as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        @error('usuario_id')
+                        @error('usuario')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <p for="">Impu. adicional: </p>
+                                <input type="text" wire:change='calcular' class="form-control form-control-sm"
+                                    wire:model="adicional" id="adicional" name="adicional">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <p for="">Variable: </p>
+                            <select name="variable" wire:change='calcular' wire:model="variable"
+                                class="form-select form-control-sm">
+                                <option value="unidad">Unidad</option>
+                                <option value="porcentual">Porcentual</option>
+                                <option value="kilogramos">Kilogramos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <p for="">Resultado: </p>
+                            <input type="text" readonly class="form-control form-control-sm" wire:model='resultado'
+                                name="total">
+                        </div>
+                        @error('adicional')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        @error('variable')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Alto:</p>
+                            <input type="text" class="form-control form-control-sm" wire:model='alto'>
+                            @error('alto')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-3">
+                            <p>Ancho:</p>
+                            <input type="text" class="form-control form-control-sm" wire:model='ancho'>
+                            @error('ancho')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-3">
+                            <p>Largo:</p>
+                            <input type="text" class="form-control form-control-sm" wire:model='largo'>
+                            @error('largo')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-3">
+                            <p>Volumen:</p>
+                            <input type="text" class="form-control form-control-sm" wire:model='volumen'>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

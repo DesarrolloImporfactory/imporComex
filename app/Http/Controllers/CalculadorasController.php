@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\CalculadoraTemporal;
+use App\Models\Modalidades;
 use Illuminate\Http\Request;
 use App\Models\Paises;
 use Illuminate\Support\Facades\Validator;
@@ -17,10 +18,10 @@ class CalculadorasController extends Controller
 
     public function index()
     {
-        $paises = Paises::get();
+        $modalidades = Modalidades::all();
         $countryAPI = new Country();
         $countries = $countryAPI->getCountries();
-        return view('admin.calculadoras.index', compact('paises','countries'));
+        return view('admin.calculadoras.index', compact('modalidades','countries'));
     }
 
 

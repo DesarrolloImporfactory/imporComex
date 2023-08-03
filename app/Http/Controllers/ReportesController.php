@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aereo;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
@@ -62,6 +63,23 @@ class ReportesController extends Controller
         return $pdf->stream($carbon . 'cotizacion.pdf');
     }
 
+    public function cotizacionAerea(Request $request, $id)
+    {
+        $cotizacion = Cotizaciones::whereid($id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad'])->first();
+        $carbon = new \Carbon\Carbon();
+        $aereo = Aereo::where('cotizacion_id',$id)->get(); 
+        $productos = ProductoInsumo::wherecotizacion_id($id)->with('insumo')->get();
+        $inBackground = false;
+        $data = [
+            'cotizacion' => $cotizacion,
+            'carbon' => $carbon,
+            'inBackground' => $inBackground,
+            'productos' => $productos,
+            'aereo' => $aereo
+        ];
+        $pdf = PDF::loadView('reportes.pdfAerea', $data);
+        return $pdf->download($carbon . 'cotizacion.pdf');
+    }
     
 
     public function pdfCotizacion(Request $request, $id)

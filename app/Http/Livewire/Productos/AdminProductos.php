@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Productos;
 
+use App\Models\Calculadora;
 use App\Models\Insumo;
 use App\Models\User;
 use Livewire\Component;
@@ -13,16 +14,22 @@ class AdminProductos extends Component
     public $archivo;
     protected $paginationTheme = 'bootstrap';
     public $sort = "id", $direction = "asc";
-    public $search = '', $paginate = '10', $idProducto;
+    public $search = '', $paginate = '10', $idProducto, $ancho, $largo, $alto, $calculadora_id,$volumen;
     protected $listeners = ['delete'];
-    public $name, $porcentaje, $usuario_id;
+    public $name, $porcentaje, $usuario_id, $adicional, $variable, $resultado, $usuario;
 
     public function render()
     {
-        $productos = Insumo::with('usuario')
+        $productos = Insumo::with('usuario', 'calculos')
             ->where(function ($query) {
                 $query->where('id', 'like', '%' . $this->search . '%')
                     ->orWhere('porcentaje', 'like', '%' . $this->search . '%');
+            })
+            ->whereHas('usuario', function ($query) {
+                // Agregar la restricción para usuarios con rol "Client"
+                $query->whereHas("roles", function ($q) {
+                    $q->where("name", "Client");
+                });
             })
             ->whereNotNull('usuario_id')
             ->paginate($this->paginate);
@@ -36,7 +43,12 @@ class AdminProductos extends Component
     public $rules = [
         'name' => 'required|string|min:2|max:20',
         'porcentaje' => 'required|numeric',
-        'usuario_id' => 'required'
+        'usuario_id' => 'required',
+        'adicional' => 'required | numeric| min:0.1',
+        'variable' => 'required',
+        'ancho' => 'required | numeric| min:0.1',
+        'alto' => 'required | numeric| min:0.1',
+        'largo' => 'required | numeric| min:0.1',
     ];
     public function updatingSearch()
     {
@@ -61,17 +73,45 @@ class AdminProductos extends Component
     }
     public function create()
     {
-        $this->validate();
+        $this->validate([
+            'name' => 'required|string|min:2|max:20',
+            'porcentaje' => 'required|numeric',
+            'usuario' => 'required',
+            'adicional' => 'required | numeric| min:0.1',
+            'variable' => 'required',
+            'ancho' => 'required | numeric| min:0.1',
+            'alto' => 'required | numeric| min:0.1',
+            'largo' => 'required | numeric| min:0.1',
+        ]);
         try {
             Insumo::create([
                 'nombre' => $this->name,
                 'porcentaje' => $this->porcentaje,
-                'usuario_id' => $this->usuario_id
+                'usuario_id' => $this->usuario,
+                'adicional' => $this->adicional,
+                'variable' => $this->variable,
+                'total' => $this->resultado,
+                'largo' => $this->largo,
+                'ancho' => $this->ancho,
+                'alto' => $this->alto,
+                'volumen' => (($this->largo * $this->ancho * $this->alto) / 1000000) * 1,
             ]);
             $this->reset(['name', 'porcentaje']);
             $this->emit('alert', 'Registro creado con exito!.');
         } catch (\Exception $e) {
             $this->emit('alert', $e->getMessage());
+        }
+    }
+    public function calcular()
+    {
+        if ($this->variable == 'unidad') {
+            $this->resultado = round($this->adicional * 6, 2);
+        }
+        if ($this->variable == 'porcentual') {
+            $this->resultado = round($this->adicional * 0.1, 2);
+        }
+        if ($this->variable == 'kilogramos') {
+            $this->resultado = round($this->adicional * 5.50, 2);
         }
     }
     public function show(Int $id)
@@ -80,8 +120,14 @@ class AdminProductos extends Component
             $producto = Insumo::findOrFail($id);
             $this->name = $producto->nombre;
             $this->porcentaje = $producto->porcentaje;
-            // $this->usuario_id = $producto->usuario_id;
+            $this->adicional = $producto->adicional;
+            $this->variable = $producto->variable;
+            $this->resultado = $producto->total;
             $this->idProducto = $producto->id;
+            $this->largo = $producto->largo;
+            $this->ancho = $producto->ancho;
+            $this->alto = $producto->alto;
+            $this->volumen = $producto->volumen;
             $selects = [
                 'usuario' => $producto->usuario_id,
             ];
@@ -97,7 +143,14 @@ class AdminProductos extends Component
             Insumo::where('id', $this->idProducto)->update([
                 'nombre' => $this->name,
                 'porcentaje' => $this->porcentaje,
-                'usuario_id' => $this->usuario_id
+                'usuario_id' => $this->usuario_id,
+                'adicional' => $this->adicional,
+                'variable' => $this->variable,
+                'total' => $this->resultado,
+                'largo' => $this->largo,
+                'ancho' => $this->ancho,
+                'alto' => $this->alto,
+                'volumen' => (($this->largo * $this->ancho * $this->alto) / 1000000) * 1,
             ]);
             $this->reset(['name', 'porcentaje']);
             $this->emit('alert', 'Registro update con exito!.');

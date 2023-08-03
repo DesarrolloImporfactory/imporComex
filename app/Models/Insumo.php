@@ -9,16 +9,19 @@ class Insumo extends Model
 {
     use HasFactory;
     protected $connection = 'imporcomex';
-    protected $fillable = ['nombre', 'cantidad', 'precio','porcentaje','usuario_id'];
+    protected $fillable = ['nombre', 'cantidad', 'precio', 'porcentaje', 'usuario_id','adicional','variable','total','largo','ancho','alto','volumen'];
 
-    public function productoInsumo(){
-        return $this->hasMany(ProductoInsumo::class,'insumo_id','id');
+    public function productoInsumo()
+    {
+        return $this->hasMany(ProductoInsumo::class, 'insumo_id', 'id');
     }
-    
-    public function usuario(){
-        return $this->belongsTo(User::class,'usuario_id','id');
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'usuario_id', 'id');
     }
-    // public function calculos(){
-    //     return $this->hasOne(Calculadora::class,'insumo_id','id');
-    // }
+    public function calculos()
+    {
+        return $this->hasOne(Calculadora::class, 'insumo_id', 'id');
+    }
 }
