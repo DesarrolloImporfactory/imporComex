@@ -5,7 +5,7 @@
 <!-- Modal -->
 <div wire:ignore.self class="modal fade" id="createTermino" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar producto</h1>
@@ -43,14 +43,14 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <p for="">Impu. adicional: </p>
                                 <input type="text" wire:change='calcular' class="form-control form-control-sm"
                                     wire:model="adicional" id="adicional" name="adicional">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <p for="">Variable: </p>
                             <select name="variable" wire:change='calcular' wire:model="variable"
                                 class="form-select form-control-sm">
@@ -59,7 +59,14 @@
                                 <option value="kilogramos">Kilogramos</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <p for="">Valor: </p>
+                                <input type="text" class="form-control form-control-sm" wire:change='calcular'
+                                    wire:model="valor_adicional" id="valor_adicional">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <p for="">Resultado: </p>
                             <input type="text" readonly class="form-control form-control-sm" wire:model='resultado'
                                 name="total">
@@ -75,28 +82,31 @@
                     <div class="row">
                         <div class="col-md-3">
                             <p>Alto:</p>
-                            <input type="text" class="form-control form-control-sm" wire:model='alto'>
+                            <input type="text" wire:change='calcularVolumen' class="form-control form-control-sm"
+                                wire:model='alto' id="edit_alto">
                             @error('alto')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-md-3">
                             <p>Ancho:</p>
-                            <input type="text" class="form-control form-control-sm" wire:model='ancho'>
+                            <input type="text" wire:change='calcularVolumen' class="form-control form-control-sm"
+                                wire:model='ancho' id="edit_ancho">
                             @error('ancho')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-md-3">
                             <p>Largo:</p>
-                            <input type="text" class="form-control form-control-sm" wire:model='largo'>
+                            <input type="text" wire:change='calcularVolumen' class="form-control form-control-sm"
+                                wire:model='largo' id="edit_largo">
                             @error('largo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-md-3">
                             <p>Volumen:</p>
-                            <input type="text" class="form-control form-control-sm" wire:model='volumen'>
+                            <input type="text" readonly class="form-control form-control-sm" wire:model='volumen'>
                         </div>
                     </div>
                 </div>
@@ -108,3 +118,23 @@
         </div>
     </div>
 </div>
+@push('js')
+    <script>
+        $('#edit_largo,#edit_ancho,#edit_alto').on('input', function() {
+        // Remover caracteres no permitidos y sustituir comas por puntos
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/,/g, '.');
+
+        // Limitar a un solo punto decimal
+        var countDots = (this.value.match(/\./g) || []).length;
+        if (countDots > 1) {
+            this.value = this.value.replace(/\./g, '');
+        }
+
+        // Limitar a dos decimales
+        var decimalIndex = this.value.indexOf('.');
+        if (decimalIndex !== -1 && this.value.length - decimalIndex > 3) {
+            this.value = this.value.slice(0, decimalIndex + 3);
+        }
+    });
+    </script>
+@endpush

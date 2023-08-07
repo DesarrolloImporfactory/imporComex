@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col-md-3">
             @if ($cotizacion->modalidad->id == 4)
-            <a class="btn btn-danger float-left btn-sm" href="{{ url('cotizacion/aerea/'. $cotizacion->id) }}"><i
-                class="fa-solid fa-arrow-left"></i> Regresar</a>
+                <a class="btn btn-danger float-left btn-sm" href="{{ url('cotizacion/aerea/' . $cotizacion->id) }}"><i
+                        class="fa-solid fa-arrow-left"></i> Regresar</a>
             @else
                 @if ($cotizacion->modalidad->id != 2)
                     <a class="btn btn-danger float-left btn-sm" href="{{ route('editar.paso1', $cotizacion->id) }}"><i
@@ -246,9 +246,11 @@
                         <div class="d-flex">
                             <div class="mt-2 flex-grow-1">
                                 <label for="">Buscar referencia</label>
-                                <x-adminlte-select2 name="insumo_id" id="insumos" enable-old-support>
+                                <x-adminlte-select2 name="insumo_id" id="insumos" onchange="colocar()"
+                                    enable-old-support>
                                     @foreach ($insumo as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                        <option value="{{ $item->id }}" porcentaje={{ $item->porcentaje }}>
+                                            {{ $item->nombre }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
@@ -312,7 +314,15 @@
         $('#precio').on('input', function() {
             this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
         });
+
+        function colocar() {
+            var porcentaje = $("#insumos option:selected").attr('porcentaje');
+            $("#porcentaje").val(porcentaje);
+        }
+
         $(document).ready(function() {
+
+
             function icono() {
                 $(".logistica").html('');
                 $(".impuestos").html('');

@@ -241,13 +241,12 @@
                                         <tr>
                                             <td>${{ number_format($tasa->valor, 2) }} USD</td>
                                             <td>${{ $flete_aereo }} USD</td>
-                                            <td><button type="button" class="btn btn-secondary"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-custom-class="custom-tooltip"
-                                                    data-bs-title="This top tooltip is themed via CSS variables.">
-                                                    Custom tooltip
-                                                </button></td>
-                                            <td>${{ $handle }} USD</td>
+                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="GESTION GUIA AEREA">
+                                                ${{ $awb }} USD
+                                            </button></td>
+                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="MANEJO DE LA CARGA">
+                                                ${{ $handle }} USD
+                                            </button></td>
                                             <td>${{ $costo_envio }} USD</td>
                                         </tr>
                                     </tbody>

@@ -16,7 +16,7 @@ class AdminProductos extends Component
     public $sort = "id", $direction = "asc";
     public $search = '', $paginate = '10', $idProducto, $ancho, $largo, $alto, $calculadora_id,$volumen;
     protected $listeners = ['delete'];
-    public $name, $porcentaje, $usuario_id, $adicional, $variable, $resultado, $usuario;
+    public $name, $porcentaje, $usuario_id, $adicional, $variable, $resultado, $usuario,$valor_adicional;
 
     public function render()
     {
@@ -105,14 +105,19 @@ class AdminProductos extends Component
     public function calcular()
     {
         if ($this->variable == 'unidad') {
-            $this->resultado = round($this->adicional * 6, 2);
+            $this->resultado = round($this->adicional * $this->valor_adicional, 2);
         }
         if ($this->variable == 'porcentual') {
-            $this->resultado = round($this->adicional * 0.1, 2);
+            $this->resultado = round($this->adicional * ($this->valor_adicional/100), 2);
         }
         if ($this->variable == 'kilogramos') {
-            $this->resultado = round($this->adicional * 5.50, 2);
+            $this->resultado = round($this->adicional * $this->valor_adicional, 2);
         }
+    }
+
+    public function calcularVolumen()
+    {
+            $this->volumen = (($this->largo * $this->ancho * $this->alto) / 1000000) * 1;
     }
     public function show(Int $id)
     {

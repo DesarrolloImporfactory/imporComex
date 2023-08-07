@@ -4,7 +4,7 @@
 </button>
 <!-- Modal -->
 <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Producto</h1>
@@ -30,13 +30,14 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <p for="">Impu. adicional: </p>
-                                <input type="text" class="form-control form-control-sm" id="adicional" name="adicional">
+                                <p for="">Impt. adicional: </p>
+                                <input type="text" class="form-control form-control-sm" id="adicional"
+                                    name="adicional">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <p for="">Variable: </p>
                             <select name="variable" id="variable" class="form-select form-control-sm">
                                 <option value="unidad">Unidad</option>
@@ -44,9 +45,17 @@
                                 <option value="kilogramos">Kilogramos</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <p for="">Valor: </p>
+                                <input type="text" class="form-control form-control-sm" id="valor_adicional"
+                                    name="valor_adicional">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <p for="">Resultado: </p>
-                            <input type="text" readonly class="form-control form-control-sm" id="total" name="total">
+                            <input type="text" readonly class="form-control form-control-sm" id="total"
+                                name="total">
                         </div>
                     </div>
                 </div>
@@ -77,20 +86,38 @@
     });
 
     $(document).ready(function() {
-        $('#adicional, #variable').on('change', function() {
-            var adicional = $('#adicional').val();
+        $('#adicional, #variable, #valor_adicional').on('change', function() {
+            var adicional = parseFloat($('#adicional').val());
             var variable = $('#variable').val();
+            var valorAdicional = parseFloat($('#valor_adicional').val());
             var resultado;
+
             if (variable == 'unidad') {
-                resultado = adicional * 6;
+                $('#valor_adicional').off('input').on('input', function() {
+                    this.value = this.value.replace(/[^\d]/g, '');
+                });
+                resultado = adicional * valorAdicional;
+            } else if (variable == 'porcentual') {
+                $('#valor_adicional').off('input').on('input', function() {
+                    this.value = this.value.replace(/[^\d]/g, '');
+                });
+                resultado = adicional * (valorAdicional/100);
+            } else if (variable == 'kilogramos') {
+                $('#valor_adicional').off('input').on('input', function() {
+                    this.value = this.value.replace(/[^0-9.]/g, '').replace(/,/g, '.');
+                    var countDots = (this.value.match(/\./g) || []).length;
+                    if (countDots > 1) {
+                        this.value = this.value.replace(/\./g, '');
+                    }
+                    var decimalIndex = this.value.indexOf('.');
+                    if (decimalIndex !== -1 && this.value.length - decimalIndex > 3) {
+                        this.value = this.value.slice(0, decimalIndex + 3);
+                    }
+                });
+                resultado = adicional * valorAdicional;
             }
-            if (variable == 'porcentual') {
-                resultado = adicional * 0.1;
-            }
-            if (variable == 'kilogramos') {
-                resultado = adicional * 5.50;
-            }
-            $('#total').val(resultado);
+
+            $('#total').val(resultado.toFixed(2));
         });
         productos();
 
@@ -124,6 +151,7 @@
                 'porcentajeInsumo': $('#porcentajeInsumo').val(),
                 'adicional': $('#adicional').val(),
                 'variable': $('#variable').val(),
+                'valor' : $('#valor_adicional').val()
             }
             $.ajaxSetup({
                 headers: {
