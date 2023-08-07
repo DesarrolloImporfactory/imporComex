@@ -49,8 +49,6 @@ class ColombiaController extends Controller
         $validator = Validator::make($request->all(), [
             'nombreInsumo' => 'required',
             'porcentajeInsumo' => 'required | numeric| min:0',
-            'adicional' => 'required | numeric| min:0.1',
-            'variable' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -58,20 +56,26 @@ class ColombiaController extends Controller
                 'message' => $validator->messages(),
             ]);
         } else {
-            if ($request->input('variable') == 'unidad') {
-                $resultado = $request->input('adicional') * 6;
+            if ($request->has(['variable', 'adicional', 'valor'])) {
+                if ($request->input('variable') == 'unidad') {
+                    $resultado = $request->input('adicional') * $request->input('valor');
+                }
+                if ($request->input('variable') == 'porcentual') {
+                    $resultado = $request->input('adicional') * ($request->input('valor')/100);
+                }
+                if ($request->input('variable') == 'kilogramos') {
+                    $resultado = $request->input('adicional') * $request->input('valor');
+                }
+            } else {
+                $resultado = 0;
             }
-            if ($request->input('variable') == 'porcentual') {
-                $resultado = $request->input('adicional') * 0.1;
-            }
-            if ($request->input('variable') == 'kilogramos') {
-                $resultado = $request->input('adicional') * 5.50;
-            }
+            
             $producto = new Insumo();
             $producto->nombre = $request->input('nombreInsumo');
             $producto->porcentaje = $request->input('porcentajeInsumo');
             $producto->adicional = $request->input('adicional');
             $producto->variable = $request->input('variable');
+            $producto->valor = $request->input('valor');
             $producto->total = $resultado;
             $producto->usuario_id = auth()->user()->id;
             $producto->save();

@@ -9,7 +9,7 @@ class Insumo extends Model
 {
     use HasFactory;
     protected $connection = 'imporcomex';
-    protected $fillable = ['nombre', 'cantidad', 'precio', 'porcentaje', 'usuario_id','adicional','variable','total','largo','ancho','alto','volumen'];
+    protected $fillable = ['nombre', 'cantidad', 'precio', 'porcentaje', 'usuario_id','adicional','variable','total','largo','ancho','alto','volumen','valor'];
 
     public function productoInsumo()
     {

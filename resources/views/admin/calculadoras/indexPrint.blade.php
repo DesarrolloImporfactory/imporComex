@@ -71,6 +71,7 @@
                             <th>Precio</th>
                             <th>Impuesto Unitario</th>
                             <th>Logistica Unitaria</th>
+                            <th>%</th>
                             <th>Divisa unitario</th>
                             <th>Producto unitario</th>
                         </tr>
@@ -82,13 +83,11 @@
                                 <td>{{ $item->insumo->nombre }}</td>
                                 <td>{{ $item->cantidad }}</td>
                                 <td>{{ $item->precio }}</td>
-                                <td>{{ number_format($item->Impuestos / $item->cantidad, 2) }}</td>
-                                <td>{{ number_format(($cotizacion->total_logistica * $item->Impuestos) / $cotizacion->total_impuesto / $item->cantidad, 2) }}
-                                </td>
-                                <td>{{ number_format($item->divisas / $item->cantidad, 2) }}
-                                </td>
-                                <td>{{ number_format($item->precio + $item->Impuestos / $item->cantidad + $cotizacion->total_logistica / $cotizacion->cantidad_productos + $item->divisas / $item->cantidad, 2) }}
-                                </td>
+                                <td>{{ number_format($item->impuesto_unitario, 2) }}</td>
+                                <td>{{ number_format($item->logistica_unitaria, 2) }}</td>
+                                <td>{{ number_format($item->valor_porcentual,2) }}%</td>
+                                <td>{{ number_format($item->divisa_unitario, 2) }}</td>
+                                <td>{{ number_format($item->producto_unitario, 2) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

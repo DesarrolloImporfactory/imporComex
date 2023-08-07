@@ -40,11 +40,15 @@ class ValidacionesController extends Controller
             $cotizacion = Cotizaciones::whereid($cotizacion_id)->with(['validacions', 'modalidad', 'carga', 'pais', 'usuario', 'ciudad', 'tarifa'])->first();
             if ($cotizacion->modalidad_id == 4) {
                 $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
-                $aereo = Aereo::where('cotizacion_id',$cotizacion_id)->get();                
-                return view('admin.calculadoras.infoAereo', compact(['cotizacion', 'productos','aereo']));
+                $aereo = Aereo::where('cotizacion_id', $cotizacion_id)->get();
+                return view('admin.calculadoras.infoAereo', compact(['cotizacion', 'productos', 'aereo']));
             } else {
                 $carbon = new \Carbon\Carbon();
                 $productos = ProductoInsumo::wherecotizacion_id($cotizacion_id)->with(['insumo', 'proveedor'])->get();
+                foreach ($productos as $item) {
+                    $item->valor_porcentual = 100 / $productos->count();
+                    $item->save();
+                }
                 $proveedores = Validacion::wherecotizacion_id($cotizacion_id)->get();
                 $barcode = $cotizacion->barcode;
                 $inBackground = true;
@@ -163,6 +167,14 @@ class ValidacionesController extends Controller
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);
+            $productos_valores = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->get();
+            foreach ($productos_valores as $item) {
+                $item->impuesto_unitario = $item->Impuestos / $item->cantidad;
+                $item->logistica_unitaria = ($cotizacion->total_logistica * $item->Impuestos) / $cotizacion->total_impuesto / $item->cantidad;
+                $item->divisa_unitario = $item->divisas / $item->cantidad;
+                $item->producto_unitario = $item->precio + $item->Impuestos / $item->cantidad + $cotizacion->total_logistica / $cotizacion->cantidad_productos + $item->divisas / $item->cantidad;
+                $item->save();
+            }
             DB::connection('imporcomex')->table('contenedor_cotizacions')->insert([
                 'cotizacion_id' => $cotizacion_id,
                 'contenedor_id' => $contenedor,
@@ -213,11 +225,10 @@ class ValidacionesController extends Controller
                 'validaciones' => $validaciones
             ];
             if ($cotizacion->modalidad->id == 4) {
-                return redirect()->route('edit.aerea',$cotizacion->id);
+                return redirect()->route('edit.aerea', $cotizacion->id);
             } else {
                 return view('admin.paso2.edit', $datos);
             }
-            
         } else {
             return redirect()->route('admin.colombia.edit', $data)->with('mensaje', 'Completemos la cotizacion!');
         }

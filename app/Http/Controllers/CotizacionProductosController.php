@@ -37,7 +37,7 @@ class CotizacionProductosController extends Controller
             ]);
         } else {
 
-            $productos = ProductoInsumo::where('cotizacion_id', $request->input('cotizacion_id'))->get();
+            $productos = ProductoInsumo::with('insumo')->where('cotizacion_id', $request->input('cotizacion_id'))->get();
             $baseFlete = $this->fleteBase($request->input('cotizacion_id'));
             $fob_antiguo = $request->input('total_fob');
             $fob = $request->input('cantidad') * $request->input('precio');
@@ -114,41 +114,19 @@ class CotizacionProductosController extends Controller
     public function show($id)
     {
         $productos = ProductoInsumo::with('insumo')->where('cotizacion_id', $id)->get();
-        $totalProducto = 0;
-        $totalFob = 0;
-        $totalSeguro = 0;
-        $totalFlete = 0;
-        $totalCif = 0;
-        $totalAdvalorem = 0;
-        $totalFodinfa = 0;
-        $totalIva = 0;
-        $totalImpuestos = 0;
-        $totalTotal = 0;
-        foreach ($productos as $item) {
-            $totalProducto = $totalProducto + $item->cantidad;
-            $totalSeguro = $totalSeguro + $item->seguro;
-            $totalFob = $totalFob + $item->fob;
-            $totalFlete = $totalFlete + $item->flete;
-            $totalCif = $totalCif + $item->cif;
-            $totalIva = $totalIva + $item->iva;
-            $totalImpuestos = $totalImpuestos + $item->Impuestos;
-            $totalFodinfa = $totalFodinfa + $item->fodinfa;
-            $totalAdvalorem = $totalAdvalorem + $item->advalorem;
-            $totalTotal = $totalTotal + $item->total;
-        }
-
+        
         return response()->json([
-            'totalProducto' => $totalProducto,
-            'totalSeguro' => $totalSeguro,
-            'totalFob' => $totalFob,
-            'totalFlete' => $totalFlete,
-            'totalCif' => $totalCif,
-            'totalIva' => $totalIva,
-            'totalImpuestos' => $totalImpuestos,
-            'totalFodinfa' => $totalFodinfa,
-            'totalAdvalorem' => $totalAdvalorem,
+            'totalProducto' => $productos->sum('cantidad'),
+            'totalSeguro' => $productos->sum('seguro'),
+            'totalFob' => $productos->sum('fob'),
+            'totalFlete' => $productos->sum('flete'),
+            'totalCif' => $productos->sum('cif'),
+            'totalIva' => $productos->sum('iva'),
+            'totalImpuestos' => $productos->sum('Impuestos') + $productos->sum('insumo.total'),
+            'totalFodinfa' => $productos->sum('fodinfa'),
+            'totalAdvalorem' => $productos->sum('advalorem'),
             'productos' => $productos,
-            'totalTotal' => $totalTotal,
+            'totalTotal' => $productos->sum('total'),
         ]);
     }
 
