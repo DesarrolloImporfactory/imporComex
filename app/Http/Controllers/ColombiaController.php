@@ -561,6 +561,7 @@ class ColombiaController extends Controller
             'direccion' => $request['direccion'],
             'ciudad_id' => $request['ciudad_entrega'],
             'flete' => $flete,
+            'termino' =>  $request['termino'],
             'gastos_sin_iva' => $gastos_sin_iva,
             'gastos_origen' => $gastos_origen,
             'flete_maritimo' => $fleteMaritimo,
@@ -599,9 +600,8 @@ class ColombiaController extends Controller
     }
     public function gastosOrigen($modalidad, $termino)
     {
-        //falta aplicar el termino
         $acumulador = 0;
-        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'Gastos origen')->get();
+        $variables = Variables::where('modalidad_id', $modalidad)->where('tipo', 'Gastos origen')->where('operacion_id', $termino)->get();
         foreach ($variables as $item) {
             $acumulador = $acumulador + $item->valor;
         }
