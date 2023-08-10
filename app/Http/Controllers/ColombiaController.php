@@ -441,9 +441,10 @@ class ColombiaController extends Controller
         $categoria = Categoria::all();
         $insumo = Insumo::all();
         $otrosGastos = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Otros gastos')->get();
+        $termino = $cotizacion->incoterms->puerto_id;
         $gastosOrigen = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos origen')->get();
-        $gastosLocalesCompuesta = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales compuesta')->get();
-        $gastosLocaleSimple = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales simple')->get();
+        $gastosLocalesCompuesta = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales compuesta')->where('operacion_id', $termino)->get();
+        $gastosLocaleSimple = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales simple')->where('operacion_id', $termino)->get();
         $calculadoras = Calculadora::with('producto')->where('cotizacion_id', $id)->get();
         $mensaje = "true";
         $data = [

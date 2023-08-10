@@ -41,10 +41,10 @@
         }
 
         .logo {
-            width: 5cm;
-            height: 3cm;
-            margin-right: 2cm;
-            margin-bottom: 0.5cm;
+            width: 10cm;
+            height: 4cm;
+            margin-right: 0cm;
+            margin-bottom: 0cm;
         }
 
         .logo-container {
@@ -115,7 +115,7 @@
         </div>
         <div class="header-right">
             <div class="logo-container">
-                <img src="{{ asset('imagenes/logo.png') }}" alt="Logo de la Empresa" class="logo">
+                <img src="{{ asset('imagenes/logoPdf.jpg') }}" alt="Logo de la Empresa" class="logo">
             </div>
             <table class="table table-sm example" id="encabezado">
                 <tr>
@@ -128,7 +128,7 @@
                 </tr>
                 <tr>
                     <td class="table-dark">FECHA VIGENCIA</td>
-                    <td>Dato 4</td>
+                    <td>15 días</td>
                 </tr>
             </table>
         </div>
@@ -254,7 +254,21 @@
                 </tr>
             </tbody>
         </table>
-        
+        <hr>
+        <table class="table table-light example">
+            <thead class="thead-light">
+                <tr>
+                    <th>CONCEPTO</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>VALOR TOTAL DE COTIZACIÓN:</td>
+                    <td>USD {{ $cotizacion->flete_maritimo + $cotizacion->gastos_local +  $cotizacion->gastos_origen}}$</td>
+                </tr>
+            </tbody>
+        </table>
         <div style="margin-top: 0.5cm;"></div>
         {{-- <div class="page-break"></div> --}}
         <ul>

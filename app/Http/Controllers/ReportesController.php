@@ -41,10 +41,11 @@ class ReportesController extends Controller
         $categoria = Categoria::all();
         $insumo = Insumo::all();
         $cotizacion = Cotizaciones::whereid($id)->with(['carga', 'pais', 'modalidad', 'gastos', 'incoterms'])->first();
+        $termino = $cotizacion->incoterms->puerto_id;
         $otrosGastos = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Otros gastos')->get();
         $gastosOrigen = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos origen')->get();
-        $gastosLocalesCompuesta = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales compuesta')->get();
-        $gastosLocaleSimple = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales simple')->get();
+        $gastosLocalesCompuesta = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales compuesta')->where('operacion_id', $termino)->get();
+        $gastosLocaleSimple = Variables::where('modalidad_id', $cotizacion->modalidad_id)->where('tipo', 'Gastos locales simple')->where('operacion_id', $termino)->get();
         $incoterm = PuertoChina::findOrFail($cotizacion->incoterms->puerto_id);
         $mensaje = "true";
         $data = [

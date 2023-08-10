@@ -44,7 +44,6 @@
                     <div class="col-md-12 text-center">
                         <div class="btn-group">
                             @livewire('aprobar-cotizacion', ['idCotizacion' => $cotizacion->id], key($cotizacion->id))
-
                             <a href="{{ route('print.cotizacion', $cotizacion->id) }}"
                                 class="btn btn-xs btn-default text-danger mx-1 shadow float-left" target="_blank"
                                 title="Descargar">

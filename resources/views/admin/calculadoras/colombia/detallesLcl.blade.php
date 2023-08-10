@@ -28,7 +28,17 @@
     <div class="row">
         <div class="col-md-10 mx-auto">
             <div class="card">
+                
                 <div class="card-body">
+                    <div class="btn-group">
+                        @livewire('aprobar-cotizacion', ['idCotizacion' => $cotizacion->id], key($cotizacion->id))
+                        <a href="{{ route('print.cotizacion', $cotizacion->id) }}"
+                            class="btn btn-xs btn-default text-danger mx-1 shadow float-left" target="_blank"
+                            title="Descargar">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar Cotización
+                        </a>
+                    </div>
+                    <hr>
                     <div class="label border p-2 bg-dark text-light rounded mb-2"><i
                             class="fa-solid fa-money-bill-transfer"></i> DETALLES DE COTIZACIÓN.</div>
                     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -194,12 +204,10 @@
                         </div>
                     </div>
                     <div class="alert alert-warning" role="alert">
-                        <p class="text-justify">NOTA: RECUERDA QUE DEBES TOMAR EN CONSIDERACION, OTROS GASTOS COMO FLETE
-                            INTERNO -
-                            AGENTE DE ADUANA Y
-                            BODEGAJE.</p>
-                        <p class="mb-0 text-justify">ESTAS TARIFAS SON ENTREGADAS POR NUESTROS ALIADOS
-                            ALL TRANS CARGO: EMAIL.</p>
+                        <p class="text-justify">NOTA: RECUERDA QUE ESTE ES UN SIMULADOR, AL DAR CLIC EN EL BOTÓN APROBAR SE ENVIARÁ UN E-AMIL A LA AGENCIA DE CARGA Y ELLOS RESPONDERÁN CON LA COTIZACIÓN FINAL, LA CUALRECIBIRÁS EN TU E-MAIL REGISTRADO
+                            NOTA: DEBES TOMAR EN CONSIDERACION, OTROS GASTOS COMO FLETE INTERNO - AGENTE DE ADUANA Y BODEGAJE. ESTOS SERVICIOS SERÁN FACTURADOS POR EL ENTE ENCARGADO
+                            </p>
+                        <p class="mb-0 text-justify">ESTAS TARIFAS SON ENTREGADAS POR NUESTROS ALIADOS BRAGAL GROUP. EMAIL. : asistentegerencia@bragalgroup.com.</p>
                     </div>
                     <div class="label border p-2 bg-dark text-light rounded mb-2"><i
                             class="fa-solid fa-money-bill-transfer"></i> OTROS GASTOS</div>

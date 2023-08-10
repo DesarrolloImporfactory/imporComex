@@ -167,12 +167,13 @@ class ValidacionesController extends Controller
             ];
 
             Cotizaciones::whereid($cotizacion_id)->update($datos);
+            $cotizacion2 = Cotizaciones::whereid($cotizacion_id)->first();
             $productos_valores = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->get();
             foreach ($productos_valores as $item) {
                 $item->impuesto_unitario = $item->Impuestos / $item->cantidad;
-                $item->logistica_unitaria = ($cotizacion->total_logistica * $item->Impuestos) / $cotizacion->total_impuesto / $item->cantidad;
+                $item->logistica_unitaria = ($cotizacion2->total_logistica * $item->Impuestos) / $cotizacion2->total_impuesto / $item->cantidad;
                 $item->divisa_unitario = $item->divisas / $item->cantidad;
-                $item->producto_unitario = $item->precio + $item->Impuestos / $item->cantidad + $cotizacion->total_logistica / $cotizacion->cantidad_productos + $item->divisas / $item->cantidad;
+                $item->producto_unitario = $item->precio + $item->Impuestos / $item->cantidad + $cotizacion2->total_logistica / $cotizacion2->cantidad_productos + $item->divisas / $item->cantidad;
                 $item->save();
             }
             DB::connection('imporcomex')->table('contenedor_cotizacions')->insert([
