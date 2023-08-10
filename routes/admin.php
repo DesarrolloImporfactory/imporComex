@@ -35,8 +35,10 @@ use App\Http\Controllers\VariablesController;
 use App\Http\Livewire\Aerea\AdminAereas;
 use App\Http\Livewire\Aerea\EditAerea;
 use App\Http\Livewire\Productos\AdminProductos;
+use App\Http\Livewire\Productos\ClienteProductos;
 use App\Models\Country;
 use App\Models\Insumo;
+use Spatie\Permission\Models\Permission;
 
 //Route::get('admin',[HomeController::class, 'index']);
 Route::middleware(['auth', 'cotizador'])->group(function () {
@@ -151,10 +153,13 @@ Route::middleware(['auth', 'cotizador'])->group(function () {
     Route::patch('update/costo/{id}', [ValidacionesController::class, 'updateCostoLCL'])->name('update.costo.lcl');
     Route::resource('cotizacion/aerea', AereosController::class)->names('cotizacion.aerea');
     Route::get('admin/productos', AdminProductos::class)->name('admin.productos');
+    Route::get('cliente/productos', ClienteProductos::class)->name('cliente.productos')->middleware('can:cliente.productos');
     Route::get('cotizador/aerea/{pais}', AdminAereas::class)->name('cotizador.aerea');
     Route::get('/edit/aerea/{cotizacion_id}', EditAerea::class)->name('edit.aerea');
     Route::get('prueba', function () {
-        $productos = Insumo::with('usuario', 'calculos')->get();
-        return ($productos);
+        $user = Auth::user();
+
+        $userPermissions = $user->getAllPermissions();
+        return $userPermissions;
     });
 });

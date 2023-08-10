@@ -233,11 +233,11 @@
                                 </tr>
                                 @if ($cotizacion->bodegaje > 0 || $cotizacion->aduana > 0)
                                     <tr>
-                                        <td>Bodegaje : </td>
+                                        <td>Agente de aduana : </td>
                                         <td>{{ $cotizacion->bodegaje }}$</td>
                                     </tr>
                                     <tr>
-                                        <td>Agente de aduana : </td>
+                                        <td>Bodegaje: </td>
                                         <td>{{ $cotizacion->aduana }}$</td>
                                     </tr>
                                 @else

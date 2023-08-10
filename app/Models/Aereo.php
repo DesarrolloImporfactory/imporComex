@@ -12,6 +12,7 @@ class Aereo extends Model
     protected $connection = 'imporcomex';
     protected $fillable = [
         'cotizacion_id',
+        'insumo_id',
         'cartones',
         'largo',
         'ancho',
@@ -26,5 +27,9 @@ class Aereo extends Model
     public function cotizacion()
     {
         return $this->belongsTo(Cotizaciones::class, 'cotizacion_id', 'id');
+    }
+    public function producto()
+    {
+        return $this->belongsTo(Insumo::class, 'insumo_id', 'id');
     }
 }

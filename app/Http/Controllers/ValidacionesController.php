@@ -113,6 +113,7 @@ class ValidacionesController extends Controller
 
     public function store(Request $request)
     {
+        
         $cotizacion_id = $request->input('cotizacion_id');
         $validator = Validator::make($request->all(), [
             'impuestos' => 'required|numeric|min:1',
@@ -169,6 +170,7 @@ class ValidacionesController extends Controller
             Cotizaciones::whereid($cotizacion_id)->update($datos);
             $cotizacion2 = Cotizaciones::whereid($cotizacion_id)->first();
             $productos_valores = ProductoInsumo::where('cotizacion_id', $cotizacion_id)->get();
+            $cotizacion2 = Cotizaciones::whereid($cotizacion_id)->first();
             foreach ($productos_valores as $item) {
                 $item->impuesto_unitario = $item->Impuestos / $item->cantidad;
                 $item->logistica_unitaria = ($cotizacion2->total_logistica * $item->Impuestos) / $cotizacion2->total_impuesto / $item->cantidad;
