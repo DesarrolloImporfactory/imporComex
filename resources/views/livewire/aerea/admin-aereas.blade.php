@@ -1,6 +1,39 @@
 <div>
     @section('title', 'Cotizador')
     <div class="content-header">
+        <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" wire:submit.prevent='createProduct'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <p>Nombre del producto</p>
+                                <input type="text" class="form-control" wire:model='nombre_producto'>
+                                @error('nombre_producto')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <p>Porcentaje</p>
+                                <input type="text" class="form-control" wire:model='valor_porcentual'>
+                                @error('valor_porcentual')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="card border-light mt-3">
             <div class="card-header">
                 <div class="content-header">
@@ -89,72 +122,101 @@
                         </div>
                     </div>
                     <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{-- @livewire('area.create-products') --}}
+                            <button class="float-end btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">new product</button>
+                        </div>
+                    </div>
                     <form wire:submit.prevent='calcular' action="">
                         <div class="row">
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <p>Cartones: </p>
-                                    <input type="number"
-                                        class="form-control form-control-sm @error('cartones') is-invalid @enderror"
-                                        wire:model='cartones'>
-                                    @error('cartones')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                            
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>Cartones: </p>
+                                            <input type="number"
+                                                class="form-control form-control-sm @error('cartones') is-invalid @enderror"
+                                                wire:model='cartones'>
+                                            @error('cartones')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>Largo: </p>
+                                            <input type="text" id='numero'
+                                                class="form-control form-control-sm @error('largo') is-invalid @enderror"
+                                                wire:model='largo'>
+                                            @error('largo')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>Alto: </p>
+                                            <input type="text" id='numero'
+                                                class="form-control form-control-sm @error('alto') is-invalid @enderror"
+                                                wire:model='alto'>
+                                            @error('alto')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>Ancho: </p>
+                                            <input type="text" id='numero'
+                                                class="form-control form-control-sm @error('ancho') is-invalid @enderror"
+                                                wire:model='ancho'>
+                                            @error('ancho')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>Peso bruto: </p>
+                                            <input type="text" id='numero'
+                                                class="form-control form-control-sm @error('peso_bruto_carton') is-invalid @enderror"
+                                                placeholder="peso bruto por carton" wire:model='peso_bruto_carton'>
+                                            @error('peso_bruto_carton')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div wire:ignore class="form-group">
+                                            <p for="">Producto: </p>
+                                            <select class="form-select" data-width="100%" title="Seleccionar.." wire:model="producto"
+                                                data-live-search="true">
+                                                <option value="">Seleccionar..</option>
+                                                @foreach ($insumos as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('producto')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <p>Largo: </p>
-                                    <input type="text" id='numero'
-                                        class="form-control form-control-sm @error('largo') is-invalid @enderror"
-                                        wire:model='largo'>
-                                    @error('largo')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                            <div class="col-md-1">
+                                <div class="row">
+                                    <div class="col mt-3">
+                                        <div class="form-group">
+                                            <button type="submit"
+                                                class="btn btn-primary float-right btn-sm rounded-circle mt-4 "><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <p>Alto: </p>
-                                    <input type="text" id='numero'
-                                        class="form-control form-control-sm @error('alto') is-invalid @enderror"
-                                        wire:model='alto'>
-                                    @error('alto')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <p>Ancho: </p>
-                                    <input type="text" id='numero'
-                                        class="form-control form-control-sm @error('ancho') is-invalid @enderror"
-                                        wire:model='ancho'>
-                                    @error('ancho')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <p>Peso bruto: </p>
-                                    <input type="text" id='numero'
-                                        class="form-control form-control-sm @error('peso_bruto_carton') is-invalid @enderror"
-                                        placeholder="peso bruto por carton" wire:model='peso_bruto_carton'>
-                                    @error('peso_bruto_carton')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col mt-3">
-                                <div class="form-group">
-                                    <button type="submit"
-                                        class="btn btn-primary float-right btn-sm rounded-circle mt-4 "><i
-                                            class="fa-solid fa-plus"></i></button>
-                                </div>
-                            </div>
-
                         </div>
                     </form>
                     <hr>
@@ -162,6 +224,7 @@
                         <table class="table text-center">
                             <thead class="">
                                 <tr>
+                                    <th>PRODUCTO</th>
                                     <th>CARTONES</th>
                                     <th>LARGO</th>
                                     <th>ANCHO</th>
@@ -178,6 +241,7 @@
                                 @if ($calculos->count())
                                     @foreach ($calculos as $item)
                                         <tr>
+                                            <td>{{ $item->producto->nombre ?? ''}}</td>
                                             <td>{{ $item->cartones }}</td>
                                             <td>{{ $item->largo }}</td>
                                             <td>{{ $item->ancho }}</td>
@@ -241,12 +305,14 @@
                                         <tr>
                                             <td>${{ number_format($tasa->valor, 2) }} USD</td>
                                             <td>${{ $flete_aereo }} USD</td>
-                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="GESTION GUIA AEREA">
-                                                ${{ $awb }} USD
-                                            </button></td>
-                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="MANEJO DE LA CARGA">
-                                                ${{ $handle }} USD
-                                            </button></td>
+                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="GESTION GUIA AEREA">
+                                                    ${{ $awb }} USD
+                                                </button></td>
+                                            <td><button type="button" class="btn btn-light" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="MANEJO DE LA CARGA">
+                                                    ${{ $handle }} USD
+                                                </button></td>
                                             <td>${{ $costo_envio }} USD</td>
                                         </tr>
                                     </tbody>
@@ -258,7 +324,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 @push('js')
     <script>
@@ -290,6 +356,9 @@
             });
             $('#cliente').on('change', function(e) {
                 @this.set('cliente', e.target.value);
+            });
+            $('#producto').on('change', function(e) {
+                @this.set('producto', e.target.value);
             });
         });
     </script>

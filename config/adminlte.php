@@ -393,6 +393,14 @@ return [
         ],
         [
 
+            'text' => 'Mis Productos',
+            'route'  => 'cliente.productos',
+            'icon' => 'fas fa-regular fa-boxes-stacked',
+            'can' => 'cliente.productos',
+            'label' => 'new'
+        ],
+        [
+
             'text' => 'Contenedores',
             'route'  => 'admin.contenedores.index',
             'icon' => 'fas fa-brands fa-docker',

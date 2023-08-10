@@ -12,6 +12,7 @@ class AereoTemp extends Model
     protected $connection = 'imporcomex';
     protected $fillable = [
         'usuario_id',
+        'insumo_id',
         'cartones',
         'largo',
         'ancho',
@@ -27,4 +28,9 @@ class AereoTemp extends Model
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id');
     }
+    public function producto()
+    {
+        return $this->belongsTo(Insumo::class, 'insumo_id', 'id');
+    }
+
 }

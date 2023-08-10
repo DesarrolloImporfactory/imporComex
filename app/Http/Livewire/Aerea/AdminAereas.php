@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Aerea;
 use App\Models\Aereo;
 use App\Models\AereoTemp;
 use App\Models\Cotizaciones;
+use App\Models\Insumo;
 use App\Models\User;
 use App\Models\Variables;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAereas extends Component
 {
-    public $pais, $proveedor, $carga, $cliente;
+    public $pais, $proveedor, $carga, $cliente,$producto,$nombre_producto, $valor_porcentual;
     public $cartones, $largo, $ancho, $alto, $peso_bruto_carton, $total, $tasa, $flete_aereo, $awb, $handle, $costo_envio;
     protected $listeners = ['delete'];
 
@@ -30,18 +31,41 @@ class AdminAereas extends Component
             $q->where("name", "Client");
         })->get();
 
-        $calculos = AereoTemp::where('usuario_id',auth()->user()->id)->get();
+        $insumos = Insumo::where('usuario_id', auth()->user()->id)->get();
 
-        return view('livewire.aerea.admin-aereas', compact('clientes', 'calculos'))->extends('adminlte::page')
+        $calculos = AereoTemp::with('producto')->where('usuario_id',auth()->user()->id)->get();
+
+        return view('livewire.aerea.admin-aereas', compact('clientes', 'calculos','insumos'))->extends('adminlte::page')
             ->section('content');
     }
     public $rules = [
+        'producto' => 'required',
         'cartones' => 'required|numeric|min:1',
         'largo' => 'required|numeric|min:0.1',
         'ancho' => 'required|numeric|min:0.1',
         'alto' => 'required|numeric|min:0.1',
         'peso_bruto_carton' => 'required|numeric|min:0.1'
     ];
+
+    public function createProduct()
+    {
+        $this->validate([
+            'nombre_producto' => 'required',
+        'valor_porcentual' => 'required|numeric|min:0'
+        ]);
+        try {
+            Insumo::create([
+                'nombre' => $this->nombre_producto,
+                'porcentaje' => $this->valor_porcentual,
+                'usuario_id' => auth()->user()->id
+            ]);
+            $this->emit('render_update');
+
+            $this->emit('alert', 'Producto creado!');
+        } catch (\Exception $e) {
+            $this->emit('alert', $e->getMessage());
+        }
+    }
 
     public function create()
     {
@@ -85,6 +109,7 @@ class AdminAereas extends Component
         try {
             AereoTemp::create([
                 'usuario_id' => auth()->user()->id,
+                'insumo_id' => $this->producto,
                 'cartones' => $this->cartones,
                 'largo' => $this->largo,
                 'alto' => $this->alto,
@@ -102,6 +127,7 @@ class AdminAereas extends Component
                 'largo',
                 'ancho',
                 'alto',
+                'producto',
                 'peso_bruto_carton'
             ]);
         } catch (\Exception $e) {
@@ -170,6 +196,7 @@ class AdminAereas extends Component
         foreach ($calculos as $calculo) {
             Aereo::create([
                 'cotizacion_id' => $id,
+                'insumo_id' => $calculo->insumo_id,
                 'cartones' => $calculo->cartones,
                 'largo' => $calculo->largo,
                 'ancho' => $calculo->ancho,

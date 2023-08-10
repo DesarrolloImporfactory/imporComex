@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Aerea;
 use App\Models\Aereo;
 use App\Models\AereoTemp;
 use App\Models\Cotizaciones;
+use App\Models\Insumo;
 use App\Models\User;
 use App\Models\Variables;
 use Carbon\Carbon;
@@ -14,9 +15,9 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class EditAerea extends Component
 {
-    public $pais, $proveedor, $carga, $cliente, $cotizacion_id;
+    public $pais,$insumos, $proveedor, $carga, $cliente, $cotizacion_id, $producto,$nombre_producto, $valor_porcentual;
     public $cartones, $largo, $ancho, $alto, $peso_bruto_carton, $total, $tasa, $flete_aereo, $awb, $handle, $costo_envio;
-    protected $listeners = ['delete'];
+    protected $listeners = ['delete','render_update' =>'render'];
 
     public function mount($cotizacion_id)
     {
@@ -35,14 +36,34 @@ class EditAerea extends Component
         $clientes = User::whereHas("roles", function ($q) {
             $q->where("name", "Client");
         })->get();
-
-        $calculos = Aereo::where('cotizacion_id', $this->cotizacion_id)->get();
-
+        $calculos = Aereo::with('producto')->where('cotizacion_id', $this->cotizacion_id)->get();
+        $this->insumos = Insumo::where('usuario_id', auth()->user()->id)->get();
         return view('livewire.aerea.edit-aerea', compact('clientes', 'calculos'))->extends('adminlte::page')
             ->section('content');
     }
 
+    public function createProduct()
+    {
+        $this->validate([
+            'nombre_producto' => 'required',
+        'valor_porcentual' => 'required|numeric|min:0'
+        ]);
+        try {
+            Insumo::create([
+                'nombre' => $this->nombre_producto,
+                'porcentaje' => $this->valor_porcentual,
+                'usuario_id' => auth()->user()->id
+            ]);
+            $this->emit('render_update');
+
+            $this->emit('alert', 'Producto creado!');
+        } catch (\Exception $e) {
+            $this->emit('alert', $e->getMessage());
+        }
+    }
+
     public $rules = [
+        'producto' => 'required',
         'cartones' => 'required|numeric|min:1',
         'largo' => 'required|numeric|min:0.1',
         'ancho' => 'required|numeric|min:0.1',
@@ -70,6 +91,7 @@ class EditAerea extends Component
             $this->emit('alert', $e->getMessage());
         }
     }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -84,6 +106,7 @@ class EditAerea extends Component
         try {
             Aereo::create([
                 'cotizacion_id' => $this->cotizacion_id,
+                'insumo_id' => $this->producto,
                 'cartones' => $this->cartones,
                 'largo' => $this->largo,
                 'alto' => $this->alto,
@@ -98,6 +121,7 @@ class EditAerea extends Component
             $this->emit('alert', 'Valores calculados!');
             $this->reset([
                 'cartones',
+                'producto',
                 'largo',
                 'ancho',
                 'alto',

@@ -135,6 +135,7 @@
     <script>
         Livewire.on('alert', message => {
             $('#editTermino').modal('hide');
+            $('#exampleModal').modal('hide');
             $('#createTermino').modal('hide');
             Swal.fire({
                 position: 'center',
