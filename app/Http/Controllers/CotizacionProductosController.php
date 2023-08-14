@@ -42,16 +42,16 @@ class CotizacionProductosController extends Controller
             $fob_antiguo = $request->input('total_fob');
             $fob = $request->input('cantidad') * $request->input('precio');
             $total_fob = $fob_antiguo + $fob;
-            $seguro = ($fob * 1)/100;
+            $seguro = ($fob * 1) / 100;
             $fleteNuevo = $this->fleteNuevo($request->input('cotizacion_id'));
             if (count($productos) > 0) {
-                
+
                 foreach ($productos as $producto) {
-                    $flete_bucle = $fleteNuevo/($productos->count()+1);
+                    $flete_bucle = ($fleteNuevo*$producto->fob)/($productos->sum('fob')+$fob);
                     $cif_bucle = $flete_bucle + $producto->fob + $producto->seguro;
-                    $adv_bucle = (($producto->fob + $producto->seguro) * ($producto->porcentaje))/100;
-                    $fodi_bucle = ($cif_bucle * 0.5)/100;
-                    $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (12))/100;
+                    $adv_bucle = (($producto->fob + $producto->seguro) * ($producto->porcentaje)) / 100;
+                    $fodi_bucle = ($cif_bucle * 0.5) / 100;
+                    $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (12)) / 100;
                     $imp_bucle = $adv_bucle + $fodi_bucle + $iva_bucle;
                     ProductoInsumo::where('id', $producto->id)->update([
                         'flete' => $flete_bucle,
@@ -67,10 +67,10 @@ class CotizacionProductosController extends Controller
 
             $divisa = Divisa::first();
 
-            $cif = $fob + $seguro + ($this->fleteNuevo($request->input('cotizacion_id'))/($productos->count()+1));
-            $advalorem = (($fob + $seguro)* ($request->input('porcentaje'))/100);
-            $fodinfa = ($cif * 0.5)/100;
-            $iva = (($cif + $advalorem + $fodinfa) * (12))/100;
+            $cif = $fob + $seguro + ($this->fleteNuevo($request->input('cotizacion_id')) / ($productos->count() + 1));
+            $advalorem = (($fob + $seguro) * ($request->input('porcentaje')) / 100);
+            $fodinfa = ($cif * 0.5) / 100;
+            $iva = (($cif + $advalorem + $fodinfa) * (12)) / 100;
             $Impuestos = $advalorem + $fodinfa + $iva;
             $producto = new ProductoInsumo();
             $producto->insumo_id = $request->input('insumo_id');
@@ -79,7 +79,7 @@ class CotizacionProductosController extends Controller
             $producto->fob = $fob;
             $producto->divisas = $fob * $divisa->tarifa;
             $producto->seguro = $seguro;
-            $producto->flete = $this->fleteNuevo($request->input('cotizacion_id'))/($productos->count()+1);
+            $producto->flete = ($this->fleteNuevo($request->input('cotizacion_id')) * $fob) / ($productos->sum('fob') + $fob);
             $producto->cif = $cif;
             $producto->advalorem = $advalorem;
             $producto->fodinfa = $fodinfa;
@@ -125,7 +125,7 @@ class CotizacionProductosController extends Controller
     public function show($id)
     {
         $productos = ProductoInsumo::with('insumo')->where('cotizacion_id', $id)->get();
-        
+
         return response()->json([
             'totalProducto' => $productos->sum('cantidad'),
             'totalSeguro' => $productos->sum('seguro'),
@@ -194,15 +194,15 @@ class CotizacionProductosController extends Controller
             }
             foreach ($productos as $product) {
                 $fob = $product->precio * $product->cantidad;
-                $seguro = ($fob * 1)/100;
-                $flete_bucle = $fleteNuevo/($productos->count());
+                $seguro = ($fob * 1) / 100;
+                $flete_bucle = ($product->fob *$fleteNuevo)  / ($productos->sum('fob'));
                 $cif_bucle = $flete_bucle + $product->fob + $product->seguro;
-                $adv_bucle = (($product->fob + $product->seguro) * ($product->porcentaje))/100;
-                $fodi_bucle = ($cif_bucle * 0.5)/100;
-                $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (12))/100;
+                $adv_bucle = (($product->fob + $product->seguro) * ($product->porcentaje)) / 100;
+                $fodi_bucle = ($cif_bucle * 0.5) / 100;
+                $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (12)) / 100;
                 $imp_bucle = $adv_bucle + $fodi_bucle + $iva_bucle;
                 ProductoInsumo::where('id', $product->id)->update([
-                    'flete' =>$flete_bucle,
+                    'flete' => $flete_bucle,
                     'cif' => $cif_bucle,
                     'advalorem' => $adv_bucle,
                     'fodinfa' => $fodi_bucle,
