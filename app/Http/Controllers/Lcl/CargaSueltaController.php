@@ -100,7 +100,7 @@ class CargaSueltaController extends Controller
         $datosEspecialista = User::findOrFail($especialista);
         $emailEsp = $datosEspecialista->email;
         //$correo = new EmailEspecialista;
-        Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
+        // Mail::to($emailEsp)->send(new EmailEspecialista($cliente));
         /// fin de correo
         $proveedores = $request->input('cantidad_proveedores');
         // $bodegaje = 0;

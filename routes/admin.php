@@ -148,7 +148,7 @@ Route::middleware(['auth', 'cotizador'])->group(function () {
     Route::resource('admin/tarifa', RatesController::class)->names('admin.tarifas');
     Route::resource('client/dashboard', HomeController::class)->names('client.dashboard');
 
-    Route::get('/suit', [RatesController::class, 'redirectSuit'])->name('suit.redirect');
+    Route::get('suit', [UsuariosController::class, 'redirectSuit'])->name('suit.redirect');
     Route::patch('update/lcl/{id}', [ValidacionesController::class, 'updateFleteLCL'])->name('update.flete.lcl');
     Route::patch('update/costo/{id}', [ValidacionesController::class, 'updateCostoLCL'])->name('update.costo.lcl');
     Route::resource('cotizacion/aerea', AereosController::class)->names('cotizacion.aerea');
@@ -156,10 +156,5 @@ Route::middleware(['auth', 'cotizador'])->group(function () {
     Route::get('cliente/productos', ClienteProductos::class)->name('cliente.productos')->middleware('can:cliente.productos');
     Route::get('cotizador/aerea/{pais}', AdminAereas::class)->name('cotizador.aerea');
     Route::get('/edit/aerea/{cotizacion_id}', EditAerea::class)->name('edit.aerea');
-    Route::get('prueba', function () {
-        $user = Auth::user();
-
-        $userPermissions = $user->getAllPermissions();
-        return $userPermissions;
-    });
+    
 });

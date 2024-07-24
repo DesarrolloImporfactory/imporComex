@@ -14,7 +14,7 @@
                         <div class="form-group col-12 col-md-12  col-lg-4">
                             <p for="">Producto</p>
                             <x-adminlte-select2 name="insumo_id" id="productos" class="form-control form-control-sm">
-                            
+
                             </x-adminlte-select2>
 
                         </div>
@@ -25,17 +25,15 @@
                         </div>
                         <div class="form-group col-3 col-md-3 col-lg-2">
                             <p for="">Largo</p>
-                            <input type="number" min="0" name="largo" class="form-control form-control-sm">
+                            <input type="text" id="largo" name="largo" class="form-control form-control-sm">
                         </div>
                         <div class="form-group col-3 col-md-3 col-lg-2">
                             <p for="">Ancho</p>
-                            <input type="number" name="ancho" min="0" id="ancho"
-                                class="form-control form-control-sm">
+                            <input type="text" name="ancho" id="ancho" class="form-control form-control-sm">
                         </div>
                         <div class="form-group col-3 col-md-3 col-lg-2">
                             <p for="">Alto</p>
-                            <input type="number" name="alto" min="0" id="altura"
-                                class="form-control form-control-sm">
+                            <input type="text" name="alto" id="altura" class="form-control form-control-sm">
                         </div>
                     </div>
                 </form>
@@ -119,10 +117,28 @@
     }
 </style>
 <script>
+    $('#largo, #ancho,#altura').on('input', function() {
+        // Remover caracteres no permitidos y sustituir comas por puntos
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/,/g, '.');
+
+        // Limitar a un solo punto decimal
+        var countDots = (this.value.match(/\./g) || []).length;
+        if (countDots > 1) {
+            this.value = this.value.replace(/\./g, '');
+        }
+
+        // Limitar a dos decimales
+        var decimalIndex = this.value.indexOf('.');
+        if (decimalIndex !== -1 && this.value.length - decimalIndex > 3) {
+            this.value = this.value.slice(0, decimalIndex + 3);
+        }
+    });
+
     $(document).ready(function() {
         table();
         total();
         productos();
+
         function productos() {
             $("#productos").append(`<option>Seleccione ...</option>`);
             $.ajax({
@@ -139,7 +155,7 @@
                 }
             });
         }
-        
+
         $("#formProducto").submit(function(e) {
             e.preventDefault();
             var data = $("#formProducto").serialize();

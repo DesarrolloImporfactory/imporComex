@@ -15,7 +15,7 @@ use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\ChangPasswordRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class UsuariosController extends Controller
 {
@@ -249,5 +249,14 @@ class UsuariosController extends Controller
         User::destroy($id);
         return redirect('usuarios')->with('mensaje', 'Adios!');
         Auth::logout();
+    }
+
+    public function redirectSuit(Request $request)
+    {
+        if (Auth::check()) {
+            $sessionId = $request->session()->getId();
+            $otherAppUrl = 'http://194.163.183.231:8085/home';
+            return Redirect::away($otherAppUrl);
+        }
     }
 }

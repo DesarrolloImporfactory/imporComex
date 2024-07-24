@@ -175,7 +175,7 @@ class ValidacionesController extends Controller
                 $item->impuesto_unitario = $item->Impuestos / $item->cantidad;
                 $item->logistica_unitaria = ($cotizacion2->total_logistica * $item->Impuestos) / $cotizacion2->total_impuesto / $item->cantidad;
                 $item->divisa_unitario = $item->divisas / $item->cantidad;
-                $item->producto_unitario = $item->precio + $item->Impuestos / $item->cantidad + $cotizacion2->total_logistica / $cotizacion2->cantidad_productos + $item->divisas / $item->cantidad;
+                $item->producto_unitario = $item->precio + ($item->Impuestos / $item->cantidad) + (($cotizacion2->total_logistica * $item->Impuestos) / $cotizacion2->total_impuesto / $item->cantidad) + ($item->divisas / $item->cantidad);
                 $item->save();
             }
             DB::connection('imporcomex')->table('contenedor_cotizacions')->insert([

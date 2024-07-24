@@ -51,13 +51,8 @@
                             </a>
                             <a href="{{ route('cotizacion.download', $cotizacion->id) }}"
                                 class="btn btn-xs btn-default text-danger mx-1 shadow" title="Descargar">
-                                <i class="fa-solid fa-file-pdf"></i> Descargar Archivo
+                                <i class="fa-solid fa-file-pdf"></i> Descargar Costeo
                             </a>
-                            <a class="btn btn-xs btn-default text-teal mx-1 shadow" data-bs-toggle="modal"
-                                data-bs-target="#PDF" title="Revisar">
-                                <i class="fa-solid fa-eye"></i> Ver Archivo
-                            </a>
-
                         </div>
                     </div>
                 </div><br>
@@ -70,7 +65,7 @@
                             <th>Precio</th>
                             <th>Impuesto Unitario</th>
                             <th>Logistica Unitaria</th>
-                            <th>%</th>
+                            {{-- <th>%</th> --}}
                             <th>Divisa unitario</th>
                             <th>Producto unitario</th>
                         </tr>
@@ -84,7 +79,7 @@
                                 <td>{{ $item->precio }}</td>
                                 <td>{{ number_format($item->impuesto_unitario, 2) }}</td>
                                 <td>{{ number_format($item->logistica_unitaria, 2) }}</td>
-                                <td>{{ number_format($item->valor_porcentual,2) }}%</td>
+                                {{-- <td>{{ number_format($item->valor_porcentual,2) }}%</td> --}}
                                 <td>{{ number_format($item->divisa_unitario, 2) }}</td>
                                 <td>{{ number_format($item->producto_unitario, 2) }}</td>
                             </tr>

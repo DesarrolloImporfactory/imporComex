@@ -109,7 +109,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Focus plugin -->
     <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         window.$crisp = [];
         window.CRISP_WEBSITE_ID = "42d95662-3a08-4b99-a049-2f51469b370f";
         (function() {
@@ -119,7 +119,7 @@
             s.async = 1;
             d.getElementsByTagName("head")[0].appendChild(s);
         })();
-    </script>
+    </script> --}}
     <script>
         const languages = {
             'es': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'

@@ -103,10 +103,10 @@
                         {{-- <img src="https://via.placeholder.com/400x100?text=Your%20Company%20Logo" style="width: 100%; max-width: 300px"> --}}
 
                         @if ($inBackground)
-                            <img src="{{ asset('storage/imporcomexImage/Imagen2.png') }}" alt=""
-                                style="width: 50%;">
+                        <img src="{{ asset('imagenes/logo_nuevo.png') }}" alt=""
+                        style="width: 50%;">
                         @else
-                            <img src="{{ public_path('Imagen2.png') }}" style="width: 50%;">
+                            <img src="{{ public_path('imagenes/logo_nuevo.png') }}" style="width: 50%;">
                         @endif
 
                     </td>

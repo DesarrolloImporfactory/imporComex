@@ -34,7 +34,6 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
         
-
         $data = [];
         $data2 = [];
         $data3 = [];

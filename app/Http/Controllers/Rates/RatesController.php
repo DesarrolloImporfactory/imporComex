@@ -19,13 +19,7 @@ class RatesController extends Controller
         //
     }
 
-    public function redirectSuit()
-    {
-        if (Auth::check()) {
-            $otherAppUrl = 'http://194.163.183.231:8085/home';
-            return Redirect::away($otherAppUrl);
-        }
-    }
+   
     public function create()
     {
         $tarifas = Tarifario::all();

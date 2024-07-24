@@ -122,6 +122,8 @@ class ContenedorCompletoController extends Controller
         $grupal->origen = $request->input('origen');
         $grupal->termino = $request->input('termino');
         $grupal->puerto_id = $request->input('puerto_id');
+        //ojo
+        $grupal->incoterms_id = $request->input('puerto_id');
         $grupal->cargas_id = $request->input('cargas_id');
         $grupal->direccion = $request->input('direccion');
         $grupal->cantidad_proveedores = $request->input('cantidad_proveedores');

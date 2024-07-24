@@ -101,12 +101,12 @@
                     <td class="w-50 text-center">
                         {{-- Using a URL from another domain may not shown the image correctly --}}
                         {{-- <img src="https://via.placeholder.com/400x100?text=Your%20Company%20Logo" style="width: 100%; max-width: 300px"> --}}
-
+                        {{-- <img src="{{ asset('imagenes/logoPdf.jpg') }}" alt="Logo de la Empresa" class="logo"> --}}
                         @if ($inBackground)
-                            <img src="{{ asset('storage/imporcomexImage/Imagen2.png') }}" alt=""
+                            <img src="{{ asset('imagenes/logo_nuevo.png') }}" alt=""
                                 style="width: 50%;">
                         @else
-                            <img src="{{ public_path('Imagen2.png') }}" style="width: 50%;">
+                            <img src="{{ public_path('imagenes/logo_nuevo.png') }}" style="width: 50%;">
                         @endif
 
                     </td>
