@@ -1,5 +1,67 @@
 @extends('adminlte::master')
+<style>
+    .whatsapp {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 40px;
+        z-index: 1000;
+    }
 
+    .whatsapp i {
+        margin-top: 10px;
+    }
+
+    /* animacion de hover */
+
+
+    .whatsapp:hover i {
+        animation: jello 1.5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes jello {
+        0% {
+            transform: scale(1, 1);
+        }
+
+        30% {
+            transform: scale(1.25, 0.75);
+        }
+
+        40% {
+            transform: scale(0.75, 1.25);
+        }
+
+        50% {
+            transform: scale(1.15, 0.85);
+        }
+
+        65% {
+            transform: scale(0.95, 1.05);
+        }
+
+        75% {
+            transform: scale(1.05, 0.95);
+        }
+
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+</style>
+<div>
+
+    <a href="https://wa.link/asyko9" class="whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
 @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
 
 @section('adminlte_css')

@@ -66,9 +66,9 @@ return [
     */
     //brand-image
     'logo' => '',
-    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img' => 'https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png',
     'logo_img_class' => 'brand-image-xl',
-    'logo_img_xl' => 'vendor/adminlte/dist/img/logo.png',
+    'logo_img_xl' => 'https://tiendas.imporsuitpro.com/imgs/LOGOS-IMPORSUIT.png',
     'logo_img_xl_class' => 'brand-image-xl ',
     'logo_img_alt' => null,
 
