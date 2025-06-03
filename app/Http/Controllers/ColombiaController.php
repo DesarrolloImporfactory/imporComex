@@ -471,7 +471,7 @@ class ColombiaController extends Controller
         $collect = $this->collect($fleteMaritimo, $request['modalidad'], $request['termino']);
         $totalPagar = ($this->gastosLocales($request['volumen'], $id, $collect, $request['modalidad'], $request['termino'])) + $collect;
         $gastos_sin_iva = $totalPagar;
-        $gastosLocales = ($totalPagar + ($totalPagar * 0.12));
+        $gastosLocales = ($totalPagar + ($totalPagar * 0.15));
         $otrosGastos = $this->otrosGastos($flete, $request['modalidad'], $request['termino']);
         $datos = [
             'tipo_carga' => $request['tipo_carga'],

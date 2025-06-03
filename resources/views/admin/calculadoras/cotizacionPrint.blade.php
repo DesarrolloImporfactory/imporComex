@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
@@ -115,7 +115,7 @@
         </div>
         <div class="header-right">
             <div class="logo-container">
-                <img src="{{ asset('imagenes/logoPdf.jpg') }}" alt="Logo de la Empresa" class="logo">
+                <img class="bg-primary" src="{{ asset('imagenes/xd.jpeg') }}" alt="Logo de la Empresa" class="logo">
             </div>
             <table class="table table-sm example" id="encabezado">
                 <tr>
@@ -242,8 +242,8 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td>IVA 12%</td>
-                    <td>{{ number_format($cotizacion->gastos_sin_iva * 0.12, 2) }}$</td>
+                    <td>IVA 15%</td>
+                    <td>{{ number_format($cotizacion->gastos_sin_iva * 0.15, 2) }}$</td>
 
                 </tr>
                 <tr>
@@ -265,7 +265,9 @@
             <tbody>
                 <tr>
                     <td>VALOR TOTAL DE COTIZACIÓN:</td>
-                    <td>USD {{ $cotizacion->flete_maritimo + $cotizacion->gastos_local +  $cotizacion->gastos_origen}}$</td>
+                    <td>USD
+                        {{ $cotizacion->flete_maritimo + $cotizacion->gastos_local + $cotizacion->gastos_origen }}$
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -281,13 +283,23 @@
             </li>
             <li class="small-text"> Estas tarifas no incluyen tasas, impuestos, multas, bodegajes, aforos; en origen o
                 en destino.</li>
-            <li class="small-text">Tarifas locales no graban el 12 % IVA .
+            <li class="small-text">Tarifas locales no graban el 15 % IVA .
             </li>
             <li class="small-text">Tipo de cambio varia acorde a fecha de arribo de la carga</li>
         </ul>
         <div style="margin-top: 0.5cm;"></div>
-        <p class="small-text">Agradecemos la confianza y apertura para presentarle nuestra propuesta, para HA CARGO será
+        <p class="small-text">Agradecemos la confianza y apertura para presentarle nuestra propuesta, será
             un gusto poder coordinar este embarque.</p>
+
+        <span class="small-text">
+            <strong>Aviso Importante:</strong>
+            <p>
+                Los valores indicados en la cotización están sujetos a cambios según la fecha y las condiciones del
+                mercado. Para obtener confirmar los datos de tu cotización, por favor comuníquese con nuestro
+                equipo de soporte.
+            </p>
+        </span>
+
     </div>
 </body>
 

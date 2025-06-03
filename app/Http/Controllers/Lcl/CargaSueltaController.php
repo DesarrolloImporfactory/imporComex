@@ -22,13 +22,9 @@ use App\Models\Insumo;
 class CargaSueltaController extends Controller
 {
 
-    public function index()
-    {
-    }
+    public function index() {}
 
-    public function create()
-    {
-    }
+    public function create() {}
 
     public function store(Request $request)
     {
@@ -146,7 +142,7 @@ class CargaSueltaController extends Controller
         $grupal->collect =  $collect;
         $totalPagar = ($this->gastosLocales($request->input('volumen'), $request->input('modalidad'), $request->input('termino'))) + $collect;
         $grupal->gastos_sin_iva = $totalPagar;
-        $gastosLocales = ($totalPagar + ($totalPagar * 0.12));
+        $gastosLocales = ($totalPagar + ($totalPagar * 0.15));
         $grupal->gastos_local = $gastosLocales;
         $otrosGastos = $this->otrosGastos($flete, $request->input('modalidad'), $request->input('termino'));
         $grupal->otros_gastos = $otrosGastos;

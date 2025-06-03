@@ -21,7 +21,7 @@ class CalculadorasController extends Controller
         $modalidades = Modalidades::all();
         $countryAPI = new Country();
         $countries = $countryAPI->getCountries();
-        return view('admin.calculadoras.index', compact('modalidades','countries'));
+        return view('admin.calculadoras.index', compact('modalidades', 'countries'));
     }
 
 
@@ -93,9 +93,7 @@ class CalculadorasController extends Controller
             ]);
         }
     }
-    public function show($id)
-    {
-    }
+    public function show($id) {}
 
 
     public function edit($id)

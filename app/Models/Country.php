@@ -10,24 +10,27 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
-    
+
     public function getCountries()
-{
-    $client = new Client();
+    {
 
-    $response = $client->get("https://restcountries.com/v3.1/all");
-    $countries = json_decode($response->getBody(), true);
+        $filePath = public_path('json/paises.json'); // Ruta al archivo
 
-    $desiredCountries = ['Ecuador', 'Peru','Colombia'];
-    $filteredCountries = [];
-
-    foreach ($countries as $country) {
-        if (in_array($country['name']['common'], $desiredCountries)) {
-            $filteredCountries[] = $country;
+        if (!file_exists($filePath)) {
+            return response()->json(['error' => 'El archivo JSON no existe'], 404);
         }
+
+        $countries = json_decode(file_get_contents($filePath), true);
+
+        $desiredCountries = ['Ecuador', 'Peru', 'Colombia'];
+        $filteredCountries = [];
+
+        foreach ($countries as $country) {
+            if (in_array($country['name']['common'], $desiredCountries)) {
+                $filteredCountries[] = $country;
+            }
+        }
+
+        return $filteredCountries;
     }
-
-    return $filteredCountries;
-}
-
 }

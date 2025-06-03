@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class CotizacionProductosController extends Controller
 {
 
-    public function index()
-    {
-    }
+    public function index() {}
 
 
     public function create()
@@ -47,7 +45,7 @@ class CotizacionProductosController extends Controller
             if (count($productos) > 0) {
 
                 foreach ($productos as $producto) {
-                    $flete_bucle = ($fleteNuevo*$producto->fob)/($productos->sum('fob')+$fob);
+                    $flete_bucle = ($fleteNuevo * $producto->fob) / ($productos->sum('fob') + $fob);
                     $cif_bucle = $flete_bucle + $producto->fob + $producto->seguro;
                     $adv_bucle = (($producto->fob + $producto->seguro) * ($producto->porcentaje)) / 100;
                     $fodi_bucle = ($cif_bucle * 0.5) / 100;
@@ -195,11 +193,11 @@ class CotizacionProductosController extends Controller
             foreach ($productos as $product) {
                 $fob = $product->precio * $product->cantidad;
                 $seguro = ($fob * 1) / 100;
-                $flete_bucle = ($product->fob *$fleteNuevo)  / ($productos->sum('fob'));
+                $flete_bucle = ($product->fob * $fleteNuevo)  / ($productos->sum('fob'));
                 $cif_bucle = $flete_bucle + $product->fob + $product->seguro;
                 $adv_bucle = (($product->fob + $product->seguro) * ($product->porcentaje)) / 100;
                 $fodi_bucle = ($cif_bucle * 0.5) / 100;
-                $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (12)) / 100;
+                $iva_bucle = (($cif_bucle + $adv_bucle + $fodi_bucle) * (15)) / 100;
                 $imp_bucle = $adv_bucle + $fodi_bucle + $iva_bucle;
                 ProductoInsumo::where('id', $product->id)->update([
                     'flete' => $flete_bucle,
